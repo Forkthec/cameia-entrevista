@@ -1,170 +1,77 @@
-\# cameia-entrevista
-
-
+# cameia-entrevista
 
 Microservicio central de Entrevista de CAMEIA. Gestiona la configuración, estado, preguntas y turnos de las sesiones de práctica.
 
+## Responsabilidades
 
-
-> \*\*Estado:\*\* repositorio creado para el Sprint 1. La base técnica corresponde a \[CM-101](https://f0rktech.atlassian.net/browse/CM-101); las evaluaciones, voz y proveedores externos se incorporan solo mediante historias y evidencia verificable.
-
-
-
-\## Alcance del Sprint 1
-
-
-
-\- Investigación de personalización conversacional: \[CM-21](https://f0rktech.atlassian.net/browse/CM-21).
-
-\- Contexto profesional de sesión: \[CM-22](https://f0rktech.atlassian.net/browse/CM-22).
-
-\- Modo, tono, personalidad, forma e idioma: \[CM-23](https://f0rktech.atlassian.net/browse/CM-23).
-
-\- Inicialización en estado `CONFIGURADA`: \[CM-24](https://f0rktech.atlassian.net/browse/CM-24).
-
-\- Planificación de preguntas y transición a `EN\_CURSO`: \[CM-25](https://f0rktech.atlassian.net/browse/CM-25).
-
-\- Spike de contexto conversacional: \[CM-26](https://f0rktech.atlassian.net/browse/CM-26).
-
-\- Envío de respuesta y avance de turno: \[CM-27](https://f0rktech.atlassian.net/browse/CM-27).
-
-
-
-Empleo, video y el flujo completo de reporte permanecen fuera del alcance salvo cambio aprobado en Jira.
-
-
-
-\## Responsabilidades
-
-
-
-\- Configurar e iniciar sesiones de entrevista.
-
-\- Mantener la máquina de estados y las invariantes de cada modo.
-
-\- Gestionar preguntas, respuestas y avance de turnos.
-
-\- Construir contexto conversacional dentro de límites aprobados.
-
-\- Integrarse con Perfil, Voz, Auditoría y proveedores LLM mediante contratos explícitos.
-
-
+- Configurar e iniciar sesiones de entrevista con parámetros validados.
+- Mantener la máquina de estados y sus invariantes (`CONFIGURADA`, `EN_CURSO`, `PAUSADA`, `FINALIZADA`, `ABANDONADA`).
+- Gestionar preguntas, respuestas y avance de turnos según el flujo de sesión.
+- Construir contexto conversacional respetando límites de cuota y privacidad.
+- Integrarse con Perfil, Voz, Auditoría y proveedores LLM mediante contratos explícitos.
 
 No persiste cuentas, perfiles maestros ni archivos de audio/video de forma permanente.
 
-
-
-\## Contexto arquitectónico
-
-
+## Contexto arquitectónico
 
 ```mermaid
-
 flowchart LR
-
-&#x20;   G\[cameia-gateway] --> E\[cameia-entrevista]
-
-&#x20;   E --> DB\[(PostgreSQL Entrevista)]
-
-&#x20;   E -. contexto/cuota .-> R\[RabbitMQ]
-
-&#x20;   E -. voz prevista .-> V\[cameia-voz]
-
-&#x20;   E -. conversación prevista .-> L\[Proveedores LLM]
-
-&#x20;   E -. consumo previsto .-> A\[cameia-auditoria]
-
+    G[cameia-gateway] --> E[cameia-entrevista]
+    E --> DB[(PostgreSQL Entrevista)]
+    E -. contexto/cuota .-> R[RabbitMQ]
+    E -. voz prevista .-> V[cameia-voz]
+    E -. conversación prevista .-> L[Proveedores LLM]
+    E -. consumo previsto .-> A[cameia-auditoria]
 ```
 
-
-
-\## Tecnología prevista
-
-
+## Tecnología prevista
 
 | Elemento | Línea base |
-
 |---|---|
-
 | Lenguaje | Java 21 |
-
 | Framework | Spring Boot 4.1.1 |
-
 | Build | Maven; wrapper pendiente de confirmar |
-
 | Persistencia | PostgreSQL 16, base/rol propios |
-
 | Mensajería | RabbitMQ para réplicas y consumo cuando sea aprobado |
-
 | Ejecución objetivo | Servicio HTTP y consumidor en el mismo repositorio/imagen |
 
+## Contratos y datos
 
+- Identificador compartido entre contextos: `sessionId` (generado internamente) y `firebaseUid` (del usuario).
+- La configuración de sesión es inmutable después de inicializar.
+- El contexto de vacante es texto libre; no depende del servicio Post-MVP de Empleo.
+- Las llamadas externas (LLM, Voz, Auditoría) deben respetar timeout, cuota, privacidad y trazabilidad.
+- Eventos y cambios de estado deben ser idempotentes cuando se repliquen vía RabbitMQ.
 
-\## Reglas de dominio relevantes
-
-
-
-\- Estados base: `CONFIGURADA`, `EN\_CURSO`, `PAUSADA`, `FINALIZADA` y `ABANDONADA`, sujetos a validación en código.
-
-\- La configuración no debe cambiar silenciosamente después de iniciar la sesión.
-
-\- El contexto de vacante del MVP es texto libre; no depende del servicio Post-MVP de Empleo.
-
-\- Las llamadas externas deben respetar timeout, cuota, privacidad y trazabilidad.
-
-
-
-\## Ejecución local
-
-
+## Ejecución local
 
 ```text
-
 Instalación: pendiente de confirmar en CM-101
-
 Pruebas: pendiente de confirmar en CM-101
-
 Build: pendiente de confirmar en CM-101
-
 Inicio: pendiente de confirmar en CM-101
-
 Health check: pendiente de confirmar en CM-101
-
 ```
 
+## Configuración y seguridad
 
+- No guardar prompts completos sensibles, CV, audio, transcripciones, tokens ni `.env` en Git.
+- No registrar datos personales en trazas de auditoría; conservar solo evidencia de consumo.
+- Usar una base y un rol independientes de los demás microservicios.
+- Validar que timeout, cuota e idempotencia se respeten en todas las integraciones externas.
 
-\## Configuración, seguridad y calidad
+## Calidad esperada
 
+- Pruebas de transiciones válidas e inválidas de máquina de estados.
+- Pruebas negativas para valores fuera de rango, configuración inválida y acceso no autorizado.
+- Pruebas de reintentos, timeouts y fallos de proveedores (LLM, Voz, Auditoría).
+- Pruebas de idempotencia para cambios de estado replicados vía RabbitMQ.
+- CI con build, pruebas y validación de seguridad después de confirmar comandos reales.
 
+## Contribución
 
-\- No guardar prompts completos sensibles, CV, audio, transcripciones, tokens ni `.env` en Git.
+- `main` es estable y solo recibe promociones `develop → main` mediante Merge commit.
+- `develop` integra ramas `<tipo>/CM-NNN-<descripcion-kebab-case>` mediante Squash.
+- Todo cambio ordinario entra mediante PR y revisión distinta del autor.
 
-\- Probar transiciones válidas e inválidas de la sesión.
-
-\- Probar reintentos, timeouts y fallos de proveedores cuando esas integraciones existan.
-
-\- Conservar evidencia de consumo y trazabilidad sin datos personales.
-
-\- Activar CI únicamente con comandos reales.
-
-
-
-\## Contribución
-
-
-
-\- `main` es estable y solo recibe promociones `develop → main` mediante Merge commit.
-
-\- `develop` integra ramas `CM-<numero>-<descripcion-kebab-case>` mediante Squash.
-
-\- Todo cambio ordinario entra mediante PR y revisión distinta del autor; la rama `CM-\*` se elimina después.
-
-
-
-\## Cuándo actualizar este README
-
-
-
-Actualizarlo en el mismo PR que cambie propósito, stack, comandos, variables, endpoints, estados, contratos, proveedores, eventos, persistencia, pruebas, despliegue o responsables. Si no aplica, justificarlo en el PR.
-
+Tipos admitidos: `feat`, `fix`, `test`, `docs`, `refactor`, `perf`, `build`, `ci` y `chore`.
