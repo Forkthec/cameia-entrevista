@@ -22,10 +22,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-application-local.yml
-application-local.yaml
-application-local.properties
-
 .DS_Store
 Thumbs.db
 
