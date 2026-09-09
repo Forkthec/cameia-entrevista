@@ -1,0 +1,75 @@
+# Compose LOCAL del microservicio de Entrevista.
+#
+# Levanta el servicio con su propia base PostgreSQL, con base y rol independientes
+# de los demas microservicios. Esta pensado para importarse despues desde el compose
+# general de CAMEIA (via "include"); en ese momento basta declarar la red como
+# "external" para unir todos los microservicios en una sola red.
+#
+# Los valores vienen del archivo .env de la raiz (ver .env.example). Ningun secreto
+# se escribe en este archivo ni se copia dentro de la imagen.
+
+name: cameia-entrevista
+
+services:
+  entrevista-db:
+    image: postgres:16-alpine
+    container_name: cameia-entrevista-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-DB-entrevista}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?definir DB_PASSWORD en el archivo .env}
+    ports:
+      # Publicado solo en la interfaz local para inspeccionar la base con psql o
+      # un cliente grafico. Se usa DB_PORT_DOCKER para no chocar con el 5432 de
+      # una instalacion local de PostgreSQL.
+      - "127.0.0.1:${DB_PORT_DOCKER:-5433}:5432"
+    volumes:
+      - entrevista-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - cameia-entrevista
+
+  entrevista:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cameia/entrevista:0.0.1-SNAPSHOT
+    container_name: cameia-entrevista
+    restart: unless-stopped
+    depends_on:
+      entrevista-db:
+        condition: service_healthy
+    environment:
+      # Perfil de Spring: "local" recrea el esquema en cada arranque
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-local}
+      # Puerto interno fijo; al host se publica el valor de SERVER_PORT
+      SERVER_PORT: 8080
+      # Dentro de la red de Compose la base se resuelve por nombre de servicio
+      DB_HOST: entrevista-db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-DB-entrevista}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:?definir DB_PASSWORD en el archivo .env}
+      # Clave del proveedor LLM: se inyecta desde el entorno, nunca desde la imagen
+      GOOGLE_GENAI_API_KEY: ${GOOGLE_GENAI_API_KEY:?definir GOOGLE_GENAI_API_KEY en el archivo .env}
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    ports:
+      - "${SERVER_PORT:-8081}:8080"
+    networks:
+      - cameia-entrevista
+
+volumes:
+  entrevista-db-data:
+    name: cameia-entrevista-db-data
+
+networks:
+  cameia-entrevista:
+    name: cameia-entrevista
+    # Al integrar el compose general, cambiar por: external: true
+    driver: bridge
