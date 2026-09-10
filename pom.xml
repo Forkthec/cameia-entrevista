@@ -73,13 +73,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>3.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.scalar.maven</groupId>
-			<artifactId>scalar-webmvc</artifactId>
-			<version>0.6.67</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.therapi</groupId>

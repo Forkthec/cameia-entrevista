@@ -77,8 +77,8 @@ No incluye:
 ## Documentación
 
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs` (generado por springdoc).
-- Interfaz de referencia (Scalar): `http://localhost:8080/scalar`, que consume el JSON
-  anterior (`scalar.url=/v3/api-docs`).
+- Interfaz de referencia (Swagger UI): `http://localhost:8080/swagger-ui.html`, que
+  consume el JSON anterior (`springdoc.swagger-ui.url=/v3/api-docs`).
 - Las descripciones de la operación y del esquema `HealthResponse` se generan a partir
   del Javadoc en español de `HealthController` y `HealthResponse`. El puente lo aporta
   `therapi-runtime-javadoc` (dependencia en runtime) junto con

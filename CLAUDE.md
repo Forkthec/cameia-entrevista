@@ -164,6 +164,7 @@ Cada endpoint expone su contrato mediante OpenAPI 3.0.
 
 **Acceso a documentación:**
 - JSON OpenAPI: `http://localhost:8080/v3/api-docs`
+- Interfaz Swagger UI: `http://localhost:8080/swagger-ui.html`
 
 ## Convenciones técnicas
 

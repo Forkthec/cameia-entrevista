@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
  *
  * <p>Define los metadatos generales (título, versión y descripción) que springdoc
  * publica como documento OpenAPI en {@code /v3/api-docs}. La interfaz de referencia
- * navegable la sirve Scalar en {@code /scalar}, que consume ese mismo documento. Las
+ * navegable la sirve Swagger UI en {@code /swagger-ui.html}, que consume ese mismo
+ * documento. Las
  * descripciones de cada endpoint y de cada modelo se derivan automáticamente del
  * Javadoc del código gracias a therapi-runtime-javadoc, que springdoc detecta en el
  * classpath sin configuración adicional.</p>
