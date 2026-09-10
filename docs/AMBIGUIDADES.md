@@ -53,6 +53,21 @@ Este documento es el registro de decisiones que pueden bloquear diseño o implem
 - Decisión: Se definirá en un plan técnico o spec futura antes de implementarse. No inventar estados, transiciones ni reglas de modo sin esa spec aprobada.
 - Especificación: pendiente de creación.
 
+### A-004: Exposición de la documentación de la API por entorno
+
+- Estado: `Resuelta`
+- Responsable: Juan Vela
+- Fecha: 2026-09-10
+- Tema: seguridad y superficie expuesta
+- Pregunta: ¿La documentación de la API se publica en despliegue? ¿Se retira solo la interfaz Swagger UI o también el documento OpenAPI en `/v3/api-docs`? ¿Cómo se controla el interruptor?
+- Decisión adoptada: **Documentación solo en desarrollo, JSON e interfaz juntos, con un interruptor por variable de entorno.**
+  - Se retiran **ambas** rutas en despliegue: `/v3/api-docs` y `/swagger-ui.html` responden `404`. Apagar solo la interfaz sería cosmético, porque el JSON ya expone el contrato completo.
+  - El valor por defecto lo fija el perfil activo: `local` publica la documentación, `production` la retira. `application.properties` la deja apagada, para que un perfil nuevo no publique el contrato sin decidirlo.
+  - La variable `API_DOCS_ENABLED` invierte ese valor por defecto sin reconstruir la imagen, y gobierna las dos rutas con un solo interruptor.
+- Impacto en código: configuración únicamente, en `application.properties` y los archivos de perfil. Ningún endpoint de negocio cambia; `/health` sigue respondiendo con la documentación retirada.
+- Especificación afectada: [specs/health/README.md](specs/health/README.md), sección "Documentación". Toda spec futura que documente endpoints asume esta regla.
+- Evidencia: `ApiDocsFlagTest` cubre el valor por defecto de cada perfil, el de un perfil sin configuración propia y las dos direcciones del override.
+
 ## Decisiones confirmadas
 
 - Idioma operativo de este documento: español.
@@ -63,5 +78,6 @@ Este documento es el registro de decisiones que pueden bloquear diseño o implem
 - **Seguridad resuelta (A-001):** IAM + OIDC de Cloud Run como base; VPC + ingress interno también aplica a Entrevista.
 - **Perfil de debilidades (A-002):** reporte derivado de entrevistas realizadas, no un modo de sesión.
 - **Máquina de estados (A-003):** pendiente de spec; no implementar sin definición aprobada.
+- **Documentación de la API (A-004):** publicada solo en desarrollo; `/v3/api-docs` y `/swagger-ui.html` se retiran juntas en despliegue, con `API_DOCS_ENABLED` como interruptor.
 - **Arquitectura confirmada:** Estilo DDD con `domain`, `application`, `infrastructure`, `presentation`. Las reglas de dependencia se verificarán con la prueba ArchUnit `LayeredArchitectureTest` (`tech.cameia.entrevista.architecture`) cuando se implemente.
 - **Paquete base:** `tech.cameia.entrevista` (groupId de Maven: `tech.cameia`).

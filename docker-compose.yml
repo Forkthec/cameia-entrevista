@@ -59,6 +59,7 @@ services:
       # Clave del proveedor LLM: se inyecta desde el entorno, nunca desde la imagen
       GOOGLE_GENAI_API_KEY: ${GOOGLE_GENAI_API_KEY:?definir GOOGLE_GENAI_API_KEY en el archivo .env}
       JAVA_OPTS: ${JAVA_OPTS:-}
+      API_DOCS_ENABLED: ${API_DOCS_ENABLED:-false}
     ports:
       - "${SERVER_PORT:-8081}:8080"
     networks:

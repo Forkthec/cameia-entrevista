@@ -79,6 +79,10 @@ No incluye:
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs` (generado por springdoc).
 - Interfaz de referencia (Swagger UI): `http://localhost:8080/swagger-ui.html`, que
   consume el JSON anterior (`springdoc.swagger-ui.url=/v3/api-docs`).
+- Ambas rutas dependen del interruptor `API_DOCS_ENABLED`, activo en el perfil `local`
+  y apagado en el perfil `production`. Con la documentación retirada, `/health` sigue
+  respondiendo con normalidad: el interruptor no toca el endpoint, solo su contrato
+  publicado (ver A-004 en [AMBIGUIDADES.md](../../AMBIGUIDADES.md)).
 - Las descripciones de la operación y del esquema `HealthResponse` se generan a partir
   del Javadoc en español de `HealthController` y `HealthResponse`. El puente lo aporta
   `therapi-runtime-javadoc` (dependencia en runtime) junto con

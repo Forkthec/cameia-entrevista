@@ -16,6 +16,12 @@ import org.springframework.context.annotation.Configuration;
  * descripciones de cada endpoint y de cada modelo se derivan automáticamente del
  * Javadoc del código gracias a therapi-runtime-javadoc, que springdoc detecta en el
  * classpath sin configuración adicional.</p>
+ *
+ * <p>Ambas rutas solo se publican en desarrollo. El interruptor {@code API_DOCS_ENABLED}
+ * las gobierna a la vez y su valor por defecto lo fija el perfil activo: {@code local}
+ * las publica y {@code production} las retira. Este bean se registra siempre, porque
+ * springdoc solo lo usa cuando la documentación está publicada (ver A-004 en
+ * {@code docs/AMBIGUIDADES.md}).</p>
  */
 @Configuration
 class OpenAPIConfiguration {
@@ -28,7 +34,7 @@ class OpenAPIConfiguration {
     @Bean
     OpenAPI entrevistaOpenAPI() {
         return new OpenAPI().info(new Info()
-                .title("CAMEIA - Microservicio de Entrevista")
+                .title("CAMEIA - Microservicio de Entrevista 🐘")
                 .version("v1")
                 .description("API interna para configurar y gestionar sesiones de práctica y "
                         + "simulación de entrevistas. Solo es accesible a través del API Gateway."));

@@ -166,6 +166,12 @@ Cada endpoint expone su contrato mediante OpenAPI 3.0.
 - JSON OpenAPI: `http://localhost:8080/v3/api-docs`
 - Interfaz Swagger UI: `http://localhost:8080/swagger-ui.html`
 
+Ambas rutas solo se publican en desarrollo. El perfil `local` las activa y el perfil
+`production` las retira, de modo que en despliegue responden `404`. La variable
+`API_DOCS_ENABLED` invierte ese valor por defecto y gobierna las dos rutas a la vez:
+el documento JSON ya expone el contrato completo, así que no se sirve una sin la otra.
+Ver A-004 en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md).
+
 ## Convenciones técnicas
 
 **Stack base:**
