@@ -25,7 +25,7 @@ jobs:
       # CodeQL para Java necesita compilar de verdad (a diferencia de JS/TS): "autobuild"
       # corre "mvn compile" por debajo, así que hace falta el JDK antes.
       - name: Configurar Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
