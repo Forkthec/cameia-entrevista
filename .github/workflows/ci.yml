@@ -52,6 +52,11 @@ jobs:
           java-version: "21"
           cache: maven
 
+      # El wrapper no trae permiso de ejecución en el repo (típico al crearse en
+      # Windows) — sin esto, "./mvnw" falla con "Permission denied" en el runner.
+      - name: Permiso de ejecución para mvnw
+        run: chmod +x mvnw
+
       # "mvnw verify" compila y corre las pruebas. DB_HOST/PORT/NAME/USERNAME/PASSWORD no
       # tienen valor por defecto en application.properties (a propósito, nunca una
       # contraseña hardcodeada) — se pasan aquí, solo existen dentro de este job.
