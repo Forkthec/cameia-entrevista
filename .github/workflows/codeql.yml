@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # CodeQL para Java necesita compilar de verdad (a diferencia de JS/TS): "autobuild"
       # corre "mvn compile" por debajo, así que hace falta el JDK antes.
