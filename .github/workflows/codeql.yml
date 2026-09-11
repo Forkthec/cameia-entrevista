@@ -1,0 +1,47 @@
+name: CodeQL # análisis de seguridad automático; resultados en la pestaña "Security" de GitHub
+
+# En cada PR y push a develop revisa solo lo que cambió; el domingo hace un barrido
+# completo del repo (captura problemas que ningún PR reciente tocó).
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+  schedule:
+    - cron: "0 6 * * 0" # domingo 06:00 UTC
+
+permissions:
+  contents: read
+  security-events: write # obligatorio: así CodeQL puede publicar hallazgos en Security
+
+jobs:
+  analyze:
+    name: Analizar (Java)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # CodeQL para Java necesita compilar de verdad (a diferencia de JS/TS): "autobuild"
+      # corre "mvn compile" por debajo, así que hace falta el JDK antes.
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # Prepara el análisis para este lenguaje; no compila nada todavía.
+      - name: Preparar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java-kotlin
+
+      # Compila el proyecto para que CodeQL pueda seguir el código real, no solo el texto.
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Ejecutar análisis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java-kotlin"
