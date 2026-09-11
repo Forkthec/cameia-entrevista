@@ -8,6 +8,7 @@ jobs:
   validar-nombre-rama:
     name: Validar nombre de rama
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' # CM-138: Dependabot no puede seguir CM-<n>-<desc> ni la plantilla de 8 campos
     steps:
       - name: Verificar patron CM-numero-descripcion-kebab-case
         continue-on-error: true

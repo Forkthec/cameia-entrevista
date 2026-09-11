@@ -9,6 +9,7 @@ jobs:
   validar-plantilla:
     name: Validar plantilla de PR
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' # CM-138: Dependabot no puede seguir CM-<n>-<desc> ni la plantilla de 8 campos
     steps:
       - name: Checkout
         uses: actions/checkout@v7
