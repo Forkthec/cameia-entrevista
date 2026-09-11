@@ -34,3 +34,6 @@ Thumbs.db
 *.iws
 *.iml
 *.ipr
+
+# Cache de scripts Python locales (.github/scripts/pr_policy.py)
+__pycache__/
