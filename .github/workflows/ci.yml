@@ -60,7 +60,13 @@ jobs:
       # "mvnw verify" compila y corre las pruebas. DB_HOST/PORT/NAME/USERNAME/PASSWORD no
       # tienen valor por defecto en application.properties (a propósito, nunca una
       # contraseña hardcodeada) — se pasan aquí, solo existen dentro de este job.
-      # GOOGLE_GENAI_API_KEY queda vacía: el contexto arranca sin llamar al proveedor LLM.
+      #
+      # HALLAZGO REAL (11-sep-2026): con GOOGLE_GENAI_API_KEY vacía, el contexto de
+      # Spring NO arranca — GoogleGenAiChatAutoConfiguration exige un valor no vacío
+      # para construir el cliente, aunque nunca llegue a llamar a Gemini. El comentario
+      # del .env.example ("si la dejas vacía, arranca igual") no es cierto en la
+      # práctica; corregir ese archivo es cambio de Backend, no de este workflow. Aquí
+      # se pasa un valor de relleno, obviamente falso — el test nunca llama a la API real.
       - name: Build + pruebas (mvnw verify)
         env:
           DB_HOST: localhost
@@ -68,6 +74,7 @@ jobs:
           DB_NAME: DB-entrevista
           DB_USERNAME: postgres
           DB_PASSWORD: cameia_ci
+          GOOGLE_GENAI_API_KEY: ci-placeholder-no-es-una-clave-real
         run: ./mvnw -B -ntp verify
 
       # Publica el reporte de pruebas como artefacto, aunque el paso anterior haya
