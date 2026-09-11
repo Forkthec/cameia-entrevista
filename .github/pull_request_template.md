@@ -1,8 +1,9 @@
-<!-- Plantilla CAMEIA v1.0 — instalada 11-sep-2026. Título: CM-NNN | tipo(scope): resultado [IA-ASISTIDO] si hubo IA. -->
+<!-- Plantilla CAMEIA v2.0 — instalada 11-sep-2026. Título: CM-NNN | tipo(scope): resultado [IA-ASISTIDO] si hubo IA. -->
 ## Cambio
 - Jira: <enlace de la tarea CM-NNN; allí están HU/CA y Sprint>
 - Responsable: <nombre completo> | <rol ejercido>
 - Cambio: <resultado y límite del cambio, en dos frases>
+- Tipo de tarea (DoD): <Backend | Frontend | QA | DevOps | Documentación | Spike | Integración> — <criterios del DoD que no aplican, con motivo, o "todos aplican">
 
 ## Evidencia
 - Evidencia: <qué criterio o comportamiento se comprobó; cómo; resultado PASA/FALLA/BLOQUEADO/PENDIENTE y límites; enlace al reporte o comprobación y SHA si existe>
