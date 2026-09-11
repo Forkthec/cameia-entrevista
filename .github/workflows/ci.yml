@@ -42,7 +42,7 @@ jobs:
     steps:
       # Descarga el código del commit/PR que disparó el workflow.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Instala Java 21 (Temurin) y cachea el repositorio local de Maven entre corridas.
       - name: Configurar Java
