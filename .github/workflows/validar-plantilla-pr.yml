@@ -32,8 +32,13 @@ jobs:
           set +e
           python3 .github/scripts/pr_policy.py /tmp/pr.json | tee /tmp/report.json
           RESULT=$(python3 -c "import json; print(json.load(open('/tmp/report.json'))['result'])")
-          echo "Resultado: $RESULT"
-          if [ "$RESULT" != "PASA_ESTRUCTURA" ] && [ "$RESULT" != "BORRADOR" ]; then
-            echo "::warning::Plantilla de PR con hallazgos (fase informativa, CM-121: no bloquea todavia). Ver el detalle en 'errors' arriba. Pasara a bloqueante con 5 PR consecutivos en verde o el 18-sep-2026."
+          ERRORS=$(python3 -c "import json; print(len(json.load(open('/tmp/report.json'))['errors']))")
+          echo "Resultado: $RESULT — hallazgos: $ERRORS"
+          # CM-123: 'result' dice BORRADOR aunque haya errores reales cuando el PR esta en Draft
+          # (asi diseñado por el validador para no exigir campos completos mientras es WIP). Como
+          # aqui usamos Draft para "listo mientras Paula revisa", no para "aun incompleto", hay que
+          # mirar tambien 'errors' y no confiar solo en 'result'.
+          if [ "$ERRORS" != "0" ]; then
+            echo "::warning::Plantilla de PR con $ERRORS hallazgo(s) (fase informativa, CM-121/CM-123: no bloquea todavia). Ver el detalle en 'errors' arriba. Pasara a bloqueante con 5 PR consecutivos en verde o el 18-sep-2026."
             exit 1
           fi
