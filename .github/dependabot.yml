@@ -1,0 +1,21 @@
+# Escaneo de dependencias vulnerables y desactualizadas (guía DevOps §2.10, DoD Nivel 3).
+# Dependabot ya revisa vulnerabilidades de seguridad automáticamente (Dependabot alerts,
+# activado en el repo); esta config agrega actualizaciones de versión programadas.
+version: 2
+updates:
+  # Dependencias de la aplicación (pom.xml).
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly" # no todos los días: evita saturar de PR al equipo
+    groups:
+      # Un solo PR semanal con todo junto, en vez de uno por dependencia.
+      dependencias-menores:
+        update-types: ["minor", "patch"]
+    open-pull-requests-limit: 5
+
+  # Versiones de las acciones usadas en los workflows (actions/checkout@v4, etc.).
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

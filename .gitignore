@@ -33,4 +33,4 @@ Thumbs.db
 .idea
 *.iws
 *.iml
-*.ipr
+*.ipr__pycache__/
