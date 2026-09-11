@@ -1,0 +1,89 @@
+name: CI # nombre de este pipeline, visible en la pestaña "Actions" de GitHub
+
+# Corre en cada PR hacia develop/main y en cada push a develop (integración), tal como exige
+# la guía DevOps del sprint (§2.7): valida el cambio antes de fusionar y otra vez al integrar.
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+
+# Cancela una corrida anterior del mismo PR/rama cuando llega un push nuevo: evita gastar
+# minutos de Actions verificando un commit que ya quedó obsoleto.
+concurrency:
+  group: ci-entrevista-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+# Mínimo privilegio (guía DevOps §2.9): este job solo lee código, no publica nada ni
+# necesita escribir en el repo.
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Build y pruebas
+    runs-on: ubuntu-latest # igual que los otros workflows del repo; sin motivo para otro
+    # EntrevistaApplicationTests levanta el contexto completo de Spring (@SpringBootTest),
+    # que necesita conectarse a una base real — sin esto, esa prueba no arranca.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: DB-entrevista
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: cameia_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      # Descarga el código del commit/PR que disparó el workflow.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Instala Java 21 (Temurin) y cachea el repositorio local de Maven entre corridas.
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # El wrapper no trae permiso de ejecución en el repo (típico al crearse en
+      # Windows) — sin esto, "./mvnw" falla con "Permission denied" en el runner.
+      - name: Permiso de ejecución para mvnw
+        run: chmod +x mvnw
+
+      # "mvnw verify" compila y corre las pruebas. DB_HOST/PORT/NAME/USERNAME/PASSWORD no
+      # tienen valor por defecto en application.properties (a propósito, nunca una
+      # contraseña hardcodeada) — se pasan aquí, solo existen dentro de este job.
+      #
+      # HALLAZGO REAL (11-sep-2026): con GOOGLE_GENAI_API_KEY vacía, el contexto de
+      # Spring NO arranca — GoogleGenAiChatAutoConfiguration exige un valor no vacío
+      # para construir el cliente, aunque nunca llegue a llamar a Gemini. El comentario
+      # del .env.example ("si la dejas vacía, arranca igual") no es cierto en la
+      # práctica; corregir ese archivo es cambio de Backend, no de este workflow. Aquí
+      # se pasa un valor de relleno, obviamente falso — el test nunca llama a la API real.
+      - name: Build + pruebas (mvnw verify)
+        env:
+          DB_HOST: localhost
+          DB_PORT: "5432"
+          DB_NAME: DB-entrevista
+          DB_USERNAME: postgres
+          DB_PASSWORD: cameia_ci
+          GOOGLE_GENAI_API_KEY: ci-placeholder-no-es-una-clave-real
+        run: ./mvnw -B -ntp verify
+
+      # Publica el reporte de pruebas como artefacto, aunque el paso anterior haya
+      # fallado — permite revisar qué se alcanzó a ejecutar sin repetir la corrida.
+      - name: Publicar reporte de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cameia-entrevista-reporte-pruebas
+          path: target/surefire-reports/
+          retention-days: 14
+          if-no-files-found: warn
