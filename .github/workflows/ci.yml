@@ -81,7 +81,7 @@ jobs:
       # fallado — permite revisar qué se alcanzó a ejecutar sin repetir la corrida.
       - name: Publicar reporte de pruebas
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cameia-entrevista-reporte-pruebas
           path: target/surefire-reports/
