@@ -1,6 +1,7 @@
 # CODEOWNERS informativo (Orden 3 de la guía DevOps, CM-144).
-# Deliberadamente ligero: solo rutas críticas de CI/CD y gobierno del propio repo.
-# No se activó "Require review from Code Owners" en la protección de rama —
-# esto asigna revisor sugerido, no bloquea el merge.
+# Deliberadamente ligero, sin bloquear merges: no se activó "Require review from Code
+# Owners" en la protección de rama, esto sugiere revisor, no lo exige.
+# El orden importa: la última línea que coincide con un archivo es la que aplica.
 
+*          @Forkthec/cameia-backend
 /.github/  @Forkthec/cameia-devops
