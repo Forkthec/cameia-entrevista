@@ -61,7 +61,8 @@ services:
       JAVA_OPTS: ${JAVA_OPTS:-}
       API_DOCS_ENABLED: ${API_DOCS_ENABLED:-false}
     ports:
-      - "${SERVER_PORT:-8081}:8080"
+      # 8083 es el puerto que el gateway espera en CAMEIA_ENTREVISTA_URL
+      - "${SERVER_PORT:-8083}:8080"
     networks:
       - cameia-entrevista
 

@@ -68,6 +68,22 @@ Este documento es el registro de decisiones que pueden bloquear diseño o implem
 - Especificación afectada: [specs/health/README.md](specs/health/README.md), sección "Documentación". Toda spec futura que documente endpoints asume esta regla.
 - Evidencia: `ApiDocsFlagTest` cubre el valor por defecto de cada perfil, el de un perfil sin configuración propia y las dos direcciones del override.
 
+### A-005: Puerto de escucha y reparto de puertos en local
+
+- Estado: `Resuelta`
+- Responsable: Juan Vela
+- Fecha: 2026-09-14
+- Tema: despliegue y contrato de integracion
+- Pregunta: ¿Como escucha el servicio el puerto que Cloud Run inyecta, y en que puerto se publica Entrevista en local, dado que el gateway lo enruta al 8083 y este repositorio lo publicaba en el 8081?
+- Decisión adoptada: **`PORT` manda en despliegue; 8083 es el puerto de Entrevista en local.**
+  - `server.port=${PORT:${SERVER_PORT:8080}}`. Cloud Run inyecta `PORT` y exige que el proceso escuche exactamente ahi; sin `PORT`, el encadenamiento conserva el comportamiento local con `SERVER_PORT` y, en ultimo termino, 8080. Es la misma forma aplicada en `cameia-perfil`.
+  - Reparto de puertos en local: **8080** gateway, **8081** cuentas, **8082** perfil, **8083** entrevista. El 8081 que este repositorio usaba ya estaba tomado por `cameia-cuentas` (`cameia-cuentas/.env.example:2`), y el gateway enruta a Entrevista por `CAMEIA_ENTREVISTA_URL=http://localhost:8083` (`cameia-gateway/.env.example:30`). Se corrige este repositorio; el gateway no se toca.
+  - El puerto interno del contenedor sigue siendo 8080: `SERVER_PORT` significa puerto interno dentro del compose y puerto del host en la publicacion, y ambos usos son coherentes.
+- Impacto en código: configuración únicamente (`application.properties`, `.env.example`, `docker-compose.yml`, `Dockerfile`). Ningún endpoint ni regla de negocio cambia.
+- Especificación afectada: ninguna. El reparto de puertos es un contrato de despliegue local entre repositorios, no una capacidad del dominio.
+- Origen: solicitud de DevOps del 11-sep-2026 (CM-132 / CM-133), puntos 1 y 2.
+
+
 ## Decisiones confirmadas
 
 - Idioma operativo de este documento: español.
@@ -78,6 +94,7 @@ Este documento es el registro de decisiones que pueden bloquear diseño o implem
 - **Seguridad resuelta (A-001):** IAM + OIDC de Cloud Run como base; VPC + ingress interno también aplica a Entrevista.
 - **Perfil de debilidades (A-002):** reporte derivado de entrevistas realizadas, no un modo de sesión.
 - **Máquina de estados (A-003):** pendiente de spec; no implementar sin definición aprobada.
+- **Puertos (A-005):** `PORT` de Cloud Run tiene prioridad sobre `SERVER_PORT`; en local Entrevista se publica en el 8083 (8080 gateway, 8081 cuentas, 8082 perfil).
 - **Documentación de la API (A-004):** publicada solo en desarrollo; `/v3/api-docs` y `/swagger-ui.html` se retiran juntas en despliegue, con `API_DOCS_ENABLED` como interruptor.
 - **Arquitectura confirmada:** Estilo DDD con `domain`, `application`, `infrastructure`, `presentation`. Las reglas de dependencia se verificarán con la prueba ArchUnit `LayeredArchitectureTest` (`tech.cameia.entrevista.architecture`) cuando se implemente.
 - **Paquete base:** `tech.cameia.entrevista` (groupId de Maven: `tech.cameia`).
