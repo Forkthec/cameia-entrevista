@@ -33,9 +33,10 @@ EXPOSE 8080
 # Opciones de JVM ajustables sin reconstruir la imagen
 ENV JAVA_OPTS=""
 
-# Sonda de disponibilidad contra el endpoint de salud del microservicio
+# Sonda de disponibilidad contra el endpoint de salud del microservicio.
+# Resuelve el puerto igual que server.port: PORT primero, luego SERVER_PORT.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-    CMD wget --quiet --spider "http://127.0.0.1:${SERVER_PORT}/health" || exit 1
+    CMD wget --quiet --spider "http://127.0.0.1:${PORT:-$SERVER_PORT}/health" || exit 1
 
 # exec para que la JVM sea PID 1 y reciba las senales de parada de Docker
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar /app/app.jar"]
