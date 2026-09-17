@@ -1,0 +1,110 @@
+name: CD # despliegue a Cloud Run (staging), solo despues de que CI pase en develop
+
+# Se dispara cuando el workflow "CI" de este repo termina en develop, no directamente
+# por push -- asi el despliegue nunca corre sobre un commit cuyas pruebas fallaron
+# (disparado directo por push, el job de pruebas y el de despliegue correrian en
+# paralelo sobre el mismo evento, sin que uno esperara al otro).
+#
+# github.sha no sirve dentro de un workflow disparado por workflow_run: apunta a la
+# punta de la rama en el momento del evento, no al commit que realmente paso las
+# pruebas -- por eso todo el workflow usa github.event.workflow_run.head_sha en su
+# lugar.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [develop]
+
+concurrency:
+  group: cd-entrevista-${{ github.ref }}
+  cancel-in-progress: false # nunca cancelar un deploy a medias
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  REGION: us-east1
+  SERVICE: cameia-entrevista
+  AR_REPO: cameia
+  # Cloud SQL solo es alcanzable por IP privada dentro de esta VPC.
+  VPC_NETWORK: cameia-staging
+  VPC_SUBNET: cameia-staging-us-east1
+
+jobs:
+  desplegar-staging:
+    name: Build, publicar imagen y desplegar a Cloud Run (staging)
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Autenticar en GCP (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Configurar gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Autenticar Docker contra Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      # Tag corto (7 caracteres) calculado a partir del commit que disparo el evento
+      # workflow_run, no de GITHUB_SHA -- este ultimo no corresponde a ese commit dentro
+      # de un workflow disparado de esa forma.
+      - name: Calcular tag de imagen
+        id: imagen
+        run: |
+          SHA_CORTO=$(echo "${{ github.event.workflow_run.head_sha }}" | cut -c1-7)
+          IMAGEN="${{ env.REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ env.AR_REPO }}/${{ env.SERVICE }}:${SHA_CORTO}"
+          echo "imagen=${IMAGEN}" >> "$GITHUB_OUTPUT"
+
+      - name: Build de la imagen
+        run: docker build -t "${{ steps.imagen.outputs.imagen }}" .
+
+      - name: Publicar imagen en Artifact Registry
+        run: docker push "${{ steps.imagen.outputs.imagen }}"
+
+      # La aplicacion ya escucha en el puerto que Cloud Run inyecta por variable de
+      # entorno, con un valor por defecto razonable para correrla fuera de Cloud Run --
+      # no hace falta fijar el puerto a mano en este comando.
+      #
+      # --ingress=internal: este servicio no atiende usuarios directamente, solo otro
+      # componente interno de la plataforma -- exponerlo a internet directamente
+      # ampliaria la superficie de ataque sin ningun beneficio funcional.
+      #
+      # DB_HOST/DB_NAME/DB_USERNAME apuntan a una base y un rol propios de este
+      # servicio; DB_PASSWORD y la clave del proveedor de IA vienen de secretos
+      # gestionados, nunca en texto plano en este archivo. El valor de la clave de IA
+      # puede ser temporal al principio y reemplazarse mas adelante sin tocar este
+      # workflow, porque solo cambia el contenido del secreto, no su nombre.
+      #
+      # Sin --allow-unauthenticated: la identidad que ejecuta este despliegue no tiene
+      # permiso para cambiar quien puede invocar el servicio, y no se le da ese permiso
+      # solo para esto.
+      - name: Desplegar a Cloud Run
+        run: |
+          gcloud run deploy "${{ env.SERVICE }}" \
+            --image="${{ steps.imagen.outputs.imagen }}" \
+            --project="${{ vars.GCP_PROJECT_ID }}" \
+            --region="${{ env.REGION }}" \
+            --platform=managed \
+            --ingress=internal \
+            --min-instances=0 \
+            --max-instances=2 \
+            --service-account="25798898664-compute@developer.gserviceaccount.com" \
+            --network="${{ env.VPC_NETWORK }}" \
+            --subnet="${{ env.VPC_SUBNET }}" \
+            --vpc-egress=all-traffic \
+            --set-env-vars="DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista" \
+            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest"
+
+      - name: URL del servicio desplegado
+        run: gcloud run services describe "${{ env.SERVICE }}" --project="${{ vars.GCP_PROJECT_ID }}" --region="${{ env.REGION }}" --format="value(status.url)"
