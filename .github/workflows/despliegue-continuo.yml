@@ -86,6 +86,14 @@ jobs:
       # puede ser temporal al principio y reemplazarse mas adelante sin tocar este
       # workflow, porque solo cambia el contenido del secreto, no su nombre.
       #
+      # SPRING_PROFILES_ACTIVE=production: el nombre de este perfil es "production", no
+      # "prod" como en cameia-gateway/cameia-cuentas (application-production.properties,
+      # no application-prod.properties) -- sin esta variable,
+      # spring.profiles.default=local queda activo por defecto y ese perfil nunca se
+      # carga. Fija spring.jpa.hibernate.ddl-auto=validate de forma explicita (hoy cae en
+      # el default neutro de Spring para una base real, que no valida nada). Mismo
+      # hallazgo verificado primero en cameia-gateway el 18-sep-2026.
+      #
       # Sin --allow-unauthenticated: la identidad que ejecuta este despliegue no tiene
       # permiso para cambiar quien puede invocar el servicio, y no se le da ese permiso
       # solo para esto.
@@ -103,8 +111,32 @@ jobs:
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
-            --set-env-vars="DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista" \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista" \
             --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest"
 
       - name: URL del servicio desplegado
         run: gcloud run services describe "${{ env.SERVICE }}" --project="${{ vars.GCP_PROJECT_ID }}" --region="${{ env.REGION }}" --format="value(status.url)"
+
+      # Smoke test (Anexo_Restricciones_Atributos_Calidad.pdf DPL-02: la promocion de un
+      # digest exige "SHA, digest, aprobacion, smoke test y rollback"). Este servicio usa
+      # --ingress=internal, sin ruta publica alcanzable desde este runner -- por eso el
+      # smoke test usa la API de administracion de Cloud Run (autenticada con la misma
+      # identidad del despliegue) para confirmar que la revision nueva quedo lista y sirve
+      # el 100% del trafico, en vez de un curl a un endpoint real.
+      - name: Smoke test — confirmar que la revisión nueva está lista y sirviendo tráfico
+        run: |
+          gcloud run services describe "${{ env.SERVICE }}" --project="${{ vars.GCP_PROJECT_ID }}" --region="${{ env.REGION }}" --format=json > /tmp/servicio.json
+          cat > /tmp/smoke.py <<'PYEOF'
+          import json, sys
+          data = json.load(open("/tmp/servicio.json"))
+          conditions = data.get("status", {}).get("conditions", [])
+          ready = next((c["status"] for c in conditions if c.get("type") == "Ready"), None)
+          traffic = data.get("status", {}).get("traffic", [])
+          full = [t.get("revisionName") for t in traffic if t.get("percent") == 100]
+          print(f"Ready={ready}, revision con 100% de trafico={full}")
+          if ready != "True" or not full:
+              print("::error::Smoke test FALLA: la revision no quedo Ready o no recibe el 100% del trafico.")
+              sys.exit(1)
+          print("Smoke test PASA.")
+          PYEOF
+          python3 /tmp/smoke.py
