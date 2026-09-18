@@ -146,6 +146,26 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Cobertura Java para el pipeline de CI. prepare-agent instrumenta el bytecode
+				 durante las pruebas; report genera el informe en target/site/jacoco/.
+				 El gate de bloqueo (umbral 70 %) se activa solo cuando el porcentaje real lo cumpla. -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.15</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals><goal>prepare-agent</goal></goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals><goal>report</goal></goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
