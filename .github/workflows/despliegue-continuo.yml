@@ -97,6 +97,12 @@ jobs:
       # Sin --allow-unauthenticated: la identidad que ejecuta este despliegue no tiene
       # permiso para cambiar quien puede invocar el servicio, y no se le da ese permiso
       # solo para esto.
+      #
+      # --service-account usa una identidad de ejecución propia de Entrevista, no la
+      # cuenta por defecto de Compute Engine: esa cuenta también la usa Perfil, y ambas
+      # compartían acceso a los secretos de la otra (contraseña de base de datos y clave
+      # del proveedor LLM) sin necesitarlo. La cuenta dedicada solo puede leer los dos
+      # secretos que este servicio usa de verdad.
       - name: Desplegar a Cloud Run
         run: |
           gcloud run deploy "${{ env.SERVICE }}" \
@@ -107,7 +113,7 @@ jobs:
             --ingress=internal \
             --min-instances=0 \
             --max-instances=2 \
-            --service-account="25798898664-compute@developer.gserviceaccount.com" \
+            --service-account="cameia-entrevista-run@cameia-e245f.iam.gserviceaccount.com" \
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
