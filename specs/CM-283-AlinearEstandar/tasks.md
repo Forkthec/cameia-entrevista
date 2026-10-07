@@ -122,7 +122,7 @@ El catálogo del servicio está en [errores.md](../errores.md) y las reglas, en 
 - **Archivos.** Crear (Gateway y Perfil) o reescribir (Cuentas y Entrevista) `docs/constitution.md`.
 - **Hacer.**
   1. Primera línea: `# Constitución de <nombre del repositorio>`.
-  2. Párrafo: «Principios no negociables. Toda spec y todo PR los cumple; en conflicto, esta lista prevalece sobre cualquier otro documento del repositorio. El detalle vive en el [CLAUDE.md](../CLAUDE.md) y en el [estándar](estandar-backend.md).»
+  2. Párrafo: «Principios no negociables. Toda spec y todo PR los cumple. Si dos documentos chocan, rige el orden de la [sección 1 del estándar](estandar-backend.md#1-alcance-y-precedencia). El detalle vive en el [CLAUDE.md](../CLAUDE.md) y en el [estándar](estandar-backend.md).»
   3. Lista numerada con los quince principios comunes de la sección 4.3 de la spec, con su texto y su `→` de comprobación. Gateway: los principios 2 y 7 se redactan sin base de datos («No tiene base de datos» y «No aplica: el Gateway no tiene base de datos»). Entrevista: sin la mención de Wompi; Cuentas: ninguna otra.
   4. A continuación, desde el 16, los principios propios del repositorio con el texto literal de su requisito (REQ-EN-06).
 - **Verificación.** `grep -c "^[0-9]*\. \*\*" docs/constitution.md` da 15 más los propios (Cuentas 17, Gateway 18, Perfil 19, Entrevista 17); V-07; V-05, V-06 y V-08 sin coincidencias.
@@ -172,7 +172,7 @@ Cada entrada es un archivo `NN_tema_prompt.md`, con `NN` consecutivo.
 - **Cubre.** REQ-DOC-15.
 - **Hacer.**
   1. Ejecutar la herramienta de verificación y V-10; guardar la salida.
-  2. `git push -u origin CM-283-alinear-estandar` (permiso permanente de Backend para la rama `CM-*`; nunca a `develop` ni `main`).
+  2. `git push -u origin CM-283-estandar-comun` (permiso permanente de Backend para la rama `CM-*`; nunca a `develop` ni `main`).
   3. `gh pr create --base develop --title "CM-283 | docs(estandar): estándar común, constitución y errores [IA-ASISTIDO]" --body-file <archivo>` con los ocho campos de la plantilla del repositorio llenos y sin marcadores: **Jira** el enlace `https://f0rktech.atlassian.net/browse/CM-283`; **Responsable** el nombre completo de la persona responsable de Backend, `| Backend`; **Cambio** dos frases; **Evidencia** la salida de la herramienta y de V-10 con el SHA; **Impacto** `ninguno`; **Riesgo** `bajo` con su razón; **IA** `si` con herramienta (Claude Code) y validación; **Control humano** `pendiente —` el nombre completo de esa persona.
   4. No fusionar. Entregar el link del PR, qué archivos importa revisar (`docs/estandar-backend.md`, `docs/constitution.md`, `docs/errores.md`) y qué es mecánico (ADR, bitácora, retiros).
 - **Verificación.** Los validadores de rama y de plantilla del PR en verde.
@@ -248,7 +248,7 @@ Cada entrada es un archivo `NN_tema_prompt.md`, con `NN` consecutivo.
 - **Cubre.** REQ-DOC-15 y los casos V-02 a V-13.
 - **Hacer.**
   1. Ejecutar la herramienta de verificación sobre el worktree y V-10; guardar la salida. Los hallazgos que queden deben ser solo los de documentos que otra pieza de este repositorio todavía retira (por ejemplo, el `AGENTS.md` largo de Perfil hasta C1b); cada uno se nombra en el PR con la pieza que lo resuelve.
-  2. `git push -u origin CM-283-alinear-estandar` y `gh pr create --base develop` con el título `CM-283 | docs(claude): CLAUDE.md de diez secciones y contribución alineada [IA-ASISTIDO]` y los ocho campos de la plantilla llenos como en T-08 (en **Evidencia**, la salida de la herramienta y los comandos de comprobación de hechos de T-09).
+  2. `git push -u origin CM-283-claude-md` (o `CM-283-estandar-comun` cuando B y C van juntas, plan §8) y `gh pr create --base develop` con el título `CM-283 | docs(claude): CLAUDE.md de diez secciones y contribución alineada [IA-ASISTIDO]` y los ocho campos de la plantilla llenos como en T-08 (en **Evidencia**, la salida de la herramienta y los comandos de comprobación de hechos de T-09).
   3. No fusionar. Entregar el link, qué archivos importa revisar (`CLAUDE.md` completo y `CONTRIBUTING.md`) y qué es mecánico (README, `AGENTS.md`).
 - **Verificación.** Los validadores de rama y de plantilla del PR en verde.
 - **Detenerse si** la herramienta reporta un hallazgo que no pertenece a una pieza pendiente: corregirlo antes de abrir el PR.
