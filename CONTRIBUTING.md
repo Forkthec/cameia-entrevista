@@ -30,15 +30,16 @@ automático estable que la valide.
 - PR ordinario: `CM-NNN | tipo(scope): resultado`.
 - Promoción: `release: promover <version> de develop a main`.
 - Tipos admitidos: `feat`, `fix`, `test`, `docs`, `refactor`, `build`, `ci` y `chore`.
-- Los commits describen cambios coherentes; se recomienda Conventional Commits y no es obligatorio
-  incluir `CM-NNN` ni la clave Jira en cada commit.
+- Los commits describen cambios coherentes y **siempre** incluyen la clave Jira con el formato
+  `CM-NNN | tipo(scope): resultado`, igual que el PR.
+- `NNN` es el número de la clave Jira tal cual, sin ceros a la izquierda: `CM-14`, no `CM-014`.
 
 Ejemplo de formato, no una tarea o PR existente:
 
 ```text
 Rama: CM-123-documentar-configuracion
 PR: CM-123 | docs(web): documentar configuracion
-Commit: docs(web): documentar configuracion
+Commit: CM-123 | docs(web): documentar configuracion
 ```
 
 El cuerpo de una promoción identifica tareas incluidas, versión/artefacto, validación, riesgos y

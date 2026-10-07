@@ -2,7 +2,7 @@
 
 - Identificador: CM-101
 - Estado: Aprobada
-- Responsable: Juan Vela
+- Responsable: Product Owner
 - Fecha: 2026-09-08
 
 ## Contexto
@@ -30,7 +30,7 @@ No incluye:
 - Comprobación de dependencias externas (base de datos, mensajería, proveedores LLM).
 - Endpoints de Actuator ni métricas.
 - Autenticación o autorización dentro de la aplicación (la garantiza la frontera de
-  infraestructura descrita en A-001).
+  infraestructura descrita en el [ADR 0002](../../docs/adr/0002-autenticacion-entre-gateway-y-entrevista.md)).
 
 ## Contrato
 
@@ -82,7 +82,7 @@ No incluye:
 - Ambas rutas dependen del interruptor `API_DOCS_ENABLED`, activo en el perfil `local`
   y apagado en el perfil `production`. Con la documentación retirada, `/health` sigue
   respondiendo con normalidad: el interruptor no toca el endpoint, solo su contrato
-  publicado (ver A-004 en [AMBIGUIDADES.md](../../AMBIGUIDADES.md)).
+  publicado (ver el [ADR 0004](../../docs/adr/0004-exposicion-de-la-documentacion-de-la-api.md)).
 - Las descripciones de la operación y del esquema `HealthResponse` se generan a partir
   del Javadoc en español de `HealthController` y `HealthResponse`. El puente lo aporta
   `therapi-runtime-javadoc` (dependencia en runtime) junto con

@@ -1,16 +1,21 @@
 # Constitución de cameia-entrevista
 
-Principios no negociables. Toda spec y todo PR los cumple; en conflicto, esta lista prevalece. El detalle vive en [CLAUDE.md](CLAUDE.md) y [guidelines.md](guidelines.md).
+Principios no negociables. Toda spec y todo PR los cumple. Si dos documentos chocan, rige el orden de la [sección 1 del estándar](estandar-backend.md#1-alcance-y-precedencia). El detalle vive en el [CLAUDE.md](../CLAUDE.md) y en el [estándar](estandar-backend.md).
 
-1. **Stack:** Java 21 + Spring Boot 4.1.1 + Maven Wrapper + PostgreSQL 16; subir una versión mayor exige spec aprobada. → `pom.xml`.
-2. **Alcance y datos:** solo configuración, estado, preguntas, turnos y contexto conversacional de la sesión de entrevista por `firebaseUid`/`sessionId`; base y rol propios, sin FKs externas; nunca contraseñas ni datos de pago. → revisión de PR y de esquema.
-3. **Capas DDD:** `domain` sin dependencias de otras capas y `application` → `domain` solo por puertos. → `LayeredArchitectureTest` en verde.
-4. **Entrada de confianza:** solo el API Gateway (IAM+OIDC, VPC interna); contrato mínimo `firebase_uid, email, roles, request_id`; sin campos nuevos del JWT sin contrato documentado. → config de despliegue + DTO de entrada.
-5. **Datos sensibles:** secretos de Firebase y de proveedores LLM/Voz solo en gestor de secretos o variables de entorno, nunca en Git; logs SLF4J en español sin JWT, tokens, contraseñas, prompts sensibles, CV, audio ni transcripciones. → escaneo de secretos en CI + `grep` de `System.out`.
-6. **Spec-Driven:** toda capacidad nace de una spec aprobada en `specs/`; prohibido crear implementación si no está en una spec. Aplica en particular a la máquina de estados de sesión y a las reglas de los modos entreno/simulación, aún no definidas. → revisión de PR contra la spec.
-7. **Puerta de ambigüedad:** detenerse ante ambigüedad de seguridad, contrato, datos, permisos o arquitectura; máx. 6 preguntas; registrar en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md) si el impacto es alto. → entrada en el registro.
-8. **Tests:** JUnit 5; cada spec con casos de éxito y de error; integraciones externas con pruebas de autenticidad, reintentos, errores e idempotencia; integración con Testcontainers y puerto aleatorio. → `./mvnw.cmd test`.
-9. **Verde antes de PR:** `./mvnw.cmd test` y `./mvnw.cmd clean package` pasan localmente. → ejecución de ambos comandos.
-10. **Tamaño de cambio:** diff agregado + eliminado ≤ 1000 líneas por solicitud; si se supera, dividir en incrementos revisables y esperar confirmación. → `git diff --stat`.
-11. **Idioma y nombres:** identificadores en inglés; documentación, Javadoc, OpenAPI, logs, excepciones, commits y PRs en español; tablas y columnas en `snake_case` español; sin abreviaturas. → revisión de PR.
-12. **Contribución:** ramas `<tipo>/CM-<numero>-<descripcion-kebab-case>`; PR revisado por otra persona; `develop` por Squash y `main` por Merge commit; spec y documentación actualizadas en el mismo PR. → reglas de rama + checklist de PR.
+1. **Stack:** Java 21, Spring Boot 4.1.1 y Maven Wrapper, más PostgreSQL 16; subir una versión mayor exige spec aprobada. → `pom.xml`.
+2. **Alcance y datos:** solo lo que es del servicio; base y rol propios y sin claves foráneas hacia otros servicios. → revisión del PR y del esquema.
+3. **Capas y dependencias:** las reglas de la sección 3 del estándar. → prueba de arquitectura en verde.
+4. **Entrada de confianza:** solo se acepta el tráfico del Gateway; la identidad llega en los encabezados `X-User-*` y nunca del cuerpo ni de la ruta, salvo en las rutas sin identidad que el `CLAUDE.md` declara con su spec. → configuración de despliegue y pruebas del controlador.
+5. **Datos sensibles:** secretos solo por variable de entorno o gestor de secretos; nada sensible en logs, URL ni errores. → escaneo de secretos en CI y búsqueda de `System.out`.
+6. **Errores:** formato común con `code` y `requestId`; cada error previsible con código, estado, mensaje y prueba. → `docs/errores.md` y pruebas del manejador.
+7. **Base de datos:** solo por migración; el esquema repite lo que valida el código. → migración probada con Testcontainers.
+8. **Desarrollo guiado por especificación:** nada se implementa sin spec aprobada. → revisión del PR contra la spec.
+9. **Puerta de ambigüedad:** ante una ambigüedad de seguridad, contrato, datos o arquitectura se detiene el trabajo y se pregunta (hasta 6 preguntas por ronda). → decisión en la spec.
+10. **Pruebas:** JUnit 5, un caso por camino y por rama, PostgreSQL real con Testcontainers y puerto aleatorio, cobertura de lo nuevo ≥ 90 %. → informe de JaCoCo.
+11. **Verde antes del PR:** `./mvnw.cmd clean verify` pasa. → salida del comando.
+12. **Tamaño del cambio:** un PR no pasa de 1000 líneas entre agregadas y eliminadas. → `git diff --shortstat`.
+13. **Idioma y nombres:** identificadores en inglés y documentación en español. → revisión del PR.
+14. **Documentación formal:** OpenAPI, Javadoc y comentarios completos. → revisión del PR y OpenAPI generado.
+15. **Contribución:** rige `CONTRIBUTING.md`; la revisión la hace una persona distinta del autor y el merge siempre lo hace una persona. → reglas de rama y validadores de PR.
+16. **Spec antes de la máquina de estados:** no se implementan estados, transiciones ni reglas de modo sin una spec aprobada. → revisión del PR contra la spec.
+17. **Datos de la sesión:** el contexto profesional, los prompts y las transcripciones no se registran en logs ni se conservan fuera de la sesión. → revisión del PR y pruebas de logs.
