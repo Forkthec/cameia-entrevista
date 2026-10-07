@@ -152,7 +152,7 @@ Además, los principios propios del servicio (sección 6), numerados a continuac
 
 ### 4.4 `docs/errores.md`
 
-Cuatro apartados: (1) «Formato», un párrafo que remite a la sección 6 del estándar; (2) «Códigos que el servicio emite» con la tabla `Código | HTTP | Mensaje | Origen | Prueba` (solo códigos que el código emite hoy); (3) «Respuestas sin código» con la tabla `HTTP | Título | Cuándo`, para los servicios que responden `ProblemDetail` sin `code`; (4) «Cómo se agrega un código»: con la spec que lo introduce, junto a su excepción y su prueba, sin reutilizar ni renombrar uno publicado.
+Cuatro apartados: (1) «Formato», un párrafo que remite a la sección 6 del estándar; (2) «Códigos que el servicio emite» con la tabla `Código | HTTP | Endpoints | Campo | Mensaje | Origen | Prueba` (solo códigos que el código emite hoy; «Endpoints» lista cada método y ruta que lo emite y «Campo» el `field` de `errors[]` cuando es un error de campo, para que un código lleve a un solo lugar del código); (3) «Respuestas sin código» con la tabla `HTTP | Título | Cuándo`, para los servicios que responden `ProblemDetail` sin `code`; (4) «Cómo se agrega un código»: con la spec que lo introduce, junto a su excepción y su prueba, sin reutilizar ni renombrar uno publicado.
 
 ### 4.5 `docs/adr/0001-codigo-de-error-y-request-id.md`
 
