@@ -27,7 +27,7 @@ Los cuatro microservicios Spring de CAMEIA (`cameia-cuentas`, `cameia-gateway`, 
 
 ## 2. Decisiones
 
-Todas son decisiones de Backend. D-01 a D-15 se tomaron el 5 de octubre de 2026. D-16 a D-22 salen de la revisión del 6 de octubre de 2026 y quedan pendientes de la aprobación de Backend en la revisión del PR de esta spec. Cada una indica por qué y qué se descartó.
+Todas son decisiones de Backend. D-01 a D-15 se tomaron el 5 de octubre de 2026. D-16 a D-22 salen de la revisión del 6 de octubre de 2026; Backend las aprobó el mismo 6 de octubre de 2026. Cada una indica por qué y qué se descartó.
 
 | # | Decisión | Por qué | Alternativa descartada |
 |---|---|---|---|
