@@ -5,7 +5,7 @@ Microservicio central de Entrevista de CAMEIA. Gestiona la configuración, estad
 ## Responsabilidades
 
 - Configurar e iniciar sesiones de entrevista con parámetros validados.
-- Mantener la máquina de estados y sus invariantes (`CONFIGURADA`, `EN_CURSO`, `PAUSADA`, `FINALIZADA`, `ABANDONADA`).
+- Mantener el estado de cada sesión y sus invariantes, según la máquina de estados que defina su spec (aún pendiente).
 - Gestionar preguntas, respuestas y avance de turnos según el flujo de sesión.
 - Construir contexto conversacional respetando límites de cuota y privacidad.
 - Integrarse con Perfil, Voz, Auditoría y proveedores LLM mediante contratos explícitos.
@@ -30,7 +30,7 @@ flowchart LR
 |---|---|
 | Lenguaje | Java 21 |
 | Framework | Spring Boot 4.1.1 |
-| Build | Maven; wrapper pendiente de confirmar |
+| Build | Maven Wrapper (`./mvnw.cmd`) |
 | Persistencia | PostgreSQL 16, base/rol propios |
 | Mensajería | RabbitMQ para réplicas y consumo cuando sea aprobado |
 | Ejecución objetivo | Servicio HTTP y consumidor en el mismo repositorio/imagen |
@@ -46,12 +46,13 @@ flowchart LR
 ## Ejecución local
 
 ```text
-Instalación: pendiente de confirmar en CM-101
-Pruebas: pendiente de confirmar en CM-101
-Build: pendiente de confirmar en CM-101
-Inicio: pendiente de confirmar en CM-101
-Health check: pendiente de confirmar en CM-101
+Pruebas:      ./mvnw.cmd test
+Verificación: ./mvnw.cmd clean verify    # build, pruebas y cobertura
+Con Docker:   docker compose up --build -d
+Salud:        http://localhost:8083/health
 ```
+
+Las variables de entorno están en `.env.example`. Más detalle en [CLAUDE.md](CLAUDE.md).
 
 ## Configuración y seguridad
 
@@ -70,8 +71,4 @@ Health check: pendiente de confirmar en CM-101
 
 ## Contribución
 
-- `main` es estable y solo recibe promociones `develop → main` mediante Merge commit.
-- `develop` integra ramas `<tipo>/CM-NNN-<descripcion-kebab-case>` mediante Squash.
-- Todo cambio ordinario entra mediante PR y revisión distinta del autor.
-
-Tipos admitidos: `feat`, `fix`, `test`, `docs`, `refactor`, `perf`, `build`, `ci` y `chore`.
+La rama, el commit, los tipos, el título del PR y la revisión están en [CONTRIBUTING.md](CONTRIBUTING.md).

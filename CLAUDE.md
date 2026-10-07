@@ -1,27 +1,25 @@
 # cameia-entrevista
 
-## Contexto del proyecto
+## 1. Servicio
 
-CAMEIA ofrece práctica y simulación de entrevistas virtuales para preparar entrevistas de trabajo. Aunque puede incluir preguntas técnicas, el foco principal son las preguntas de comportamiento.
+CAMEIA ofrece práctica y simulación de entrevistas virtuales para preparar entrevistas de trabajo, con foco en las preguntas de comportamiento. Este repositorio es el microservicio de Entrevista: gestiona las sesiones de práctica para vacantes de empleo, es decir, su configuración, su estado, sus preguntas y sus turnos.
 
-Este repositorio contiene el microservicio central de Entrevista dentro de una arquitectura de microservicios. Su responsabilidad es gestionar toda la lógica de las sesiones de práctica para vacantes de empleo: configuración, estado, preguntas y turnos. Soporta dos modos de sesión — **entreno** y **simulación** — y produce como reporte derivado el **perfil de debilidades**, que no es un tercer modo sino un análisis generado a partir de entrevistas ya realizadas (ver [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md), A-002).
+- Soporta dos modos de sesión: **entreno** y **simulación**.
+- Produce el **perfil de debilidades** como reporte derivado de entrevistas ya realizadas; no es un tercer modo de sesión ([ADR 0003](docs/adr/0003-perfil-de-debilidades-como-reporte-derivado.md)). Su mecánica (qué datos lo alimentan, cuándo se genera y cómo se expone) se define en una spec cuando entre en alcance, y no se crea lógica de generación sin ella.
+- Configura e inicia sesiones (modo, tono, personalidad, forma e idioma) asociadas a un `firebaseUid`.
+- Construye el contexto conversacional (contexto profesional y vacante en texto libre) dentro de los límites de cuota y privacidad aprobados.
+- Gestiona preguntas, respuestas y avance de turnos dentro de la sesión.
+- Se integra con Perfil, Voz, Auditoría y proveedores LLM mediante contratos explícitos.
 
-**La máquina de estados de la sesión (estados, transiciones y reglas específicas de cada modo) aún no está definida a nivel técnico.** Se especificará en un plan técnico o spec futura antes de implementarse — ver A-003 en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md). No inventar estados, transiciones ni reglas de modo sin esa spec aprobada.
+No persiste cuentas, perfiles maestros ni audio o video de forma permanente. No implementa autenticación ni pagos, y no custodia contraseñas ni credenciales.
 
-## Responsabilidad del servicio
+Las reglas comunes de Backend están en [docs/estandar-backend.md](docs/estandar-backend.md) y los principios no negociables, en [docs/constitution.md](docs/constitution.md).
 
-- Configurar e iniciar sesiones de entrevista (modo, tono, personalidad, forma e idioma) asociadas a un `firebaseUid`.
-- Mantener el estado de cada sesión y validar sus transiciones según la máquina de estados que se defina en spec.
-- Gestionar preguntas, respuestas y avance de turnos dentro de la sesión.
-- Construir contexto conversacional (contexto profesional, vacante en texto libre) dentro de límites de cuota y privacidad aprobados.
-- Integrarse con Perfil, Voz, Auditoría y proveedores LLM mediante contratos explícitos.
-- Generar el perfil de debilidades como reporte derivado de entrevistas finalizadas, cuando esa capacidad entre en alcance vía spec.
+## 2. Estructura y dependencias
 
-No persiste cuentas, perfiles maestros ni archivos de audio/video de forma permanente. No implementa autenticación ni pagos.
+Pila: Java 21, Spring Boot 4.1.1, Maven Wrapper y Spring AI para los proveedores LLM. El paquete base es `tech.cameia.entrevista` (`groupId` de Maven: `tech.cameia`).
 
-## Estructura de carpetas (Estilo DDD)
-
-Entrevista sigue el patrón de capas con Domain-Driven Design. Las carpetas están predefinidas para garantizar cohesión alta y acoplamiento bajo. Crear subcarpetas solo si existe evidencia de un motivo de cambio distinto.
+Capas con Domain-Driven Design. Se crean subcarpetas solo con un motivo de cambio distinto.
 
 ```text
 tech.cameia.entrevista
@@ -33,169 +31,107 @@ tech.cameia.entrevista
 │   ├── service             // casos de uso (orquestación, transacción)
 │   └── command             // objetos de entrada de los casos de uso
 ├── domain
-│   ├── model               // sesión, pregunta, turno, objetos de valor, enums
-│   ├── service              // servicios de dominio
-│   ├── policy               // reglas de dominio por modo (entreno/simulación)
-│   ├── port                 // interfaces que el dominio define y NO implementa
-│   ├── event                // eventos de dominio
-│   └── exception            // excepciones de negocio
+│   ├── model               // sesión, pregunta, turno, objetos de valor, enumerados
+│   ├── service             // servicios de dominio
+│   ├── policy              // reglas de dominio por modo (entreno y simulación)
+│   ├── port                // interfaces que el dominio define y no implementa
+│   ├── event               // eventos de dominio
+│   └── exception           // excepciones de negocio
 └── infrastructure
     ├── persistence
-    │   ├── entity           // modelo JPA — NO es el modelo de dominio
-    │   ├── repository        // Spring Data + adaptadores de los puertos
-    │   └── mapper             // dominio <-> entity
+    │   ├── entity          // modelo JPA, distinto del modelo de dominio
+    │   ├── repository      // Spring Data y adaptadores de los puertos
+    │   └── mapper          // dominio <-> entidad
     ├── messaging
-    │   ├── consumer           // @RabbitListener
-    │   ├── publisher          // RabbitTemplate
-    │   └── payload             // contratos de mensaje versionados
-    ├── client                 // WebClient hacia Perfil, Voz y Auditoría
-    ├── ia                     // adaptadores de proveedores LLM (Spring AI)
-    └── config                  // configuración de Spring
+    │   ├── consumer        // @RabbitListener
+    │   ├── publisher       // RabbitTemplate
+    │   └── payload         // contratos de mensaje versionados
+    ├── client              // WebClient hacia Perfil, Voz y Auditoría
+    ├── ia                  // adaptadores de proveedores LLM (Spring AI)
+    └── config              // configuración de Spring
 ```
 
-**Regla de dependencias:** `domain` no importa nada de `presentation`, `application` ni `infrastructure`. `application` depende de `domain` a través de puertos. `infrastructure` implementa los puertos que `domain` define. Esta regla se valida automáticamente con la prueba ArchUnit `LayeredArchitectureTest`; toda nueva clase debe pasarla.
+Hoy el código tiene `presentation.controller` y `presentation.dto` (el endpoint de salud) y `infrastructure.config.documentation` (la configuración de OpenAPI); el resto del árbol es la estructura prevista.
 
-## Límites de entrada y confianza
+**Regla de dependencias.** `domain` no importa nada de `presentation`, `application` ni `infrastructure`; `application` depende de `domain` solo por puertos; `infrastructure` implementa los puertos de `domain`. La prueba de arquitectura que debe vigilarla está pendiente (sección 10); mientras tanto la regla se comprueba en la revisión de cada PR.
 
-El servicio solo debe aceptar peticiones autenticadas del API Gateway. La estrategia tiene dos capas, ambas documentadas en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md) (A-001):
+## 3. Límites de confianza
 
-### Capa 1: IAM + OIDC en Cloud Run (base obligatoria)
-- El microservicio se despliega con `--no-allow-unauthenticated`.
-- Solo la cuenta de servicio del API Gateway tiene rol de invocador (binding de IAM).
-- El Gateway obtiene un token OIDC del metadata server de Cloud Run y lo agrega a cada petición saliente en el header `Authorization: Bearer <token>`.
-- Cloud Run valida el token antes de enrutar la petición al microservicio.
-- No implica cambios en la lógica de negocio: es configuración de infraestructura.
+El servicio solo debe aceptar peticiones autenticadas del API Gateway, con dos capas ([ADR 0002](docs/adr/0002-autenticacion-entre-gateway-y-entrevista.md)):
 
-### Capa 2: VPC e ingress interno
-- Se agrega encima de la Capa 1. Aplica a Entrevista porque el servicio procesa información sensible de la sesión de práctica: contexto profesional, prompts conversacionales y transcripciones.
-- El microservicio queda con `ingress: internal`, sin ruta pública desde internet.
-- El Gateway accede al microservicio por un conector privado dentro de la VPC.
-- El Gateway sigue siendo público, como punto de entrada único para React.
+1. **IAM con OIDC en Cloud Run (base obligatoria).** El servicio se despliega con `--no-allow-unauthenticated`; solo la cuenta de servicio del Gateway tiene rol de invocador. El Gateway obtiene un token OIDC del servidor de metadatos de Cloud Run y lo agrega a cada petición en `Authorization: Bearer`, y Cloud Run lo valida antes de enrutar. No cambia la lógica de negocio: es configuración de infraestructura.
+2. **VPC con ingreso interno (contexto sensible).** Encima de la capa 1: Entrevista procesa información sensible de la práctica (contexto profesional, prompts conversacionales y transcripciones), así que queda con ingreso `internal`, sin ruta pública, y el Gateway llega por un conector privado de la VPC. El Gateway sigue siendo el único punto de entrada público.
 
-**Contrato de entrada:**
+**Identidad de entrada.** El servicio recibirá del Gateway solo lo necesario para la autorización de negocio, nunca el JWT completo, en estos encabezados. Todavía ningún endpoint los lee: el único endpoint es `GET /health`, que no lleva identidad.
 
-Entrevista recibe del Gateway únicamente los datos necesarios para la autorización de negocio, nunca el JWT completo:
+| Encabezado | Obligatorio | Contenido |
+|---|---|---|
+| `X-User-Id` | Sí | `firebaseUid` del usuario |
+| `X-User-Email` | Sí | Correo del usuario |
+| `X-User-Roles` | Sí | Roles del usuario |
+| `X-Request-Id` | Sí | Identificador de la petición |
+| `X-User-Plan` | No | Plan del usuario; no respalda ningún derecho ni cuota hasta que exista la spec de planes |
+| `X-User-Email-Verified` | No | Si el correo está verificado |
 
-- **Obligatorios:** `firebase_uid`, `email`, `roles`, `request_id`.
-- **Opcionales:** `display_name`, `correlation_id`, `issued_at`.
+No se confía en un encabezado enviado directamente por un cliente externo, y no se agregan campos derivados del JWT sin justificar su necesidad y documentar el contrato.
 
-No agregar campos derivados del JWT sin justificar su necesidad y documentar su contrato. No confiar en headers enviados directamente por clientes externos.
+**Ruta sin identidad.** Solo `GET /health`: no lee ni modifica datos de una sesión. Una ruta nueva no se suma sin una spec que lo justifique.
 
-## Reglas de seguridad
+## 4. Contrato y errores
+
+- La versión va en la ruta: `/api/v1/...`. La ruta de salud, `GET /health`, es la excepción: no es contrato de negocio.
+- Los nombres JSON van en `camelCase`.
+- Los errores son `ProblemDetail` (RFC 9457) con `Content-Type: application/problem+json`. El formato y las reglas están en la [sección 6 del estándar](docs/estandar-backend.md#6-errores) y lo que el servicio emite hoy, en [docs/errores.md](docs/errores.md): todavía no tiene manejador de errores.
+- Un fallo técnico se registra completo en el log y al cliente solo le llega un texto genérico.
+
+**Documentación de la API.** OpenAPI en `http://localhost:8083/v3/api-docs` y Swagger UI en `http://localhost:8083/swagger-ui.html`. Las dos rutas se publican y se retiran juntas, porque el JSON ya expone el contrato completo. Solo se publican en desarrollo: `application.properties` las deja apagadas, el perfil `local` las enciende y el perfil `production` las apaga, de modo que en despliegue responden `404`. La variable `API_DOCS_ENABLED` invierte ese valor por defecto sin reconstruir la imagen. Decisión en el [ADR 0004](docs/adr/0004-exposicion-de-la-documentacion-de-la-api.md).
+
+## 5. Datos
+
+PostgreSQL 16 con JPA, con base y rol propios y `spring.jpa.open-in-view=false`. El servicio todavía no tiene entidades ni migraciones: la primera migración será Flyway, según la [sección 7 del estándar](docs/estandar-backend.md#7-base-de-datos).
+
+## 6. Seguridad
 
 - No registrar JWT, secretos, contraseñas, tokens de Firebase, prompts completos sensibles, CV, audio ni transcripciones.
-- Guardar secretos de Firebase y de proveedores LLM/Voz únicamente en el gestor de secretos o variables de entorno aprobadas; nunca en Git.
-- La autenticidad de peticiones del Gateway se garantiza mediante IAM y tokens OIDC (Capa 1) y el ingress interno de la VPC (Capa 2). No es necesario firmar el payload en la aplicación.
-- Aplicar autorización por endpoint probado y no asumir que `roles` equivale automáticamente a permisos de negocio.
-- Exponer solo los endpoints de Actuator necesarios para salud.
-- Cada integración externa (Perfil, Voz, Auditoría, proveedores LLM) requiere pruebas de autenticidad, reintentos, manejo de errores e idempotencia antes de considerarla completa.
+- Los secretos de Firebase y de los proveedores LLM y de Voz viven solo en el gestor de secretos o en variables de entorno aprobadas, nunca en Git.
+- La autenticidad de las peticiones del Gateway la garantizan IAM y el token OIDC (capa 1) y el ingreso interno de la VPC (capa 2); no se firma el payload en la aplicación.
+- La autorización se aplica por endpoint; un rol no equivale a un permiso de negocio.
+- Se exponen solo los endpoints de operación necesarios para la salud.
+- Cada integración externa (Perfil, Voz, Auditoría y proveedores LLM) requiere pruebas de autenticidad, reintentos, manejo de errores e idempotencia antes de darla por completa.
 
-## Constitución
+## 7. Pruebas
 
-Los principios no negociables del proyecto (stack, calidad, tests y límites) están consolidados en [constitution.md](constitution.md). Toda spec y todo PR los cumple; en caso de conflicto, esa lista prevalece sobre el resto de este documento.
+- JUnit 5, con las pruebas bajo `src/test/java/tech/cameia/entrevista`: el arranque del contexto, la prueba del controlador de salud y las de configuración (interruptor de la documentación de la API y resolución del puerto).
+- Las pruebas de persistencia y de integración usan PostgreSQL real en Testcontainers y puerto aleatorio. Testcontainers todavía no está declarado; está pendiente (sección 10).
+- Las clases `*Test` las ejecuta Surefire. Las reglas de pruebas y de cobertura están en la [sección 9 del estándar](docs/estandar-backend.md#9-pruebas-y-cobertura).
 
-## Metodología Spec-Driven Development
+## 8. Verificación
 
-El repositorio sigue Spec-Driven Development clásico. Las especificaciones viven bajo `specs/`, organizadas por funcionalidad. Antes de implementar una capacidad nueva:
+Verificación completa: `./mvnw.cmd clean verify`. Genera el informe de cobertura en `target/site/jacoco/index.html`.
 
-1. Crear o actualizar la spec con contexto, alcance, requisitos, reglas, casos de éxito y casos de error.
-2. Registrar las decisiones y contratos relevantes.
-3. Implementar únicamente lo respaldado por una spec aprobada.
-4. Añadir pruebas que demuestren los escenarios de la spec.
-5. Actualizar la documentación si cambian contratos, configuración, datos, eventos o comandos.
+- Pruebas solas: `./mvnw.cmd test`.
+- Con Docker: `docker compose up --build -d` levanta Entrevista y PostgreSQL 16.
+- Con la aplicación en `http://localhost:8083`: salud en `/health`, OpenAPI en `/v3/api-docs` y Swagger UI en `/swagger-ui.html` (con la documentación publicada, ver sección 4).
+- Puertos locales: Gateway 8080, Cuentas 8081, Perfil 8082 y Entrevista 8083. En Cloud Run, `PORT` tiene prioridad sobre `SERVER_PORT` (`server.port=${PORT:${SERVER_PORT:8080}}`); decisión en el [ADR 0005](docs/adr/0005-reparto-de-puertos-y-resolucion-del-puerto.md).
 
-Esto aplica en particular a la máquina de estados de sesión y a las reglas detalladas de los modos entreno/simulación: no implementar ninguna de las dos sin una spec aprobada que las defina (ver A-003 en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md)).
+## 9. Contribución
 
-No crear carpetas o especificaciones ficticias para aparentar que una decisión está tomada.
+Rama, commit, tipos, título de PR, revisión y merge: rige [CONTRIBUTING.md](CONTRIBUTING.md). Lo que este repositorio añade:
 
-## Restricción de ambigüedades
+- El título del PR lleva `[IA-ASISTIDO]` al final cuando hubo IA; el commit no lo lleva. Un commit asistido por IA lleva el trailer `Co-Authored-By` con el modelo.
+- Una IA puede abrir un PR; nunca lo fusiona. El control humano lo marca la persona que revisa.
+- Un PR cubre una pieza reconocible y no pasa de 1000 líneas entre agregadas y eliminadas.
+- Antes del código hay una spec aprobada en `specs/CM-NNN-Descripcion/` (`spec.md`, `plan.md` y `tasks.md`); el flujo está en la sección 12 de [docs/estandar-backend.md](docs/estandar-backend.md).
+- Las decisiones con peso humano se registran en [docs/bitacora-ia/](docs/bitacora-ia/README.md).
 
-Si una petición contiene una ambigüedad que puede afectar seguridad, contrato, datos, permisos, arquitectura o comportamiento observable, el agente debe detenerse antes de editar. Debe formular preguntas concretas y resolverlas ahí mismo con máximo 6 preguntas.
+Las specs nuevas viven en `specs/CM-NNN-Descripcion/` con `Descripcion` en PascalCase; las carpetas de spec existentes con otro nombre no se renombran.
 
-Toda ambigüedad cuya resolución tenga impacto en la arquitectura, sea de alto impacto en seguridad, o comprometa una buena práctica (por ejemplo, omitir pruebas unitarias) debe quedar registrada en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md) con la pregunta, la decisión adoptada, el impacto y la especificación relacionada. Ambigüedades menores, sin ese impacto, pueden resolverse en la conversación sin dejar constancia formal allí.
+## 10. Pendientes
 
-No asumir defaults silenciosos en decisiones críticas. Una tarea puede continuar solo si las partes ambiguas son irrelevantes para el cambio o si ya existe una decisión documentada y aprobada.
-
-## Límite de tamaño de cambios
-
-Se prohíben cambios cuyo diff total agregado y eliminado supere 1000 líneas por solicitud. Antes de editar, estimar el tamaño. Si se supera el umbral:
-
-- Detener la implementación.
-- Informar al usuario que debe revisar cada cambio.
-- Recomendar dividir la petición en incrementos pequeños, por responsabilidad o por spec.
-- Proponer un orden de modularización y esperar confirmación.
-
-No usar este límite para ocultar cambios relacionados en commits separados: cada incremento debe ser revisable y funcional.
-
-## Reglas de nombrado
-
-- Clases e interfaces: `PascalCase`.
-- Métodos, campos y variables: `camelCase`.
-- Constantes: `UPPER_SNAKE_CASE`.
-- Paquetes: `lowercase`, sin guiones bajos, sin plurales inventados.
-- **Sin abreviaturas:** `sesion`, no `ses`; `pregunta`, no `preg`; `contextoProfesional`, no `ctxProf`. Los identificadores cortos de los diagramas son etiquetas del dibujo, no nombres de clase.
-
-## Convenciones de idioma
-
-**Regla fundamental:** El compilador lee código en inglés; las personas leen documentación en español.
-
-| Elemento | Idioma | Ejemplo |
+| Pendiente | Responsable | Qué bloquea |
 |---|---|---|
-| Paquetes, clases, métodos, variables | **Inglés** | `Session`, `createSession()`, `firebaseUid` |
-| Constantes | **Inglés** `UPPER_SNAKE` | `MAX_RETRY_ATTEMPTS`, `LLM_TIMEOUT_MS` |
-| Nombres de tablas/columnas | **Español** `snake_case` | `sesion`, `fecha_creacion`, `id_firebase` |
-| **Comentarios de código (Javadoc)** | **Español** | Ver sección "Documentación de código" |
-| **Descripciones OpenAPI** | **Español** | Ver sección "Documentación de código" |
-| Mensajes de log | **Español**, sin datos sensibles | `logger.info("Sesión de entrevista creada")` |
-| Excepciones (mensaje) | **Español** | `throw new SessionNotFoundException("Sesión no encontrada")` |
-| Commits y PRs | **Español** | `git commit -m "CM-25: Implementar planificación de preguntas"` |
-
-**Justificación:** El código convive con compiladores, intérpretes y dependencias internacionales; el inglés es el estándar. La documentación la lee el equipo en un contexto donde el español es natural.
-
-## Documentación de código
-
-### Javadoc en español
-
-Todo método público en `domain`, `application` y los adaptadores de `infrastructure` lleva Javadoc en español con descripción clara de qué hace, parámetros, retorno y excepciones.
-
-### OpenAPI en español
-
-Cada endpoint expone su contrato mediante OpenAPI 3.0.
-
-**Acceso a documentación:**
-- JSON OpenAPI: `http://localhost:8080/v3/api-docs`
-- Interfaz Swagger UI: `http://localhost:8080/swagger-ui.html`
-
-Ambas rutas solo se publican en desarrollo. El perfil `local` las activa y el perfil
-`production` las retira, de modo que en despliegue responden `404`. La variable
-`API_DOCS_ENABLED` invierte ese valor por defecto y gobierna las dos rutas a la vez:
-el documento JSON ya expone el contrato completo, así que no se sirve una sin la otra.
-Ver A-004 en [docs/AMBIGUIDADES.md](docs/AMBIGUIDADES.md).
-
-## Convenciones técnicas
-
-**Stack base:**
-- Java 21, Spring Boot 4.1.1 y Maven Wrapper.
-- Spring AI para la integración con proveedores LLM.
-- Sigue las indicaciones de [guidelines.md](guidelines.md).
-- Usa Javadoc en español; código y método/clase en inglés (ver sección "Convenciones de idioma").
-- Usa JUnit 5 para pruebas unitarias.
-
-## Verificación de cambios de código
-
-1. Pruebas Unitarias
-```powershell
-./mvnw.cmd test
-```
-2. Limpieza y construcción del proyecto
-```powershell
-./mvnw.cmd clean package
-```
-
-## Flujo de contribución
-
-- Usar ramas `<tipo>/CM-<numero>-<descripcion-kebab-case>` (tipos: `feat`, `fix`, `test`, `docs`, `refactor`, `perf`, `build`, `ci`, `chore`).
-- Todo cambio ordinario entra mediante PR y revisión de una persona distinta del autor.
-- Mantener `main` estable y promover cambios desde `develop` mediante Merge commit.
-- Integrar ramas de trabajo en `develop` mediante Squash.
-- Actualizar la spec y este documento en el mismo PR cuando cambien reglas o contratos.
+| Máquina de estados de la sesión (estados, transiciones y reglas por modo) | Product Owner | Todo estado, transición o regla de modo: el servicio no los implementa sin una spec aprobada |
+| Prueba de arquitectura (`LayeredArchitectureTest` con ArchUnit) | Backend (CM-283) | Vigilar la regla de dependencias de la sección 2 |
+| Testcontainers para las pruebas con base de datos | Backend (CM-283) | Pruebas de persistencia y de integración |
+| Manejador de errores con `code` y `requestId` | Backend (CM-283) | El catálogo de [docs/errores.md](docs/errores.md) |
+| Perfil `prod`, variable `API_DOCUMENTATION_ENABLED` y puerto único 8083 (hoy: perfil `production`, `API_DOCS_ENABLED` y puerto interno 8080) | Backend (CM-283) y DevOps | Retirar el perfil `production` |
