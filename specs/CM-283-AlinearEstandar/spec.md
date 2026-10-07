@@ -370,6 +370,10 @@ Cada caso se ejecuta con salida real y se reporta en el PR. Los comandos son de 
 
 Casos de la Parte 2: los de cada pieza en la sección 7.
 
+**Parte 1 terminada** = V-01 a V-13 en verde con su salida real en el PR de cada repositorio. **Secciones comunes:** las secciones que repiten las cuatro specs se cambian en las cuatro en el mismo bloque de trabajo; V-01 compara el estándar, no la redacción de las specs.
+
+**V-14 (solo lectura, no condiciona la Parte 1).** Con el servicio en local, `curl -si` a una ruta que responda un error (por ejemplo, un 404 o un 422) y anotar el `Content-Type`. Si no declara `charset=UTF-8` (ASVS 4.1.1), el hallazgo se registra con su evidencia y se corrige en la primera tarea de código de este servicio, no en CM-283.
+
 ## 9. Fuera de alcance
 
 - Cambios de lógica de negocio y de contrato público (los cambios aditivos de error se adoptan en las tareas de código de cada servicio, no aquí).
