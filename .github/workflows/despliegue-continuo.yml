@@ -98,6 +98,12 @@ jobs:
       # permiso para cambiar quien puede invocar el servicio, y no se le da ese permiso
       # solo para esto.
       #
+      # SPRING_RABBITMQ_ADDRESSES: este servicio consume eventos del broker RabbitMQ de
+      # staging, y esa es la propiedad que Spring Boot lee para conectarse. Su valor es
+      # una URL AMQPS que incluye credenciales, por eso viene de un secreto gestionado y
+      # nunca en texto plano en este archivo. Para el acceso al broker, la cuenta de
+      # ejecución solo tiene permiso de lectura sobre ese secreto.
+      #
       # --service-account usa una identidad de ejecución propia de Entrevista, no la
       # cuenta por defecto de Compute Engine: esa cuenta también la usa Perfil, y ambas
       # compartían acceso a los secretos de la otra (contraseña de base de datos y clave
@@ -118,7 +124,7 @@ jobs:
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
             --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista" \
-            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest"
+            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
 
       - name: URL del servicio desplegado
         run: gcloud run services describe "${{ env.SERVICE }}" --project="${{ vars.GCP_PROJECT_ID }}" --region="${{ env.REGION }}" --format="value(status.url)"
