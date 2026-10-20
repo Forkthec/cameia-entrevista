@@ -178,9 +178,9 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 - [ ] **Cubre.** REQ-20 y REQ-21.
 - **Archivos.** `.env.example`, `docker-compose.yml`, `.github/workflows/despliegue-continuo.yml` y `CLAUDE.md`.
 - **Hacer.**
-  1. `.env.example`: `LLM_MODEL` con el valor de PD-01 y `LLM_TIMEOUT=30s`, cada una con su comentario. La nota de `GOOGLE_GENAI_API_KEY` dice que sin llave el servicio no arranca, salvo en `local`, que trae una llave falsa.
+  1. `.env.example`: `LLM_MODEL=gemini-3.7-flash` (PD-01) y `LLM_TIMEOUT=30s`, cada una con su comentario. La nota de `GOOGLE_GENAI_API_KEY` dice que sin llave el servicio no arranca, salvo en `local`, que trae una llave falsa.
   2. `docker-compose.yml`: pasar `LLM_MODEL` (obligatoria, con `:?`) y `LLM_TIMEOUT`.
-  3. Workflow: agregar `LLM_MODEL=<PD-01>` a `--set-env-vars`.
+  3. Workflow: agregar `LLM_MODEL=gemini-3.7-flash` a `--set-env-vars`.
   4. `CLAUDE.md`:
      - sección 2: los paquetes que ya existen;
      - sección 4: los códigos emitidos, con un enlace a `docs/errores.md`;

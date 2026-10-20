@@ -9,7 +9,7 @@ Hay dos piezas, cada una en su PR:
 1. **Pieza A**: la bitácora y esta carpeta de spec. Se fusiona cuando la spec está aprobada.
 2. **Pieza B**: el código, en el orden de lectura que sugiere el aviso de coordinación: configuración, lista de códigos y manejador, adaptador, pruebas y documentación.
 
-El código no empieza sin la aprobación de la spec ni sin los pendientes PD-01 a PD-04 resueltos.
+El código no empieza sin la aprobación de la spec. Los pendientes PD-01 a PD-05 se resolvieron el 20 de octubre de 2026.
 
 Spring AI 2.0.1 no expone una propiedad para el tiempo de espera ni para apagar los reintentos. Lo que sí hace su autoconfiguración de Google GenAI (`GoogleGenAiChatAutoConfiguration`) es:
 
@@ -88,7 +88,7 @@ El estimado pasa de 1000, así que se prevé el PR B2 (configuración de desplie
 |---|---|
 | El SDK de Google GenAI reintenta por su cuenta | `HttpRetryOptions` con `attempts = 1`, y la prueba de tiempo agotado cuenta exactamente una petición en el servidor simulado |
 | Spring AI usa su `RetryTemplate` por defecto, que reintenta varias veces | Bean `RetryTemplate` sin reintentos y las pruebas de 429 y 503 cuentan una petición. Si la autoconfiguración no toma el bean, se detiene la tarea y se reporta |
-| El pensamiento del modelo consume el tope de 16 tokens y la respuesta llega vacía | PD-04: el nivel más bajo que acepte el modelo. La prueba real lo confirma; si da vacío, se reporta antes de subir el tope |
+| El pensamiento del modelo consume el tope de 16 tokens y la respuesta llega vacía | PD-04: nivel `low`. La prueba real lo confirma; si da vacío, se reporta antes de subir el tope o de bajar el nivel |
 | Gemini acepta `baseUrl` solo con cierto formato de ruta | La prueba de éxito con el servidor simulado lo comprueba primero (tarjeta T-06); si no funciona, se detiene y se reporta |
 | La llave aparece en el mensaje de un arranque fallido | Prueba con salida capturada (`OutputCaptureExtension`) y `toString` enmascarado |
 | Staging deja de arrancar por falta de `LLM_MODEL` | El workflow se actualiza en el mismo PR (o en B2) y DevOps revisa el cambio |

@@ -6,7 +6,7 @@
 | Repositorio | cameia-entrevista |
 | Rama | `CM-312-cliente-gemini` |
 | Base | `origin/develop` @ `bcc697d` (20 de octubre de 2026) |
-| Estado | Borrador: pendiente de aprobación del Product Owner y de la revisión de Backend |
+| Estado | Borrador: PD-01 a PD-05 resueltos el 20 de octubre de 2026; pendiente de aprobación del Product Owner y de la revisión de Backend |
 | Documentos hermanos | [plan.md](plan.md) · [tasks.md](tasks.md) |
 
 ## 1. Contexto y alcance
@@ -65,7 +65,7 @@ Decisiones humanas tomadas el 20 de octubre de 2026 por el Product Owner, a part
 | D-03 | **Sin reintentos en el cliente:** un solo intento por llamada, con el tiempo de espera de `LLM_TIMEOUT`. Se apagan las dos capas de reintento que traen las librerías por defecto: las `HttpRetryOptions` del SDK de Google GenAI (`attempts = 1`) y el `RetryTemplate` de Spring AI (cero reintentos). El peor caso es un tiempo de espera, 30 s al inicio | Los reintentos pertenecen a HU-5.2 y HU-5.6; si el cliente también reintenta, los intentos se multiplican y el usuario espera hasta tres veces más | 3 intentos con espera creciente, incluido el tiempo agotado (peor caso ≈ 93 s) |
 | D-04 | La llave se **valida siempre** (`@NotBlank`), en todos los perfiles. `application-local.properties` trae una llave falsa por defecto y las pruebas fijan otra, así que cualquiera puede correr el servicio sin secretos reales. En `production` no hay valor por defecto: sin el secreto, el servicio no arranca | Cumple el criterio 3 y la recomendación de Backend (que solo falle en producción) sin código que dependa del perfil ni perfiles nuevos | Validación condicionada al perfil activo |
 | D-05 | Clasificación de los fallos del modelo: el tiempo agotado, el error del proveedor (5xx, E/S cortada, 4xx distinto de 429) y la respuesta vacía o inutilizable dan `LLM_UNAVAILABLE`; la cuota agotada del proveedor (429 `RESOURCE_EXHAUSTED`) da `LLM_LIMIT_REACHED`. Los dos responden `503`, porque quien usa el sistema no superó ningún límite propio | Frontend puede mostrar un mensaje distinto, y ningún fallo previsible termina en `INTERNAL_ERROR`. `LIMIT_REACHED` es una causa del vocabulario cerrado del estándar | Un solo código para todo; `429` para la cuota del proveedor |
-| D-06 | El modelo se elige con la variable `LLM_MODEL`, obligatoria y sin valor por defecto en el código. La temperatura y el nivel de pensamiento se fijan en `application.properties` con los valores de PD-02 y PD-04 | El estándar prohíbe convertir en constante un valor pendiente de decisión. El modelo cambia por ambiente y por costo, y la temperatura no | Un id de modelo escrito en el código |
+| D-06 | El modelo se elige con la variable `LLM_MODEL`, obligatoria y sin valor por defecto en el código. El valor de staging es `gemini-3.7-flash` (PD-01). La temperatura (`1.0`, PD-02) y el nivel de pensamiento (`low`, PD-04) se fijan en `application.properties` | El estándar prohíbe convertir en constante un valor pendiente de decisión. El modelo cambia por ambiente y por costo, y la temperatura no | Un id de modelo escrito en el código |
 | D-07 | En el log solo van el `requestId` (cuando hay petición), la duración en milisegundos y el resultado (`ok` o el `ErrorCode`). Nunca la llave, el texto enviado ni el texto recibido | SEG-04, sección 6 del `CLAUDE.md` y Ley 1581 | Registrar el prompt truncado |
 | D-08 | La cobertura de lo nuevo es el mínimo del equipo: 70 % de líneas y de ramas, medido con JaCoCo, con el número real por clase tocada y la razón de cada línea o rama sin cubrir | Lo fija Backend para esta revisión | El 90 % de la sección 9 del estándar |
 
@@ -133,14 +133,14 @@ Ejemplo:
 | Propiedad | Variable | Obligatoria | Valor por defecto | Regla | Si no cumple |
 |---|---|---|---|---|---|
 | `cameia.llm.api-key` | `GOOGLE_GENAI_API_KEY` | Sí | Vacío en la base; llave falsa en `local` y en las pruebas (D-04) | No vacía ni en blanco | No arranca (REQ-02) |
-| `cameia.llm.model` | `LLM_MODEL` | Sí | Ninguno | No vacío ni en blanco; el id exacto de PD-01 | No arranca (REQ-03) |
+| `cameia.llm.model` | `LLM_MODEL` | Sí | Ninguno | No vacío ni en blanco; en staging, `gemini-3.7-flash` (PD-01) | No arranca (REQ-03) |
 | `cameia.llm.timeout` | `LLM_TIMEOUT` | No | `30s` | Duración de Spring mayor que cero (`30s`, `500ms`, `PT30S`) | No arranca (REQ-04) |
-| `cameia.llm.temperature` | — | Sí | Valor de PD-02, fijo en `application.properties` | Entre `0.0` y `2.0` | No arranca |
-| `cameia.llm.thinking-level` | — | Sí | Valor de PD-04, fijo en `application.properties` | Uno de los niveles que acepta `GoogleGenAiThinkingLevel` | No arranca |
+| `cameia.llm.temperature` | — | Sí | `1.0`, fijo en `application.properties` (PD-02). Es el valor por defecto del modelo, y la familia Gemini 3 está pensada para trabajar con él | Entre `0.0` y `2.0` | No arranca |
+| `cameia.llm.thinking-level` | — | Sí | `low`, fijo en `application.properties` (PD-04) | Uno de los niveles que acepta `GoogleGenAiThinkingLevel` | No arranca |
 
 Se retira `spring.ai.google.genai.api-key` de `application.properties`: el cliente de Gemini lo crea `LanguageModelConfiguration` a partir de `cameia.llm`, y la autoconfiguración de Spring AI lo respeta (`@ConditionalOnMissingBean`).
 
-**Límite de uso del proveedor:** se escribe aquí con PD-03 antes de aprobar la spec (solicitud 4.2 del aviso de coordinación).
+**Límite de uso del proveedor:** 10 peticiones, valor provisional fijado por el Product Owner el 20 de octubre de 2026 hasta que un spike futuro dé el valor definitivo (PD-07). Hoy el único que llama al modelo es la prueba manual (D-02), que hace una petición por ejecución. CM-312 no cuenta ni corta peticiones: hacerlo es trabajo de la Guardia de Cuota (H-1). Si el proveedor corta antes, responde 429 y el servicio da `LLM_LIMIT_REACHED` (D-05).
 
 ## 7. Casos borde
 
@@ -208,9 +208,10 @@ El diagrama C3 del microservicio de Entrevista es un modelo propuesto. Al revisa
 
 | # | Pendiente | Responsable | Para cuándo | Bloquea |
 |---|---|---|---|---|
-| PD-01 | Id exacto en la API del modelo «Gemini 3.7 Flash», confirmado en Google AI Studio | Product Owner | Antes de aprobar la spec | El valor de `LLM_MODEL` en `.env.example` y en el despliegue de staging (REQ-21) |
-| PD-02 | Temperatura del modelo | Product Owner | Antes de aprobar la spec | `cameia.llm.temperature` |
-| PD-03 | Límite de uso del plan gratuito del proveedor para ese modelo (peticiones por minuto y por día, tokens por minuto) | Product Owner | Antes de aprobar la spec | La sección 6 |
-| PD-04 | Nivel de pensamiento por defecto. Se recomienda el más bajo que el modelo acepte: con un tope de salida bajo, el pensamiento puede consumir los tokens y dejar la respuesta vacía | Product Owner | Antes de aprobar la spec | `cameia.llm.thinking-level` y la prueba real con pocos tokens |
-| PD-05 | Nueva fecha de fusión: el aviso de coordinación pedía el 19 de octubre de 2026 | Product Owner, en el hilo del aviso | 20 de octubre de 2026 | El inicio del código de CM-311 |
+| PD-01 | Id exacto en la API del modelo «Gemini 3.7 Flash», confirmado en Google AI Studio. **Resuelto el 20 de octubre de 2026:** `gemini-3.7-flash` | Product Owner | Antes de aprobar la spec | El valor de `LLM_MODEL` en `.env.example` y en el despliegue de staging (REQ-21) |
+| PD-02 | Temperatura del modelo. **Resuelto el 20 de octubre de 2026:** `1.0`, el valor por defecto | Product Owner | Antes de aprobar la spec | `cameia.llm.temperature` |
+| PD-03 | Límite de uso del plan gratuito del proveedor para ese modelo. **Resuelto el 20 de octubre de 2026:** 10 peticiones, provisional (sección 6 y PD-07) | Product Owner | Antes de aprobar la spec | La sección 6 |
+| PD-04 | Nivel de pensamiento por defecto. Con un tope de salida bajo, el pensamiento puede consumir los tokens y dejar la respuesta vacía. **Resuelto el 20 de octubre de 2026:** `low`; la prueba real confirma que alcanza con 16 tokens | Product Owner | Antes de aprobar la spec | `cameia.llm.thinking-level` y la prueba real con pocos tokens |
+| PD-05 | Nueva fecha de fusión: el aviso de coordinación pedía el 19 de octubre de 2026. **Resuelto el 20 de octubre de 2026:** se fusiona el mismo 20 de octubre; falta avisarlo en el hilo | Product Owner, en el hilo del aviso | 20 de octubre de 2026 | El inicio del código de CM-311 |
 | PD-06 | Confirmar con la primera llamada real que la versión 1 del secreto `google-genai-api-key-staging` es una llave real, sin leerla ni registrarla | Product Owner con DevOps | Con la prueba real | El criterio 1 en staging |
+| PD-07 | Spike del límite de uso: valor definitivo, ventana (por minuto o por día) y si se cuenta en peticiones o en tokens | Product Owner | Antes de que un caso de uso llame al modelo (HU-4.5 o HU-5.2) | El valor de la sección 6 y la Guardia de Cuota (H-1) |
