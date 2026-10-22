@@ -162,7 +162,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
   1. `GeminiLanguageModelLiveTest`:
      - `@EnabledIfEnvironmentVariable(named = "LLM_LIVE_TEST", matches = "true")`;
      - arranca el contexto con las variables reales;
-     - envía el prompt «Responde OK y luego una frase tuya de máximo seis palabras.» con un tope de 16 tokens;
+     - envía el prompt «Responde OK y luego una frase tuya de máximo seis palabras.» con un tope de 64 tokens (con 16, el pensamiento se gastaba todo el tope);
      - comprueba que el texto no está en blanco, sin imprimirlo.
   2. `ErrorCodeDocumentationTest`: copiar la de Cuentas.
   3. `docs/errores.md`:

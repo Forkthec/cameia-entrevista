@@ -20,7 +20,7 @@ import tech.cameia.entrevista.infrastructure.config.ia.LanguageModelProperties;
  * <p>Es manual y nunca corre en la integración continua: solo se ejecuta con
  * {@code LLM_LIVE_TEST=true}. Usa la configuración real del servicio, así que toma
  * {@code GOOGLE_GENAI_API_KEY} y {@code LLM_MODEL} del entorno o del {@code .env}. Gasta muy
- * pocos tokens: un prompt fijo y corto y un tope de 16 tokens de salida. No imprime la llave
+ * pocos tokens: un prompt fijo y corto y un tope de 64 tokens de salida, que incluye el pensamiento del modelo. No imprime la llave
  * ni el texto recibido, solo el modelo, los tokens y la longitud del texto.</p>
  *
  * <p>Ejecución en PowerShell:
@@ -35,7 +35,7 @@ class GeminiLanguageModelLiveTest {
 
     private static final String PROMPT = "Responde OK y luego una frase tuya de máximo seis palabras.";
 
-    private static final int TOPE_DE_TOKENS = 16;
+    private static final int TOPE_DE_TOKENS = 64;
 
     @Autowired
     private LanguageModelPort modelo;

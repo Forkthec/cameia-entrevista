@@ -88,7 +88,7 @@ El estimado pasa de 1000, así que se prevé el PR B2 (configuración de desplie
 |---|---|
 | El SDK de Google GenAI reintenta por su cuenta | `HttpRetryOptions` con `attempts = 1`, y la prueba de tiempo agotado cuenta exactamente una petición en el servidor simulado |
 | Spring AI usa su `RetryTemplate` por defecto, que reintenta varias veces | Bean `RetryTemplate` sin reintentos y las pruebas de 429 y 503 cuentan una petición. Si la autoconfiguración no toma el bean, se detiene la tarea y se reporta |
-| El pensamiento del modelo consume el tope de 16 tokens y la respuesta llega vacía | PD-04: nivel `minimal` (con `low` la primera prueba real dio texto vacío a los 26,6 s). La prueba real lo confirma; si da vacío, se reporta antes de subir el tope o de bajar el nivel |
+| El pensamiento del modelo consume el tope de 16 tokens y la respuesta llega vacía | PD-04: nivel `low`, el más bajo que admite `gemini-3.8-flash` (rechaza `minimal`); con 16 tokens la respuesta llegó vacía, así que la prueba real usa 64. La prueba real lo confirma; si da vacío, se reporta antes de subir el tope o de bajar el nivel |
 | Gemini acepta `baseUrl` solo con cierto formato de ruta | La prueba de éxito con el servidor simulado lo comprueba primero (tarjeta T-06); si no funciona, se detiene y se reporta |
 | La llave aparece en el mensaje de un arranque fallido | Prueba con salida capturada (`OutputCaptureExtension`) y `toString` enmascarado |
 | Staging deja de arrancar por falta de `LLM_MODEL` | El workflow se actualiza en el mismo PR (o en B2) y DevOps revisa el cambio |
