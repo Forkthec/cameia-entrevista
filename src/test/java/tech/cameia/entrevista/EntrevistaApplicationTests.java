@@ -15,6 +15,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
+import tech.cameia.entrevista.support.WithLanguageModelProperties;
+
 /**
  * Prueba de arranque del contexto completo contra PostgreSQL 16 real.
  *
@@ -22,7 +24,8 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
  * y que Hibernate valida su mapeo contra el esquema resultante ({@code ddl-auto=validate}).
  * Se omite si no hay Docker disponible.</p>
  */
-@SpringBootTest(properties = "cameia.llm.model=modelo-de-prueba")
+@SpringBootTest
+@WithLanguageModelProperties
 @Testcontainers(disabledWithoutDocker = true)
 class EntrevistaApplicationTests {
 

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import tech.cameia.entrevista.support.WithLanguageModelProperties;
+
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -45,6 +47,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
  * {@link JdbcTemplate} usa el {@code search_path} por defecto. Se omite si no hay Docker.</p>
  */
 @SpringBootTest
+@WithLanguageModelProperties
 @Testcontainers(disabledWithoutDocker = true)
 class InterviewSchemaMigrationTest {
 

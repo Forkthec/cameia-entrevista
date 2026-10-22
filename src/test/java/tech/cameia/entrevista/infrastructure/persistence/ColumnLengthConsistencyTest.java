@@ -2,6 +2,8 @@ package tech.cameia.entrevista.infrastructure.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import tech.cameia.entrevista.support.WithLanguageModelProperties;
+
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +27,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
  * si no hay Docker.</p>
  */
 @SpringBootTest
+@WithLanguageModelProperties
 @Testcontainers(disabledWithoutDocker = true)
 class ColumnLengthConsistencyTest {
 
