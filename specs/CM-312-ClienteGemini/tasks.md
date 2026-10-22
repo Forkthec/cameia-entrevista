@@ -110,7 +110,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-06 · Cliente de Gemini sin reintentos
 
-- [ ] **Cubre.** REQ-06 y D-03.
+- [x] **Cubre.** REQ-06 y D-03.
 - **Archivos.** Crear `.../infrastructure/config/ia/LanguageModelConfiguration.java`.
 - **Hacer.**
   1. Bean `com.google.genai.Client` construido con `Client.builder().apiKey(...).httpOptions(...)`:
@@ -181,6 +181,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
   1. `.env.example`: `LLM_MODEL=gemini-3.7-flash` (PD-01) y `LLM_TIMEOUT=30s`, cada una con su comentario. La nota de `GOOGLE_GENAI_API_KEY` dice que sin llave el servicio no arranca, salvo en `local`, que trae una llave falsa.
   2. `docker-compose.yml`: pasar `LLM_MODEL` (obligatoria, con `:?`) y `LLM_TIMEOUT`.
   3. Workflow: agregar `LLM_MODEL=gemini-3.7-flash` a `--set-env-vars`.
+  Los pasos 1 a 3 se adelantaron al PR de T-06 (21 de octubre de 2026): T-06 hace obligatorio `LLM_MODEL`, y sin él staging no arranca si ese PR se despliega antes que este.
   4. `CLAUDE.md`:
      - sección 2: los paquetes que ya existen;
      - sección 4: los códigos emitidos, con un enlace a `docs/errores.md`;

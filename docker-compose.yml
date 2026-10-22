@@ -58,6 +58,9 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:?definir DB_PASSWORD en el archivo .env}
       # Clave del proveedor LLM: se inyecta desde el entorno, nunca desde la imagen
       GOOGLE_GENAI_API_KEY: ${GOOGLE_GENAI_API_KEY:?definir GOOGLE_GENAI_API_KEY en el archivo .env}
+      # Modelo de Gemini, obligatorio; y tiempo maximo de espera de cada llamada, 30s si se omite
+      LLM_MODEL: ${LLM_MODEL:?definir LLM_MODEL en el archivo .env}
+      LLM_TIMEOUT: ${LLM_TIMEOUT:-30s}
       JAVA_OPTS: ${JAVA_OPTS:-}
       API_DOCS_ENABLED: ${API_DOCS_ENABLED:-false}
     ports:
