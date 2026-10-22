@@ -129,13 +129,13 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-07 · Adaptador: camino feliz
 
-- [ ] **Cubre.** REQ-07, REQ-13 y REQ-14.
+- [x] **Cubre.** REQ-07, REQ-13 y REQ-14.
 - **Archivos.** Crear `.../infrastructure/ia/GeminiLanguageModelAdapter.java` y `package-info.java` (con el Router documentado, D-01). Borrar `.../infrastructure/ia/.gitkeep`.
 - **Hacer.**
   1. Implementar `LanguageModelPort` con el `ChatModel` inyectado, pasando por llamada `GoogleGenAiChatOptions.builder().model(...).temperature(...).maxOutputTokens(...).thinkingLevel(...)`.
   2. Devolver un `LanguageModelResponse` con el texto del primer resultado, los tokens de entrada y de salida del `Usage` de Spring AI y el modelo de los metadatos de la respuesta (o el configurado, si no viene).
   3. Registrar en `INFO` la línea `Llamada al modelo [resultado={}, duracionMs={}]`, sin el texto.
-- **Prueba.** `GeminiLanguageModelAdapterTest`, con un `HttpServer` del JDK en el puerto 0 que responde 200 con un cuerpo `generateContent` mínimo que trae el texto `OK`. Comprueba que el texto es `OK`, que los tokens son los del `usageMetadata` del cuerpo, que el servidor recibió una petición con el modelo configurado en la ruta, y el caso sin `usageMetadata` (`0` y `0`).
+- **Prueba.** `GeminiLanguageModelAdapterTest`, con un `HttpServer` del JDK en el puerto 0 que responde 200 con un cuerpo `generateContent` mínimo que trae el texto `OK`. Comprueba que el texto es `OK`, que los tokens son los del `usageMetadata` del cuerpo, que el servidor recibió una petición con el modelo configurado en la ruta, y el caso con `usageMetadata` y `modelVersion` vacíos (`0`, `0` y el modelo configurado). Spring AI 2.0.1 no acepta una respuesta sin esos dos campos: ese caso va en T-08.
 - **Detenerse si** el SDK no envía la petición al `baseUrl` del servidor simulado: se reporta qué ruta pide.
 - **Terminado cuando** la prueba pasa y el commit es `CM-312 | feat(ia): adaptador de Gemini`.
 
