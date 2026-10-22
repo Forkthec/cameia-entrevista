@@ -496,6 +496,8 @@ Peticiones y `pm.test` exactos: las 4 de la spec §12. La primera (`GET /health`
 
 **Commit:** `CM-311 | docs(entrevista): catálogo de errores, ADR 0006 y CLAUDE.md al día`.
 
+**Resultado (22-oct):** hecho. `ErrorCodeDocumentationTest`, `ErrorCodeTest` y `LayeredArchitectureTest` en verde. Ajustes frente a la tarjeta: `docs/errores.md` ya tenía las filas desde T3; aquí solo cambia la sección «Respuestas sin código», que deja de decir «Ninguna» porque la exploración real de T7 encontró dos respuestas fuera del formato del servicio (ruta con `%zz` y `GET /error`) y un `500` para un multipart roto; quedan documentadas como pendientes de decisión de Paula. Los `package-info` faltaban en la raíz, en `presentation.dto` y en `infrastructure.config.documentation`. La entrada de bitácora 03 la redacté yo a partir de la spec: Paula debe revisar que el prompt refleja lo que pidió.
+
 ---
 
 ## T9 · Verificación única sobre la punta

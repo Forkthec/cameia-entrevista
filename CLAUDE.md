@@ -51,7 +51,7 @@ tech.cameia.entrevista
     └── config              // configuración de Spring
 ```
 
-Hoy el código tiene `presentation.controller` y `presentation.dto` (el endpoint de salud), `presentation.advice` (el manejador de errores), `domain.exception` (los códigos y las excepciones de negocio), `domain.port` y `domain.model` (el puerto del modelo de lenguaje con su prompt y su respuesta), `infrastructure.ia` (el adaptador de Gemini), `infrastructure.config.ia` (la configuración del modelo) e `infrastructure.config.documentation` (la configuración de OpenAPI); el resto del árbol es la estructura prevista.
+Hoy el código tiene: `presentation.controller` y `presentation.dto` (el endpoint de salud), `presentation.advice` (el manejador de errores), `presentation.filter` (el filtro del `requestId`), `domain.model` (sesión, turno, estados, objetos de valor, enumerados y el prompt y la respuesta del modelo de lenguaje), `domain.exception` (excepciones de negocio y catálogo de códigos), `domain.port` (los puertos de sesión, turno, claves anti-duplicados y modelo de lenguaje), `infrastructure.persistence` (entidades, convertidores, mapeadores y adaptadores), `infrastructure.ia` (el adaptador de Gemini), `infrastructure.config.ia` (la configuración del modelo) e `infrastructure.config.documentation` (la configuración de OpenAPI); el resto del árbol es la estructura prevista.
 
 **Regla de dependencias.** `domain` no importa nada de `presentation`, `application` ni `infrastructure`; `application` depende de `domain` solo por puertos; `infrastructure` implementa los puertos de `domain`. La prueba de arquitectura que debe vigilarla está pendiente (sección 10); mientras tanto la regla se comprueba en la revisión de cada PR.
 
@@ -81,14 +81,14 @@ No se confía en un encabezado enviado directamente por un cliente externo, y no
 
 - La versión va en la ruta: `/api/v1/...`. La ruta de salud, `GET /health`, es la excepción: no es contrato de negocio.
 - Los nombres JSON van en `camelCase`.
-- Los errores son `ProblemDetail` (RFC 9457) con `Content-Type: application/problem+json`. El formato y las reglas están en la [sección 6 del estándar](docs/estandar-backend.md#6-errores) y lo que el servicio emite hoy, en [docs/errores.md](docs/errores.md): `BusinessExceptionHandler` emite `LLM_UNAVAILABLE` y `LLM_LIMIT_REACHED` (503) e `INTERNAL_ERROR` (500); los rechazos de protocolo (404, 405, 415, 406 y 400) todavía salen con el cuerpo por defecto de Spring Boot, sin `code` (sección 10).
+- Los errores son `ProblemDetail` (RFC 9457) con `Content-Type: application/problem+json;charset=UTF-8`, `code` y `requestId`; los produce `BusinessExceptionHandler`. El formato y las reglas están en la [sección 6 del estándar](docs/estandar-backend.md#6-errores) y el catálogo de lo que el servicio emite, en [docs/errores.md](docs/errores.md). Cada código de dominio se registra en la tabla del manejador, y una prueba comprueba que todo código del catálogo tiene su fila en `docs/errores.md`.
 - Un fallo técnico se registra completo en el log y al cliente solo le llega un texto genérico.
 
 **Documentación de la API.** OpenAPI en `http://localhost:8083/v3/api-docs` y Swagger UI en `http://localhost:8083/swagger-ui.html`. Las dos rutas se publican y se retiran juntas, porque el JSON ya expone el contrato completo. Solo se publican en desarrollo: `application.properties` las deja apagadas, el perfil `local` las enciende y el perfil `production` las apaga, de modo que en despliegue responden `404`. La variable `API_DOCS_ENABLED` invierte ese valor por defecto sin reconstruir la imagen. Decisión en el [ADR 0004](docs/adr/0004-exposicion-de-la-documentacion-de-la-api.md).
 
 ## 5. Datos
 
-PostgreSQL 16 con JPA, con base y rol propios y `spring.jpa.open-in-view=false`. El servicio todavía no tiene entidades ni migraciones: la primera migración será Flyway, según la [sección 7 del estándar](docs/estandar-backend.md#7-base-de-datos).
+PostgreSQL 16 con JPA, con base y rol propios, esquema `microentrevista` y `spring.jpa.open-in-view=false`. El esquema lo instala Flyway (`src/main/resources/db/migration`) y Hibernate solo lo valida (`ddl-auto=validate`); todo cambio de esquema es una migración nueva, según la [sección 7 del estándar](docs/estandar-backend.md#7-base-de-datos). Las tablas, los estados y los límites están en el [ADR 0006](docs/adr/0006-estados-y-esquema-del-motor-de-entrevista.md); las entidades JPA son solo las de sesión, turno y claves anti-duplicados, con `@Version` donde hay concurrencia.
 
 ## 6. Seguridad
 
@@ -101,9 +101,9 @@ PostgreSQL 16 con JPA, con base y rol propios y `spring.jpa.open-in-view=false`.
 
 ## 7. Pruebas
 
-- JUnit 5, con las pruebas bajo `src/test/java/tech/cameia/entrevista`: el arranque del contexto, la prueba del controlador de salud, las de configuración (interruptor de la documentación de la API, resolución del puerto y configuración del modelo), las del manejador de errores y las del adaptador de Gemini contra un servidor simulado del JDK.
+- JUnit 5, con las pruebas bajo `src/test/java/tech/cameia/entrevista`: dominio (estados, objetos de valor, excepciones y catálogo de errores), esquema y adaptadores de persistencia, web (manejador de errores, identidad, `requestId`, errores del framework con servidor real), arquitectura (ArchUnit: dependencias entre capas y excepciones de negocio) las de arranque y configuración, y las del adaptador de Gemini contra un servidor simulado del JDK.
 - Ninguna prueba automática usa la llave real del proveedor. La llamada real es manual: `GeminiLanguageModelLiveTest` solo corre con `LLM_LIVE_TEST=true` y toma `GOOGLE_GENAI_API_KEY` y `LLM_MODEL` del entorno o del `.env` (en PowerShell: `$env:LLM_LIVE_TEST="true"; ./mvnw.cmd test "-Dtest=GeminiLanguageModelLiveTest"`).
-- Las pruebas de persistencia y de integración usan PostgreSQL real en Testcontainers y puerto aleatorio. Testcontainers todavía no está declarado; está pendiente (sección 10).
+- Las pruebas de persistencia y de integración usan PostgreSQL real en Testcontainers y puerto aleatorio; se omiten si no hay Docker. Todo `@SpringBootTest` lleva `@WithLanguageModelProperties` (las cinco propiedades falsas del modelo de lenguaje). El controlador `ErrorProbeController` existe solo en `src/test`.
 - Las clases `*Test` las ejecuta Surefire. Las reglas de pruebas y de cobertura están en la [sección 9 del estándar](docs/estandar-backend.md#9-pruebas-y-cobertura).
 
 ## 8. Verificación
@@ -121,7 +121,7 @@ Rama, commit, tipos, título de PR, revisión y merge: rige [CONTRIBUTING.md](CO
 
 - El título del PR lleva `[IA-ASISTIDO]` al final cuando hubo IA; el commit no lo lleva. Un commit asistido por IA lleva el trailer `Co-Authored-By` con el modelo.
 - Una IA puede abrir un PR; nunca lo fusiona. El control humano lo marca la persona que revisa.
-- Un PR cubre una pieza reconocible y no pasa de 1000 líneas entre agregadas y eliminadas.
+- Un PR por tarea, sin tope de líneas; dentro del PR, un commit por capacidad en orden de lectura.
 - Antes del código hay una spec aprobada en `specs/CM-NNN-Descripcion/` (`spec.md`, `plan.md` y `tasks.md`); el flujo está en la sección 12 de [docs/estandar-backend.md](docs/estandar-backend.md).
 - Las decisiones con peso humano se registran en [docs/bitacora-ia/](docs/bitacora-ia/README.md).
 
@@ -131,10 +131,6 @@ Las specs nuevas viven en `specs/CM-NNN-Descripcion/` con `Descripcion` en Pasca
 
 | Pendiente | Responsable | Qué bloquea |
 |---|---|---|
-| Máquina de estados de la sesión (estados, transiciones y reglas por modo) | Product Owner | Todo estado, transición o regla de modo: el servicio no los implementa sin una spec aprobada |
-| Prueba de arquitectura (`LayeredArchitectureTest` con ArchUnit) | Backend (CM-283) | Vigilar la regla de dependencias de la sección 2 |
-| Testcontainers para las pruebas con base de datos | Backend (CM-283) | Pruebas de persistencia y de integración |
-| Códigos de validación, identidad, base de datos y protocolo en el manejador de errores | Backend (CM-311) | Que toda respuesta de error lleve `code` y `requestId` (hoy los rechazos de protocolo salen sin ellos) |
 | Router LLM con selección por caso de uso y costo y respaldo a Kimi | La tarea que integre Kimi | Un segundo proveedor; hoy `LanguageModelPort` lo implementa solo el adaptador de Gemini |
 | Guardia de cuota y registro del consumo de tokens (hallazgos H-1 y H-2 de la spec de CM-312) | Product Owner y Backend | Limitar el uso del modelo por plan; el límite de hoy es provisional (10 peticiones) y no se hace cumplir en código |
 | Contenido de las trazas hacia Langfuse (hallazgo H-3 de la spec de CM-312) | Backend y Product Owner | Integrar Langfuse sin enviar prompts ni respuestas con datos de la persona |

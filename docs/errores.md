@@ -44,7 +44,14 @@ historias que agregan las rutas de sesión; hasta entonces el servicio no los em
 
 ## Respuestas sin código
 
-Ninguna.
+Estas respuestas no pasan por el manejador de errores y por eso no llevan `code`, `requestId` ni `application/problem+json`. Están pendientes de decisión:
+
+| Petición | Respuesta actual | Quién la produce |
+|---|---|---|
+| Ruta con codificación porcentual inválida, por ejemplo `GET /%zz` | 400 con la página HTML de error del servidor web | Tomcat, antes de llegar a Spring |
+| `GET /error` pedido directamente | 500 con `{"timestamp":…,"status":999,"error":"None"}` | La ruta de error por defecto de Spring Boot |
+
+Además, un cuerpo `multipart/form-data` sin límite (`boundary`) responde hoy `500 INTERNAL_ERROR`, el código de los fallos imprevistos, aunque el error es de quien llama.
 
 ## Cómo se agrega un código
 
