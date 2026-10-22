@@ -153,7 +153,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-09 · Prueba real y catálogo de errores
 
-- [ ] **Cubre.** El criterio 1 y REQ-19.
+- [x] **Cubre.** El criterio 1 y REQ-19. La ejecución manual con la llave real queda a cargo del Product Owner.
 - **Archivos.**
   - Crear `GeminiLanguageModelLiveTest.java`.
   - Crear `.../domain/exception/ErrorCodeDocumentationTest.java`.
@@ -168,7 +168,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
   3. `docs/errores.md`:
      - el apartado «Formato», con la forma y el `requestId`;
      - la tabla de tres filas de la sección 5 de la spec;
-     - «Respuestas sin código»: «Ninguna».
+     - «Respuestas sin código»: los rechazos de protocolo (404, 405, 415, 406 y 400) que Spring Boot responde con su cuerpo por defecto, con su destino en CM-311. No es «Ninguna», como decía esta tarjeta: el manejador los relanza (REQ-16).
 - **Verificación.** `./mvnw.cmd test` en verde, con la prueba real omitida. Después, una ejecución manual con `LLM_LIVE_TEST=true`, cuyo resultado se anota para el PR sin la llave ni el texto.
 - **Detenerse si** la prueba real devuelve el texto vacío: PD-04, se reporta antes de subir el tope.
 - **Terminado cuando** las dos pruebas existen y el commit es `CM-312 | docs(errores): catálogo de errores del cliente del modelo`.
