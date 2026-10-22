@@ -468,6 +468,8 @@ El filtro no registra nada. Javadoc con el motivo y el formato; sin referencias 
 
 **Commit:** `CM-311 | test(arquitectura): reglas de dependencias entre capas`.
 
+**Resultado (22-oct):** hecho. `LayeredArchitectureTest` 3 pruebas, 0 fallos, BUILD SUCCESS; ninguna clase de CM-312 la rompe. Las dos reglas del dominio no llevan `allowEmptyShould` (el dominio ya tiene clases, así que no pueden pasar vacías); la de `application` sí, porque esa capa aún no tiene clases.
+
 ---
 
 ## T7 · Postman (P6)
