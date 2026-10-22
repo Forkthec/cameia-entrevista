@@ -175,7 +175,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-10 · Configuración de uso y despliegue
 
-- [ ] **Cubre.** REQ-20 y REQ-21.
+- [x] **Cubre.** REQ-20 y REQ-21.
 - **Archivos.** `.env.example`, `docker-compose.yml`, `.github/workflows/despliegue-continuo.yml` y `CLAUDE.md`.
 - **Hacer.**
   1. `.env.example`: `LLM_MODEL=gemini-3.7-flash` (PD-01) y `LLM_TIMEOUT=30s`, cada una con su comentario. La nota de `GOOGLE_GENAI_API_KEY` dice que sin llave el servicio no arranca, salvo en `local`, que trae una llave falsa.
