@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
@@ -19,6 +20,7 @@ import tech.cameia.entrevista.domain.model.AnswerMode;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.InterviewSession;
+import tech.cameia.entrevista.domain.model.SessionSnapshot;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 
@@ -237,5 +239,18 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
 
         assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.turno", Integer.class)).isZero();
         assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.pregunta", Integer.class)).isZero();
+    }
+
+    @Test
+    @DisplayName("Una restricción distinta de las de duplicado se propaga sin traducir")
+    void save_shouldPropagate_whenOtherConstraintViolated() {
+        // En curso con fecha de cierre: la base lo rechaza con ck_sesion_fecha_fin, que no es un duplicado.
+        InterviewSession inconsistent = InterviewSession.reconstitute(new SessionSnapshot(UUID.randomUUID(),
+                new FirebaseUid("uid-a"), configuration(null, InterviewLanguage.ENGLISH, AnswerMode.TEXT, "{}"),
+                SessionStatus.IN_PROGRESS, 0, CLOCK.instant(), CLOCK.instant(), CLOCK.instant(), CLOCK.instant(),
+                null));
+
+        assertThatThrownBy(() -> sessions.save(inconsistent)).isInstanceOf(DataIntegrityViolationException.class);
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.sesion", Integer.class)).isZero();
     }
 }
