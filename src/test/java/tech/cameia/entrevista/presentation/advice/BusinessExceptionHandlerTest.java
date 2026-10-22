@@ -1,8 +1,13 @@
 package tech.cameia.entrevista.presentation.advice;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
+import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -18,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
@@ -47,6 +53,11 @@ class BusinessExceptionHandlerTest {
     private static final String UUID_V4 = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
 
     private static final String DETALLE = "Ocurrió un error. Inténtalo de nuevo.";
+
+    private final MockMvc probe = MockMvcBuilders
+            .standaloneSetup(new ErrorProbeController())
+            .setControllerAdvice(ProblemDetailTestSupport.manejadorDeErrores())
+            .build();
 
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new FailingController())
@@ -144,31 +155,151 @@ class BusinessExceptionHandlerTest {
                 .contains("java.io.IOException: conexión cortada");
     }
 
-    @Test
-    @DisplayName("Un método no admitido sigue respondiendo 405 y no se registra como fallo")
-    void falloInterno_shouldKeepSpringStatus_whenMethodIsNotAllowed(CapturedOutput salida) throws Exception {
-        mockMvc.perform(post("/sin-modelo"))
-                .andExpect(status().isMethodNotAllowed());
-
-        assertThat(salida.getOut()).doesNotContain("Fallo no controlado");
+    @ParameterizedTest(name = "{0}")
+    @CsvSource(delimiter = '|', value = {
+        "SESSION_TRANSITION_NOT_ALLOWED|409|Acción no permitida|Esta entrevista ya no admite esa acción.",
+        "TURN_TRANSITION_NOT_ALLOWED|409|Acción no permitida|Esta pregunta ya no admite esa acción.",
+        "SESSION_CONFLICT|409|Cambio simultáneo|La entrevista cambió mientras se procesaba tu solicitud. Inténtalo de nuevo.",
+        "SESSION_ALREADY_EXISTS|409|Entrevista existente|Ya tienes una entrevista en preparación o en curso. Inténtalo de nuevo.",
+        "IDEMPOTENCY_KEY_ALREADY_EXISTS|409|Solicitud repetida|Esta solicitud ya se registró.",
+        "IDENTITY_REQUIRED|401|Identidad requerida|Tu sesión expiró. Inicia sesión de nuevo."
+    })
+    @DisplayName("Cada código de negocio responde con el estado, el título y el mensaje de su definición")
+    void businessException_shouldUseCatalog(String code, int estado, String titulo, String mensaje) throws Exception {
+        probe.perform(get("/test/errors/business/" + code))
+                .andExpect(status().is(estado))
+                .andExpect(header().string("Content-Type", "application/problem+json;charset=UTF-8"))
+                .andExpect(jsonPath("$.title").value(titulo))
+                .andExpect(jsonPath("$.detail").value(mensaje))
+                .andExpect(jsonPath("$.code").value(code))
+                .andExpect(jsonPath("$.requestId", not(emptyString())));
     }
 
     @Test
-    @DisplayName("Un cuerpo ilegible sigue respondiendo 400 y no se registra como fallo")
-    void falloInterno_shouldKeepSpringStatus_whenBodyIsNotReadable(CapturedOutput salida) throws Exception {
-        mockMvc.perform(post("/con-cuerpo").contentType(MediaType.APPLICATION_JSON).content("{no es json"))
-                .andExpect(status().isBadRequest());
-
-        assertThat(salida.getOut()).doesNotContain("Fallo no controlado");
+    @DisplayName("Dos campos inválidos devuelven 422 con un elemento por cada campo")
+    void validation_shouldReturn422WithEveryField_whenTwoFieldsInvalid() throws Exception {
+        probe.perform(post("/test/errors/body").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+                .andExpect(jsonPath("$.detail").value("Revisa los campos marcados."))
+                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("name", "city")))
+                .andExpect(jsonPath("$.errors[0].code").value("REQUEST_INVALID_VALUE"));
     }
 
     @Test
-    @DisplayName("Un parámetro de otro tipo sigue respondiendo 400 y no se registra como fallo")
-    void falloInterno_shouldKeepSpringStatus_whenParameterHasWrongType(CapturedOutput salida) throws Exception {
-        mockMvc.perform(get("/con-numero").param("valor", "abc"))
-                .andExpect(status().isBadRequest());
+    @DisplayName("Un JSON mal formado responde 422 REQUEST_BODY_INVALID_FORMAT")
+    void unreadableBody_shouldReturn422_whenJsonMalformed() throws Exception {
+        probe.perform(post("/test/errors/body").contentType(MediaType.APPLICATION_JSON).content("{\"name\":"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.code").value("REQUEST_BODY_INVALID_FORMAT"))
+                .andExpect(jsonPath("$.detail").value("Revisa el formato de los datos enviados."));
+    }
 
-        assertThat(salida.getOut()).doesNotContain("Fallo no controlado");
+    @Test
+    @DisplayName("Un tipo de contenido no admitido responde 415 MEDIA_TYPE_NOT_ALLOWED")
+    void unsupportedMediaType_shouldReturn415() throws Exception {
+        probe.perform(post("/test/errors/body").contentType(MediaType.TEXT_PLAIN).content("x"))
+                .andExpect(status().isUnsupportedMediaType())
+                .andExpect(jsonPath("$.code").value("MEDIA_TYPE_NOT_ALLOWED"));
+    }
+
+    @Test
+    @DisplayName("Un método no admitido responde 405 METHOD_NOT_ALLOWED con Allow")
+    void methodNotAllowed_shouldReturn405WithAllow() throws Exception {
+        probe.perform(post("/test/errors/ok"))
+                .andExpect(status().isMethodNotAllowed())
+                .andExpect(header().string("Allow", containsString("GET")))
+                .andExpect(jsonPath("$.code").value("METHOD_NOT_ALLOWED"));
+    }
+
+    @Test
+    @DisplayName("Un encabezado que falta y no es la identidad responde 422 REQUEST_INVALID_VALUE")
+    void missingHeader_shouldReturn422_whenNotIdentity() throws Exception {
+        probe.perform(get("/test/errors/header"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.code").value("REQUEST_INVALID_VALUE"))
+                .andExpect(jsonPath("$.detail").value("Revisa los datos enviados."));
+    }
+
+    @Test
+    @DisplayName("Un identificador que no es UUID responde 422 y ni el mensaje ni el log repiten el valor")
+    void typeMismatch_shouldReturn422_whenPathIsNotUuid(CapturedOutput salida) throws Exception {
+        // «instance» es la ruta que la propia persona pidió (RFC 9457); el valor no debe estar en otro miembro.
+        MvcResult resultado = probe.perform(get("/test/errors/typed/valor-secreto"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.code").value("REQUEST_INVALID_VALUE"))
+                .andExpect(jsonPath("$.detail").value("Revisa los datos enviados."))
+                .andReturn();
+
+        assertThat((String) JsonPath.read(resultado.getResponse().getContentAsString(), "$.detail"))
+                .doesNotContain("valor-secreto");
+        assertThat(salida.getOut()).contains("parametro=id").doesNotContain("valor-secreto");
+    }
+
+    @ParameterizedTest(name = "base caída: {0}")
+    @ValueSource(strings = {"transaction", "resource", "connection"})
+    @DisplayName("Una base de datos caída responde 503 DATABASE_UNAVAILABLE sin el mensaje técnico")
+    void databaseDown_shouldReturn503(String tipo, CapturedOutput salida) throws Exception {
+        MvcResult resultado = probe.perform(get("/test/errors/database/" + tipo))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.code").value("DATABASE_UNAVAILABLE"))
+                .andExpect(jsonPath("$.detail").value(DETALLE))
+                .andReturn();
+
+        assertThat(resultado.getResponse().getContentAsString()).doesNotContain("db-interno");
+        assertThat(salida.getOut()).contains("Base de datos no disponible [code=DATABASE_UNAVAILABLE");
+    }
+
+    @Test
+    @DisplayName("Una violación de restricción responde 500 INTERNAL_ERROR genérico")
+    void integrity_shouldReturn500Generic() throws Exception {
+        probe.perform(get("/test/errors/integrity"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
+                .andExpect(jsonPath("$.detail").value(DETALLE));
+    }
+
+    @Test
+    @DisplayName("Cualquier otra excepción responde 500 sin detalle interno")
+    void unexpected_shouldReturn500Generic_whenAnyException() throws Exception {
+        MvcResult resultado = probe.perform(get("/test/errors/boom"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
+                .andReturn();
+
+        assertThat(resultado.getResponse().getContentAsString())
+                .doesNotContain("detalle interno").doesNotContain("Exception").doesNotContain("trace");
+    }
+
+    @Test
+    @DisplayName("El log de un rechazo lleva el código y la identidad, y nunca el valor del cuerpo")
+    void logs_shouldNotContainBodyOrValues(CapturedOutput salida) throws Exception {
+        probe.perform(post("/test/errors/body").header("X-User-Id", "uid-a")
+                .contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"secreto-123\"}"))
+                .andExpect(status().isUnprocessableEntity());
+
+        assertThat(salida.getOut()).contains("VALIDATION_FAILED").contains("uid-a").doesNotContain("secreto-123");
+    }
+
+    @Test
+    @DisplayName("Una identidad inválida se registra como «-», nunca con su valor")
+    void logs_shouldMaskFirebaseUid_whenIdentityIsInvalid(CapturedOutput salida) throws Exception {
+        probe.perform(post("/test/errors/body").header("X-User-Id", "x".repeat(129))
+                .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnprocessableEntity());
+
+        assertThat(salida.getOut()).contains("firebaseUid=-").doesNotContain("x".repeat(129));
+    }
+
+    @Test
+    @DisplayName("Un código de negocio sin definición responde 500 INTERNAL_ERROR y se registra")
+    void negocio_shouldReturn500_whenCodeHasNoDefinition(CapturedOutput salida) throws Exception {
+        probe.perform(get("/test/errors/undefined-business"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
+
+        assertThat(salida.getOut()).contains("Código sin definición: LLM_UNAVAILABLE");
     }
 
     private static String requestIdDe(MvcResult resultado) throws Exception {

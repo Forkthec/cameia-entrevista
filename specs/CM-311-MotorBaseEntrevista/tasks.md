@@ -412,6 +412,8 @@ public interface IdempotencyKeyRepository {
 
 **Commit:** `CM-311 | feat(errores): manejador completo con identidad del Gateway`.
 
+**Resultado (22-oct):** hecho. 358 pruebas en todo el módulo, 0 fallos, 0 omitidas, BUILD SUCCESS (`BusinessExceptionHandlerTest` 28, `IdentityHeaderTest` 8, `RequestIdTest` 3, `FrameworkErrorsTest` 5 con servidor real y PostgreSQL, `UntypedExceptionClassificationTest` 1, `ErrorCodeTest` 17). Ajustes frente a la tarjeta: (1) las tres pruebas de CM-312 que fijaban el 400 de Spring para cuerpo ilegible y parámetro de otro tipo ahora esperan el 422 con código, que es lo que esta tarjeta define; (2) `typeMismatch_…` no exige que el cuerpo no contenga el valor enviado, porque `instance` repite la ruta que la propia persona pidió (RFC 9457): exige que `detail` y el log no lo repitan; (3) `pom.xml` agrega `spring-boot-restclient` en `test` (como Cuentas): sin él el contexto de `FrameworkErrorsTest` no arranca; (4) `HibernateConstraintViolation` está en `org.hibernate.validator.engine`; (5) el `package-info` de `presentation.controller` documenta el patrón de identidad.
+
 ---
 
 ## T5b · `requestId` en cada petición y en cada línea del registro (REQ-ERR-13 a 15; decisión P19)

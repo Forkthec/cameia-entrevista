@@ -98,10 +98,19 @@
 			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- TestRestTemplate para las pruebas de extremo a extremo por HTTP. -->
+		<!--
+			TestRestTemplate para las pruebas de extremo a extremo por HTTP. En Spring Boot 4 vive en
+			su propio modulo, junto con RestTemplateBuilder, que esta en spring-boot-restclient: sin
+			ese segundo modulo la autoconfiguracion no puede crear el cliente y el contexto no arranca.
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-resttestclient</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-restclient</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
