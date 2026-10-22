@@ -141,7 +141,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-08 · Adaptador: fallos
 
-- [ ] **Cubre.** REQ-09 a REQ-12 y D-05.
+- [x] **Cubre.** REQ-09 a REQ-12 y D-05.
 - **Archivos.** `GeminiLanguageModelAdapter.java` y `GeminiLanguageModelAdapterTest.java`.
 - **Hacer.** Capturar `RuntimeException` alrededor de la llamada, recorrer la cadena de causas y clasificar el fallo:
   - `ApiException` con `code() == 429` → `LlmLimitReachedException`;

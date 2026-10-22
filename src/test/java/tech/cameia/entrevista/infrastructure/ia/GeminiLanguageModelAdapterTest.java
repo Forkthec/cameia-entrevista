@@ -1,13 +1,17 @@
 package tech.cameia.entrevista.infrastructure.ia;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -17,6 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.ai.model.google.genai.autoconfigure.chat.GoogleGenAiChatAutoConfiguration;
 import org.springframework.ai.model.tool.autoconfigure.ToolCallingAutoConfiguration;
 import org.springframework.ai.retry.autoconfigure.SpringAiRetryAutoConfiguration;
@@ -27,6 +33,8 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
+import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
@@ -54,6 +62,9 @@ class GeminiLanguageModelAdapterTest {
     /** Lo que el servidor simulado responde; cada prueba lo fija antes de llamar. */
     private volatile Respuesta respuesta;
 
+    /** Retiene la respuesta del servidor en la prueba de tiempo agotado; se libera al cerrar. */
+    private final CountDownLatch liberarServidor = new CountDownLatch(1);
+
     @BeforeEach
     void arrancarServidor() throws IOException {
         servidor = HttpServer.create(new InetSocketAddress("localhost", 0), 0);
@@ -67,6 +78,7 @@ class GeminiLanguageModelAdapterTest {
 
     @AfterEach
     void detenerServidor() {
+        liberarServidor.countDown();
         servidor.stop(0);
     }
 
@@ -140,7 +152,112 @@ class GeminiLanguageModelAdapterTest {
                 .doesNotContain("clave-falsa-de-prueba");
     }
 
+    @Test
+    @DisplayName("Si el modelo no responde dentro del tiempo de espera, lanza LlmUnavailableException tras una sola petición")
+    void generate_shouldThrowUnavailableWithoutRetry_whenProviderTimesOut(CapturedOutput salida) {
+        respuesta = intercambio -> {
+            try {
+                liberarServidor.await();
+            } catch (InterruptedException interrumpido) {
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        contexto("200ms").run(arrancado -> assertThatThrownBy(() -> arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Responde OK.", 16)))
+                .isInstanceOf(LlmUnavailableException.class)
+                // OkHttp corta la llamada con «timeout»; debajo queda el «Canceled» de la cancelación.
+                .hasStackTraceContaining(InterruptedIOException.class.getName() + ": timeout"));
+
+        assertThat(rutas).hasSize(1);
+        assertThat(salida.getOut()).containsPattern("Llamada al modelo \\[resultado=LLM_UNAVAILABLE, duracionMs=\\d+]");
+    }
+
+    @Test
+    @DisplayName("Un 429 del proveedor lanza LlmLimitReachedException tras una sola petición")
+    void generate_shouldThrowLimitReached_whenProviderQuotaIsExhausted(CapturedOutput salida) {
+        respuesta = json(429, """
+                {"error":{"code":429,"message":"Resource has been exhausted","status":"RESOURCE_EXHAUSTED"}}
+                """);
+
+        assertThat(fallo()).isInstanceOf(LlmLimitReachedException.class);
+        assertThat(rutas).hasSize(1);
+        assertThat(salida.getOut()).contains("Llamada al modelo [resultado=LLM_LIMIT_REACHED");
+    }
+
+    @ParameterizedTest(name = "estado {0}")
+    @ValueSource(ints = {400, 500, 503})
+    @DisplayName("Otro estado de error del proveedor lanza LlmUnavailableException tras una sola petición")
+    void generate_shouldThrowUnavailable_whenProviderFails(int estado) {
+        respuesta = json(estado, """
+                {"error":{"code":%d,"message":"fallo del proveedor","status":"UNAVAILABLE"}}
+                """.formatted(estado));
+
+        assertThat(fallo()).isInstanceOf(LlmUnavailableException.class);
+        assertThat(rutas).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Una conexión cortada sin respuesta lanza LlmUnavailableException")
+    void generate_shouldThrowUnavailable_whenConnectionIsCut() {
+        respuesta = HttpExchange::close;
+
+        assertThat(fallo()).isInstanceOf(LlmUnavailableException.class);
+        assertThat(rutas).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Un cuerpo que no es JSON lanza LlmUnavailableException")
+    void generate_shouldThrowUnavailable_whenBodyIsNotJson() {
+        respuesta = json(200, "esto no es json");
+
+        assertThat(fallo()).isInstanceOf(LlmUnavailableException.class);
+        assertThat(rutas).hasSize(1);
+    }
+
+    @ParameterizedTest(name = "texto [{0}]")
+    @ValueSource(strings = {"", "   "})
+    @DisplayName("Una respuesta con el texto vacío o en blanco lanza LlmUnavailableException")
+    void generate_shouldThrowUnavailable_whenTextIsBlank(String texto) {
+        respuesta = json(200, respuestaCon(texto));
+
+        assertThat(fallo()).isInstanceOf(LlmUnavailableException.class);
+    }
+
+    @Test
+    @DisplayName("Una respuesta sin candidatos lanza LlmUnavailableException")
+    void generate_shouldThrowUnavailable_whenThereAreNoCandidates() {
+        respuesta = json(200, """
+                {"candidates":[],"usageMetadata":{"promptTokenCount":5},"modelVersion":"gemini-3.7-flash-001"}
+                """);
+
+        assertThat(fallo()).isInstanceOf(LlmUnavailableException.class);
+    }
+
+    @Test
+    @DisplayName("Una respuesta sin datos de uso ni versión del modelo lanza LlmUnavailableException")
+    void generate_shouldThrowUnavailable_whenMetadataIsMissing() {
+        respuesta = json(200, """
+                {"candidates":[{"content":{"role":"model","parts":[{"text":"OK"}]}}]}
+                """);
+
+        assertThat(fallo()).isInstanceOf(LlmUnavailableException.class);
+    }
+
+    /** Hace una llamada que debe fallar y devuelve la excepción que lanzó el adaptador. */
+    private Throwable fallo() {
+        Throwable[] lanzada = new Throwable[1];
+        contexto().run(arrancado -> lanzada[0] = catchThrowable(() -> arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Responde OK.", 16))));
+        assertThat(lanzada[0]).as("la llamada debía fallar").isNotNull();
+        return lanzada[0];
+    }
+
     private ApplicationContextRunner contexto() {
+        return contexto("5s");
+    }
+
+    private ApplicationContextRunner contexto(String timeout) {
         return new ApplicationContextRunner()
                 .withConfiguration(AutoConfigurations.of(
                         SpringAiRetryAutoConfiguration.class,
@@ -150,7 +267,7 @@ class GeminiLanguageModelAdapterTest {
                 .withPropertyValues(
                         "cameia.llm.api-key=clave-falsa-de-prueba",
                         "cameia.llm.model=modelo-de-prueba",
-                        "cameia.llm.timeout=5s",
+                        "cameia.llm.timeout=" + timeout,
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low",
                         "cameia.llm.base-url=http://localhost:" + servidor.getAddress().getPort());
