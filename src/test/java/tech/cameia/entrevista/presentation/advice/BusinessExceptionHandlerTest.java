@@ -4,11 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.jayway.jsonpath.JsonPath;
 
@@ -19,10 +21,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
@@ -138,6 +144,33 @@ class BusinessExceptionHandlerTest {
                 .contains("java.io.IOException: conexión cortada");
     }
 
+    @Test
+    @DisplayName("Un método no admitido sigue respondiendo 405 y no se registra como fallo")
+    void falloInterno_shouldKeepSpringStatus_whenMethodIsNotAllowed(CapturedOutput salida) throws Exception {
+        mockMvc.perform(post("/sin-modelo"))
+                .andExpect(status().isMethodNotAllowed());
+
+        assertThat(salida.getOut()).doesNotContain("Fallo no controlado");
+    }
+
+    @Test
+    @DisplayName("Un cuerpo ilegible sigue respondiendo 400 y no se registra como fallo")
+    void falloInterno_shouldKeepSpringStatus_whenBodyIsNotReadable(CapturedOutput salida) throws Exception {
+        mockMvc.perform(post("/con-cuerpo").contentType(MediaType.APPLICATION_JSON).content("{no es json"))
+                .andExpect(status().isBadRequest());
+
+        assertThat(salida.getOut()).doesNotContain("Fallo no controlado");
+    }
+
+    @Test
+    @DisplayName("Un parámetro de otro tipo sigue respondiendo 400 y no se registra como fallo")
+    void falloInterno_shouldKeepSpringStatus_whenParameterHasWrongType(CapturedOutput salida) throws Exception {
+        mockMvc.perform(get("/con-numero").param("valor", "abc"))
+                .andExpect(status().isBadRequest());
+
+        assertThat(salida.getOut()).doesNotContain("Fallo no controlado");
+    }
+
     private static String requestIdDe(MvcResult resultado) throws Exception {
         return JsonPath.read(resultado.getResponse().getContentAsString(), "$.requestId");
     }
@@ -159,6 +192,16 @@ class BusinessExceptionHandlerTest {
         @GetMapping("/falla")
         String falla() {
             throw new IllegalStateException("detalle interno");
+        }
+
+        @PostMapping("/con-cuerpo")
+        String conCuerpo(@RequestBody Map<String, String> cuerpo) {
+            return "ok";
+        }
+
+        @GetMapping("/con-numero")
+        String conNumero(@RequestParam int valor) {
+            return "ok";
         }
     }
 }

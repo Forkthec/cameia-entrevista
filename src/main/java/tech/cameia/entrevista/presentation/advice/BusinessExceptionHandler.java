@@ -11,8 +11,11 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestAttributes;
@@ -111,13 +114,34 @@ class BusinessExceptionHandler {
      * <p>Con la traza: es la única forma de diagnosticar un fallo que nadie previó. El
      * {@code requestId} de la respuesta lleva a esa línea del log.</p>
      *
+     * <p>Los rechazos de protocolo de Spring MVC (ruta inexistente, método o tipo de contenido no
+     * admitido, cuerpo ilegible, parámetro de otro tipo) no son fallos del servicio: se relanzan
+     * sin registrar, y Spring los responde como antes de existir este manejador, con su estado
+     * 4xx. Darles código propio le toca al motor base de la entrevista (CM-311).</p>
+     *
      * @param error excepción no prevista
      * @return {@code 500 Internal Server Error} con un mensaje genérico
+     * @throws Exception el mismo rechazo de protocolo, para que lo resuelva Spring
      */
     @ExceptionHandler(Exception.class)
-    ProblemDetail falloInterno(Exception error) {
+    ProblemDetail falloInterno(Exception error) throws Exception {
+        if (esRechazoDeProtocolo(error)) {
+            // Relanzar la misma excepción hace que Spring pase al siguiente resolvedor sin registrar nada.
+            throw error;
+        }
         return falloDelServicio(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", ErrorCode.INTERNAL_ERROR,
                 "Fallo no controlado", error);
+    }
+
+    /**
+     * Indica si la excepción es un rechazo de la petición que Spring MVC sabe responder: las que
+     * traen su propio estado ({@link ErrorResponse}) y las dos que el resolvedor por defecto
+     * traduce a {@code 400} sin traerlo.
+     */
+    private static boolean esRechazoDeProtocolo(Exception error) {
+        return error instanceof ErrorResponse
+                || error instanceof HttpMessageNotReadableException
+                || error instanceof TypeMismatchException;
     }
 
     /** Fallo del servicio (5xx), registrado una sola vez en {@code ERROR} con traza. */
