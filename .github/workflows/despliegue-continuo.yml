@@ -86,6 +86,10 @@ jobs:
       # puede ser temporal al principio y reemplazarse mas adelante sin tocar este
       # workflow, porque solo cambia el contenido del secreto, no su nombre.
       #
+      # LLM_MODEL: id del modelo de Gemini en la API (spec de CM-312, PD-01). Es obligatorio:
+      # sin el, el servicio no arranca. No es un secreto, por eso va en texto plano. El tiempo
+      # de espera (LLM_TIMEOUT) no se define aqui y queda en su valor por defecto, 30s.
+      #
       # SPRING_PROFILES_ACTIVE=production: el nombre de este perfil es "production", no
       # "prod" como en cameia-gateway/cameia-cuentas (application-production.properties,
       # no application-prod.properties) -- sin esta variable,
@@ -123,7 +127,7 @@ jobs:
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista" \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.7-flash" \
             --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
 
       - name: URL del servicio desplegado
