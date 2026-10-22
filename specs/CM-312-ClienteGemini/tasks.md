@@ -86,14 +86,14 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-05 · Puerto, prompt y propiedades
 
-- [ ] **Cubre.** REQ-01 a REQ-05 y REQ-08.
+- [x] **Cubre.** REQ-01 a REQ-05 y REQ-08.
 - **Archivos.**
   - En `.../domain/port/`: `LanguageModelPort.java` y `package-info.java`.
-  - En `.../domain/model/`: `LanguageModelPrompt.java` y `package-info.java`.
+  - En `.../domain/model/`: `LanguageModelPrompt.java`, `LanguageModelResponse.java` y `package-info.java`.
   - En `.../infrastructure/config/ia/`: `LanguageModelProperties.java` y `package-info.java`.
   - Borrar los `.gitkeep` de `domain/port` y `domain/model`.
 - **Hacer.**
-  1. `LanguageModelPort`: `String generate(LanguageModelPrompt prompt)`, con Javadoc que nombre las dos excepciones que puede lanzar.
+  1. `LanguageModelPort`: `LanguageModelResponse generate(LanguageModelPrompt prompt)` (D-09), con Javadoc que nombre las dos excepciones que puede lanzar.
   2. `LanguageModelPrompt`: `record(String text, int maxOutputTokens)` con las validaciones de REQ-08.
   3. `LanguageModelProperties`: `record` con `@ConfigurationProperties("cameia.llm")` y `@Validated`. Campos y reglas:
      - `apiKey`, `@NotBlank`;
@@ -103,7 +103,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
      - `thinkingLevel`, `@NotNull`.
      El `toString` enmascara `apiKey` con `****`. Los mensajes de validación nombran la variable de entorno.
 - **Prueba.**
-  - `LanguageModelPromptTest`: los casos de prompt y de tope de la sección 7.
+  - `LanguageModelPromptTest` y `LanguageModelResponseTest`: los casos de texto y de tope de la sección 7, y los de texto, modelo y tokens de la respuesta.
   - `LanguageModelPropertiesTest`: con `ApplicationContextRunner`, una configuración mínima que habilita las propiedades y `OutputCaptureExtension`, los casos de llave, modelo, timeout, secreto en el log y `toString` de la sección 7.
 - **Detenerse si** `jakarta.validation` no está en el classpath. Hoy llega como dependencia transitiva (`spring-boot-validation` → `hibernate-validator`). Si falta, no se agrega: se reporta, porque declarar la dependencia le toca a CM-311.
 - **Terminado cuando** las pruebas pasan y el commit es `CM-312 | feat(ia): puerto del modelo y configuración validada`.
@@ -133,9 +133,9 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 - **Archivos.** Crear `.../infrastructure/ia/GeminiLanguageModelAdapter.java` y `package-info.java` (con el Router documentado, D-01). Borrar `.../infrastructure/ia/.gitkeep`.
 - **Hacer.**
   1. Implementar `LanguageModelPort` con el `ChatModel` inyectado, pasando por llamada `GoogleGenAiChatOptions.builder().model(...).temperature(...).maxOutputTokens(...).thinkingLevel(...)`.
-  2. Devolver el texto del primer resultado.
+  2. Devolver un `LanguageModelResponse` con el texto del primer resultado, los tokens de entrada y de salida del `Usage` de Spring AI y el modelo de los metadatos de la respuesta (o el configurado, si no viene).
   3. Registrar en `INFO` la línea `Llamada al modelo [resultado={}, duracionMs={}]`, sin el texto.
-- **Prueba.** `GeminiLanguageModelAdapterTest`, con un `HttpServer` del JDK en el puerto 0 que responde 200 con un cuerpo `generateContent` mínimo que trae el texto `OK`. Comprueba que el resultado es `OK` y que el servidor recibió una petición con el modelo configurado en la ruta.
+- **Prueba.** `GeminiLanguageModelAdapterTest`, con un `HttpServer` del JDK en el puerto 0 que responde 200 con un cuerpo `generateContent` mínimo que trae el texto `OK`. Comprueba que el texto es `OK`, que los tokens son los del `usageMetadata` del cuerpo, que el servidor recibió una petición con el modelo configurado en la ruta, y el caso sin `usageMetadata` (`0` y `0`).
 - **Detenerse si** el SDK no envía la petición al `baseUrl` del servidor simulado: se reporta qué ruta pide.
 - **Terminado cuando** la prueba pasa y el commit es `CM-312 | feat(ia): adaptador de Gemini`.
 

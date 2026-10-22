@@ -47,6 +47,7 @@ Si el spike HU-5.14 elige Gemini para transcribir, sirve la misma llave: por eso
 | `domain.exception` | `LlmUnavailableException`, `LlmLimitReachedException` | Una excepción por código propio del cliente. Conservan la causa técnica solo para el log |
 | `domain.port` | `LanguageModelPort` | Interfaz que el resto del servicio usa para pedir texto al modelo, sin saber que detrás está Gemini |
 | `domain.model` | `LanguageModelPrompt` | Objeto de valor (`record`) con el texto que se envía y el tope de tokens de salida |
+| `domain.model` | `LanguageModelResponse` | Objeto de valor (`record`) con el texto de la respuesta, los tokens de entrada y de salida y el modelo que respondió (D-09) |
 | `infrastructure.ia` | `GeminiLanguageModelAdapter` | Implementa el puerto con el `ChatModel` de Spring AI. Valida la respuesta y traduce cada fallo a su excepción |
 | `infrastructure.config.ia` | `LanguageModelProperties` | Configuración tipada y validada al arrancar (`@ConfigurationProperties` y `@Validated`) |
 | `infrastructure.config.ia` | `LanguageModelConfiguration` | Crea el cliente de Gemini con la llave, el tiempo de espera y los reintentos apagados |
@@ -68,6 +69,7 @@ Decisiones humanas tomadas el 20 de octubre de 2026 por el Product Owner, a part
 | D-06 | El modelo se elige con la variable `LLM_MODEL`, obligatoria y sin valor por defecto en el código. El valor de staging es `gemini-3.7-flash` (PD-01). La temperatura (`1.0`, PD-02) y el nivel de pensamiento (`low`, PD-04) se fijan en `application.properties` | El estándar prohíbe convertir en constante un valor pendiente de decisión. El modelo cambia por ambiente y por costo, y la temperatura no | Un id de modelo escrito en el código |
 | D-07 | En el log solo van el `requestId` (cuando hay petición), la duración en milisegundos y el resultado (`ok` o el `ErrorCode`). Nunca la llave, el texto enviado ni el texto recibido | SEG-04, sección 6 del `CLAUDE.md` y Ley 1581 | Registrar el prompt truncado |
 | D-08 | La cobertura de lo nuevo es el mínimo del equipo: 70 % de líneas y de ramas, medido con JaCoCo, con el número real por clase tocada y la razón de cada línea o rama sin cubrir | Lo fija Backend para esta revisión | El 90 % de la sección 9 del estándar |
+| D-09 | El puerto devuelve un `LanguageModelResponse` con el texto, los tokens de entrada y de salida que informa el proveedor y el modelo que respondió, no solo el texto. CM-312 no publica ni guarda el consumo: solo lo deja disponible para quien llama. Decisión del Product Owner del 21 de octubre de 2026. Si el proveedor no informa los tokens, el valor es `0`, que es lo que entrega Spring AI en ese caso (propuesta de la IA, pendiente de la revisión de Backend) | El consumo lo publica el caso de uso (H-2) y lo usa la Guardia de Cuota (H-1); si el puerto devolviera solo el texto, HU-4.5 y HU-5.2 tendrían que cambiar su firma | Devolver solo `String` |
 
 ## 4. Requisitos (EARS)
 
@@ -82,8 +84,8 @@ Decisiones humanas tomadas el 20 de octubre de 2026 por el Product Owner, a part
 
 ### Llamada al modelo
 
-- **REQ-07.** Cuando un caso de uso pida texto con un `LanguageModelPrompt`, el adaptador deberá enviar el texto al modelo de `cameia.llm.model`, con la temperatura y el nivel de pensamiento configurados y con `maxOutputTokens` igual al tope del prompt, y deberá devolver el texto de la primera respuesta.
-- **REQ-08.** `LanguageModelPrompt` deberá rechazar al construirse un texto nulo, vacío o con solo espacios, y un tope de tokens menor que 1, con `IllegalArgumentException` y un mensaje en español. Es un error de programación del que llama, no de la persona.
+- **REQ-07.** Cuando un caso de uso pida texto con un `LanguageModelPrompt`, el adaptador deberá enviar el texto al modelo de `cameia.llm.model`, con la temperatura y el nivel de pensamiento configurados y con `maxOutputTokens` igual al tope del prompt, y deberá devolver un `LanguageModelResponse` con el texto de la primera respuesta, los tokens de entrada y de salida que informe el proveedor (`0` si no los informa) y el modelo que respondió (D-09).
+- **REQ-08.** `LanguageModelPrompt` deberá rechazar al construirse un texto nulo, vacío o con solo espacios, y un tope de tokens menor que 1, con `IllegalArgumentException` y un mensaje en español. Es un error de programación del que llama, no de la persona. `LanguageModelResponse` deberá rechazar del mismo modo un texto o un modelo nulo, vacío o con solo espacios, y un número de tokens negativo. La representación de texto de los dos `record` no deberá incluir el texto, que puede llevar datos de la persona.
 - **REQ-09.** Si el modelo no responde dentro de `cameia.llm.timeout`, el adaptador deberá lanzar `LlmUnavailableException` con la causa técnica, sin reintentar.
 - **REQ-10.** Si el proveedor responde 429, el adaptador deberá lanzar `LlmLimitReachedException`, sin reintentar.
 - **REQ-11.** Si el proveedor responde con otro estado de error (4xx distinto de 429 o 5xx) o la conexión se corta, el adaptador deberá lanzar `LlmUnavailableException`, sin reintentar.
@@ -93,8 +95,8 @@ Decisiones humanas tomadas el 20 de octubre de 2026 por el Product Owner, a part
 
 ### Respuesta de error
 
-- **REQ-15.** Cuando una `LlmUnavailableException` o una `LlmLimitReachedException` llegue al manejador, la respuesta deberá ser `503` con `Content-Type: application/problem+json; charset=UTF-8` y los miembros `type`, `title`, `status`, `detail`, `instance`, `code` y `requestId`, según la sección 5.
-- **REQ-16.** Cuando cualquier otra excepción llegue al manejador, la respuesta deberá ser `500` con `code` `INTERNAL_ERROR` y el mensaje «Ocurrió un error. Inténtalo de nuevo.». Ninguna respuesta deberá llevar traza, nombre de clase ni el mensaje de una excepción de librería.
+- **REQ-15.** Cuando una `LlmUnavailableException` o una `LlmLimitReachedException` llegue al manejador, la respuesta deberá ser `503` con `Content-Type: application/problem+json; charset=UTF-8` y los miembros `title`, `status`, `detail`, `instance`, `code` y `requestId`, según la sección 5. El miembro `type` se omite, como en Cuentas: Spring 7 no lo escribe cuando vale `about:blank`, y RFC 9457 (3.1.1) define que su ausencia equivale a ese valor.
+- **REQ-16.** Cuando cualquier otra excepción llegue al manejador, la respuesta deberá ser `500` con `code` `INTERNAL_ERROR` y el mensaje «Ocurrió un error. Inténtalo de nuevo.». Ninguna respuesta deberá llevar traza, nombre de clase ni el mensaje de una excepción de librería. Los rechazos de protocolo de Spring MVC (las excepciones que implementan `ErrorResponse`, `HttpMessageNotReadableException` y `TypeMismatchException`) no son fallos del servicio: el manejador los relanza sin registrar y Spring los responde con su estado 4xx, como antes de CM-312. Darles código propio le toca a CM-311.
 - **REQ-17.** El manejador deberá registrar cada error una sola vez, en `ERROR` con traza (todos los códigos de esta spec son 5xx), con `code` y `requestId` y sin textos del modelo.
 - **REQ-18.** El `requestId` deberá ser el encabezado `X-Request-Id` recibido cuando cumpla `^[A-Za-z0-9._-]{1,64}$`; si falta o no lo cumple, deberá ser un UUID v4 nuevo. En los dos casos se deberá devolver en el encabezado `X-Request-Id` de la respuesta de error.
 
@@ -118,7 +120,6 @@ Ejemplo:
 
 ```json
 {
-  "type": "about:blank",
   "title": "Servicio no disponible",
   "status": 503,
   "detail": "Ocurrió un error. Inténtalo de nuevo.",
@@ -156,6 +157,9 @@ Cada fila aplicable es una prueba con estos valores literales.
 | Secreto en el log | `toString()` de las propiedades | llave `clave-secreta-de-prueba` | Contiene `****` y no la llave |
 | Texto (prompt) | Nulo, vacío, solo espacios | `null`, `""`, `"  "` | `IllegalArgumentException` |
 | Números (tope) | Cero, negativo, mínimo válido | `0`, `-1`, `1` | Excepción, excepción, se construye |
+| Texto (respuesta) | Texto o modelo nulo, vacío, solo espacios | `null`, `""`, `"  "` | `IllegalArgumentException` |
+| Números (tokens de la respuesta) | Negativo, cero, positivo | `-1`, `0`, `5` | Excepción, se construye, se construye |
+| Dependencias | Respuesta sin datos de uso | 200 con texto `OK` y sin `usageMetadata` | Devuelve `OK` con `0` tokens de entrada y `0` de salida |
 | Dependencias | Respuesta correcta | 200 con texto `OK` | Devuelve `OK` |
 | Dependencias | Tiempo agotado | El servidor simulado no responde; `timeout=200ms` | `LlmUnavailableException`; el servidor recibió **una** petición |
 | Dependencias | Cuota agotada | 429 `RESOURCE_EXHAUSTED` | `LlmLimitReachedException`; **una** petición |
@@ -168,6 +172,7 @@ Cada fila aplicable es una prueba con estos valores literales.
 | Petición | `X-Request-Id` ausente | — | UUID v4 nuevo, igual en el cuerpo y en el encabezado |
 | Petición | `X-Request-Id` largo | 65 caracteres `a` | UUID v4 nuevo |
 | Petición | `X-Request-Id` con espacios o caracteres no admitidos | `abc 123`, `abc/123` | UUID v4 nuevo |
+| Respuesta | Rechazo de protocolo | `POST` a una ruta `GET`; cuerpo `{no es json`; parámetro `int` con `abc` | 405, 400, 400, sin línea de «Fallo no controlado» en el log |
 | Respuesta | Fallo imprevisto con mensaje de librería | `IllegalStateException("detalle interno")` | 500 `INTERNAL_ERROR`; el cuerpo no contiene `detalle interno` ni `IllegalStateException` |
 
 **No aplican**, con su razón:

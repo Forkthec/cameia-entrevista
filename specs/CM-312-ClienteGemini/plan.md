@@ -41,7 +41,7 @@ Ninguno pasa de 1000 líneas entre agregadas y eliminadas. Si B pasa, la configu
 | `.../domain/exception/LlmUnavailableException.java`, `LlmLimitReachedException.java` | Crear | 50 |
 | `.../domain/exception/package-info.java`, `domain/port/package-info.java`, `domain/model/package-info.java` | Crear | 30 |
 | `.../domain/port/LanguageModelPort.java` | Crear | 25 |
-| `.../domain/model/LanguageModelPrompt.java` | Crear | 40 |
+| `.../domain/model/LanguageModelPrompt.java` y `LanguageModelResponse.java` | Crear | 90 |
 | `.../infrastructure/ia/GeminiLanguageModelAdapter.java` | Crear | 130 |
 | `.../infrastructure/ia/package-info.java` (con el Router documentado, D-01) | Crear | 30 |
 | `.../infrastructure/config/ia/LanguageModelProperties.java` | Crear | 70 |
@@ -99,7 +99,7 @@ El estimado pasa de 1000, así que se prevé el PR B2 (configuración de desplie
 
 | Clase de prueba | Tipo | Cubre |
 |---|---|---|
-| `LanguageModelPromptTest` | Dominio, sin Spring | REQ-08 |
+| `LanguageModelPromptTest` y `LanguageModelResponseTest` | Dominio, sin Spring | REQ-08 |
 | `ErrorCodeDocumentationTest` | Documento | REQ-19 |
 | `LanguageModelPropertiesTest` | `ApplicationContextRunner` con `OutputCaptureExtension` | REQ-01 a REQ-05 |
 | `GeminiLanguageModelAdapterTest` | Adaptador con el servidor simulado del JDK | REQ-06, REQ-07, REQ-09 a REQ-14 |
