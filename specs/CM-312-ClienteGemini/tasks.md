@@ -51,7 +51,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-03 · Lista de códigos y excepciones
 
-- [ ] **Cubre.** D-05 y la sección 5 de la spec.
+- [x] **Cubre.** D-05 y la sección 5 de la spec.
 - **Archivos.** Crear en `.../domain/exception/`: `ErrorCode.java`, `BusinessException.java`, `LlmUnavailableException.java`, `LlmLimitReachedException.java` y `package-info.java`.
 - **Hacer.**
   1. Leer `git -C ../cameia-cuentas show origin/develop:src/main/java/tech/cameia/cuentas/domain/exception/ErrorCode.java`, `BusinessException.java` y `DependencyUnavailableException.java`.
@@ -63,7 +63,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-04 · Manejador de errores
 
-- [ ] **Cubre.** REQ-15 a REQ-18.
+- [x] **Cubre.** REQ-15 a REQ-18.
 - **Archivos.** Crear `.../presentation/advice/BusinessExceptionHandler.java` y `package-info.java`. Borrar `.../presentation/advice/.gitkeep`.
 - **Hacer.**
   1. Leer `BusinessExceptionHandler.java` de Cuentas en `origin/develop`.
