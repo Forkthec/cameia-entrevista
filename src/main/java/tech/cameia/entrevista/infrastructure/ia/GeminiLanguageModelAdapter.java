@@ -13,6 +13,7 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
+import org.springframework.ai.google.genai.metadata.GoogleGenAiUsage;
 import org.springframework.stereotype.Component;
 
 import tech.cameia.entrevista.domain.exception.BusinessException;
@@ -129,7 +130,7 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
         String texto = generacion == null ? null : generacion.getOutput().getText();
         if (texto == null || texto.isBlank()) {
             // Una respuesta vacía nunca es un valor válido (REQ-12); la causa no lleva texto del modelo.
-            throw new LlmUnavailableException(new IllegalStateException("El modelo devolvió una respuesta sin texto."));
+            throw new LlmUnavailableException(new IllegalStateException(sinTexto(respuesta, generacion)));
         }
         ChatResponseMetadata metadatos = respuesta.getMetadata();
         Usage uso = metadatos.getUsage();
@@ -138,6 +139,24 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
                 : metadatos.getModel();
         return new LanguageModelResponse(texto, tokens(uso.getPromptTokens()), tokens(uso.getCompletionTokens()),
                 modelo);
+    }
+
+    /**
+     * Describe una respuesta sin texto con lo que permite diagnosticarla sin verla: el motivo de
+     * corte (por ejemplo {@code MAX_TOKENS}, cuando el pensamiento se gasta el tope de salida), el
+     * modelo que respondió y los tokens (D-07).
+     */
+    private static String sinTexto(ChatResponse respuesta, Generation generacion) {
+        if (respuesta == null) {
+            return "El modelo devolvió una respuesta sin texto [sin respuesta]";
+        }
+        ChatResponseMetadata metadatos = respuesta.getMetadata();
+        Usage uso = metadatos.getUsage();
+        Integer pensamiento = uso instanceof GoogleGenAiUsage gemini ? gemini.getThoughtsTokenCount() : null;
+        String motivo = generacion == null ? "sin candidatos" : generacion.getMetadata().getFinishReason();
+        return "El modelo devolvió una respuesta sin texto [finishReason=" + motivo + ", modelo=" + metadatos.getModel()
+                + ", inputTokens=" + uso.getPromptTokens() + ", outputTokens=" + uso.getCompletionTokens()
+                + ", thinkingTokens=" + pensamiento + "]";
     }
 
     /** Tokens informados por el proveedor, o {@code 0} si no los informó. */
