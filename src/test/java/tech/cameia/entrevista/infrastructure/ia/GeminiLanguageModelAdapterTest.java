@@ -225,6 +225,22 @@ class GeminiLanguageModelAdapterTest {
     }
 
     @Test
+    @DisplayName("Una respuesta cortada por el tope nombra el motivo, el modelo y los tokens en la causa, sin el texto")
+    void generate_shouldDescribeCut_whenThinkingUsesTheWholeLimit() {
+        respuesta = json(200, """
+                {"candidates":[{"content":{"role":"model","parts":[{"text":""}]},"finishReason":"MAX_TOKENS"}],
+                 "usageMetadata":{"promptTokenCount":12,"candidatesTokenCount":0,"thoughtsTokenCount":16,"totalTokenCount":28},
+                 "modelVersion":"gemini-3.8-flash"}
+                """);
+
+        assertThat(fallo())
+                .isInstanceOf(LlmUnavailableException.class)
+                .cause()
+                .hasMessage("El modelo devolvió una respuesta sin texto [finishReason=MAX_TOKENS, modelo=gemini-3.8-flash, "
+                        + "inputTokens=12, outputTokens=0, thinkingTokens=16]");
+    }
+
+    @Test
     @DisplayName("Una respuesta sin candidatos lanza LlmUnavailableException")
     void generate_shouldThrowUnavailable_whenThereAreNoCandidates() {
         respuesta = json(200, """
