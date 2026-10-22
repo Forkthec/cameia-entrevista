@@ -514,4 +514,4 @@ Peticiones y `pm.test` exactos: las 4 de la spec §12. La primera (`GET /health`
 
 | Tarjeta | Resultado real | Fecha |
 |---|---|---|
-| T0 a T9 | Pendientes | — |
+| T0 a T9 | Hechas. `clean verify` en `cb82c0f`: 405 pruebas, 0 fallos, 0 omitidas; clases tocadas con 100 % de líneas y ≥ 96 % de ramas; Newman 4/4 (19 aserciones); verificación en `docs/verificaciones/V-01-esquema-inicial-entrevista.md` | 22-oct-2026 |
