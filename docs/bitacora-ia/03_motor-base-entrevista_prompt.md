@@ -27,3 +27,5 @@ Formato: spec con requisitos en EARS, tabla de decisiones y lista de verificaci�
 - El límite de la pregunta (1000 caracteres) queda provisional hasta el estudio de la historia de preguntas.
 - El campo `idioma_detectado` se valida de forma exacta cuando exista el contrato de voz.
 - Se conserva el perfil `production`; renombrarlo le toca a DevOps.
+- Los errores que el contenedor resuelve por su cuenta salen en el formato común: un `multipart/form-data` ilegible responde 415, una ruta con codificación inválida responde 400 y `GET /error` responde 404, cada uno con su código estable (decisiones P20 a P22 de la spec).
+- Los identificadores de Java del manejador de errores pasan a inglés, también los que dejó CM-312, aunque Cuentas conserva los nombres en español (decisión P23).
