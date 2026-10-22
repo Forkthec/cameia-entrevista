@@ -4,9 +4,19 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -17,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.cameia.entrevista.domain.exception.BusinessException;
@@ -109,5 +120,46 @@ public class ErrorProbeController {
     @GetMapping("/header")
     String header(@RequestHeader("X-Trace") String trace) {
         return trace;
+    }
+
+    /** Restricción de prueba que declara su código de error como carga dinámica de la violación. */
+    @Target(ElementType.FIELD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Constraint(validatedBy = AlwaysRejectsWithCode.class)
+    public @interface RejectedWithCode {
+        String message() default "Valor rechazado con código propio.";
+
+        Class<?>[] groups() default {};
+
+        Class<? extends Payload>[] payload() default {};
+    }
+
+    /** Validador que siempre rechaza y declara REQUEST_BODY_INVALID_FORMAT como código. */
+    public static class AlwaysRejectsWithCode implements ConstraintValidator<RejectedWithCode, String> {
+        @Override
+        public boolean isValid(String value, ConstraintValidatorContext context) {
+            context.unwrap(HibernateConstraintValidatorContext.class)
+                    .withDynamicPayload(ErrorCode.REQUEST_BODY_INVALID_FORMAT);
+            return false;
+        }
+    }
+
+    /** Cuerpo de prueba cuyo único campo siempre se rechaza con un código declarado. */
+    public record CodedRequest(@RejectedWithCode String value) {
+    }
+
+    @PostMapping(value = "/coded", consumes = "application/json")
+    String coded(@Valid @RequestBody CodedRequest request) {
+        return request.value();
+    }
+
+    @GetMapping("/required-identity")
+    String requiredIdentity(@RequestHeader("X-User-Id") String uid) {
+        return uid;
+    }
+
+    @GetMapping("/required-param")
+    String requiredParam(@RequestParam("page") String page) {
+        return page;
     }
 }
