@@ -364,6 +364,8 @@ public interface IdempotencyKeyRepository {
 
 **Commit:** `CM-311 | feat(persistencia): sesión, turno y claves anti-duplicados con control de versión`.
 
+**Resultado (22-oct):** hecho. `InterviewSessionRepositoryAdapterTest` 15, `InterviewTurnRepositoryAdapterTest` 4, `IdempotencyKeyRepositoryAdapterTest` 5 → 24 pruebas, 0 fallos, 0 omitidas, BUILD SUCCESS, con `ddl-auto=validate` contra PostgreSQL 16 real. Ajustes frente a la tarjeta: (1) el recorrido de causas acotado vive en `ConstraintNames` y lo comparten los tres adaptadores, en vez de copiarse en cada uno; (2) `save` devuelve la sesión leída de lo guardado (con su versión); (3) no hizo falta `Persistable`: Spring Data trata la entidad con `version` nula como nueva; (4) cada clase de prueba declara su propio contenedor (el contexto de Spring queda en caché y un contenedor compartido en una clase base dejaba el contexto apuntando a uno detenido: la primera ejecución se colgó con `Connection refused`); (5) pruebas extra: oferta de 3000 caracteres y JSON con Unicode, versión borrada, segunda sesión en curso, borrado con hijos en cascada, restricción distinta que se propaga sin traducir.
+
 ---
 
 ## T5 · Manejador de errores e identidad (REQ-ERR-01 a 12, REQ-ID-01 a 03)

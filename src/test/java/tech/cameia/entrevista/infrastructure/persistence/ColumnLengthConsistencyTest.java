@@ -2,8 +2,6 @@ package tech.cameia.entrevista.infrastructure.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import tech.cameia.entrevista.support.WithLanguageModelProperties;
-
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +15,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
+
+import tech.cameia.entrevista.support.WithLanguageModelProperties;
 
 /**
  * Vigila que el largo de cada columna de texto libre de la base coincida con el límite que valida
