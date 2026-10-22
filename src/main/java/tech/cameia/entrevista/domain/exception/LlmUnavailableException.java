@@ -11,7 +11,7 @@ package tech.cameia.entrevista.domain.exception;
  */
 public class LlmUnavailableException extends BusinessException {
 
-    private static final String MENSAJE = "Ocurrió un error. Inténtalo de nuevo.";
+    private static final String MESSAGE = "Ocurrió un error. Inténtalo de nuevo.";
 
     /**
      * Crea la excepción conservando la causa técnica.
@@ -19,8 +19,8 @@ public class LlmUnavailableException extends BusinessException {
      * @param causa error del cliente del modelo, para el log; {@code null} cuando la respuesta
      *              llegó pero no se puede usar
      */
-    public LlmUnavailableException(Throwable causa) {
-        super(ErrorCode.LLM_UNAVAILABLE, MENSAJE);
-        initCause(causa);
+    public LlmUnavailableException(Throwable cause) {
+        super(ErrorCode.LLM_UNAVAILABLE, MESSAGE);
+        initCause(cause);
     }
 }

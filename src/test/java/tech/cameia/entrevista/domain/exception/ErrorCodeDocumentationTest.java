@@ -20,19 +20,19 @@ import org.junit.jupiter.params.provider.EnumSource;
  */
 class ErrorCodeDocumentationTest {
 
-    private static String catalogo;
+    private static String catalog;
 
     @BeforeAll
-    static void leerCatalogo() throws IOException {
-        catalogo = Files.readString(Path.of("docs", "errores.md"), StandardCharsets.UTF_8);
+    static void readCatalog() throws IOException {
+        catalog = Files.readString(Path.of("docs", "errores.md"), StandardCharsets.UTF_8);
     }
 
     @ParameterizedTest(name = "{0}")
     @EnumSource(ErrorCode.class)
     @DisplayName("Cada código de ErrorCode es una fila del catálogo de errores")
-    void catalogo_shouldListCode_whenCodeExists(ErrorCode codigo) {
+    void catalogo_shouldListCode_whenCodeExists(ErrorCode code) {
         // Entre comillas invertidas, como fila de la tabla: evita que un código que es prefijo
         // de otro se dé por documentado.
-        assertThat(catalogo).contains("| `" + codigo.name() + "` |");
+        assertThat(catalog).contains("| `" + code.name() + "` |");
     }
 }

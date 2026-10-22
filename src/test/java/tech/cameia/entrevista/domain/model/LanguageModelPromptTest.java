@@ -18,8 +18,8 @@ class LanguageModelPromptTest {
     @NullAndEmptySource
     @ValueSource(strings = {"  "})
     @DisplayName("Un texto nulo, vacío o en blanco se rechaza al construir el prompt")
-    void constructor_shouldRejectPrompt_whenTextIsBlank(String texto) {
-        assertThatThrownBy(() -> new LanguageModelPrompt(texto, 16))
+    void constructor_shouldRejectPrompt_whenTextIsBlank(String text) {
+        assertThatThrownBy(() -> new LanguageModelPrompt(text, 16))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("El texto del prompt no puede estar vacío.");
     }
