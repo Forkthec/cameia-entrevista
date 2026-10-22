@@ -4,7 +4,7 @@ Esta carpeta trae la colección de Postman del microservicio de Entrevista y el 
 
 | Archivo | Contenido |
 |---|---|
-| `cameia-entrevista.postman_collection.json` | Colección v2.1: carpeta `Salud` (1 petición) y carpeta `Errores del framework` (3 peticiones) |
+| `cameia-entrevista.postman_collection.json` | Colección v2.1: carpeta `Salud` (1 petición) y carpeta `Errores del framework` (6 peticiones) |
 | `local.postman_environment.json` | Entorno local: `baseUrl` (`http://localhost:8083`, el puerto de `SERVER_PORT`). No lleva secretos |
 
 ## Qué verifica
@@ -15,6 +15,11 @@ Esta carpeta trae la colección de Postman del microservicio de Entrevista y el 
 | 2 | `GET /ruta-que-no-existe` | 404 `ROUTE_NOT_FOUND` |
 | 3 | `POST /health` | 405 `METHOD_NOT_ALLOWED`, con `Allow` que incluye `GET` |
 | 4 | `GET /health` con `Accept: application/xml` | 406 `MEDIA_TYPE_NOT_ACCEPTABLE` |
+| 5 | `POST /health` con `Content-Type: multipart/form-data` sin `boundary` | 415 `REQUEST_MULTIPART_INVALID_FORMAT` |
+| 6 | `POST /health` con un `multipart/form-data` de 11 MB (el script previo arma el cuerpo) | 413 `REQUEST_PAYLOAD_TOO_LARGE` |
+| 7 | `GET /error` | 404 `ROUTE_NOT_FOUND` |
+
+La ruta con codificación inválida (`/%zz`) no está en la colección porque Postman normaliza la URL; la comprueba `FrameworkErrorsTest`.
 
 Cada error comprueba además el estado, el `code`, un `requestId` presente, un `Content-Type` con `application/problem+json` y `charset=UTF-8`, y un cuerpo sin las palabras `trace` ni `exception`.
 

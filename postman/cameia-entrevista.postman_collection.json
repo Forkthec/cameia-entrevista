@@ -169,6 +169,152 @@
               ]
             }
           }
+        },
+        {
+          "name": "Cuerpo multipart ilegible POST /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('code = REQUEST_MULTIPART_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('REQUEST_MULTIPART_INVALID_FORMAT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = pm.response.headers.get('Content-Type') || '';",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=UTF-8');",
+                  "});",
+                  "pm.test('Sin trace ni exception', () => {",
+                  "    const texto = pm.response.text();",
+                  "    pm.expect(texto).to.not.include('trace');",
+                  "    pm.expect(texto).to.not.include('exception');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "x"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Multipart de más de 10 MB POST /health",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Cuerpo multipart de 11 MB: supera el máximo de 10 MB de la petición.",
+                  "const crlf = '\\r\\n';",
+                  "pm.request.body.update({ mode: 'raw', raw: '--xx' + crlf + 'Content-Disposition: form-data; name=\"f\"' + crlf + crlf + 'a'.repeat(11 * 1024 * 1024) + crlf + '--xx--' + crlf });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 413', () => pm.response.to.have.status(413));",
+                  "pm.test('code = REQUEST_PAYLOAD_TOO_LARGE', () => pm.expect(pm.response.json().code).to.eql('REQUEST_PAYLOAD_TOO_LARGE'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = pm.response.headers.get('Content-Type') || '';",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=UTF-8');",
+                  "});",
+                  "pm.test('Sin trace ni exception', () => {",
+                  "    const texto = pm.response.text();",
+                  "    pm.expect(texto).to.not.include('trace');",
+                  "    pm.expect(texto).to.not.include('exception');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data; boundary=xx"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "x"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ruta de error del contenedor GET /error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code = ROUTE_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('ROUTE_NOT_FOUND'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = pm.response.headers.get('Content-Type') || '';",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=UTF-8');",
+                  "});",
+                  "pm.test('Sin trace ni exception', () => {",
+                  "    const texto = pm.response.text();",
+                  "    pm.expect(texto).to.not.include('trace');",
+                  "    pm.expect(texto).to.not.include('exception');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/error",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "error"
+              ]
+            }
+          }
         }
       ]
     }
