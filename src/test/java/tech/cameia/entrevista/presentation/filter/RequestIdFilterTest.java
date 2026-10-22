@@ -53,23 +53,23 @@ class RequestIdFilterTest {
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16-alpine");
 
     @Autowired
-    private TestRestTemplate cliente;
+    private TestRestTemplate client;
 
-    private ResponseEntity<String> get(String ruta, String requestId) {
+    private ResponseEntity<String> get(String path, String requestId) {
         HttpHeaders headers = new HttpHeaders();
         if (requestId != null) {
             headers.set("X-Request-Id", requestId);
         }
-        return cliente.exchange(ruta, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        return client.exchange(path, HttpMethod.GET, new HttpEntity<>(headers), String.class);
     }
 
     @Test
     @DisplayName("Un identificador válido se devuelve igual en el encabezado")
     void requestId_shouldBeEchoed_whenHeaderValid() {
-        ResponseEntity<String> respuesta = get("/health", "abc-123");
+        ResponseEntity<String> response = get("/health", "abc-123");
 
-        assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-        assertThat(respuesta.getHeaders().getFirst("X-Request-Id")).isEqualTo("abc-123");
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        assertThat(response.getHeaders().getFirst("X-Request-Id")).isEqualTo("abc-123");
     }
 
     @Test
@@ -99,21 +99,21 @@ class RequestIdFilterTest {
     @Test
     @DisplayName("El requestId del cuerpo del error es el del encabezado de la respuesta")
     void requestId_shouldMatchBody_whenErrorResponse() {
-        ResponseEntity<String> respuesta = get("/test/errors/boom", "abc-123");
+        ResponseEntity<String> response = get("/test/errors/boom", "abc-123");
 
-        assertThat(respuesta.getStatusCode().value()).isEqualTo(500);
-        assertThat((String) JsonPath.read(respuesta.getBody(), "$.requestId")).isEqualTo("abc-123");
-        assertThat(respuesta.getHeaders().getFirst("X-Request-Id")).isEqualTo("abc-123");
+        assertThat(response.getStatusCode().value()).isEqualTo(500);
+        assertThat((String) JsonPath.read(response.getBody(), "$.requestId")).isEqualTo("abc-123");
+        assertThat(response.getHeaders().getFirst("X-Request-Id")).isEqualTo("abc-123");
     }
 
     @Test
     @DisplayName("Sin encabezado, el requestId generado es el mismo en el cuerpo y en el encabezado")
     void requestId_shouldMatchBody_whenGeneratedAndErrorResponse() {
-        ResponseEntity<String> respuesta = get("/test/errors/boom", null);
+        ResponseEntity<String> response = get("/test/errors/boom", null);
 
-        assertThat((String) JsonPath.read(respuesta.getBody(), "$.requestId"))
+        assertThat((String) JsonPath.read(response.getBody(), "$.requestId"))
                 .matches(UUID_V4)
-                .isEqualTo(respuesta.getHeaders().getFirst("X-Request-Id"));
+                .isEqualTo(response.getHeaders().getFirst("X-Request-Id"));
     }
 
     @Test

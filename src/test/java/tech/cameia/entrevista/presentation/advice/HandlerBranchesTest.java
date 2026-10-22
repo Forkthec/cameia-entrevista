@@ -96,7 +96,7 @@ class HandlerBranchesTest {
         MethodParameter parameter = new MethodParameter(
                 ErrorProbeController.class.getDeclaredMethod("body", ErrorProbeController.ProbeRequest.class), 0);
 
-        var problem = handler.camposInvalidos(new MethodArgumentNotValidException(parameter, binding));
+        var problem = handler.invalidFields(new MethodArgumentNotValidException(parameter, binding));
 
         assertThat(problem.getProperties().get("errors").toString()).contains("Valor no válido");
     }
@@ -104,12 +104,12 @@ class HandlerBranchesTest {
     @Test
     @DisplayName("Un rechazo de protocolo que ningún manejador cubre se relanza sin registrar")
     void protocolRejections_shouldBeRethrown(CapturedOutput output) {
-        assertThatThrownBy(() -> handler.falloInterno(new MissingServletRequestPartException("archivo")))
+        assertThatThrownBy(() -> handler.unexpectedFailure(new MissingServletRequestPartException("archivo")))
                 .isInstanceOf(MissingServletRequestPartException.class);
-        assertThatThrownBy(() -> handler.falloInterno(
+        assertThatThrownBy(() -> handler.unexpectedFailure(
                 new HttpMessageNotReadableException("x", new MockHttpInputMessage(new byte[0]))))
                 .isInstanceOf(HttpMessageNotReadableException.class);
-        assertThatThrownBy(() -> handler.falloInterno(new TypeMismatchException("v", String.class)))
+        assertThatThrownBy(() -> handler.unexpectedFailure(new TypeMismatchException("v", String.class)))
                 .isInstanceOf(TypeMismatchException.class);
         assertThat(output).doesNotContain("Fallo no controlado");
     }
@@ -119,7 +119,7 @@ class HandlerBranchesTest {
     void rejectionWithoutRequestContext_shouldLogDash(CapturedOutput output) {
         RequestContextHolder.resetRequestAttributes();
 
-        handler.peticionIncompleta(new MissingServletRequestParameterException("page", "String"));
+        handler.incompleteRequest(new MissingServletRequestParameterException("page", "String"));
 
         assertThat(output).contains("firebaseUid=-");
     }
@@ -129,11 +129,11 @@ class HandlerBranchesTest {
     void errorRedispatch_shouldLogOnce(CapturedOutput output) throws Exception {
         request.setDispatcherType(DispatcherType.ERROR);
 
-        handler.falloInterno(new IllegalStateException("a"));
-        handler.falloInterno(new IllegalStateException("b"));
-        handler.baseNoDisponible(new DataAccessResourceFailureException("c"));
-        handler.integridadDeDatos(new DataIntegrityViolationException("d"));
-        handler.peticionIncompleta(new MissingServletRequestParameterException("page", "String"));
+        handler.unexpectedFailure(new IllegalStateException("a"));
+        handler.unexpectedFailure(new IllegalStateException("b"));
+        handler.databaseUnavailable(new DataAccessResourceFailureException("c"));
+        handler.dataIntegrityViolation(new DataIntegrityViolationException("d"));
+        handler.incompleteRequest(new MissingServletRequestParameterException("page", "String"));
 
         // Solo el primer error de la petición se escribe; los siguientes la encuentran ya registrada.
         assertThat(output.getAll()).containsOnlyOnce("Fallo no controlado");
@@ -145,7 +145,7 @@ class HandlerBranchesTest {
     @Test
     @DisplayName("La restricción nombrada y el SQLState salen de la cadena de causas")
     void namedConstraint_shouldBeLogged(CapturedOutput output) {
-        handler.integridadDeDatos(new DataIntegrityViolationException("x",
+        handler.dataIntegrityViolation(new DataIntegrityViolationException("x",
                 new ConstraintViolationException("m", new SQLException("m", "23505"), "uq_x")));
 
         assertThat(output).contains("constraint=uq_x").contains("sqlState=23505");
@@ -159,8 +159,8 @@ class HandlerBranchesTest {
             deep = new RuntimeException("nivel " + i, deep);
         }
 
-        handler.baseNoDisponible(new DataAccessResourceFailureException("raíz", deep));
-        handler.integridadDeDatos(new DataIntegrityViolationException("x", deep));
+        handler.databaseUnavailable(new DataAccessResourceFailureException("raíz", deep));
+        handler.dataIntegrityViolation(new DataIntegrityViolationException("x", deep));
 
         assertThat(output).contains("sqlState=desconocido").contains("constraint=desconocida");
     }

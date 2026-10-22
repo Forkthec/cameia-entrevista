@@ -18,8 +18,8 @@ public abstract class BusinessException extends RuntimeException {
      * @param errorCode código estable del error, que llega al cliente en el miembro {@code code}
      * @param mensaje texto en español, sin credenciales ni datos de la petición
      */
-    protected BusinessException(ErrorCode errorCode, String mensaje) {
-        super(mensaje);
+    protected BusinessException(ErrorCode errorCode, String message) {
+        super(message);
         this.errorCode = errorCode;
     }
 

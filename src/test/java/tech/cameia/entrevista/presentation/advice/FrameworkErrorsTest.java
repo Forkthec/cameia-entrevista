@@ -44,26 +44,26 @@ class FrameworkErrorsTest {
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16-alpine");
 
     @Autowired
-    private TestRestTemplate cliente;
+    private TestRestTemplate client;
 
     @Test
     @DisplayName("Una ruta inexistente devuelve ROUTE_NOT_FOUND y un 404")
     void unknownRoute_shouldReturn404WithCode() {
-        ResponseEntity<String> respuesta = cliente.getForEntity("/ruta-que-no-existe", String.class);
+        ResponseEntity<String> response = client.getForEntity("/ruta-que-no-existe", String.class);
 
-        assertThat(respuesta.getStatusCode().value()).isEqualTo(404);
-        assertEsErrorDelServicio(respuesta, "ROUTE_NOT_FOUND", "No existe la ruta solicitada.");
+        assertThat(response.getStatusCode().value()).isEqualTo(404);
+        assertServiceError(response, "ROUTE_NOT_FOUND", "No existe la ruta solicitada.");
     }
 
     @Test
     @DisplayName("Un método no permitido devuelve METHOD_NOT_ALLOWED, un 405 y Allow")
     void wrongMethod_shouldReturn405WithAllow() {
-        ResponseEntity<String> respuesta = cliente.exchange("/health", HttpMethod.POST, HttpEntity.EMPTY,
+        ResponseEntity<String> response = client.exchange("/health", HttpMethod.POST, HttpEntity.EMPTY,
                 String.class);
 
-        assertThat(respuesta.getStatusCode().value()).isEqualTo(405);
-        assertEsErrorDelServicio(respuesta, "METHOD_NOT_ALLOWED", "Método no permitido.");
-        assertThat(respuesta.getHeaders().getAllow()).contains(HttpMethod.GET);
+        assertThat(response.getStatusCode().value()).isEqualTo(405);
+        assertServiceError(response, "METHOD_NOT_ALLOWED", "Método no permitido.");
+        assertThat(response.getHeaders().getAllow()).contains(HttpMethod.GET);
     }
 
     @Test
@@ -72,11 +72,11 @@ class FrameworkErrorsTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_XML));
 
-        ResponseEntity<String> respuesta = cliente.exchange("/health", HttpMethod.GET, new HttpEntity<>(headers),
+        ResponseEntity<String> response = client.exchange("/health", HttpMethod.GET, new HttpEntity<>(headers),
                 String.class);
 
-        assertThat(respuesta.getStatusCode().value()).isEqualTo(406);
-        assertEsErrorDelServicio(respuesta, "MEDIA_TYPE_NOT_ACCEPTABLE", "Tipo de respuesta no admitido.");
+        assertThat(response.getStatusCode().value()).isEqualTo(406);
+        assertServiceError(response, "MEDIA_TYPE_NOT_ACCEPTABLE", "Tipo de respuesta no admitido.");
     }
 
     @Test
@@ -85,19 +85,19 @@ class FrameworkErrorsTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
 
-        ResponseEntity<String> respuesta = cliente.exchange("/test/errors/body", HttpMethod.POST,
+        ResponseEntity<String> response = client.exchange("/test/errors/body", HttpMethod.POST,
                 new HttpEntity<>("hola", headers), String.class);
 
-        assertThat(respuesta.getStatusCode().value()).isEqualTo(415);
-        assertEsErrorDelServicio(respuesta, "MEDIA_TYPE_NOT_ALLOWED", "Tipo de contenido no admitido.");
+        assertThat(response.getStatusCode().value()).isEqualTo(415);
+        assertServiceError(response, "MEDIA_TYPE_NOT_ALLOWED", "Tipo de contenido no admitido.");
     }
 
     @Test
     @DisplayName("Ningún error del framework revela textos internos")
     void noError_shouldRevealInternals() {
-        ResponseEntity<String> respuesta = cliente.getForEntity("/ruta-que-no-existe", String.class);
+        ResponseEntity<String> response = client.getForEntity("/ruta-que-no-existe", String.class);
 
-        assertThat(respuesta.getBody())
+        assertThat(response.getBody())
                 .doesNotContain("trace")
                 .doesNotContain("exception")
                 .doesNotContain("NoResourceFoundException")
@@ -105,15 +105,15 @@ class FrameworkErrorsTest {
                 .doesNotContain("Whitelabel");
     }
 
-    private void assertEsErrorDelServicio(ResponseEntity<String> respuesta, String codigo, String detalle) {
-        assertThat(respuesta.getHeaders().getContentType()).isNotNull();
-        assertThat(respuesta.getHeaders().getContentType().isCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
+    private void assertServiceError(ResponseEntity<String> response, String code, String detail) {
+        assertThat(response.getHeaders().getContentType()).isNotNull();
+        assertThat(response.getHeaders().getContentType().isCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
                 .isTrue();
-        assertThat(respuesta.getHeaders().getContentType().getCharset()).isEqualTo(StandardCharsets.UTF_8);
-        assertThat((String) JsonPath.read(respuesta.getBody(), "$.code")).isEqualTo(codigo);
-        assertThat((String) JsonPath.read(respuesta.getBody(), "$.detail")).isEqualTo(detalle);
-        assertThat((String) JsonPath.read(respuesta.getBody(), "$.requestId"))
-                .isEqualTo(respuesta.getHeaders().getFirst("X-Request-Id"))
+        assertThat(response.getHeaders().getContentType().getCharset()).isEqualTo(StandardCharsets.UTF_8);
+        assertThat((String) JsonPath.read(response.getBody(), "$.code")).isEqualTo(code);
+        assertThat((String) JsonPath.read(response.getBody(), "$.detail")).isEqualTo(detail);
+        assertThat((String) JsonPath.read(response.getBody(), "$.requestId"))
+                .isEqualTo(response.getHeaders().getFirst("X-Request-Id"))
                 .isNotBlank();
     }
 }

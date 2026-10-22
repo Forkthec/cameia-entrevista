@@ -19,8 +19,8 @@ class LanguageModelResponseTest {
     @NullAndEmptySource
     @ValueSource(strings = {"  "})
     @DisplayName("Un texto nulo, vacío o en blanco se rechaza al construir la respuesta")
-    void constructor_shouldRejectResponse_whenTextIsBlank(String texto) {
-        assertThatThrownBy(() -> new LanguageModelResponse(texto, 5, 3, "modelo-de-prueba"))
+    void constructor_shouldRejectResponse_whenTextIsBlank(String text) {
+        assertThatThrownBy(() -> new LanguageModelResponse(text, 5, 3, "modelo-de-prueba"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("El texto de la respuesta no puede estar vacío.");
     }
@@ -29,8 +29,8 @@ class LanguageModelResponseTest {
     @NullAndEmptySource
     @ValueSource(strings = {"  "})
     @DisplayName("Un modelo nulo, vacío o en blanco se rechaza al construir la respuesta")
-    void constructor_shouldRejectResponse_whenModelIsBlank(String modelo) {
-        assertThatThrownBy(() -> new LanguageModelResponse("OK", 5, 3, modelo))
+    void constructor_shouldRejectResponse_whenModelIsBlank(String model) {
+        assertThatThrownBy(() -> new LanguageModelResponse("OK", 5, 3, model))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("El modelo de la respuesta no puede estar vacío.");
     }
@@ -55,21 +55,21 @@ class LanguageModelResponseTest {
     @ValueSource(ints = {0, 5})
     @DisplayName("Cero tokens, cuando el proveedor no los informa, o un número positivo construyen la respuesta")
     void constructor_shouldBuildResponse_whenTokensAreNotNegative(int tokens) {
-        LanguageModelResponse respuesta = new LanguageModelResponse("OK", tokens, tokens, "modelo-de-prueba");
+        LanguageModelResponse response = new LanguageModelResponse("OK", tokens, tokens, "modelo-de-prueba");
 
-        assertThat(respuesta.text()).isEqualTo("OK");
-        assertThat(respuesta.inputTokens()).isEqualTo(tokens);
-        assertThat(respuesta.outputTokens()).isEqualTo(tokens);
-        assertThat(respuesta.model()).isEqualTo("modelo-de-prueba");
+        assertThat(response.text()).isEqualTo("OK");
+        assertThat(response.inputTokens()).isEqualTo(tokens);
+        assertThat(response.outputTokens()).isEqualTo(tokens);
+        assertThat(response.model()).isEqualTo("modelo-de-prueba");
     }
 
     @Test
     @DisplayName("La representación de texto no incluye el texto de la respuesta")
     void toString_shouldHideText_whenResponseIsPrinted() {
-        LanguageModelResponse respuesta = new LanguageModelResponse("Tu respuesta fue buena", 5, 3,
+        LanguageModelResponse response = new LanguageModelResponse("Tu respuesta fue buena", 5, 3,
                 "modelo-de-prueba");
 
-        assertThat(respuesta.toString())
+        assertThat(response.toString())
                 .doesNotContain("Tu respuesta fue buena")
                 .contains("22 caracteres")
                 .contains("inputTokens=5")

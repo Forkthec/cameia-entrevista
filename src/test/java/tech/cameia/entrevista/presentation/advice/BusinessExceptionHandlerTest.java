@@ -52,7 +52,7 @@ class BusinessExceptionHandlerTest {
 
     private static final String UUID_V4 = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
 
-    private static final String DETALLE = "Ocurrió un error. Inténtalo de nuevo.";
+    private static final String DETAIL = "Ocurrió un error. Inténtalo de nuevo.";
 
     private final MockMvc probe = MockMvcBuilders
             .standaloneSetup(new ErrorProbeController())
@@ -66,7 +66,7 @@ class BusinessExceptionHandlerTest {
 
     @Test
     @DisplayName("Un modelo no disponible responde 503 LLM_UNAVAILABLE con el requestId recibido")
-    void modeloNoDisponible_shouldReturn503LlmUnavailable_whenAdapterThrows() throws Exception {
+    void modelUnavailable_shouldReturn503LlmUnavailable_whenAdapterThrows() throws Exception {
         mockMvc.perform(get("/sin-modelo").header("X-Request-Id", "abc-123"))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(header().string("Content-Type", containsStringIgnoringCase("application/problem+json")))
@@ -77,7 +77,7 @@ class BusinessExceptionHandlerTest {
                 .andExpect(jsonPath("$.type").doesNotExist())
                 .andExpect(jsonPath("$.title").value("Servicio no disponible"))
                 .andExpect(jsonPath("$.status").value(503))
-                .andExpect(jsonPath("$.detail").value(DETALLE))
+                .andExpect(jsonPath("$.detail").value(DETAIL))
                 .andExpect(jsonPath("$.instance").value("/sin-modelo"))
                 .andExpect(jsonPath("$.code").value("LLM_UNAVAILABLE"))
                 .andExpect(jsonPath("$.requestId").value("abc-123"));
@@ -85,26 +85,26 @@ class BusinessExceptionHandlerTest {
 
     @Test
     @DisplayName("Una cuota agotada del proveedor responde 503 LLM_LIMIT_REACHED")
-    void limiteDelModeloAgotado_shouldReturn503LlmLimitReached_whenProviderQuotaIsExhausted() throws Exception {
+    void modelLimitReached_shouldReturn503LlmLimitReached_whenProviderQuotaIsExhausted() throws Exception {
         mockMvc.perform(get("/sin-cuota").header("X-Request-Id", "abc-123"))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(header().string("Content-Type", containsStringIgnoringCase("charset=UTF-8")))
                 .andExpect(header().string("X-Request-Id", "abc-123"))
                 .andExpect(jsonPath("$.title").value("Servicio no disponible"))
-                .andExpect(jsonPath("$.detail").value(DETALLE))
+                .andExpect(jsonPath("$.detail").value(DETAIL))
                 .andExpect(jsonPath("$.code").value("LLM_LIMIT_REACHED"))
                 .andExpect(jsonPath("$.requestId").value("abc-123"));
     }
 
     @Test
     @DisplayName("Un fallo imprevisto responde 500 INTERNAL_ERROR sin el mensaje ni la clase de la excepción")
-    void falloInterno_shouldReturn500WithoutDetail_whenUnexpectedExceptionIsThrown() throws Exception {
+    void unexpectedFailure_shouldReturn500WithoutDetail_whenUnexpectedExceptionIsThrown() throws Exception {
         MvcResult resultado = mockMvc.perform(get("/falla").header("X-Request-Id", "abc-123"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(header().string("Content-Type", containsStringIgnoringCase("charset=UTF-8")))
                 .andExpect(header().string("X-Request-Id", "abc-123"))
                 .andExpect(jsonPath("$.title").value("Error interno"))
-                .andExpect(jsonPath("$.detail").value(DETALLE))
+                .andExpect(jsonPath("$.detail").value(DETAIL))
                 .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
                 .andExpect(jsonPath("$.requestId").value("abc-123"))
                 .andReturn();
@@ -116,7 +116,7 @@ class BusinessExceptionHandlerTest {
 
     @Test
     @DisplayName("Sin X-Request-Id se genera un UUID v4, igual en el cuerpo y en el encabezado")
-    void resolverRequestId_shouldGenerateUuid_whenHeaderIsMissing() throws Exception {
+    void resolveRequestId_shouldGenerateUuid_whenHeaderIsMissing() throws Exception {
         MvcResult resultado = mockMvc.perform(get("/sin-modelo"))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.requestId", matchesPattern(UUID_V4)))
@@ -132,7 +132,7 @@ class BusinessExceptionHandlerTest {
         "abc/123"
     })
     @DisplayName("Un X-Request-Id que no cumple la forma admitida se reemplaza por un UUID v4")
-    void resolverRequestId_shouldGenerateUuid_whenHeaderIsInvalid(String recibido) throws Exception {
+    void resolveRequestId_shouldGenerateUuid_whenHeaderIsInvalid(String recibido) throws Exception {
         MvcResult resultado = mockMvc.perform(get("/sin-modelo").header("X-Request-Id", recibido))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.code").value("LLM_UNAVAILABLE"))
@@ -145,7 +145,7 @@ class BusinessExceptionHandlerTest {
 
     @Test
     @DisplayName("El error se registra una vez en ERROR, con code, requestId y la traza de la causa")
-    void modeloNoDisponible_shouldLogOnceWithTrace_whenAdapterThrows(CapturedOutput salida) throws Exception {
+    void modelUnavailable_shouldLogOnceWithTrace_whenAdapterThrows(CapturedOutput salida) throws Exception {
         mockMvc.perform(get("/sin-modelo").header("X-Request-Id", "abc-123"))
                 .andExpect(status().isServiceUnavailable());
 
@@ -165,12 +165,12 @@ class BusinessExceptionHandlerTest {
         "IDENTITY_REQUIRED|401|Identidad requerida|Tu sesión expiró. Inicia sesión de nuevo."
     })
     @DisplayName("Cada código de negocio responde con el estado, el título y el mensaje de su definición")
-    void businessException_shouldUseCatalog(String code, int estado, String titulo, String mensaje) throws Exception {
+    void businessException_shouldUseCatalog(String code, int status, String title, String message) throws Exception {
         probe.perform(get("/test/errors/business/" + code))
-                .andExpect(status().is(estado))
+                .andExpect(status().is(status))
                 .andExpect(header().string("Content-Type", "application/problem+json;charset=UTF-8"))
-                .andExpect(jsonPath("$.title").value(titulo))
-                .andExpect(jsonPath("$.detail").value(mensaje))
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.detail").value(message))
                 .andExpect(jsonPath("$.code").value(code))
                 .andExpect(jsonPath("$.requestId", not(emptyString())));
     }
@@ -240,11 +240,11 @@ class BusinessExceptionHandlerTest {
     @ParameterizedTest(name = "base caída: {0}")
     @ValueSource(strings = {"transaction", "resource", "connection"})
     @DisplayName("Una base de datos caída responde 503 DATABASE_UNAVAILABLE sin el mensaje técnico")
-    void databaseDown_shouldReturn503(String tipo, CapturedOutput salida) throws Exception {
-        MvcResult resultado = probe.perform(get("/test/errors/database/" + tipo))
+    void databaseDown_shouldReturn503(String type, CapturedOutput salida) throws Exception {
+        MvcResult resultado = probe.perform(get("/test/errors/database/" + type))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.code").value("DATABASE_UNAVAILABLE"))
-                .andExpect(jsonPath("$.detail").value(DETALLE))
+                .andExpect(jsonPath("$.detail").value(DETAIL))
                 .andReturn();
 
         assertThat(resultado.getResponse().getContentAsString()).doesNotContain("db-interno");
@@ -257,7 +257,7 @@ class BusinessExceptionHandlerTest {
         probe.perform(get("/test/errors/integrity"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
-                .andExpect(jsonPath("$.detail").value(DETALLE));
+                .andExpect(jsonPath("$.detail").value(DETAIL));
     }
 
     @Test
@@ -294,7 +294,7 @@ class BusinessExceptionHandlerTest {
 
     @Test
     @DisplayName("Un código de negocio sin definición responde 500 INTERNAL_ERROR y se registra")
-    void negocio_shouldReturn500_whenCodeHasNoDefinition(CapturedOutput salida) throws Exception {
+    void businessFailure_shouldReturn500_whenCodeHasNoDefinition(CapturedOutput salida) throws Exception {
         probe.perform(get("/test/errors/undefined-business"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
@@ -311,12 +311,12 @@ class BusinessExceptionHandlerTest {
     static class FailingController {
 
         @GetMapping("/sin-modelo")
-        String sinModelo() {
+        String withoutModel() {
             throw new LlmUnavailableException(new IOException("conexión cortada"));
         }
 
         @GetMapping("/sin-cuota")
-        String sinCuota() {
+        String withoutQuota() {
             throw new LlmLimitReachedException(new IllegalStateException("429 RESOURCE_EXHAUSTED"));
         }
 
@@ -326,12 +326,12 @@ class BusinessExceptionHandlerTest {
         }
 
         @PostMapping("/con-cuerpo")
-        String conCuerpo(@RequestBody Map<String, String> cuerpo) {
+        String withBody(@RequestBody Map<String, String> body) {
             return "ok";
         }
 
         @GetMapping("/con-numero")
-        String conNumero(@RequestParam int valor) {
+        String withNumber(@RequestParam int value) {
             return "ok";
         }
     }

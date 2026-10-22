@@ -22,7 +22,7 @@ import tech.cameia.entrevista.domain.exception.IdentityRequiredException;
  */
 class IdentityHeaderTest {
 
-    private static final String RUTA = "/test/errors/identity";
+    private static final String PATH = "/test/errors/identity";
 
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new ErrorProbeController())
@@ -32,7 +32,7 @@ class IdentityHeaderTest {
     @Test
     @DisplayName("Sin encabezado responde 401 IDENTITY_REQUIRED")
     void identity_shouldReturn401_whenHeaderMissing() throws Exception {
-        mockMvc.perform(get(RUTA))
+        mockMvc.perform(get(PATH))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("IDENTITY_REQUIRED"))
                 .andExpect(jsonPath("$.detail").value(IdentityRequiredException.MESSAGE));
@@ -41,8 +41,8 @@ class IdentityHeaderTest {
     @ParameterizedTest(name = "[{0}]")
     @ValueSource(strings = {"", "   ", "uid\u0007"})
     @DisplayName("Vacío, solo espacios o con carácter de control responde 401")
-    void identity_shouldReturn401_whenHeaderIsEmptyBlankOrHasControlChar(String valor) throws Exception {
-        mockMvc.perform(get(RUTA).header("X-User-Id", valor))
+    void identity_shouldReturn401_whenHeaderIsEmptyBlankOrHasControlChar(String value) throws Exception {
+        mockMvc.perform(get(PATH).header("X-User-Id", value))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("IDENTITY_REQUIRED"));
     }
@@ -50,7 +50,7 @@ class IdentityHeaderTest {
     @Test
     @DisplayName("129 caracteres responde 401")
     void identity_shouldReturn401_whenHeaderTooLong() throws Exception {
-        mockMvc.perform(get(RUTA).header("X-User-Id", "u".repeat(129)))
+        mockMvc.perform(get(PATH).header("X-User-Id", "u".repeat(129)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("IDENTITY_REQUIRED"));
     }
@@ -58,7 +58,7 @@ class IdentityHeaderTest {
     @Test
     @DisplayName("128 caracteres se acepta")
     void identity_shouldAccept_when128Chars() throws Exception {
-        mockMvc.perform(get(RUTA).header("X-User-Id", "u".repeat(128)))
+        mockMvc.perform(get(PATH).header("X-User-Id", "u".repeat(128)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.uid").value("u".repeat(128)));
     }
@@ -68,7 +68,7 @@ class IdentityHeaderTest {
     void identity_shouldAccept_when128CodePointsWithEmoji() throws Exception {
         String uid = "😀".repeat(128);
 
-        mockMvc.perform(get(RUTA).header("X-User-Id", uid))
+        mockMvc.perform(get(PATH).header("X-User-Id", uid))
                 .andExpect(status().isOk());
     }
 

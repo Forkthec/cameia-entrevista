@@ -30,9 +30,9 @@ class ErrorCodeDocumentationTest {
     @ParameterizedTest(name = "{0}")
     @EnumSource(ErrorCode.class)
     @DisplayName("Cada código de ErrorCode es una fila del catálogo de errores")
-    void catalogo_shouldListCode_whenCodeExists(ErrorCode codigo) {
+    void catalogo_shouldListCode_whenCodeExists(ErrorCode code) {
         // Entre comillas invertidas, como fila de la tabla: evita que un código que es prefijo
         // de otro se dé por documentado.
-        assertThat(catalogo).contains("| `" + codigo.name() + "` |");
+        assertThat(catalogo).contains("| `" + code.name() + "` |");
     }
 }

@@ -11,15 +11,15 @@ package tech.cameia.entrevista.domain.exception;
  */
 public class LlmLimitReachedException extends BusinessException {
 
-    private static final String MENSAJE = "Ocurrió un error. Inténtalo de nuevo.";
+    private static final String MESSAGE = "Ocurrió un error. Inténtalo de nuevo.";
 
     /**
      * Crea la excepción conservando la causa técnica.
      *
      * @param causa respuesta de cuota agotada del proveedor, para el log
      */
-    public LlmLimitReachedException(Throwable causa) {
-        super(ErrorCode.LLM_LIMIT_REACHED, MENSAJE);
-        initCause(causa);
+    public LlmLimitReachedException(Throwable cause) {
+        super(ErrorCode.LLM_LIMIT_REACHED, MESSAGE);
+        initCause(cause);
     }
 }

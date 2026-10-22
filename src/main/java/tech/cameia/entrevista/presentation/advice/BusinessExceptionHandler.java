@@ -88,19 +88,19 @@ class BusinessExceptionHandler {
     private static final String ERRORS = "errors";
 
     /** Valor del registro cuando la petición no trae una identidad válida. */
-    private static final String SIN_IDENTIDAD = "-";
+    private static final String NO_IDENTITY = "-";
 
     /** Tope de causas que se recorren al buscar la restricción o el SQLState de un fallo de la base. */
-    private static final int MAX_CAUSAS = 32;
+    private static final int MAX_CAUSES = 32;
 
     /** Título de los rechazos por datos que la persona debe corregir. */
-    private static final String TITULO_VALIDACION = "Datos no válidos";
+    private static final String TITLE_VALIDATION = "Datos no válidos";
 
     /** {@code detail} de la validación de campos. */
-    private static final String DETALLE_VALIDACION = "Revisa los campos marcados.";
+    private static final String DETAIL_VALIDATION = "Revisa los campos marcados.";
 
     /** {@code detail} de una entrada con el valor o el tipo equivocado fuera del cuerpo. */
-    private static final String DETALLE_DATOS = "Revisa los datos enviados.";
+    private static final String DETAIL_INVALID_DATA = "Revisa los datos enviados.";
 
     /** Cómo responde el servicio a cada fallo de negocio: estado y título de la respuesta. */
     record Definition(HttpStatus status, String title) {
@@ -119,7 +119,7 @@ class BusinessExceptionHandler {
             ErrorCode.IDENTITY_REQUIRED, new Definition(HttpStatus.UNAUTHORIZED, "Identidad requerida"));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
-    record CampoRechazado(String field, String code, String message) {
+    record RejectedField(String field, String code, String message) {
     }
 
     /**
@@ -140,13 +140,13 @@ class BusinessExceptionHandler {
      * uno nuevo: así un valor con saltos de línea o de tamaño arbitrario nunca llega al log
      * ni a la respuesta.
      */
-    private static final Pattern REQUEST_ID_VALIDO = Pattern.compile("^[A-Za-z0-9._-]{1,64}$");
+    private static final Pattern VALID_REQUEST_ID = Pattern.compile("^[A-Za-z0-9._-]{1,64}$");
 
     /** Título de los fallos de una dependencia que la persona puede reintentar. */
-    private static final String TITULO_NO_DISPONIBLE = "Servicio no disponible";
+    private static final String TITLE_UNAVAILABLE = "Servicio no disponible";
 
     /** {@code detail} de todo fallo que la persona no puede corregir. */
-    private static final String DETALLE_INTERNO = "Ocurrió un error. Inténtalo de nuevo.";
+    private static final String DETAIL_INTERNAL = "Ocurrió un error. Inténtalo de nuevo.";
 
     /**
      * El modelo de lenguaje no respondió a tiempo, el proveedor falló o la respuesta no se puede
@@ -159,8 +159,8 @@ class BusinessExceptionHandler {
      * @return {@code 503 Service Unavailable} con el código {@code LLM_UNAVAILABLE}
      */
     @ExceptionHandler(LlmUnavailableException.class)
-    ProblemDetail modeloNoDisponible(LlmUnavailableException error) {
-        return falloDelServicio(HttpStatus.SERVICE_UNAVAILABLE, TITULO_NO_DISPONIBLE, error.getErrorCode(),
+    ProblemDetail modelUnavailable(LlmUnavailableException error) {
+        return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
                 "Modelo de lenguaje no disponible", error);
     }
 
@@ -174,8 +174,8 @@ class BusinessExceptionHandler {
      * @return {@code 503 Service Unavailable} con el código {@code LLM_LIMIT_REACHED}
      */
     @ExceptionHandler(LlmLimitReachedException.class)
-    ProblemDetail limiteDelModeloAgotado(LlmLimitReachedException error) {
-        return falloDelServicio(HttpStatus.SERVICE_UNAVAILABLE, TITULO_NO_DISPONIBLE, error.getErrorCode(),
+    ProblemDetail modelLimitReached(LlmLimitReachedException error) {
+        return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
                 "Límite de uso del modelo de lenguaje agotado", error);
     }
 
@@ -190,14 +190,14 @@ class BusinessExceptionHandler {
      * @return la respuesta de su definición, o {@code 500 INTERNAL_ERROR} si no la tiene
      */
     @ExceptionHandler(BusinessException.class)
-    ProblemDetail negocio(BusinessException error) {
-        Definition definicion = DEFINITIONS.get(error.getErrorCode());
-        if (definicion == null) {
+    ProblemDetail businessFailure(BusinessException error) {
+        Definition definition = DEFINITIONS.get(error.getErrorCode());
+        if (definition == null) {
             logger.error("Código sin definición: {}", error.getErrorCode());
-            return falloDelServicio(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", ErrorCode.INTERNAL_ERROR,
+            return serviceFailure(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", ErrorCode.INTERNAL_ERROR,
                     "Fallo no controlado", error);
         }
-        return rechazo(definicion.status(), definicion.title(), error.getMessage(), error.getErrorCode(), "");
+        return rejection(definition.status(), definition.title(), error.getMessage(), error.getErrorCode(), "");
     }
 
     /**
@@ -211,21 +211,21 @@ class BusinessExceptionHandler {
      * @return {@code 422 Unprocessable Entity} con un elemento por campo
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ProblemDetail camposInvalidos(MethodArgumentNotValidException error) {
-        Map<String, CampoRechazado> porCampo = new LinkedHashMap<>();
-        for (FieldError fallo : error.getBindingResult().getFieldErrors()) {
-            porCampo.putIfAbsent(fallo.getField(), new CampoRechazado(fallo.getField(), codigoDe(fallo).name(),
-                    fallo.getDefaultMessage() == null ? "Valor no válido" : fallo.getDefaultMessage()));
+    ProblemDetail invalidFields(MethodArgumentNotValidException error) {
+        Map<String, RejectedField> byField = new LinkedHashMap<>();
+        for (FieldError failure : error.getBindingResult().getFieldErrors()) {
+            byField.putIfAbsent(failure.getField(), new RejectedField(failure.getField(), codeOf(failure).name(),
+                    failure.getDefaultMessage() == null ? "Valor no válido" : failure.getDefaultMessage()));
         }
-        List<CampoRechazado> campos = new ArrayList<>(porCampo.values());
+        List<RejectedField> fields = new ArrayList<>(byField.values());
         // Solo nombres de campo y códigos, que salen del contrato: nunca el valor ni el mensaje.
-        String resumen = campos.stream()
-                .map(campo -> campo.field() + "=" + campo.code())
+        String summary = fields.stream()
+                .map(field -> field.field() + "=" + field.code())
                 .collect(Collectors.joining(",", "campos=[", "]"));
-        ProblemDetail problema = rechazo(HttpStatus.UNPROCESSABLE_ENTITY, TITULO_VALIDACION, DETALLE_VALIDACION,
-                ErrorCode.VALIDATION_FAILED, resumen);
-        problema.setProperty(ERRORS, campos);
-        return problema;
+        ProblemDetail problem = rejection(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION, DETAIL_VALIDATION,
+                ErrorCode.VALIDATION_FAILED, summary);
+        problem.setProperty(ERRORS, fields);
+        return problem;
     }
 
     /**
@@ -238,9 +238,9 @@ class BusinessExceptionHandler {
      * @return {@code 422 Unprocessable Entity} con el código {@code REQUEST_BODY_INVALID_FORMAT}
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ProblemDetail cuerpoIlegible(HttpMessageNotReadableException error) {
-        return rechazo(HttpStatus.UNPROCESSABLE_ENTITY, TITULO_VALIDACION, "Revisa el formato de los datos enviados.",
-                ErrorCode.REQUEST_BODY_INVALID_FORMAT, "causa=" + claseMasEspecifica(error));
+    ProblemDetail unreadableBody(HttpMessageNotReadableException error) {
+        return rejection(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION, "Revisa el formato de los datos enviados.",
+                ErrorCode.REQUEST_BODY_INVALID_FORMAT, "causa=" + mostSpecificClass(error));
     }
 
     /**
@@ -254,18 +254,18 @@ class BusinessExceptionHandler {
      * @return {@code 401} si falta la identidad; {@code 422 REQUEST_INVALID_VALUE} en los demás casos
      */
     @ExceptionHandler(ServletRequestBindingException.class)
-    ProblemDetail peticionIncompleta(ServletRequestBindingException error) {
-        if (error instanceof MissingRequestHeaderException encabezado
-                && IDENTITY_HEADER.equalsIgnoreCase(encabezado.getHeaderName())) {
-            Definition definicion = DEFINITIONS.get(ErrorCode.IDENTITY_REQUIRED);
-            return rechazo(definicion.status(), definicion.title(), IdentityRequiredException.MESSAGE,
-                    ErrorCode.IDENTITY_REQUIRED, "encabezado=" + encabezado.getHeaderName());
+    ProblemDetail incompleteRequest(ServletRequestBindingException error) {
+        if (error instanceof MissingRequestHeaderException header
+                && IDENTITY_HEADER.equalsIgnoreCase(header.getHeaderName())) {
+            Definition definition = DEFINITIONS.get(ErrorCode.IDENTITY_REQUIRED);
+            return rejection(definition.status(), definition.title(), IdentityRequiredException.MESSAGE,
+                    ErrorCode.IDENTITY_REQUIRED, "encabezado=" + header.getHeaderName());
         }
-        String faltante = error instanceof MissingRequestHeaderException encabezado
-                ? "encabezado=" + encabezado.getHeaderName()
+        String missing = error instanceof MissingRequestHeaderException header
+                ? "encabezado=" + header.getHeaderName()
                 : "causa=" + error.getClass().getSimpleName();
-        return rechazo(HttpStatus.UNPROCESSABLE_ENTITY, TITULO_VALIDACION, DETALLE_DATOS,
-                ErrorCode.REQUEST_INVALID_VALUE, faltante);
+        return rejection(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION, DETAIL_INVALID_DATA,
+                ErrorCode.REQUEST_INVALID_VALUE, missing);
     }
 
     /**
@@ -278,8 +278,8 @@ class BusinessExceptionHandler {
      * @return {@code 422 Unprocessable Entity} con el código {@code REQUEST_INVALID_VALUE}
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    ProblemDetail tipoDeParametroIncorrecto(MethodArgumentTypeMismatchException error) {
-        return rechazo(HttpStatus.UNPROCESSABLE_ENTITY, TITULO_VALIDACION, DETALLE_DATOS,
+    ProblemDetail parameterTypeMismatch(MethodArgumentTypeMismatchException error) {
+        return rejection(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION, DETAIL_INVALID_DATA,
                 ErrorCode.REQUEST_INVALID_VALUE, "parametro=" + error.getName());
     }
 
@@ -290,8 +290,8 @@ class BusinessExceptionHandler {
      * @return {@code 404 Not Found} con el código {@code ROUTE_NOT_FOUND}
      */
     @ExceptionHandler(NoResourceFoundException.class)
-    ProblemDetail rutaInexistente(NoResourceFoundException error) {
-        return rechazo(HttpStatus.NOT_FOUND, "Ruta no encontrada", "No existe la ruta solicitada.",
+    ProblemDetail routeNotFound(NoResourceFoundException error) {
+        return rejection(HttpStatus.NOT_FOUND, "Ruta no encontrada", "No existe la ruta solicitada.",
                 ErrorCode.ROUTE_NOT_FOUND, "metodo=" + error.getHttpMethod());
     }
 
@@ -305,10 +305,10 @@ class BusinessExceptionHandler {
      * @return {@code 405 Method Not Allowed} con el código {@code METHOD_NOT_ALLOWED}
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    ResponseEntity<ProblemDetail> metodoNoPermitido(HttpRequestMethodNotSupportedException error) {
-        ProblemDetail problema = rechazo(HttpStatus.METHOD_NOT_ALLOWED, "Método no permitido",
+    ResponseEntity<ProblemDetail> methodNotAllowed(HttpRequestMethodNotSupportedException error) {
+        ProblemDetail problem = rejection(HttpStatus.METHOD_NOT_ALLOWED, "Método no permitido",
                 "Método no permitido.", ErrorCode.METHOD_NOT_ALLOWED, "metodo=" + error.getMethod());
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).headers(error.getHeaders()).body(problema);
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).headers(error.getHeaders()).body(problem);
     }
 
     /**
@@ -318,11 +318,11 @@ class BusinessExceptionHandler {
      * @return {@code 415 Unsupported Media Type} con el código {@code MEDIA_TYPE_NOT_ALLOWED}
      */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    ResponseEntity<ProblemDetail> tipoDeContenidoNoAdmitido(HttpMediaTypeNotSupportedException error) {
-        ProblemDetail problema = rechazo(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Tipo de contenido no admitido",
+    ResponseEntity<ProblemDetail> unsupportedContentType(HttpMediaTypeNotSupportedException error) {
+        ProblemDetail problem = rejection(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Tipo de contenido no admitido",
                 "Tipo de contenido no admitido.", ErrorCode.MEDIA_TYPE_NOT_ALLOWED, "");
         // Accept con los tipos admitidos, como sugiere HTTP para un 415.
-        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).headers(error.getHeaders()).body(problema);
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).headers(error.getHeaders()).body(problem);
     }
 
     /**
@@ -336,12 +336,12 @@ class BusinessExceptionHandler {
      * @return {@code 406 Not Acceptable} con el código {@code MEDIA_TYPE_NOT_ACCEPTABLE}
      */
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
-    ResponseEntity<ProblemDetail> tipoDeRespuestaNoAdmitido(HttpMediaTypeNotAcceptableException error) {
-        ProblemDetail problema = rechazo(HttpStatus.NOT_ACCEPTABLE, "Tipo de respuesta no admitido",
+    ResponseEntity<ProblemDetail> notAcceptableType(HttpMediaTypeNotAcceptableException error) {
+        ProblemDetail problem = rejection(HttpStatus.NOT_ACCEPTABLE, "Tipo de respuesta no admitido",
                 "Tipo de respuesta no admitido.", ErrorCode.MEDIA_TYPE_NOT_ACCEPTABLE, "");
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                 .contentType(new MediaType("application", "problem+json", StandardCharsets.UTF_8))
-                .body(problema);
+                .body(problem);
     }
 
     /**
@@ -356,15 +356,15 @@ class BusinessExceptionHandler {
      */
     @ExceptionHandler({CannotCreateTransactionException.class, DataAccessResourceFailureException.class,
         CannotGetJdbcConnectionException.class})
-    ProblemDetail baseNoDisponible(Exception error) {
-        ProblemDetail problema = problema(HttpStatus.SERVICE_UNAVAILABLE, TITULO_NO_DISPONIBLE, DETALLE_INTERNO,
+    ProblemDetail databaseUnavailable(Exception error) {
+        ProblemDetail problem = problem(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, DETAIL_INTERNAL,
                 ErrorCode.DATABASE_UNAVAILABLE);
-        if (primerRegistro()) {
+        if (shouldLog()) {
             logger.error("Base de datos no disponible [code={}, requestId={}, sqlState={}, causa={}]",
-                    ErrorCode.DATABASE_UNAVAILABLE, problema.getProperties().get("requestId"), sqlStateOf(error),
-                    claseMasEspecifica(error), error);
+                    ErrorCode.DATABASE_UNAVAILABLE, problem.getProperties().get("requestId"), sqlStateOf(error),
+                    mostSpecificClass(error), error);
         }
-        return problema;
+        return problem;
     }
 
     /**
@@ -380,15 +380,15 @@ class BusinessExceptionHandler {
      * @return {@code 500 Internal Server Error} con un mensaje genérico
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    ProblemDetail integridadDeDatos(DataIntegrityViolationException error) {
-        ProblemDetail problema = problema(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", DETALLE_INTERNO,
+    ProblemDetail dataIntegrityViolation(DataIntegrityViolationException error) {
+        ProblemDetail problem = problem(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", DETAIL_INTERNAL,
                 ErrorCode.INTERNAL_ERROR);
-        if (primerRegistro()) {
+        if (shouldLog()) {
             logger.error("Violación de restricción de la base [constraint={}, sqlState={}, code={}, requestId={}, causa={}]",
-                    restriccionDe(error), sqlStateOf(error), ErrorCode.INTERNAL_ERROR,
-                    problema.getProperties().get("requestId"), claseMasEspecifica(error));
+                    constraintNameOf(error), sqlStateOf(error), ErrorCode.INTERNAL_ERROR,
+                    problem.getProperties().get("requestId"), mostSpecificClass(error));
         }
-        return problema;
+        return problem;
     }
 
     /**
@@ -406,12 +406,12 @@ class BusinessExceptionHandler {
      * @throws Exception el mismo rechazo de protocolo, para que lo resuelva Spring
      */
     @ExceptionHandler(Exception.class)
-    ProblemDetail falloInterno(Exception error) throws Exception {
-        if (esRechazoDeProtocolo(error)) {
+    ProblemDetail unexpectedFailure(Exception error) throws Exception {
+        if (isProtocolRejection(error)) {
             // Relanzar la misma excepción hace que Spring pase al siguiente resolvedor sin registrar nada.
             throw error;
         }
-        return falloDelServicio(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", ErrorCode.INTERNAL_ERROR,
+        return serviceFailure(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno", ErrorCode.INTERNAL_ERROR,
                 "Fallo no controlado", error);
     }
 
@@ -420,50 +420,50 @@ class BusinessExceptionHandler {
      * traen su propio estado ({@link ErrorResponse}) y las dos que el resolvedor por defecto
      * traduce a {@code 400} sin traerlo.
      */
-    private static boolean esRechazoDeProtocolo(Exception error) {
+    private static boolean isProtocolRejection(Exception error) {
         return error instanceof ErrorResponse
                 || error instanceof HttpMessageNotReadableException
                 || error instanceof TypeMismatchException;
     }
 
     /** Fallo del servicio (5xx), registrado una sola vez en {@code ERROR} con traza. */
-    private ProblemDetail falloDelServicio(HttpStatus estado, String titulo, ErrorCode codigo, String resumen,
+    private ProblemDetail serviceFailure(HttpStatus status, String title, ErrorCode code, String summary,
             Exception error) {
-        ProblemDetail problema = problema(estado, titulo, DETALLE_INTERNO, codigo);
-        if (primerRegistro()) {
-            logger.error("{} [code={}, requestId={}]", resumen, codigo, problema.getProperties().get("requestId"),
+        ProblemDetail problem = problem(status, title, DETAIL_INTERNAL, code);
+        if (shouldLog()) {
+            logger.error("{} [code={}, requestId={}]", summary, code, problem.getProperties().get("requestId"),
                     error);
         }
-        return problema;
+        return problem;
     }
 
     /**
      * Rechazo de la petición (4xx), registrado una vez en {@code WARN} sin traza, con el estado, el
      * código, el {@code requestId} y la identidad de quien llama.
      */
-    private ProblemDetail rechazo(HttpStatus estado, String titulo, String detalle, ErrorCode codigo,
-            String contexto) {
-        ProblemDetail problema = problema(estado, titulo, detalle, codigo);
-        if (primerRegistro()) {
-            logger.warn("Petición rechazada [status={}, code={}, requestId={}, firebaseUid={}] {}", estado.value(),
-                    codigo, problema.getProperties().get("requestId"), firebaseUidParaLog(), contexto);
+    private ProblemDetail rejection(HttpStatus status, String title, String detail, ErrorCode code,
+            String context) {
+        ProblemDetail problem = problem(status, title, detail, code);
+        if (shouldLog()) {
+            logger.warn("Petición rechazada [status={}, code={}, requestId={}, firebaseUid={}] {}", status.value(),
+                    code, problem.getProperties().get("requestId"), firebaseUidForLog(), context);
         }
-        return problema;
+        return problem;
     }
 
     /**
      * Identidad de quien llama para el registro: el valor de {@code X-User-Id} si es una identidad
      * válida y {@code -} si falta o no lo es, de modo que un valor mal formado nunca llega al log.
      */
-    private static String firebaseUidParaLog() {
+    private static String firebaseUidForLog() {
         if (!(RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes servlet)) {
-            return SIN_IDENTIDAD;
+            return NO_IDENTITY;
         }
         try {
             return FirebaseUid.required(servlet.getRequest().getHeader(IDENTITY_HEADER)).value();
-        } catch (IdentityRequiredException sinIdentidad) {
+        } catch (IdentityRequiredException withoutIdentity) {
             // La falta de identidad ya se responde por su propio camino; aquí solo se enmascara en el log.
-            return SIN_IDENTIDAD;
+            return NO_IDENTITY;
         }
     }
 
@@ -475,20 +475,20 @@ class BusinessExceptionHandler {
      * {@code ERROR}: nunca {@code VALIDATION_FAILED}, que es el código de la operación entera. Cada
      * restricción nueva del contrato debe declarar su código para que esa rama no se use.</p>
      */
-    private static ErrorCode codigoDe(FieldError fallo) {
-        if (fallo.contains(ConstraintViolation.class)
-                && fallo.unwrap(ConstraintViolation.class) instanceof HibernateConstraintViolation<?> violation
+    private static ErrorCode codeOf(FieldError failure) {
+        if (failure.contains(ConstraintViolation.class)
+                && failure.unwrap(ConstraintViolation.class) instanceof HibernateConstraintViolation<?> violation
                 && violation.getDynamicPayload(ErrorCode.class) != null) {
             return violation.getDynamicPayload(ErrorCode.class);
         }
-        logger.error("Restricción del contrato sin código de error: {}.{}", fallo.getField(), fallo.getCode());
+        logger.error("Restricción del contrato sin código de error: {}.{}", failure.getField(), failure.getCode());
         return ErrorCode.REQUEST_INVALID_VALUE;
     }
 
     /** Nombre de la restricción violada, buscado en la cadena de causas; nunca el mensaje. */
-    private static String restriccionDe(Throwable error) {
+    private static String constraintNameOf(Throwable error) {
         Throwable actual = error;
-        for (int nivel = 0; actual != null && nivel < MAX_CAUSAS; nivel++, actual = actual.getCause()) {
+        for (int level = 0; actual != null && level < MAX_CAUSES; level++, actual = actual.getCause()) {
             if (actual instanceof ConstraintViolationException hibernate && hibernate.getConstraintName() != null) {
                 return hibernate.getConstraintName();
             }
@@ -499,7 +499,7 @@ class BusinessExceptionHandler {
     /** SQLState de la primera excepción de JDBC en la cadena de causas; nunca su mensaje. */
     private static String sqlStateOf(Throwable error) {
         Throwable current = error;
-        for (int depth = 0; current != null && depth < MAX_CAUSAS; depth++, current = current.getCause()) {
+        for (int depth = 0; current != null && depth < MAX_CAUSES; depth++, current = current.getCause()) {
             if (current instanceof SQLException jdbc && jdbc.getSQLState() != null) {
                 return jdbc.getSQLState();
             }
@@ -508,24 +508,24 @@ class BusinessExceptionHandler {
     }
 
     /** Nombre simple de la causa más profunda: dice qué falló sin citar el valor recibido. */
-    private static String claseMasEspecifica(Throwable error) {
+    private static String mostSpecificClass(Throwable error) {
         Throwable actual = error;
-        for (int nivel = 0; actual.getCause() != null && nivel < MAX_CAUSAS; nivel++) {
+        for (int level = 0; actual.getCause() != null && level < MAX_CAUSES; level++) {
             actual = actual.getCause();
         }
         return actual.getClass().getSimpleName();
     }
 
-    private ProblemDetail problema(HttpStatus estado, String titulo, String detalle, ErrorCode codigo) {
-        ProblemDetail problema = ProblemDetail.forStatusAndDetail(estado, detalle);
-        problema.setTitle(titulo);
-        problema.setProperty("code", codigo.name());
-        problema.setProperty("requestId", resolverRequestId());
-        URI original = rutaOriginal();
+    private ProblemDetail problem(HttpStatus status, String title, String detail, ErrorCode code) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
+        problem.setTitle(title);
+        problem.setProperty("code", code.name());
+        problem.setProperty("requestId", resolveRequestId());
+        URI original = originalPath();
         if (original != null) {
-            problema.setInstance(original);
+            problem.setInstance(original);
         }
-        return problema;
+        return problem;
     }
 
     /**
@@ -533,7 +533,7 @@ class BusinessExceptionHandler {
      * contenedor la vuelve a despachar a {@code /error} después de que ya se registró, el segundo
      * despacho responde con el mismo identificador y no escribe otra línea.
      */
-    private boolean primerRegistro() {
+    private boolean shouldLog() {
         if (!(RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes servlet)) {
             return true;
         }
@@ -551,14 +551,14 @@ class BusinessExceptionHandler {
      * @return la ruta, o {@code null} si no es un despacho de error o la ruta no es una referencia
      *         válida (por ejemplo una codificación inválida), en cuyo caso rige la ruta del despacho
      */
-    private static URI rutaOriginal() {
+    private static URI originalPath() {
         if (!(RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes servlet)
-                || !(servlet.getRequest().getAttribute(RequestDispatcher.ERROR_REQUEST_URI) instanceof String ruta)
-                || !ruta.startsWith("/")) {
+                || !(servlet.getRequest().getAttribute(RequestDispatcher.ERROR_REQUEST_URI) instanceof String path)
+                || !path.startsWith("/")) {
             return null;
         }
         try {
-            return new URI(ruta);
+            return new URI(path);
         } catch (URISyntaxException invalida) {
             return null;
         }
@@ -574,14 +574,14 @@ class BusinessExceptionHandler {
      * el filtro de codificación; sin esto, el {@code Content-Type} del error saldría sin
      * {@code charset} (ASVS 4.1.1).</p>
      */
-    private String resolverRequestId() {
+    private String resolveRequestId() {
         RequestAttributes atributos = RequestContextHolder.getRequestAttributes();
         if (!(atributos instanceof ServletRequestAttributes servlet)) {
             return UUID.randomUUID().toString();
         }
         String requestId = servlet.getRequest().getAttribute(REQUEST_ID_ATTRIBUTE) instanceof String resuelto
                 ? resuelto
-                : nuevoRequestId(servlet.getRequest());
+                : newRequestId(servlet.getRequest());
         if (servlet.getResponse() != null) {
             servlet.getResponse().setHeader(REQUEST_ID_HEADER, requestId);
             servlet.getResponse().setContentType(PROBLEM_JSON_UTF8);
@@ -590,9 +590,9 @@ class BusinessExceptionHandler {
     }
 
     /** Identificador recibido si cumple la forma admitida, o uno nuevo; queda en la petición. */
-    private static String nuevoRequestId(HttpServletRequest request) {
+    private static String newRequestId(HttpServletRequest request) {
         String recibido = request.getHeader(REQUEST_ID_HEADER);
-        String requestId = recibido != null && REQUEST_ID_VALIDO.matcher(recibido).matches()
+        String requestId = recibido != null && VALID_REQUEST_ID.matcher(recibido).matches()
                 ? recibido
                 : UUID.randomUUID().toString();
         request.setAttribute(REQUEST_ID_ATTRIBUTE, requestId);

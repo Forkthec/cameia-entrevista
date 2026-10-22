@@ -35,7 +35,7 @@ class LanguageModelPropertiesTest {
 
     private static final String LLAVE_SECRETA = "clave-secreta-de-prueba";
 
-    private final ApplicationContextRunner contexto = new ApplicationContextRunner()
+    private final ApplicationContextRunner context = new ApplicationContextRunner()
             .withUserConfiguration(PropertiesOnly.class)
             .withPropertyValues(
                     "cameia.llm.api-key=clave-falsa-de-prueba",
@@ -47,7 +47,7 @@ class LanguageModelPropertiesTest {
     @Test
     @DisplayName("Con todos los valores válidos el contexto arranca y enlaza cada propiedad")
     void bind_shouldStart_whenAllValuesAreValid() {
-        contexto.run(arrancado -> {
+        context.run(arrancado -> {
             assertThat(arrancado).hasNotFailed();
             LanguageModelProperties propiedades = arrancado.getBean(LanguageModelProperties.class);
             assertThat(propiedades.apiKey()).isEqualTo("clave-falsa-de-prueba");
@@ -62,8 +62,8 @@ class LanguageModelPropertiesTest {
     @ValueSource(strings = {"", "   ", "\t"})
     @DisplayName("Una llave vacía o en blanco impide arrancar y el error nombra la propiedad y la variable")
     void bind_shouldFail_whenApiKeyIsBlank(String llave) {
-        contexto.withPropertyValues("cameia.llm.api-key=" + llave)
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+        context.withPropertyValues("cameia.llm.api-key=" + llave)
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.api-key (GOOGLE_GENAI_API_KEY) es obligatoria"));
     }
 
@@ -77,16 +77,16 @@ class LanguageModelPropertiesTest {
                         "cameia.llm.timeout=30s",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low")
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.api-key (GOOGLE_GENAI_API_KEY) es obligatoria"));
     }
 
     @ParameterizedTest(name = "modelo [{0}]")
     @ValueSource(strings = {"", "  "})
     @DisplayName("Un modelo vacío o en blanco impide arrancar y el error nombra la propiedad y la variable")
-    void bind_shouldFail_whenModelIsBlank(String modelo) {
-        contexto.withPropertyValues("cameia.llm.model=" + modelo)
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+    void bind_shouldFail_whenModelIsBlank(String model) {
+        context.withPropertyValues("cameia.llm.model=" + model)
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.model (LLM_MODEL) es obligatorio"));
     }
 
@@ -100,7 +100,7 @@ class LanguageModelPropertiesTest {
                         "cameia.llm.timeout=30s",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low")
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.model (LLM_MODEL) es obligatorio"));
     }
 
@@ -108,16 +108,16 @@ class LanguageModelPropertiesTest {
     @ValueSource(strings = {"0s", "-1s"})
     @DisplayName("Un timeout cero o negativo impide arrancar")
     void bind_shouldFail_whenTimeoutIsNotPositive(String timeout) {
-        contexto.withPropertyValues("cameia.llm.timeout=" + timeout)
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+        context.withPropertyValues("cameia.llm.timeout=" + timeout)
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.timeout (LLM_TIMEOUT) debe ser mayor que cero"));
     }
 
     @Test
     @DisplayName("Un timeout que no es una duración impide arrancar")
     void bind_shouldFail_whenTimeoutIsNotADuration() {
-        contexto.withPropertyValues("cameia.llm.timeout=abc")
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+        context.withPropertyValues("cameia.llm.timeout=abc")
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.timeout"));
     }
 
@@ -125,16 +125,16 @@ class LanguageModelPropertiesTest {
     @ValueSource(strings = {"-0.1", "2.1"})
     @DisplayName("Una temperatura fuera de 0.0 a 2.0 impide arrancar")
     void bind_shouldFail_whenTemperatureIsOutOfRange(String temperatura) {
-        contexto.withPropertyValues("cameia.llm.temperature=" + temperatura)
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+        context.withPropertyValues("cameia.llm.temperature=" + temperatura)
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.temperature debe estar entre 0.0 y 2.0"));
     }
 
     @Test
     @DisplayName("Un nivel de pensamiento que no existe impide arrancar")
     void bind_shouldFail_whenThinkingLevelIsUnknown() {
-        contexto.withPropertyValues("cameia.llm.thinking-level=ultra")
-                .run(arrancado -> assertThat(mensajes(arrancado.getStartupFailure()))
+        context.withPropertyValues("cameia.llm.thinking-level=ultra")
+                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
                         .contains("cameia.llm.thinking-level"));
     }
 
@@ -153,7 +153,7 @@ class LanguageModelPropertiesTest {
                 "--cameia.llm.timeout=abc",
                 "--cameia.llm.temperature=1.0",
                 "--cameia.llm.thinking-level=low"))
-                .satisfies(error -> assertThat(mensajes(error)).doesNotContain(LLAVE_SECRETA));
+                .satisfies(error -> assertThat(messages(error)).doesNotContain(LLAVE_SECRETA));
 
         assertThat(salida.getAll())
                 .contains("cameia.llm.timeout")
@@ -174,7 +174,7 @@ class LanguageModelPropertiesTest {
                 "--cameia.llm.timeout=30s",
                 "--cameia.llm.temperature=1.0",
                 "--cameia.llm.thinking-level=low"))
-                .satisfies(error -> assertThat(mensajes(error)).doesNotContain(LLAVE_SECRETA));
+                .satisfies(error -> assertThat(messages(error)).doesNotContain(LLAVE_SECRETA));
 
         assertThat(salida.getAll())
                 .contains("cameia.llm.model (LLM_MODEL) es obligatorio")
@@ -194,13 +194,13 @@ class LanguageModelPropertiesTest {
     }
 
     /** Mensajes de toda la cadena de causas, para buscar en ellos sin depender del nivel. */
-    private static String mensajes(Throwable error) {
+    private static String messages(Throwable error) {
         assertThat(error).as("el arranque debía fallar").isNotNull();
-        List<String> textos = new ArrayList<>();
+        List<String> texts = new ArrayList<>();
         for (Throwable actual = error; actual != null; actual = actual.getCause()) {
-            textos.add(String.valueOf(actual.getMessage()));
+            texts.add(String.valueOf(actual.getMessage()));
         }
-        return String.join("\n", textos);
+        return String.join("\n", texts);
     }
 
     /** Contexto mínimo que solo enlaza y valida las propiedades del modelo. */

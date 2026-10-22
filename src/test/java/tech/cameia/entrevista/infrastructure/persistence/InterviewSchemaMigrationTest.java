@@ -843,7 +843,7 @@ class InterviewSchemaMigrationTest {
 				row.values().toArray());
 	}
 
-	private Map<String, Object> sessionRow(String uid, String estado, Instant endDate) {
+	private Map<String, Object> sessionRow(String uid, String status, Instant endDate) {
 		Map<String, Object> row = new LinkedHashMap<>();
 		row.put("id", UUID.randomUUID());
 		row.put("firebase_uid", uid);
@@ -855,20 +855,20 @@ class InterviewSchemaMigrationTest {
 		row.put("tono", "CALIDO");
 		row.put("forma_respuesta", "TEXTO");
 		row.put("idioma", "es-CO");
-		row.put("estado", estado);
+		row.put("estado", status);
 		row.put("fecha_creacion", now());
 		row.put("fecha_actualizacion", now());
 		row.put("fecha_fin", endDate == null ? null : OffsetDateTime.ofInstant(endDate, ZoneOffset.UTC));
 		return row;
 	}
 
-	private UUID insertSession(String uid, String estado, Instant endDate) {
-		Map<String, Object> row = sessionRow(uid, estado, endDate);
+	private UUID insertSession(String uid, String status, Instant endDate) {
+		Map<String, Object> row = sessionRow(uid, status, endDate);
 		insert("sesion", row);
 		return (UUID) row.get("id");
 	}
 
-	private Map<String, Object> executionRow(UUID sessionId, UUID turnId, String operation, String estado) {
+	private Map<String, Object> executionRow(UUID sessionId, UUID turnId, String operation, String status) {
 		Map<String, Object> row = new LinkedHashMap<>();
 		row.put("id", UUID.randomUUID());
 		row.put("sesion_id", sessionId);
@@ -876,12 +876,12 @@ class InterviewSchemaMigrationTest {
 		row.put("tipo_operacion", operation);
 		row.put("numero_intento", 1);
 		row.put("idempotency_key", UUID.randomUUID());
-		row.put("estado", estado);
+		row.put("estado", status);
 		row.put("modelo", "modelo-de-prueba");
 		row.put("version_prompt", "TRANSCRIBIR".equals(operation) ? null : "v1");
-		row.put("error_codigo", "FALLIDA".equals(estado) ? "LLM_UNAVAILABLE" : null);
+		row.put("error_codigo", "FALLIDA".equals(status) ? "LLM_UNAVAILABLE" : null);
 		row.put("fecha_inicio", now());
-		row.put("fecha_fin", "EN_CURSO".equals(estado) ? null : now());
+		row.put("fecha_fin", "EN_CURSO".equals(status) ? null : now());
 		return row;
 	}
 
