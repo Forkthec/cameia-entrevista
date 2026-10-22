@@ -46,7 +46,7 @@ services:
       entrevista-db:
         condition: service_healthy
     environment:
-      # Perfil de Spring: "local" recrea el esquema en cada arranque
+      # Perfil de Spring: "local" -> Flyway instala el esquema y muestra SQL
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-local}
       # Puerto interno fijo; al host se publica el valor de SERVER_PORT
       SERVER_PORT: 8080
