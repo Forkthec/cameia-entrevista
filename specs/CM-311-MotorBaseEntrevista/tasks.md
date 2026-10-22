@@ -482,6 +482,8 @@ Peticiones y `pm.test` exactos: las 4 de la spec §12. La primera (`GET /health`
 
 **Commit:** `CM-311 | test(postman): colección de salud y errores del framework`.
 
+**Resultado (22-oct):** hecho. Colección generada y corrida con Newman contra el jar empaquetado (`clean package`) y una PostgreSQL 16 real desechable (contenedor `cm311-newman-db`, clave inventada, puerto 55433): 4 peticiones, 19 aserciones, 0 fallos (`ejecucion/evidencia/CM-311/newman.txt` y `newman.xml`). Esta corrida valida la colección; la definitiva se repite en T9 sobre la punta. El jar arranca solo con las cinco propiedades `cameia.llm.*` pasadas como variables de entorno (CM-312 no les dejó valor por defecto); el README lo dice. Exploración adversarial adelantada con el servicio arrancado (`exploracion-adversarial-1.txt`): salen 3 hallazgos fuera del formato del servicio, que se reportan en T9 y no se corrigen aquí.
+
 ---
 
 ## T8 · Documentación

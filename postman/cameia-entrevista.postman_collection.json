@@ -1,0 +1,176 @@
+{
+  "info": {
+    "name": "cameia-entrevista",
+    "description": "Pruebas de API del microservicio de Entrevista: salud y errores del framework. Cada error se comprueba con su código estable, requestId, Content-Type problem+json con charset UTF-8 y sin detalle interno.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Salud",
+      "item": [
+        {
+          "name": "Salud GET /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Cuerpo de salud', () => pm.expect(pm.response.json().status).to.eql('UP'));",
+                  "pm.test('X-Request-Id devuelto igual', () => pm.expect(pm.response.headers.get('X-Request-Id')).to.eql('postman-1'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-Id",
+                "value": "postman-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Errores del framework",
+      "item": [
+        {
+          "name": "Ruta inexistente GET /ruta-que-no-existe",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code = ROUTE_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('ROUTE_NOT_FOUND'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = pm.response.headers.get('Content-Type') || '';",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=UTF-8');",
+                  "});",
+                  "pm.test('Sin trace ni exception', () => {",
+                  "    const texto = pm.response.text();",
+                  "    pm.expect(texto).to.not.include('trace');",
+                  "    pm.expect(texto).to.not.include('exception');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ruta-que-no-existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ruta-que-no-existe"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Método no permitido POST /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 405', () => pm.response.to.have.status(405));",
+                  "pm.test('code = METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('METHOD_NOT_ALLOWED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = pm.response.headers.get('Content-Type') || '';",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=UTF-8');",
+                  "});",
+                  "pm.test('Sin trace ni exception', () => {",
+                  "    const texto = pm.response.text();",
+                  "    pm.expect(texto).to.not.include('trace');",
+                  "    pm.expect(texto).to.not.include('exception');",
+                  "});",
+                  "pm.test('Allow incluye GET', () => pm.expect(pm.response.headers.get('Allow')).to.include('GET'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Tipo de respuesta no admitido GET /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 406', () => pm.response.to.have.status(406));",
+                  "pm.test('code = MEDIA_TYPE_NOT_ACCEPTABLE', () => pm.expect(pm.response.json().code).to.eql('MEDIA_TYPE_NOT_ACCEPTABLE'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = pm.response.headers.get('Content-Type') || '';",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=UTF-8');",
+                  "});",
+                  "pm.test('Sin trace ni exception', () => {",
+                  "    const texto = pm.response.text();",
+                  "    pm.expect(texto).to.not.include('trace');",
+                  "    pm.expect(texto).to.not.include('exception');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
