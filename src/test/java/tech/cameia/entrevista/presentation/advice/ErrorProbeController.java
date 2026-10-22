@@ -121,7 +121,7 @@ public class ErrorProbeController {
 
     @GetMapping("/header")
     String header(@RequestHeader("X-Trace") String trace) {
-        return trace;
+        return "ok";
     }
 
     /** Restricción de prueba que declara su código de error como carga dinámica de la violación. */
@@ -157,12 +157,12 @@ public class ErrorProbeController {
 
     @GetMapping("/required-identity")
     String requiredIdentity(@RequestHeader("X-User-Id") String uid) {
-        return uid;
+        return "ok";
     }
 
     @GetMapping("/required-param")
     String requiredParam(@RequestParam("page") String page) {
-        return page;
+        return "ok";
     }
 
     @GetMapping("/multipart")
