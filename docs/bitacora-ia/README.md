@@ -7,3 +7,4 @@ Cada entrada es un archivo `NN_tema_prompt.md`, con `NN` consecutivo.
 | Entrada | Decisión | Salida |
 |---|---|---|
 | [01_alinear-estandar-backend_prompt.md](01_alinear-estandar-backend_prompt.md) | Alinear los documentos y el estándar de los cuatro repositorios de Backend | [Spec de CM-283](../../specs/CM-283-AlinearEstandar/spec.md) |
+| [02_cliente-gemini-cm-312_prompt.md](02_cliente-gemini-cm-312_prompt.md) | Construir el cliente de Gemini con Spring AI, el timeout configurable y los errores sembrados, ajustando el diagrama C3 propuesto y la coordinación con Backend | [Spec de CM-312](../../specs/CM-312-ClienteGemini/spec.md) |
