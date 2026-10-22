@@ -6,6 +6,7 @@ import java.util.UUID;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyExistsException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
+import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 
 /**
@@ -24,18 +25,20 @@ public interface InterviewSessionRepository {
     InterviewSession save(InterviewSession session);
 
     /**
-     * Busca una sesión por su identificador.
+     * Busca una sesión por su identificador y su dueño; una sesión ajena se trata como inexistente.
      *
      * @param id identificador de la sesión
-     * @return la sesión, o vacío si no existe
+     * @param owner dueño que la pide
+     * @return la sesión, o vacío si no existe o es de otra persona
      */
-    Optional<InterviewSession> findById(UUID id);
+    Optional<InterviewSession> findByIdAndOwner(UUID id, FirebaseUid owner);
 
     /**
-     * Borra la sesión solo si sigue configurada; la base borra con ella sus preguntas y turnos.
+     * Borra la sesión solo si es del dueño y sigue configurada; la base borra con ella sus preguntas y turnos.
      *
      * @param id identificador de la sesión
-     * @throws SessionTransitionNotAllowedException si la sesión no existe o ya no está configurada
+     * @param owner dueño que la borra
+     * @throws SessionTransitionNotAllowedException si la sesión no existe, es de otra persona o ya no está configurada
      */
-    void deleteConfigured(UUID id);
+    void deleteConfigured(UUID id, FirebaseUid owner);
 }

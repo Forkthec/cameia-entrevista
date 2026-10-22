@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyExistsException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
+import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
@@ -56,14 +57,14 @@ class InterviewSessionRepositoryAdapter implements InterviewSessionRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<InterviewSession> findById(UUID id) {
-        return jpa.findById(id).map(InterviewSessionMapper::toDomain);
+    public Optional<InterviewSession> findByIdAndOwner(UUID id, FirebaseUid owner) {
+        return jpa.findByIdAndFirebaseUid(id, owner.value()).map(InterviewSessionMapper::toDomain);
     }
 
     @Override
     @Transactional
-    public void deleteConfigured(UUID id) {
-        if (jpa.deleteByIdAndStatus(id, SessionStatus.CONFIGURED) == 0) {
+    public void deleteConfigured(UUID id, FirebaseUid owner) {
+        if (jpa.deleteByIdAndOwnerAndStatus(id, owner.value(), SessionStatus.CONFIGURED) == 0) {
             throw new SessionTransitionNotAllowedException();
         }
     }

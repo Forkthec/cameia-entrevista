@@ -320,9 +320,10 @@ public interface InterviewSessionRepository {
     /** Guarda la sesión. @throws SessionConflictException si otra escritura la cambió antes;
      *  @throws SessionAlreadyExistsException si el usuario ya tiene otra CONFIGURED o IN_PROGRESS */
     InterviewSession save(InterviewSession session);
-    Optional<InterviewSession> findById(UUID id);
-    /** Borra la sesión solo si sigue CONFIGURED. @throws SessionTransitionNotAllowedException si no */
-    void deleteConfigured(UUID id);
+    /** Vacío si no existe o es de otra persona. */
+    Optional<InterviewSession> findByIdAndOwner(UUID id, FirebaseUid owner);
+    /** Borra la sesión solo si es del dueño y sigue CONFIGURED. @throws SessionTransitionNotAllowedException si no */
+    void deleteConfigured(UUID id, FirebaseUid owner);
 }
 public interface InterviewTurnRepository {
     InterviewTurn save(InterviewTurn turn);   // @throws SessionConflictException
@@ -342,7 +343,7 @@ public interface IdempotencyKeyRepository {
   - `catch (ObjectOptimisticLockingFailureException e)` → `throw new SessionConflictException()`.
   - `catch (DataIntegrityViolationException e)`: si la causa nombra `uq_sesion_configurada_por_usuario` o `uq_sesion_en_curso_por_usuario`, `SessionAlreadyExistsException`; en el de claves, si nombra `uq_clave_idempotencia_usuario_operacion_clave`, `IdempotencyKeyAlreadyExistsException`; si no, `throw e`.
   - Copiar de Perfil `ProfessionalProfileRepositoryAdapter` el recorrido de causas acotado (`MAX_CAUSES = 32`) para leer el nombre de la restricción de `org.hibernate.exception.ConstraintViolationException#getConstraintName`.
-- `deleteConfigured`: `@Modifying @Query("delete from InterviewSessionEntity s where s.id = :id and s.status = :status")` con `SessionStatus.CONFIGURED`; si devuelve 0, `SessionTransitionNotAllowedException`.
+- `deleteConfigured`: `@Modifying @Query("delete from InterviewSessionEntity s where s.id = :id and s.firebaseUid = :firebaseUid and s.status = :status")` con `SessionStatus.CONFIGURED`; si devuelve 0, `SessionTransitionNotAllowedException`.
 - Los mapeadores (`infrastructure/persistence/mapper/`) son clases `final` con métodos estáticos `toEntity` y `toDomain`, a mano.
 
 **Trampa:** con `@Version` y `saveAndFlush` de una entidad nueva, Spring Data usa `merge` si el id ya viene puesto: marca la entidad como nueva con `Persistable#isNew()` basado en `version == null` (usa `Long version`, no `long`) para que la primera inserción sea `persist`.
@@ -351,13 +352,15 @@ public interface IdempotencyKeyRepository {
 
 | Prueba | Datos | Esperado |
 |---|---|---|
-| `InterviewSessionRepositoryAdapterTest.save_shouldRoundTrip_whenNew` | `configure(...)` con `jobOffer = null`, `ENGLISH`, `TEXT` | `findById` devuelve los mismos valores; `version` 0 |
+| `InterviewSessionRepositoryAdapterTest.save_shouldRoundTrip_whenNew` | `configure(...)` con `jobOffer = null`, `ENGLISH`, `TEXT` | `findByIdAndOwner` devuelve los mismos valores; `version` 0 |
 | `…save_shouldAllowStartAfterAbandon_inSameTransaction` (REQ-PER-06) | `uid-a` con una sesión `EN_CURSO` (A) y otra `CONFIGURADA` (B); en un `TransactionTemplate`: `abandon` y `save` de A, luego `start` y `save` de B | confirma; A `ABANDONADA` con `fecha_fin`, B `EN_CURSO` |
 | `…save_shouldRejectStartBeforeAbandon_inSameTransaction` | mismo caso con el orden inverso | `SessionAlreadyExistsException`; tras el rollback, A sigue `EN_CURSO` y B `CONFIGURADA` |
 | `…save_shouldThrowConflict_whenStaleVersion` | leer dos veces la misma sesión, `start` y guardar la primera, `start`… guardar la segunda | `SessionConflictException`; en la base, `version` = 1 |
 | `…save_shouldThrowSessionAlreadyExists_whenSecondConfigured` | dos sesiones nuevas de `uid-a` | segunda: `SessionAlreadyExistsException`; 1 fila |
 | `…deleteConfigured_shouldDelete_whenConfigured` | — | 0 filas |
 | `…deleteConfigured_shouldThrow_whenInProgress` | sesión pasada a `EN_CURSO` por SQL | excepción; la fila sigue |
+| `…findByIdAndOwner_shouldReturnEmpty_whenOtherOwner` | sesión de `uid-a`; leer con `uid-b` | vacío |
+| `…deleteConfigured_shouldThrow_whenOtherOwner` | sesión de `uid-a`; borrar con `uid-b` | excepción; la fila sigue `CONFIGURADA` |
 | `…delete_shouldThrow_whenStateChangedConcurrently` | leer la sesión `CONFIGURADA`; pasarla a `EN_CURSO` por SQL; llamar `deleteConfigured` | excepción |
 | `InterviewTurnRepositoryAdapterTest.save_shouldPersistTransition` y `…_shouldThrowConflict_whenStaleVersion` | turno insertado por SQL (con sesión y pregunta) | — |
 | `IdempotencyKeyRepositoryAdapterTest.save_shouldThrow_whenSameUserOperationAndKey`, `…find_shouldReturnEmpty_whenOtherUser`, `…save_shouldRoundTrip` | `uid-a`, `CREAR_SESION`, `k-1`, huella `"a".repeat(64)`, 201, `{"id":"x"}` | — |

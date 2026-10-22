@@ -30,6 +30,8 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     @ServiceConnection
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16-alpine");
 
+    private static final FirebaseUid OWNER = new FirebaseUid("uid-a");
+
     @Autowired
     private InterviewSessionRepository sessions;
 
@@ -43,7 +45,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
         InterviewSession session = newSession("uid-a");
 
         InterviewSession saved = sessions.save(session);
-        InterviewSession found = sessions.findById(session.id()).orElseThrow();
+        InterviewSession found = sessions.findByIdAndOwner(session.id(), OWNER).orElseThrow();
 
         assertThat(saved.version()).isZero();
         assertThat(found.version()).isZero();
@@ -73,7 +75,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
                 CLOCK);
 
         sessions.save(session);
-        InterviewSession found = sessions.findById(session.id()).orElseThrow();
+        InterviewSession found = sessions.findByIdAndOwner(session.id(), OWNER).orElseThrow();
 
         assertThat(found.configuration().jobOffer()).isEqualTo(offer);
         assertThat(found.configuration().profileSnapshotJson()).isEqualToIgnoringWhitespace("{\"nombre\":\"José 😀\"}");
@@ -82,9 +84,9 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     }
 
     @Test
-    @DisplayName("findById devuelve vacío cuando la sesión no existe")
-    void findById_shouldReturnEmpty_whenUnknown() {
-        assertThat(sessions.findById(UUID.randomUUID())).isEmpty();
+    @DisplayName("findByIdAndOwner devuelve vacío cuando la sesión no existe")
+    void findByIdAndOwner_shouldReturnEmpty_whenUnknown() {
+        assertThat(sessions.findByIdAndOwner(UUID.randomUUID(), OWNER)).isEmpty();
     }
 
     @Test
@@ -96,10 +98,10 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
         UUID configuredId = sessions.save(newSession("uid-a")).id();
 
         transaction.executeWithoutResult(status -> {
-            InterviewSession a = sessions.findById(inProgressId).orElseThrow();
+            InterviewSession a = sessions.findByIdAndOwner(inProgressId, OWNER).orElseThrow();
             a.abandon(CLOCK);
             sessions.save(a);
-            InterviewSession b = sessions.findById(configuredId).orElseThrow();
+            InterviewSession b = sessions.findByIdAndOwner(configuredId, OWNER).orElseThrow();
             b.start(CLOCK);
             sessions.save(b);
         });
@@ -119,10 +121,10 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
         UUID configuredId = sessions.save(newSession("uid-a")).id();
 
         assertThatThrownBy(() -> transaction.executeWithoutResult(status -> {
-            InterviewSession b = sessions.findById(configuredId).orElseThrow();
+            InterviewSession b = sessions.findByIdAndOwner(configuredId, OWNER).orElseThrow();
             b.start(CLOCK);
             sessions.save(b);
-            InterviewSession a = sessions.findById(inProgressId).orElseThrow();
+            InterviewSession a = sessions.findByIdAndOwner(inProgressId, OWNER).orElseThrow();
             a.abandon(CLOCK);
             sessions.save(a);
         })).isInstanceOf(SessionAlreadyExistsException.class);
@@ -135,8 +137,8 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     @DisplayName("Guardar con una versión vencida lanza el conflicto y la base conserva la primera escritura")
     void save_shouldThrowConflict_whenStaleVersion() {
         UUID id = sessions.save(newSession("uid-a")).id();
-        InterviewSession first = sessions.findById(id).orElseThrow();
-        InterviewSession second = sessions.findById(id).orElseThrow();
+        InterviewSession first = sessions.findByIdAndOwner(id, OWNER).orElseThrow();
+        InterviewSession second = sessions.findByIdAndOwner(id, OWNER).orElseThrow();
         first.start(CLOCK);
         sessions.save(first);
         second.start(CLOCK);
@@ -151,7 +153,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     @DisplayName("Guardar una sesión con una versión que ya no existe en la base lanza el conflicto")
     void save_shouldThrowConflict_whenRowWasDeleted() {
         InterviewSession saved = sessions.save(newSession("uid-a"));
-        sessions.deleteConfigured(saved.id());
+        sessions.deleteConfigured(saved.id(), OWNER);
 
         assertThatThrownBy(() -> sessions.save(saved)).isInstanceOf(SessionConflictException.class);
     }
@@ -193,7 +195,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     void deleteConfigured_shouldDelete_whenConfigured() {
         UUID id = sessions.save(newSession("uid-a")).id();
 
-        sessions.deleteConfigured(id);
+        sessions.deleteConfigured(id, OWNER);
 
         assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.sesion", Integer.class)).isZero();
     }
@@ -204,7 +206,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
         UUID id = sessions.save(newSession("uid-a")).id();
         jdbc.update("UPDATE microentrevista.sesion SET estado = 'EN_CURSO' WHERE id = ?", id);
 
-        assertThatThrownBy(() -> sessions.deleteConfigured(id)).isInstanceOf(SessionTransitionNotAllowedException.class);
+        assertThatThrownBy(() -> sessions.deleteConfigured(id, OWNER)).isInstanceOf(SessionTransitionNotAllowedException.class);
 
         assertThat(stateOf(id)).isEqualTo("EN_CURSO");
     }
@@ -212,7 +214,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     @Test
     @DisplayName("deleteConfigured lanza la excepción de transición si la sesión no existe")
     void deleteConfigured_shouldThrow_whenUnknown() {
-        assertThatThrownBy(() -> sessions.deleteConfigured(UUID.randomUUID()))
+        assertThatThrownBy(() -> sessions.deleteConfigured(UUID.randomUUID(), OWNER))
                 .isInstanceOf(SessionTransitionNotAllowedException.class);
     }
 
@@ -220,13 +222,32 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
     @DisplayName("Si la sesión pasó a EN_CURSO después de leerla, deleteConfigured no la borra")
     void deleteConfigured_shouldThrow_whenStateChangedConcurrently() {
         UUID id = sessions.save(newSession("uid-a")).id();
-        InterviewSession read = sessions.findById(id).orElseThrow();
+        InterviewSession read = sessions.findByIdAndOwner(id, OWNER).orElseThrow();
         jdbc.update("UPDATE microentrevista.sesion SET estado = 'EN_CURSO' WHERE id = ?", id);
 
         assertThat(read.status()).isEqualTo(SessionStatus.CONFIGURED);
-        assertThatThrownBy(() -> sessions.deleteConfigured(read.id()))
+        assertThatThrownBy(() -> sessions.deleteConfigured(read.id(), OWNER))
                 .isInstanceOf(SessionTransitionNotAllowedException.class);
         assertThat(stateOf(id)).isEqualTo("EN_CURSO");
+    }
+
+    @Test
+    @DisplayName("findByIdAndOwner devuelve vacío cuando la sesión es de otra persona")
+    void findByIdAndOwner_shouldReturnEmpty_whenOtherOwner() {
+        UUID id = sessions.save(newSession("uid-a")).id();
+
+        assertThat(sessions.findByIdAndOwner(id, new FirebaseUid("uid-b"))).isEmpty();
+    }
+
+    @Test
+    @DisplayName("deleteConfigured no borra la sesión de otra persona y lanza la excepción de transición")
+    void deleteConfigured_shouldThrow_whenOtherOwner() {
+        UUID id = sessions.save(newSession("uid-a")).id();
+
+        assertThatThrownBy(() -> sessions.deleteConfigured(id, new FirebaseUid("uid-b")))
+                .isInstanceOf(SessionTransitionNotAllowedException.class);
+
+        assertThat(stateOf(id)).isEqualTo("CONFIGURADA");
     }
 
     @Test
@@ -235,7 +256,7 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
         UUID id = sessions.save(newSession("uid-a")).id();
         insertTurn(id);
 
-        sessions.deleteConfigured(id);
+        sessions.deleteConfigured(id, OWNER);
 
         assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.turno", Integer.class)).isZero();
         assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.pregunta", Integer.class)).isZero();
