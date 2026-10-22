@@ -48,7 +48,7 @@ class ContainerErrorReportValveTest {
         verify(stream).write(body.capture());
         String json = new String(body.getValue(), StandardCharsets.UTF_8);
         assertThat(json).contains("\"code\":\"REQUEST_PATH_INVALID_FORMAT\"")
-                .contains("\"detail\":\"La ruta solicitada no es válida.\"")
+                .contains("\"detail\":\"La petición no es válida.\"")
                 .contains("\"status\":400")
                 .containsPattern("\"requestId\":\"[0-9a-f-]{36}\"");
         verify(response).setContentType("application/problem+json;charset=UTF-8");

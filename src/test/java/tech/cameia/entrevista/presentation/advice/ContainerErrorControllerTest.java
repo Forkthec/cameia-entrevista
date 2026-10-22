@@ -52,10 +52,10 @@ class ContainerErrorControllerTest {
     }
 
     @Test
-    @DisplayName("El 400 del contenedor dice «La ruta solicitada no es válida.»")
+    @DisplayName("El 400 del contenedor dice «La petición no es válida.»")
     void error_shouldExplainPath_whenContainerReports400() throws Exception {
         mockMvc.perform(get("/error").requestAttr(RequestDispatcher.ERROR_STATUS_CODE, 400))
-                .andExpect(jsonPath("$.detail").value("La ruta solicitada no es válida."))
+                .andExpect(jsonPath("$.detail").value("La petición no es válida."))
                 .andExpect(jsonPath("$.title").value("Datos no válidos"));
     }
 

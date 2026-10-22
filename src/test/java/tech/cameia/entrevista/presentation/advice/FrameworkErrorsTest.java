@@ -128,7 +128,7 @@ class FrameworkErrorsTest {
         assertThat(raw).as(raw).startsWith("HTTP/1.1 400");
         assertThat(raw.toLowerCase()).contains("application/problem+json").contains("charset=utf-8");
         assertThat(raw).contains("\"code\":\"REQUEST_PATH_INVALID_FORMAT\"")
-                .contains("La ruta solicitada no es válida.")
+                .contains("La petición no es válida.")
                 .contains("\"requestId\"")
                 .doesNotContain("<html");
     }

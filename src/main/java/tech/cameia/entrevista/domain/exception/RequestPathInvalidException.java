@@ -7,7 +7,7 @@ package tech.cameia.entrevista.domain.exception;
 public class RequestPathInvalidException extends BusinessException {
 
     /** Mensaje que ve la persona. */
-    public static final String MESSAGE = "La ruta solicitada no es válida.";
+    public static final String MESSAGE = "La petición no es válida.";
 
     /** Crea la excepción con su código y su mensaje fijos. */
     public RequestPathInvalidException() {
