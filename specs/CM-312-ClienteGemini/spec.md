@@ -159,8 +159,7 @@ Cada fila aplicable es una prueba con estos valores literales.
 | Números (tope) | Cero, negativo, mínimo válido | `0`, `-1`, `1` | Excepción, excepción, se construye |
 | Texto (respuesta) | Texto o modelo nulo, vacío, solo espacios | `null`, `""`, `"  "` | `IllegalArgumentException` |
 | Números (tokens de la respuesta) | Negativo, cero, positivo | `-1`, `0`, `5` | Excepción, se construye, se construye |
-| Dependencias | Respuesta sin conteos de tokens | 200 con texto `OK`, `usageMetadata` vacío y `modelVersion` vacío | Devuelve `OK` con `0` tokens de entrada, `0` de salida y el modelo configurado |
-| Dependencias | Respuesta sin datos de uso o sin versión del modelo | 200 con texto `OK` y sin `usageMetadata` o sin `modelVersion` | `LlmUnavailableException`: Spring AI 2.0.1 no acepta la respuesta sin esos dos campos |
+| Dependencias | Respuesta sin datos de uso | 200 con texto `OK` y sin `usageMetadata` | Devuelve `OK` con `0` tokens de entrada y `0` de salida |
 | Dependencias | Respuesta correcta | 200 con texto `OK` | Devuelve `OK` |
 | Dependencias | Tiempo agotado | El servidor simulado no responde; `timeout=200ms` | `LlmUnavailableException`; el servidor recibió **una** petición |
 | Dependencias | Cuota agotada | 429 `RESOURCE_EXHAUSTED` | `LlmLimitReachedException`; **una** petición |

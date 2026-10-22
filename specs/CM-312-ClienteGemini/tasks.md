@@ -110,7 +110,7 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-06 · Cliente de Gemini sin reintentos
 
-- [x] **Cubre.** REQ-06 y D-03.
+- [ ] **Cubre.** REQ-06 y D-03.
 - **Archivos.** Crear `.../infrastructure/config/ia/LanguageModelConfiguration.java`.
 - **Hacer.**
   1. Bean `com.google.genai.Client` construido con `Client.builder().apiKey(...).httpOptions(...)`:
@@ -129,19 +129,19 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
 
 ### T-07 · Adaptador: camino feliz
 
-- [x] **Cubre.** REQ-07, REQ-13 y REQ-14.
+- [ ] **Cubre.** REQ-07, REQ-13 y REQ-14.
 - **Archivos.** Crear `.../infrastructure/ia/GeminiLanguageModelAdapter.java` y `package-info.java` (con el Router documentado, D-01). Borrar `.../infrastructure/ia/.gitkeep`.
 - **Hacer.**
   1. Implementar `LanguageModelPort` con el `ChatModel` inyectado, pasando por llamada `GoogleGenAiChatOptions.builder().model(...).temperature(...).maxOutputTokens(...).thinkingLevel(...)`.
   2. Devolver un `LanguageModelResponse` con el texto del primer resultado, los tokens de entrada y de salida del `Usage` de Spring AI y el modelo de los metadatos de la respuesta (o el configurado, si no viene).
   3. Registrar en `INFO` la línea `Llamada al modelo [resultado={}, duracionMs={}]`, sin el texto.
-- **Prueba.** `GeminiLanguageModelAdapterTest`, con un `HttpServer` del JDK en el puerto 0 que responde 200 con un cuerpo `generateContent` mínimo que trae el texto `OK`. Comprueba que el texto es `OK`, que los tokens son los del `usageMetadata` del cuerpo, que el servidor recibió una petición con el modelo configurado en la ruta, y el caso con `usageMetadata` y `modelVersion` vacíos (`0`, `0` y el modelo configurado). Spring AI 2.0.1 no acepta una respuesta sin esos dos campos: ese caso va en T-08.
+- **Prueba.** `GeminiLanguageModelAdapterTest`, con un `HttpServer` del JDK en el puerto 0 que responde 200 con un cuerpo `generateContent` mínimo que trae el texto `OK`. Comprueba que el texto es `OK`, que los tokens son los del `usageMetadata` del cuerpo, que el servidor recibió una petición con el modelo configurado en la ruta, y el caso sin `usageMetadata` (`0` y `0`).
 - **Detenerse si** el SDK no envía la petición al `baseUrl` del servidor simulado: se reporta qué ruta pide.
 - **Terminado cuando** la prueba pasa y el commit es `CM-312 | feat(ia): adaptador de Gemini`.
 
 ### T-08 · Adaptador: fallos
 
-- [x] **Cubre.** REQ-09 a REQ-12 y D-05.
+- [ ] **Cubre.** REQ-09 a REQ-12 y D-05.
 - **Archivos.** `GeminiLanguageModelAdapter.java` y `GeminiLanguageModelAdapterTest.java`.
 - **Hacer.** Capturar `RuntimeException` alrededor de la llamada, recorrer la cadena de causas y clasificar el fallo:
   - `ApiException` con `code() == 429` → `LlmLimitReachedException`;
@@ -181,7 +181,6 @@ Se hace una tarjeta, se verifica con salida real y recién entonces se pasa a la
   1. `.env.example`: `LLM_MODEL=gemini-3.7-flash` (PD-01) y `LLM_TIMEOUT=30s`, cada una con su comentario. La nota de `GOOGLE_GENAI_API_KEY` dice que sin llave el servicio no arranca, salvo en `local`, que trae una llave falsa.
   2. `docker-compose.yml`: pasar `LLM_MODEL` (obligatoria, con `:?`) y `LLM_TIMEOUT`.
   3. Workflow: agregar `LLM_MODEL=gemini-3.7-flash` a `--set-env-vars`.
-  Los pasos 1 a 3 se adelantaron al PR de T-06 (21 de octubre de 2026): T-06 hace obligatorio `LLM_MODEL`, y sin él staging no arranca si ese PR se despliega antes que este.
   4. `CLAUDE.md`:
      - sección 2: los paquetes que ya existen;
      - sección 4: los códigos emitidos, con un enlace a `docs/errores.md`;
