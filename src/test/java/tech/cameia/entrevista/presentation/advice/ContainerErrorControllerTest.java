@@ -97,4 +97,12 @@ class ContainerErrorControllerTest {
                         .requestAttr(RequestDispatcher.ERROR_REQUEST_URI, "/%zz"))
                 .andExpect(jsonPath("$.instance", not(containsStringIgnoringCase("%zz"))));
     }
+
+    @Test
+    @DisplayName("Un estado sin código propio y sin excepción del contenedor también responde 500 INTERNAL_ERROR")
+    void error_shouldReturn500Generic_whenStatusHasNoCodeAndNoException() throws Exception {
+        mockMvc.perform(get("/error").requestAttr(RequestDispatcher.ERROR_STATUS_CODE, 503))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
+    }
 }
