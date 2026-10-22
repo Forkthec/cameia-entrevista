@@ -247,7 +247,7 @@ Cada endpoint y cada cambio se revisan contra el nivel 1 de ASVS (matriz de segu
    - `tasks.md`: tarjetas autosuficientes de 30 minutos o menos, con archivos exactos, pruebas con valores literales y qué hacer si algo no cuadra; cada una se marca `[x]` al terminarla.
 3. Toda decisión de arquitectura, seguridad, datos, costo o contrato queda en la spec con la decisión humana, su porqué y las alternativas descartadas.
 4. **Lo que no se sabe se pregunta**, en rondas de hasta 6 preguntas, y lo que siga sin respuesta queda en la spec como pendiente con su responsable. No se asume nada en silencio.
-5. Un PR cubre una pieza reconocible y verificada y no pasa de 1000 líneas entre agregadas y eliminadas, tampoco cuando solo cambia documentos: el límite existe para que cada línea se lea de verdad. Un cambio mayor se parte en piezas.
+5. Un PR por tarea de Jira (CM) y sin tope de líneas: una rama, un PR hacia `develop` y un commit por capacidad (migración, validación de entrada, dominio, API, pruebas, Postman y documentación) en orden de lectura, cada uno compila, para revisar commit a commit. Se parte en dos PR solo si la tarea trae dos piezas que se despliegan por separado o depende de otra sin fusionar (el único caso de apilado).
 
 ## 13. Contribución y entrega
 

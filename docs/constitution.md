@@ -13,7 +13,7 @@ Principios no negociables. Toda spec y todo PR los cumple. Si dos documentos cho
 9. **Puerta de ambigüedad:** ante una ambigüedad de seguridad, contrato, datos o arquitectura se detiene el trabajo y se pregunta (hasta 6 preguntas por ronda). → decisión en la spec.
 10. **Pruebas:** JUnit 5, un caso por camino y por rama, PostgreSQL real con Testcontainers y puerto aleatorio, cobertura de lo nuevo ≥ 90 %. → informe de JaCoCo.
 11. **Verde antes del PR:** `./mvnw.cmd clean verify` pasa. → salida del comando.
-12. **Tamaño del cambio:** un PR no pasa de 1000 líneas entre agregadas y eliminadas. → `git diff --shortstat`.
+12. **Tamaño del cambio:** un PR por tarea de Jira (CM), sin tope de líneas, con un commit por capacidad en orden de lectura y cada uno compila; se parte en dos solo si la tarea trae dos piezas que se despliegan por separado o depende de otra sin fusionar. → historial de commits del PR.
 13. **Idioma y nombres:** identificadores en inglés y documentación en español. → revisión del PR.
 14. **Documentación formal:** OpenAPI, Javadoc y comentarios completos. → revisión del PR y OpenAPI generado.
 15. **Contribución:** rige `CONTRIBUTING.md`; la revisión la hace una persona distinta del autor y el merge siempre lo hace una persona. → reglas de rama y validadores de PR.
