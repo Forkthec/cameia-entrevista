@@ -456,6 +456,8 @@ El filtro no registra nada. Javadoc con el motivo y el formato; sin referencias 
 
 **Commit:** `CM-311 | feat(logs): requestId en cada petición y en cada línea del registro`.
 
+**Resultado (22-oct):** hecho. `RequestIdFilterTest` 13, `RequestIdTest` 3 y `BusinessExceptionHandlerTest` 28 → 44 pruebas, 0 fallos, BUILD SUCCESS. «Antes»: el manejador lee el atributo `tech.cameia.entrevista.presentation.advice.BusinessExceptionHandler.requestId` (la constante es privada, así que el filtro usa ese texto literal; `requestId_shouldMatchBody_whenGeneratedAndErrorResponse` falla si alguno de los dos cambia de nombre) y, si no está, el encabezado; no hubo que tocar el armado común. Se agregó esa prueba y la línea de registro se comprueba en `Fallo no controlado`.
+
 ---
 
 ## T6 · Prueba de arquitectura (REQ-NF-02)
