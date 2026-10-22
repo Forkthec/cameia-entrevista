@@ -6,7 +6,7 @@
 | Repositorio | cameia-entrevista |
 | Rama | `CM-312-cliente-gemini` |
 | Base | `origin/develop` @ `bcc697d` (20 de octubre de 2026) |
-| Estado | Borrador: PD-01 a PD-05 resueltos el 20 de octubre de 2026; pendiente de aprobación del Product Owner y de la revisión de Backend |
+| Estado | Aprobada por el Product Owner el 21 de octubre de 2026; pendiente de la revisión de Backend en el PR |
 | Documentos hermanos | [plan.md](plan.md) · [tasks.md](tasks.md) |
 
 ## 1. Contexto y alcance
@@ -194,15 +194,16 @@ Cada fila aplicable es una prueba con estos valores literales.
 
 ## 9. Hallazgos del diagrama de componentes C3
 
-El diagrama C3 del microservicio de Entrevista es un modelo propuesto. Al revisarlo para esta tarea aparecieron estos puntos, cada uno con su destino:
+El diagrama C3 del microservicio de Entrevista (`docs/29082026_1_Componentes(C3)-C3 - Microservicio de Entrevista.drawio.svg`) es un modelo propuesto. Al revisarlo para esta tarea aparecieron estos puntos. La columna «Cambio en el diagrama» dice si el diagrama debe corregirse y cómo; ninguno de estos cambios lo hace CM-312.
 
-| ID | Hallazgo | Destino |
-|---|---|---|
-| H-1 | La **Guardia de Cuota** recibe llamadas de los casos de uso de Sesión y de Evaluación, pero no tiene de dónde leer la cuota (la réplica del plan y la cuota que llega por la Cola 3 y guarda el Repository Entrevista), y nada le reporta el consumo de cada llamada. Al ser una política de dominio no debe llamar a infraestructura: el caso de uso debería cargar la cuota por un puerto, pasársela a la política y registrar el consumo después de la llamada | Spec de cuota (Product Owner y Backend) |
-| H-2 | El **Router LLM llama al Publicador de Eventos**, lo que acopla dos piezas de infraestructura. El consumo de tokens lo debería publicar el caso de uso, con Outbox (estándar, sección 11, Eventos) | Spec del registro de consumo |
-| H-3 | El **Router LLM envía trazas a Langfuse**. Mandar prompts y respuestas a una herramienta de trazas choca con SEG-04 y con la sección 6 del `CLAUDE.md`, aunque sea autohospedada | Decisión de Backend antes de integrarlo |
-| H-4 | Los casos de uso llaman **directo al Router LLM**, que es infraestructura: viola la regla de dependencias | Se resuelve en esta spec con `LanguageModelPort` (D-01) |
-| H-5 | El Router describe un **respaldo entre Gemini y Kimi** | La tarea que integre Kimi (D-01) |
+| ID | Hallazgo | Cambio en el diagrama | Destino |
+|---|---|---|---|
+| H-1 | La **Guardia de Cuota** solo recibe flechas (de Aplicación Sesión de Entrevista y de Aplicación Evaluación). Eso es correcto: es una política de dominio y no debe llamar a nadie; recibe la cuota y el consumo como datos. Lo que falta es de dónde los saca el caso de uso: la cuota del ciclo llega por la Cola 3 y la guarda el Repository Entrevista, y Aplicación Evaluación no tiene flecha hacia ese repositorio | **Sí.** Agregar la flecha Aplicación Evaluación → Repository Entrevista («lee la cuota del ciclo»). Las flechas hacia la Guardia de Cuota no cambian | Spec de cuota (Product Owner y Backend) |
+| H-2 | El **Router LLM llama al Publicador de Eventos** para publicar el consumo de tokens. El Router no conoce al usuario, la sesión ni el caso de uso que el evento necesita, no maneja una transacción para escribir en Outbox y queda desacoplado de la Guardia de Cuota, que vive en el caso de uso (estándar, sección 11, Eventos) | **Sí.** Quitar la flecha Router LLM → Publicador de Eventos. Agregar Aplicación Sesión de Entrevista → Publicador de Eventos («consumo de tokens»), y sumar el consumo de tokens a la flecha Aplicación Evaluación → Publicador de Eventos, que hoy solo lleva la evaluación finalizada | Spec del registro de consumo |
+| H-3 | El **Router LLM envía trazas a Langfuse**. La flecha está bien puesta: la observabilidad es infraestructura y el Router es el único punto por donde pasan todas las llamadas. Lo pendiente es el contenido: una traza de Langfuse guarda por defecto el prompt y la respuesta completos, lo que choca con SEG-04 («ni en trazas»), con la sección 6 del `CLAUDE.md` y con la Ley 1581. Opciones: solo metadatos (modelo, tokens, latencia, resultado y `requestId`); enmascarado; texto completo solo fuera de producción con datos sintéticos; texto completo en producción con consentimiento y borrado | **No.** La flecha se conserva | Decisión de Backend y del Product Owner antes de integrarlo |
+| H-4 | Los casos de uso llaman al **Router LLM**, que es infraestructura. El diagrama muestra llamadas en tiempo de ejecución y no dependencias de código, igual que las flechas de los casos de uso hacia los Repository y hacia el Cliente Voz. La regla de dependencias (sección 2 del `CLAUDE.md`) solo se viola si el caso de uso importa la clase del Router; con `LanguageModelPort` la llamada llega al Router y el código del caso de uso depende solo del puerto | **No.** La regla se cumple en el código con `LanguageModelPort` (D-01) | Esta spec (D-01) |
+| H-5 | El Router describe un **respaldo entre Gemini y Kimi** | **No** | La tarea que integre Kimi (D-01) |
+| H-6 | La descripción del **Router LLM** dice «con tiempo límite, **reintentos** y respaldo entre Gemini y Kimi». Los reintentos pertenecen a los casos de uso (HU-5.2 y HU-5.6), y el cliente no reintenta (D-03) | **Sí.** Quitar «reintentos» de la descripción del Router LLM: «Selecciona proveedor y modelo según el caso de uso y el costo, con tiempo límite y respaldo entre Gemini y Kimi.» | Quien mantenga el diagrama |
 
 ## 10. Pendientes
 
