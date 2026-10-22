@@ -21,5 +21,47 @@ public enum ErrorCode {
     LLM_UNAVAILABLE,
 
     /** El proveedor del modelo de lenguaje rechazó la llamada por cuota o límite de uso agotado. */
-    LLM_LIMIT_REACHED
+    LLM_LIMIT_REACHED,
+
+    /** Uno o más campos del cuerpo no cumplen sus reglas. */
+    VALIDATION_FAILED,
+
+    /** El cuerpo no se puede leer como el JSON esperado. */
+    REQUEST_BODY_INVALID_FORMAT,
+
+    /** Falta un encabezado o parámetro obligatorio, o un valor no tiene el tipo esperado. */
+    REQUEST_INVALID_VALUE,
+
+    /** Falta la identidad del Gateway o no es válida. */
+    IDENTITY_REQUIRED,
+
+    /** La ruta pedida no existe. */
+    ROUTE_NOT_FOUND,
+
+    /** La ruta no admite el método HTTP usado. */
+    METHOD_NOT_ALLOWED,
+
+    /** El tipo de contenido enviado no se admite. */
+    MEDIA_TYPE_NOT_ALLOWED,
+
+    /** El tipo de respuesta pedido no se puede atender. */
+    MEDIA_TYPE_NOT_ACCEPTABLE,
+
+    /** La base de datos no respondió; la persona puede reintentar. */
+    DATABASE_UNAVAILABLE,
+
+    /** La sesión no admite la transición pedida desde su estado. */
+    SESSION_TRANSITION_NOT_ALLOWED,
+
+    /** El turno no admite la transición pedida desde su estado. */
+    TURN_TRANSITION_NOT_ALLOWED,
+
+    /** Otra escritura cambió la sesión antes que esta. */
+    SESSION_CONFLICT,
+
+    /** La persona ya tiene otra sesión configurada o en curso. */
+    SESSION_ALREADY_EXISTS,
+
+    /** La clave de la petición ya se registró para esa persona y operación. */
+    IDEMPOTENCY_KEY_ALREADY_EXISTS
 }

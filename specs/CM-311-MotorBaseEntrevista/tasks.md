@@ -307,6 +307,8 @@ public final class InterviewSession {
 
 **Commit:** `CM-311 | feat(dominio): estados de la sesión y del turno con sus transiciones`.
 
+**Resultado (22-oct):** hecho. Pruebas del dominio (`SessionStatusTest` 34, `TurnStatusTest` 22, `InterviewSessionTest` 16, `InterviewTurnTest` 9, `FirebaseUidTest` 14, `EnumeratedValuesTest` 5, `BusinessExceptionsTest` 8, `ErrorCodeDocumentationTest` 17) → 125 pruebas, 0 fallos, BUILD SUCCESS. Ajustes frente a la tarjeta: `FirebaseUid` cuenta puntos de código (como `varchar`), no unidades UTF-16; las filas de `docs/errores.md` incluyen también los 3 códigos de CM-312, que la prueba exige; `ErrorCodeTest` se completa en T5.
+
 ---
 
 ## T4 · Persistencia (REQ-PER-01 a 05)
