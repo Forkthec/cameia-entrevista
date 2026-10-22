@@ -45,6 +45,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import tech.cameia.entrevista.domain.exception.BusinessException;
@@ -52,6 +54,7 @@ import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.IdentityRequiredException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.exception.RequestPayloadTooLargeException;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 
 /**
@@ -116,7 +119,9 @@ class BusinessExceptionHandler {
             ErrorCode.SESSION_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo"),
             ErrorCode.SESSION_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Entrevista existente"),
             ErrorCode.IDEMPOTENCY_KEY_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Solicitud repetida"),
-            ErrorCode.IDENTITY_REQUIRED, new Definition(HttpStatus.UNAUTHORIZED, "Identidad requerida"));
+            ErrorCode.IDENTITY_REQUIRED, new Definition(HttpStatus.UNAUTHORIZED, "Identidad requerida"),
+            ErrorCode.REQUEST_PATH_INVALID_FORMAT, new Definition(HttpStatus.BAD_REQUEST, TITLE_VALIDATION),
+            ErrorCode.REQUEST_PAYLOAD_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Datos demasiado grandes"));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
@@ -132,7 +137,7 @@ class BusinessExceptionHandler {
     /** Atributo de la petición que marca que su error ya se registró. */
     private static final String LOGGED_ATTRIBUTE = BusinessExceptionHandler.class.getName() + ".logged";
 
-    /** Tipo de contenido de toodo error del servicio, con la codificación explícita (ASVS 4.1.1). */
+    /** Tipo de contenido de todo error del servicio, con la codificación explícita (ASVS 4.1.1). */
     private static final String PROBLEM_JSON_UTF8 = "application/problem+json;charset=UTF-8";
 
     /**
@@ -342,6 +347,37 @@ class BusinessExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                 .contentType(new MediaType("application", "problem+json", StandardCharsets.UTF_8))
                 .body(problem);
+    }
+
+    /**
+     * Cuerpo {@code multipart/form-data} que no se puede leer, por ejemplo sin el límite
+     * ({@code boundary}) que separa sus partes.
+     *
+     * <p>Es un error de quien llama. El cuerpo demasiado grande tiene su propio manejador
+     * ({@link #payloadTooLarge}).</p>
+     *
+     * @param error excepción del procesamiento multipart
+     * @return {@code 415 Unsupported Media Type} con el código {@code REQUEST_MULTIPART_INVALID_FORMAT}
+     */
+    @ExceptionHandler(MultipartException.class)
+    ProblemDetail multipartUnreadable(MultipartException error) {
+        return rejection(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Tipo de contenido no admitido",
+                "Revisa el formato de los datos enviados.", ErrorCode.REQUEST_MULTIPART_INVALID_FORMAT,
+                "causa=" + mostSpecificClass(error));
+    }
+
+    /**
+     * Cuerpo {@code multipart/form-data} que supera el tamaño máximo de la petición o de un archivo.
+     *
+     * <p>Es un error de quien llama y se puede prever: sin este manejador Spring lo responde con
+     * {@code sendError(413)} y la respuesta sale sin cuerpo.</p>
+     *
+     * @param error excepción del procesamiento multipart
+     * @return {@code 413 Content Too Large} con el código {@code REQUEST_PAYLOAD_TOO_LARGE}
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    ProblemDetail payloadTooLarge(MaxUploadSizeExceededException error) {
+        return businessFailure(new RequestPayloadTooLargeException());
     }
 
     /**

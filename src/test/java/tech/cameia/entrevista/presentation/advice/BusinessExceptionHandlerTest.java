@@ -56,7 +56,7 @@ class BusinessExceptionHandlerTest {
 
     private final MockMvc probe = MockMvcBuilders
             .standaloneSetup(new ErrorProbeController())
-            .setControllerAdvice(ProblemDetailTestSupport.manejadorDeErrores())
+            .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 
     private final MockMvc mockMvc = MockMvcBuilders
@@ -202,6 +202,28 @@ class BusinessExceptionHandlerTest {
         probe.perform(post("/test/errors/body").contentType(MediaType.TEXT_PLAIN).content("x"))
                 .andExpect(status().isUnsupportedMediaType())
                 .andExpect(jsonPath("$.code").value("MEDIA_TYPE_NOT_ALLOWED"));
+    }
+
+    @Test
+    @DisplayName("Un multipart ilegible responde 415 REQUEST_MULTIPART_INVALID_FORMAT")
+    void multipart_shouldReturn415_whenBodyMalformed() throws Exception {
+        probe.perform(get("/test/errors/multipart"))
+                .andExpect(status().isUnsupportedMediaType())
+                .andExpect(header().string("Content-Type", containsStringIgnoringCase("application/problem+json")))
+                .andExpect(jsonPath("$.code").value("REQUEST_MULTIPART_INVALID_FORMAT"))
+                .andExpect(jsonPath("$.detail").value("Revisa el formato de los datos enviados."))
+                .andExpect(jsonPath("$.requestId").isNotEmpty());
+    }
+
+    @Test
+    @DisplayName("Un multipart demasiado grande responde 413 REQUEST_PAYLOAD_TOO_LARGE")
+    void multipart_shouldReturn413WithCode_whenTooLarge() throws Exception {
+        probe.perform(get("/test/errors/multipart-too-large"))
+                .andExpect(status().isContentTooLarge())
+                .andExpect(header().string("Content-Type", containsString("application/problem+json")))
+                .andExpect(jsonPath("$.code").value("REQUEST_PAYLOAD_TOO_LARGE"))
+                .andExpect(jsonPath("$.detail").value("Los datos enviados superan el tamaño permitido."))
+                .andExpect(jsonPath("$.requestId").isNotEmpty());
     }
 
     @Test

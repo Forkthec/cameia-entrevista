@@ -23,7 +23,7 @@ public final class ProblemDetailTestSupport {
      *
      * @return manejador que traduce las excepciones a {@code application/problem+json}
      */
-    public static Object manejadorDeErrores() {
+    public static Object errorHandler() {
         return new BusinessExceptionHandler();
     }
 

@@ -35,6 +35,9 @@ historias que agregan las rutas de sesión; hasta entonces el servicio no los em
 | `METHOD_NOT_ALLOWED` | 405 | cualquiera | — | Método no permitido. | `HttpRequestMethodNotSupportedException` | `presentation/advice/FrameworkErrorsTest` |
 | `MEDIA_TYPE_NOT_ALLOWED` | 415 | cualquiera con cuerpo | — | Tipo de contenido no admitido. | `HttpMediaTypeNotSupportedException` | `presentation/advice/BusinessExceptionHandlerTest` |
 | `MEDIA_TYPE_NOT_ACCEPTABLE` | 406 | cualquiera | — | Tipo de respuesta no admitido. | `HttpMediaTypeNotAcceptableException` | `presentation/advice/FrameworkErrorsTest` |
+| `REQUEST_MULTIPART_INVALID_FORMAT` | 415 | cualquiera con cuerpo | — | Revisa el formato de los datos enviados. | `MultipartException` (por ejemplo, `multipart/form-data` sin `boundary`) | `presentation/advice/BusinessExceptionHandlerTest`, `presentation/advice/FrameworkErrorsTest` |
+| `REQUEST_PATH_INVALID_FORMAT` | 400 | cualquiera | — | La ruta solicitada no es válida. | Estado 400 del contenedor: ruta con codificación porcentual inválida (`/%zz`) o petición que no se pudo interpretar | `presentation/advice/ContainerErrorControllerTest`, `presentation/advice/ContainerErrorReportValveTest`, `presentation/advice/FrameworkErrorsTest` |
+| `REQUEST_PAYLOAD_TOO_LARGE` | 413 | cualquiera con cuerpo | — | Los datos enviados superan el tamaño permitido. | `MaxUploadSizeExceededException` (multipart de más de 10 MB) o estado 413 del contenedor | `presentation/advice/BusinessExceptionHandlerTest`, `presentation/advice/ContainerErrorControllerTest`, `presentation/advice/FrameworkErrorsTest` |
 | `DATABASE_UNAVAILABLE` | 503 | cualquiera | — | Ocurrió un error. Inténtalo de nuevo. | La base no responde o rechaza la conexión | `presentation/advice/BusinessExceptionHandlerTest` |
 | `SESSION_TRANSITION_NOT_ALLOWED` | 409 | rutas de sesión | — | Esta entrevista ya no admite esa acción. | `SessionTransitionNotAllowedException` | `presentation/advice/BusinessExceptionHandlerTest`, `domain/model/InterviewSessionTest` |
 | `TURN_TRANSITION_NOT_ALLOWED` | 409 | rutas de turno | — | Esta pregunta ya no admite esa acción. | `TurnTransitionNotAllowedException` | `presentation/advice/BusinessExceptionHandlerTest`, `domain/model/InterviewTurnTest` |
@@ -42,16 +45,15 @@ historias que agregan las rutas de sesión; hasta entonces el servicio no los em
 | `SESSION_ALREADY_EXISTS` | 409 | creación e inicio de sesión | — | Ya tienes una entrevista en preparación o en curso. Inténtalo de nuevo. | `SessionAlreadyExistsException` | `presentation/advice/BusinessExceptionHandlerTest` |
 | `IDEMPOTENCY_KEY_ALREADY_EXISTS` | 409 | rutas con clave de idempotencia | — | Esta solicitud ya se registró. | `IdempotencyKeyAlreadyExistsException` | `presentation/advice/BusinessExceptionHandlerTest` |
 
-## Respuestas sin código
+## Respuestas que salen del contenedor
 
-Estas respuestas no pasan por el manejador de errores y por eso no llevan `code`, `requestId` ni `application/problem+json`. Están pendientes de decisión:
+Tomcat resuelve por su cuenta algunas peticiones antes de que existan una ruta o un controlador. Todas salen en el formato común:
 
-| Petición | Respuesta actual | Quién la produce |
+| Petición | Respuesta | Quién la produce |
 |---|---|---|
-| Ruta con codificación porcentual inválida, por ejemplo `GET /%zz` | 400 con la página HTML de error del servidor web | Tomcat, antes de llegar a Spring |
-| `GET /error` pedido directamente | 500 con `{"timestamp":…,"status":999,"error":"None"}` | La ruta de error por defecto de Spring Boot |
-
-Además, un cuerpo `multipart/form-data` sin límite (`boundary`) responde hoy `500 INTERNAL_ERROR`, el código de los fallos imprevistos, aunque el error es de quien llama.
+| Ruta con codificación porcentual inválida (`/%zz`), encabezado con caracteres de control o demasiado grande, línea de petición mal formada | 400 `REQUEST_PATH_INVALID_FORMAT`, con un `requestId` nuevo (el `X-Request-Id` recibido no es confiable) | `ContainerErrorReportValve` |
+| `GET /error` pedido directamente | 404 `ROUTE_NOT_FOUND` | `ContainerErrorController` |
+| Estado del contenedor sin código propio (por ejemplo 503) | 500 `INTERNAL_ERROR`, registrado en `ERROR` con el estado | `ContainerErrorController` |
 
 ## Cómo se agrega un código
 

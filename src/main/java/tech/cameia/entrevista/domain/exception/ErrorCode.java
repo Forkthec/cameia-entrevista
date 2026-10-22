@@ -47,6 +47,15 @@ public enum ErrorCode {
     /** El tipo de respuesta pedido no se puede atender. */
     MEDIA_TYPE_NOT_ACCEPTABLE,
 
+    /** El cuerpo {@code multipart/form-data} no se puede leer (por ejemplo, sin su límite). */
+    REQUEST_MULTIPART_INVALID_FORMAT,
+
+    /** La petición no se pudo interpretar, por ejemplo por una ruta con codificación inválida. */
+    REQUEST_PATH_INVALID_FORMAT,
+
+    /** Los datos enviados superan el tamaño que la petición admite (más de 10 MB en un multipart). */
+    REQUEST_PAYLOAD_TOO_LARGE,
+
     /** La base de datos no respondió; la persona puede reintentar. */
     DATABASE_UNAVAILABLE,
 

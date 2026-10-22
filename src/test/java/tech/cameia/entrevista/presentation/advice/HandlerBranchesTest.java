@@ -50,7 +50,7 @@ class HandlerBranchesTest {
 
     private final MockMvc probe = MockMvcBuilders
             .standaloneSetup(new ErrorProbeController())
-            .setControllerAdvice(ProblemDetailTestSupport.manejadorDeErrores())
+            .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 
     @BeforeEach

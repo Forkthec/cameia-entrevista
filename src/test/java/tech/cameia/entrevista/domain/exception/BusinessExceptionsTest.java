@@ -26,6 +26,8 @@ class BusinessExceptionsTest {
                         "Esta solicitud ya se registró."),
                 Arguments.of(new IdentityRequiredException(), ErrorCode.IDENTITY_REQUIRED,
                         "Tu sesión expiró. Inicia sesión de nuevo."),
+                Arguments.of(new RequestPathInvalidException(), ErrorCode.REQUEST_PATH_INVALID_FORMAT,
+                        "La ruta solicitada no es válida."),
                 Arguments.of(new DatabaseUnavailableException(new IllegalStateException("x")),
                         ErrorCode.DATABASE_UNAVAILABLE, "Ocurrió un error. Inténtalo de nuevo."));
     }

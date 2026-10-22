@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 
 import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
@@ -161,5 +163,15 @@ public class ErrorProbeController {
     @GetMapping("/required-param")
     String requiredParam(@RequestParam("page") String page) {
         return page;
+    }
+
+    @GetMapping("/multipart")
+    String multipart() {
+        throw new MultipartException("Current request is not a multipart request");
+    }
+
+    @GetMapping("/multipart-too-large")
+    String multipartTooLarge() {
+        throw new MaxUploadSizeExceededException(1);
     }
 }

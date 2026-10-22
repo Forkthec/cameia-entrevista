@@ -2,6 +2,8 @@ package tech.cameia.entrevista.presentation.advice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +48,9 @@ class FrameworkErrorsTest {
 
     @Autowired
     private TestRestTemplate client;
+
+    @LocalServerPort
+    private int port;
 
     @Test
     @DisplayName("Una ruta inexistente devuelve ROUTE_NOT_FOUND y un 404")
@@ -90,6 +96,52 @@ class FrameworkErrorsTest {
 
         assertThat(response.getStatusCode().value()).isEqualTo(415);
         assertServiceError(response, "MEDIA_TYPE_NOT_ALLOWED", "Tipo de contenido no admitido.");
+    }
+
+    @Test
+    @DisplayName("Un multipart sin límite devuelve REQUEST_MULTIPART_INVALID_FORMAT y un 415")
+    void multipartWithoutBoundary_shouldReturn415() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, "multipart/form-data");
+
+        ResponseEntity<String> response = client.exchange("/health", HttpMethod.POST,
+                new HttpEntity<>("x", headers), String.class);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(415);
+        assertServiceError(response, "REQUEST_MULTIPART_INVALID_FORMAT", "Revisa el formato de los datos enviados.");
+    }
+
+    @Test
+    @DisplayName("Pedir /error directamente devuelve ROUTE_NOT_FOUND y un 404")
+    void errorRoute_shouldReturn404WithCode() {
+        ResponseEntity<String> response = client.getForEntity("/error", String.class);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(404);
+        assertServiceError(response, "ROUTE_NOT_FOUND", "No existe la ruta solicitada.");
+    }
+
+    @Test
+    @DisplayName("Una ruta con codificación porcentual inválida devuelve REQUEST_PATH_INVALID_FORMAT y un 400")
+    void invalidPathEncoding_shouldReturn400WithCode() throws IOException {
+        String raw = rawGet("/%zz");
+
+        assertThat(raw).as(raw).startsWith("HTTP/1.1 400");
+        assertThat(raw.toLowerCase()).contains("application/problem+json").contains("charset=utf-8");
+        assertThat(raw).contains("\"code\":\"REQUEST_PATH_INVALID_FORMAT\"")
+                .contains("La ruta solicitada no es válida.")
+                .contains("\"requestId\"")
+                .doesNotContain("<html");
+    }
+
+    private static final String CRLF = "\r\n";
+
+    /** Pide la ruta tal cual por un socket, porque un cliente HTTP normal rechazaría la codificación inválida. */
+    private String rawGet(String path) throws IOException {
+        try (Socket socket = new Socket("localhost", port)) {
+            socket.getOutputStream().write(("GET " + path + " HTTP/1.1" + CRLF + "Host: localhost" + CRLF + "Connection: close" + CRLF + CRLF)
+                    .getBytes(StandardCharsets.US_ASCII));
+            return new String(socket.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        }
     }
 
     @Test

@@ -19,7 +19,7 @@ class ErrorCodeTest {
     private static final Set<ErrorCode> FRAMEWORK = EnumSet.of(ErrorCode.VALIDATION_FAILED,
             ErrorCode.REQUEST_BODY_INVALID_FORMAT, ErrorCode.REQUEST_INVALID_VALUE, ErrorCode.ROUTE_NOT_FOUND,
             ErrorCode.METHOD_NOT_ALLOWED, ErrorCode.MEDIA_TYPE_NOT_ALLOWED, ErrorCode.MEDIA_TYPE_NOT_ACCEPTABLE,
-            ErrorCode.DATABASE_UNAVAILABLE, ErrorCode.INTERNAL_ERROR);
+            ErrorCode.DATABASE_UNAVAILABLE, ErrorCode.INTERNAL_ERROR, ErrorCode.REQUEST_MULTIPART_INVALID_FORMAT);
 
     private static final Set<ErrorCode> MODEL_CLIENT = EnumSet.of(ErrorCode.LLM_UNAVAILABLE,
             ErrorCode.LLM_LIMIT_REACHED);

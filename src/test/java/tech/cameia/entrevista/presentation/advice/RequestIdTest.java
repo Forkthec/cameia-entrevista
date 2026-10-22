@@ -18,7 +18,7 @@ class RequestIdTest {
 
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new ErrorProbeController())
-            .setControllerAdvice(ProblemDetailTestSupport.manejadorDeErrores())
+            .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 
     @Test
