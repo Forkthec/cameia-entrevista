@@ -37,7 +37,7 @@ class BusinessExceptionHandlerDispatchTest {
 
     private static final String UUID_V4 = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
 
-    private final BusinessExceptionHandler manejador = new BusinessExceptionHandler();
+    private final BusinessExceptionHandler handler = new BusinessExceptionHandler();
 
     @AfterEach
     void clearRequest() {
@@ -46,12 +46,12 @@ class BusinessExceptionHandlerDispatchTest {
 
     @Test
     @DisplayName("Sin petición HTTP en curso se genera un requestId, no hay instance y el error se registra")
-    void modelUnavailable_shouldGenerateRequestId_whenThereIsNoRequest(CapturedOutput salida) {
-        ProblemDetail problem = manejador.modelUnavailable(failure());
+    void modelUnavailable_shouldGenerateRequestId_whenThereIsNoRequest(CapturedOutput output) {
+        ProblemDetail problem = handler.modelUnavailable(failure());
 
         assertThat((String) problem.getProperties().get("requestId")).matches(UUID_V4);
         assertThat(problem.getInstance()).isNull();
-        assertThat(salida.getOut()).contains("Modelo de lenguaje no disponible [code=LLM_UNAVAILABLE");
+        assertThat(output.getOut()).contains("Modelo de lenguaje no disponible [code=LLM_UNAVAILABLE");
     }
 
     @Test
@@ -61,43 +61,43 @@ class BusinessExceptionHandlerDispatchTest {
         request.addHeader("X-Request-Id", "abc-123");
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
-        ProblemDetail problem = manejador.modelUnavailable(failure());
+        ProblemDetail problem = handler.modelUnavailable(failure());
 
         assertThat(problem.getProperties()).containsEntry("requestId", "abc-123");
     }
 
     @Test
     @DisplayName("En el despacho de error, instance es la ruta original y el error ya registrado no se repite")
-    void modelUnavailable_shouldLogOnce_whenErrorDispatchRepeatsTheRequest(CapturedOutput salida) {
+    void modelUnavailable_shouldLogOnce_whenErrorDispatchRepeatsTheRequest(CapturedOutput output) {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/error");
         request.addHeader("X-Request-Id", "abc-123");
         MockHttpServletResponse response = new MockHttpServletResponse();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request, response));
 
         // Primer paso: el despacho normal registra el error y marca la petición.
-        manejador.modelUnavailable(failure());
+        handler.modelUnavailable(failure());
         // Segundo paso: el contenedor reenvía la misma petición a /error.
         request.setDispatcherType(DispatcherType.ERROR);
         request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, "/api/v1/entrevistas");
-        ProblemDetail problem = manejador.modelUnavailable(failure());
+        ProblemDetail problem = handler.modelUnavailable(failure());
 
         assertThat(problem.getInstance()).isEqualTo(URI.create("/api/v1/entrevistas"));
         assertThat(problem.getProperties()).containsEntry("requestId", "abc-123");
         assertThat(response.getHeader("X-Request-Id")).isEqualTo("abc-123");
-        assertThat(salida.getOut()).containsOnlyOnce("Modelo de lenguaje no disponible");
+        assertThat(output.getOut()).containsOnlyOnce("Modelo de lenguaje no disponible");
     }
 
     @Test
     @DisplayName("Un error que llega por primera vez en el despacho de error sí se registra")
-    void modelUnavailable_shouldLog_whenErrorDispatchIsTheFirstTime(CapturedOutput salida) {
+    void modelUnavailable_shouldLog_whenErrorDispatchIsTheFirstTime(CapturedOutput output) {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/error");
         request.setDispatcherType(DispatcherType.ERROR);
         RequestContextHolder.setRequestAttributes(
                 new ServletRequestAttributes(request, new MockHttpServletResponse()));
 
-        manejador.modelUnavailable(failure());
+        handler.modelUnavailable(failure());
 
-        assertThat(salida.getOut()).containsOnlyOnce("Modelo de lenguaje no disponible");
+        assertThat(output.getOut()).containsOnlyOnce("Modelo de lenguaje no disponible");
     }
 
     @ParameterizedTest(name = "ruta original [{0}]")
@@ -110,7 +110,7 @@ class BusinessExceptionHandlerDispatchTest {
         RequestContextHolder.setRequestAttributes(
                 new ServletRequestAttributes(request, new MockHttpServletResponse()));
 
-        ProblemDetail problem = manejador.modelUnavailable(failure());
+        ProblemDetail problem = handler.modelUnavailable(failure());
 
         assertThat(problem.getInstance()).isNull();
     }

@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
 @ExtendWith(OutputCaptureExtension.class)
 class LanguageModelPropertiesTest {
 
-    private static final String LLAVE_SECRETA = "clave-secreta-de-prueba";
+    private static final String SECRET_KEY = "clave-secreta-de-prueba";
 
     private final ApplicationContextRunner context = new ApplicationContextRunner()
             .withUserConfiguration(PropertiesOnly.class)
@@ -47,23 +47,23 @@ class LanguageModelPropertiesTest {
     @Test
     @DisplayName("Con todos los valores válidos el contexto arranca y enlaza cada propiedad")
     void bind_shouldStart_whenAllValuesAreValid() {
-        context.run(arrancado -> {
-            assertThat(arrancado).hasNotFailed();
-            LanguageModelProperties propiedades = arrancado.getBean(LanguageModelProperties.class);
-            assertThat(propiedades.apiKey()).isEqualTo("clave-falsa-de-prueba");
-            assertThat(propiedades.model()).isEqualTo("modelo-de-prueba");
-            assertThat(propiedades.timeout()).isEqualTo(Duration.ofSeconds(30));
-            assertThat(propiedades.temperature()).isEqualTo(1.0);
-            assertThat(propiedades.thinkingLevel()).isEqualTo(GoogleGenAiThinkingLevel.LOW);
+        context.run(started -> {
+            assertThat(started).hasNotFailed();
+            LanguageModelProperties properties = started.getBean(LanguageModelProperties.class);
+            assertThat(properties.apiKey()).isEqualTo("clave-falsa-de-prueba");
+            assertThat(properties.model()).isEqualTo("modelo-de-prueba");
+            assertThat(properties.timeout()).isEqualTo(Duration.ofSeconds(30));
+            assertThat(properties.temperature()).isEqualTo(1.0);
+            assertThat(properties.thinkingLevel()).isEqualTo(GoogleGenAiThinkingLevel.LOW);
         });
     }
 
     @ParameterizedTest(name = "llave [{0}]")
     @ValueSource(strings = {"", "   ", "\t"})
     @DisplayName("Una llave vacía o en blanco impide arrancar y el error nombra la propiedad y la variable")
-    void bind_shouldFail_whenApiKeyIsBlank(String llave) {
-        context.withPropertyValues("cameia.llm.api-key=" + llave)
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+    void bind_shouldFail_whenApiKeyIsBlank(String key) {
+        context.withPropertyValues("cameia.llm.api-key=" + key)
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.api-key (GOOGLE_GENAI_API_KEY) es obligatoria"));
     }
 
@@ -77,7 +77,7 @@ class LanguageModelPropertiesTest {
                         "cameia.llm.timeout=30s",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low")
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.api-key (GOOGLE_GENAI_API_KEY) es obligatoria"));
     }
 
@@ -86,7 +86,7 @@ class LanguageModelPropertiesTest {
     @DisplayName("Un modelo vacío o en blanco impide arrancar y el error nombra la propiedad y la variable")
     void bind_shouldFail_whenModelIsBlank(String model) {
         context.withPropertyValues("cameia.llm.model=" + model)
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.model (LLM_MODEL) es obligatorio"));
     }
 
@@ -100,7 +100,7 @@ class LanguageModelPropertiesTest {
                         "cameia.llm.timeout=30s",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low")
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.model (LLM_MODEL) es obligatorio"));
     }
 
@@ -109,7 +109,7 @@ class LanguageModelPropertiesTest {
     @DisplayName("Un timeout cero o negativo impide arrancar")
     void bind_shouldFail_whenTimeoutIsNotPositive(String timeout) {
         context.withPropertyValues("cameia.llm.timeout=" + timeout)
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.timeout (LLM_TIMEOUT) debe ser mayor que cero"));
     }
 
@@ -117,16 +117,16 @@ class LanguageModelPropertiesTest {
     @DisplayName("Un timeout que no es una duración impide arrancar")
     void bind_shouldFail_whenTimeoutIsNotADuration() {
         context.withPropertyValues("cameia.llm.timeout=abc")
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.timeout"));
     }
 
     @ParameterizedTest(name = "temperatura [{0}]")
     @ValueSource(strings = {"-0.1", "2.1"})
     @DisplayName("Una temperatura fuera de 0.0 a 2.0 impide arrancar")
-    void bind_shouldFail_whenTemperatureIsOutOfRange(String temperatura) {
-        context.withPropertyValues("cameia.llm.temperature=" + temperatura)
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+    void bind_shouldFail_whenTemperatureIsOutOfRange(String temperature) {
+        context.withPropertyValues("cameia.llm.temperature=" + temperature)
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.temperature debe estar entre 0.0 y 2.0"));
     }
 
@@ -134,63 +134,63 @@ class LanguageModelPropertiesTest {
     @DisplayName("Un nivel de pensamiento que no existe impide arrancar")
     void bind_shouldFail_whenThinkingLevelIsUnknown() {
         context.withPropertyValues("cameia.llm.thinking-level=ultra")
-                .run(arrancado -> assertThat(messages(arrancado.getStartupFailure()))
+                .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.thinking-level"));
     }
 
     @Test
     @DisplayName("Un arranque fallido por otra propiedad no muestra la llave ni en el error ni en el log")
-    void run_shouldNotRevealApiKey_whenStartupFailsOnTimeout(CapturedOutput salida) {
-        SpringApplicationBuilder aplicacion = new SpringApplicationBuilder(PropertiesOnly.class)
+    void run_shouldNotRevealApiKey_whenStartupFailsOnTimeout(CapturedOutput output) {
+        SpringApplicationBuilder application = new SpringApplicationBuilder(PropertiesOnly.class)
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF);
 
         // Sin archivos de configuración: solo cuentan los argumentos de la prueba.
-        assertThatThrownBy(() -> aplicacion.run(
+        assertThatThrownBy(() -> application.run(
                 "--spring.config.name=cm312-sin-archivos",
-                "--cameia.llm.api-key=" + LLAVE_SECRETA,
+                "--cameia.llm.api-key=" + SECRET_KEY,
                 "--cameia.llm.model=modelo-de-prueba",
                 "--cameia.llm.timeout=abc",
                 "--cameia.llm.temperature=1.0",
                 "--cameia.llm.thinking-level=low"))
-                .satisfies(error -> assertThat(messages(error)).doesNotContain(LLAVE_SECRETA));
+                .satisfies(error -> assertThat(messages(error)).doesNotContain(SECRET_KEY));
 
-        assertThat(salida.getAll())
+        assertThat(output.getAll())
                 .contains("cameia.llm.timeout")
-                .doesNotContain(LLAVE_SECRETA);
+                .doesNotContain(SECRET_KEY);
     }
 
     @Test
     @DisplayName("Un arranque fallido por validación no muestra la llave ni en el error ni en el log")
-    void run_shouldNotRevealApiKey_whenValidationFailsOnModel(CapturedOutput salida) {
-        SpringApplicationBuilder aplicacion = new SpringApplicationBuilder(PropertiesOnly.class)
+    void run_shouldNotRevealApiKey_whenValidationFailsOnModel(CapturedOutput output) {
+        SpringApplicationBuilder application = new SpringApplicationBuilder(PropertiesOnly.class)
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF);
 
-        assertThatThrownBy(() -> aplicacion.run(
+        assertThatThrownBy(() -> application.run(
                 "--spring.config.name=cm312-sin-archivos",
-                "--cameia.llm.api-key=" + LLAVE_SECRETA,
+                "--cameia.llm.api-key=" + SECRET_KEY,
                 "--cameia.llm.model=",
                 "--cameia.llm.timeout=30s",
                 "--cameia.llm.temperature=1.0",
                 "--cameia.llm.thinking-level=low"))
-                .satisfies(error -> assertThat(messages(error)).doesNotContain(LLAVE_SECRETA));
+                .satisfies(error -> assertThat(messages(error)).doesNotContain(SECRET_KEY));
 
-        assertThat(salida.getAll())
+        assertThat(output.getAll())
                 .contains("cameia.llm.model (LLM_MODEL) es obligatorio")
-                .doesNotContain(LLAVE_SECRETA);
+                .doesNotContain(SECRET_KEY);
     }
 
     @Test
     @DisplayName("La representación de texto enmascara la llave")
     void toString_shouldMaskApiKey_whenPropertiesArePrinted() {
-        LanguageModelProperties propiedades = new LanguageModelProperties(LLAVE_SECRETA, "modelo-de-prueba",
+        LanguageModelProperties properties = new LanguageModelProperties(SECRET_KEY, "modelo-de-prueba",
                 Duration.ofSeconds(30), 1.0, GoogleGenAiThinkingLevel.LOW);
 
-        assertThat(propiedades.toString())
+        assertThat(properties.toString())
                 .contains("apiKey=****")
                 .contains("model=modelo-de-prueba")
-                .doesNotContain(LLAVE_SECRETA);
+                .doesNotContain(SECRET_KEY);
     }
 
     /** Mensajes de toda la cadena de causas, para buscar en ellos sin depender del nivel. */

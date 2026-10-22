@@ -82,18 +82,18 @@ class RequestIdFilterTest {
     @ValueSource(strings = {"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "con espacio",
         "ñandú", "a%0d%0ab", ""})
     @DisplayName("Un identificador que no cumple la forma se reemplaza por un UUID")
-    void requestId_shouldBeReplaced_whenHeaderInvalid(String enviado) {
-        String devuelto = get("/health", enviado).getHeaders().getFirst("X-Request-Id");
+    void requestId_shouldBeReplaced_whenHeaderInvalid(String sent) {
+        String returned = get("/health", sent).getHeaders().getFirst("X-Request-Id");
 
-        assertThat(devuelto).isNotEqualTo(enviado).matches(UUID_V4);
+        assertThat(returned).isNotEqualTo(sent).matches(UUID_V4);
     }
 
     @Test
     @DisplayName("Un identificador de 64 caracteres, el límite, se acepta")
     void requestId_shouldAcceptBoundary_when64Characters() {
-        String limite = "a".repeat(64);
+        String limit = "a".repeat(64);
 
-        assertThat(get("/health", limite).getHeaders().getFirst("X-Request-Id")).isEqualTo(limite);
+        assertThat(get("/health", limit).getHeaders().getFirst("X-Request-Id")).isEqualTo(limit);
     }
 
     @Test
@@ -118,12 +118,12 @@ class RequestIdFilterTest {
 
     @Test
     @DisplayName("La línea del registro del error lleva el requestId entre corchetes")
-    void requestId_shouldAppearInLogLine_whenFilterRuns(CapturedOutput salida) {
+    void requestId_shouldAppearInLogLine_whenFilterRuns(CapturedOutput output) {
         get("/test/errors/boom", "abc-123");
 
-        List<String> lineas = salida.getOut().lines().filter(l -> l.contains("Fallo no controlado")).toList();
-        assertThat(lineas).hasSize(1);
-        assertThat(lineas.getFirst()).contains("[abc-123]");
+        List<String> lines = output.getOut().lines().filter(l -> l.contains("Fallo no controlado")).toList();
+        assertThat(lines).hasSize(1);
+        assertThat(lines.getFirst()).contains("[abc-123]");
     }
 
     @Test
@@ -132,17 +132,17 @@ class RequestIdFilterTest {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/ok");
         request.addHeader("X-Request-Id", "abc-123");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String[] dentro = new String[1];
+        String[] inside = new String[1];
 
         new RequestIdFilter().doFilter(request, response,
                 new MockFilterChain() {
                     @Override
                     public void doFilter(jakarta.servlet.ServletRequest req, jakarta.servlet.ServletResponse res) {
-                        dentro[0] = MDC.get("requestId");
+                        inside[0] = MDC.get("requestId");
                     }
                 });
 
-        assertThat(dentro[0]).isEqualTo("abc-123");
+        assertThat(inside[0]).isEqualTo("abc-123");
         assertThat(MDC.get("requestId")).isNull();
         assertThat(response.getHeader("X-Request-Id")).isEqualTo("abc-123");
     }
@@ -157,8 +157,8 @@ class RequestIdFilterTest {
             new RequestIdFilter().doFilter(request, response, (req, res) -> {
                 throw new ServletException("falla de prueba");
             });
-        } catch (ServletException | java.io.IOException esperada) {
-            assertThat(esperada).hasMessage("falla de prueba");
+        } catch (ServletException | java.io.IOException expected) {
+            assertThat(expected).hasMessage("falla de prueba");
         }
 
         assertThat(MDC.get("requestId")).isNull();

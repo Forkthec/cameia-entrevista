@@ -574,10 +574,10 @@ class BusinessExceptionHandler {
             return true;
         }
         HttpServletRequest request = servlet.getRequest();
-        boolean repetido = request.getDispatcherType() == DispatcherType.ERROR
+        boolean repeated = request.getDispatcherType() == DispatcherType.ERROR
                 && request.getAttribute(LOGGED_ATTRIBUTE) != null;
         request.setAttribute(LOGGED_ATTRIBUTE, Boolean.TRUE);
-        return !repetido;
+        return !repeated;
     }
 
     /**
@@ -595,7 +595,7 @@ class BusinessExceptionHandler {
         }
         try {
             return new URI(path);
-        } catch (URISyntaxException invalida) {
+        } catch (URISyntaxException invalid) {
             return null;
         }
     }
@@ -611,12 +611,12 @@ class BusinessExceptionHandler {
      * {@code charset} (ASVS 4.1.1).</p>
      */
     private String resolveRequestId() {
-        RequestAttributes atributos = RequestContextHolder.getRequestAttributes();
-        if (!(atributos instanceof ServletRequestAttributes servlet)) {
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+        if (!(attributes instanceof ServletRequestAttributes servlet)) {
             return UUID.randomUUID().toString();
         }
-        String requestId = servlet.getRequest().getAttribute(REQUEST_ID_ATTRIBUTE) instanceof String resuelto
-                ? resuelto
+        String requestId = servlet.getRequest().getAttribute(REQUEST_ID_ATTRIBUTE) instanceof String resolved
+                ? resolved
                 : newRequestId(servlet.getRequest());
         if (servlet.getResponse() != null) {
             servlet.getResponse().setHeader(REQUEST_ID_HEADER, requestId);
@@ -627,9 +627,9 @@ class BusinessExceptionHandler {
 
     /** Identificador recibido si cumple la forma admitida, o uno nuevo; queda en la petición. */
     private static String newRequestId(HttpServletRequest request) {
-        String recibido = request.getHeader(REQUEST_ID_HEADER);
-        String requestId = recibido != null && VALID_REQUEST_ID.matcher(recibido).matches()
-                ? recibido
+        String received = request.getHeader(REQUEST_ID_HEADER);
+        String requestId = received != null && VALID_REQUEST_ID.matcher(received).matches()
+                ? received
                 : UUID.randomUUID().toString();
         request.setAttribute(REQUEST_ID_ATTRIBUTE, requestId);
         return requestId;

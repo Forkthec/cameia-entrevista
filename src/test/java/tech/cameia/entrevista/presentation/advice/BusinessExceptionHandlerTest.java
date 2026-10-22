@@ -99,7 +99,7 @@ class BusinessExceptionHandlerTest {
     @Test
     @DisplayName("Un fallo imprevisto responde 500 INTERNAL_ERROR sin el mensaje ni la clase de la excepción")
     void unexpectedFailure_shouldReturn500WithoutDetail_whenUnexpectedExceptionIsThrown() throws Exception {
-        MvcResult resultado = mockMvc.perform(get("/falla").header("X-Request-Id", "abc-123"))
+        MvcResult result = mockMvc.perform(get("/falla").header("X-Request-Id", "abc-123"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(header().string("Content-Type", containsStringIgnoringCase("charset=UTF-8")))
                 .andExpect(header().string("X-Request-Id", "abc-123"))
@@ -109,7 +109,7 @@ class BusinessExceptionHandlerTest {
                 .andExpect(jsonPath("$.requestId").value("abc-123"))
                 .andReturn();
 
-        assertThat(resultado.getResponse().getContentAsString())
+        assertThat(result.getResponse().getContentAsString())
                 .doesNotContain("detalle interno")
                 .doesNotContain("IllegalStateException");
     }
@@ -117,12 +117,12 @@ class BusinessExceptionHandlerTest {
     @Test
     @DisplayName("Sin X-Request-Id se genera un UUID v4, igual en el cuerpo y en el encabezado")
     void resolveRequestId_shouldGenerateUuid_whenHeaderIsMissing() throws Exception {
-        MvcResult resultado = mockMvc.perform(get("/sin-modelo"))
+        MvcResult result = mockMvc.perform(get("/sin-modelo"))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.requestId", matchesPattern(UUID_V4)))
                 .andReturn();
 
-        assertThat(resultado.getResponse().getHeader("X-Request-Id")).isEqualTo(requestIdDe(resultado));
+        assertThat(result.getResponse().getHeader("X-Request-Id")).isEqualTo(requestIdDe(result));
     }
 
     @ParameterizedTest(name = "X-Request-Id inválido: [{0}]")
@@ -132,24 +132,24 @@ class BusinessExceptionHandlerTest {
         "abc/123"
     })
     @DisplayName("Un X-Request-Id que no cumple la forma admitida se reemplaza por un UUID v4")
-    void resolveRequestId_shouldGenerateUuid_whenHeaderIsInvalid(String recibido) throws Exception {
-        MvcResult resultado = mockMvc.perform(get("/sin-modelo").header("X-Request-Id", recibido))
+    void resolveRequestId_shouldGenerateUuid_whenHeaderIsInvalid(String received) throws Exception {
+        MvcResult result = mockMvc.perform(get("/sin-modelo").header("X-Request-Id", received))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.code").value("LLM_UNAVAILABLE"))
                 .andExpect(jsonPath("$.requestId", matchesPattern(UUID_V4)))
                 .andReturn();
 
-        assertThat(requestIdDe(resultado)).isNotEqualTo(recibido);
-        assertThat(resultado.getResponse().getHeader("X-Request-Id")).isEqualTo(requestIdDe(resultado));
+        assertThat(requestIdDe(result)).isNotEqualTo(received);
+        assertThat(result.getResponse().getHeader("X-Request-Id")).isEqualTo(requestIdDe(result));
     }
 
     @Test
     @DisplayName("El error se registra una vez en ERROR, con code, requestId y la traza de la causa")
-    void modelUnavailable_shouldLogOnceWithTrace_whenAdapterThrows(CapturedOutput salida) throws Exception {
+    void modelUnavailable_shouldLogOnceWithTrace_whenAdapterThrows(CapturedOutput output) throws Exception {
         mockMvc.perform(get("/sin-modelo").header("X-Request-Id", "abc-123"))
                 .andExpect(status().isServiceUnavailable());
 
-        assertThat(salida.getOut())
+        assertThat(output.getOut())
                 .containsOnlyOnce("Modelo de lenguaje no disponible [code=LLM_UNAVAILABLE, requestId=abc-123]")
                 .contains("ERROR")
                 .contains("java.io.IOException: conexión cortada");
@@ -246,31 +246,31 @@ class BusinessExceptionHandlerTest {
 
     @Test
     @DisplayName("Un identificador que no es UUID responde 422 y ni el mensaje ni el log repiten el valor")
-    void typeMismatch_shouldReturn422_whenPathIsNotUuid(CapturedOutput salida) throws Exception {
+    void typeMismatch_shouldReturn422_whenPathIsNotUuid(CapturedOutput output) throws Exception {
         // «instance» es la ruta que la propia persona pidió (RFC 9457); el valor no debe estar en otro miembro.
-        MvcResult resultado = probe.perform(get("/test/errors/typed/valor-secreto"))
+        MvcResult result = probe.perform(get("/test/errors/typed/valor-secreto"))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(jsonPath("$.code").value("REQUEST_INVALID_VALUE"))
                 .andExpect(jsonPath("$.detail").value("Revisa los datos enviados."))
                 .andReturn();
 
-        assertThat((String) JsonPath.read(resultado.getResponse().getContentAsString(), "$.detail"))
+        assertThat((String) JsonPath.read(result.getResponse().getContentAsString(), "$.detail"))
                 .doesNotContain("valor-secreto");
-        assertThat(salida.getOut()).contains("parametro=id").doesNotContain("valor-secreto");
+        assertThat(output.getOut()).contains("parametro=id").doesNotContain("valor-secreto");
     }
 
     @ParameterizedTest(name = "base caída: {0}")
     @ValueSource(strings = {"transaction", "resource", "connection"})
     @DisplayName("Una base de datos caída responde 503 DATABASE_UNAVAILABLE sin el mensaje técnico")
-    void databaseDown_shouldReturn503(String type, CapturedOutput salida) throws Exception {
-        MvcResult resultado = probe.perform(get("/test/errors/database/" + type))
+    void databaseDown_shouldReturn503(String type, CapturedOutput output) throws Exception {
+        MvcResult result = probe.perform(get("/test/errors/database/" + type))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.code").value("DATABASE_UNAVAILABLE"))
                 .andExpect(jsonPath("$.detail").value(DETAIL))
                 .andReturn();
 
-        assertThat(resultado.getResponse().getContentAsString()).doesNotContain("db-interno");
-        assertThat(salida.getOut()).contains("Base de datos no disponible [code=DATABASE_UNAVAILABLE");
+        assertThat(result.getResponse().getContentAsString()).doesNotContain("db-interno");
+        assertThat(output.getOut()).contains("Base de datos no disponible [code=DATABASE_UNAVAILABLE");
     }
 
     @Test
@@ -285,47 +285,47 @@ class BusinessExceptionHandlerTest {
     @Test
     @DisplayName("Cualquier otra excepción responde 500 sin detalle interno")
     void unexpected_shouldReturn500Generic_whenAnyException() throws Exception {
-        MvcResult resultado = probe.perform(get("/test/errors/boom"))
+        MvcResult result = probe.perform(get("/test/errors/boom"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
                 .andReturn();
 
-        assertThat(resultado.getResponse().getContentAsString())
+        assertThat(result.getResponse().getContentAsString())
                 .doesNotContain("detalle interno").doesNotContain("Exception").doesNotContain("trace");
     }
 
     @Test
     @DisplayName("El log de un rechazo lleva el código y la identidad, y nunca el valor del cuerpo")
-    void logs_shouldNotContainBodyOrValues(CapturedOutput salida) throws Exception {
+    void logs_shouldNotContainBodyOrValues(CapturedOutput output) throws Exception {
         probe.perform(post("/test/errors/body").header("X-User-Id", "uid-a")
                 .contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"secreto-123\"}"))
                 .andExpect(status().isUnprocessableEntity());
 
-        assertThat(salida.getOut()).contains("VALIDATION_FAILED").contains("uid-a").doesNotContain("secreto-123");
+        assertThat(output.getOut()).contains("VALIDATION_FAILED").contains("uid-a").doesNotContain("secreto-123");
     }
 
     @Test
     @DisplayName("Una identidad inválida se registra como «-», nunca con su valor")
-    void logs_shouldMaskFirebaseUid_whenIdentityIsInvalid(CapturedOutput salida) throws Exception {
+    void logs_shouldMaskFirebaseUid_whenIdentityIsInvalid(CapturedOutput output) throws Exception {
         probe.perform(post("/test/errors/body").header("X-User-Id", "x".repeat(129))
                 .contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isUnprocessableEntity());
 
-        assertThat(salida.getOut()).contains("firebaseUid=-").doesNotContain("x".repeat(129));
+        assertThat(output.getOut()).contains("firebaseUid=-").doesNotContain("x".repeat(129));
     }
 
     @Test
     @DisplayName("Un código de negocio sin definición responde 500 INTERNAL_ERROR y se registra")
-    void businessFailure_shouldReturn500_whenCodeHasNoDefinition(CapturedOutput salida) throws Exception {
+    void businessFailure_shouldReturn500_whenCodeHasNoDefinition(CapturedOutput output) throws Exception {
         probe.perform(get("/test/errors/undefined-business"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
 
-        assertThat(salida.getOut()).contains("Código sin definición: LLM_UNAVAILABLE");
+        assertThat(output.getOut()).contains("Código sin definición: LLM_UNAVAILABLE");
     }
 
-    private static String requestIdDe(MvcResult resultado) throws Exception {
-        return JsonPath.read(resultado.getResponse().getContentAsString(), "$.requestId");
+    private static String requestIdDe(MvcResult result) throws Exception {
+        return JsonPath.read(result.getResponse().getContentAsString(), "$.requestId");
     }
 
     /** Controlador que solo existe en la prueba y lanza cada una de las excepciones manejadas. */
