@@ -33,26 +33,26 @@ import tech.cameia.entrevista.presentation.dto.PersonalizationCatalogResponse;
 @RequestMapping("/api/v1/interviews/config")
 class InterviewConfigController {
 
-    private static final String EJEMPLO_200 = """
+    private static final String EXAMPLE_200 = """
             {"modes":[{"value":"SIMULACION","available":true},{"value":"ENTRENO","available":false}],
              "tones":[{"value":"PROFESIONAL_NEUTRO","available":true},{"value":"CALIDO","available":true},
                       {"value":"ESTRICTO","available":true},{"value":"MOTIVADOR","available":true}],
              "answerFormats":[{"value":"AUDIO","available":true},{"value":"TEXTO","available":true}],
              "languages":[{"value":"es-CO","available":true},{"value":"en","available":true}]}""";
 
-    private static final String EJEMPLO_401 = """
+    private static final String EXAMPLE_401 = """
             {"title":"Identidad requerida","status":401,"detail":"Tu sesión expiró. Inicia sesión de nuevo.",
              "instance":"/api/v1/interviews/config/catalog","code":"IDENTITY_REQUIRED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
-    private static final String EJEMPLO_405 = """
+    private static final String EXAMPLE_405 = """
             {"title":"Método no permitido","status":405,"detail":"Método no permitido.",
              "instance":"/api/v1/interviews/config/catalog","code":"METHOD_NOT_ALLOWED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
-    private static final String EJEMPLO_406 = """
+    private static final String EXAMPLE_406 = """
             {"title":"Tipo de respuesta no admitido","status":406,"detail":"Tipo de respuesta no admitido.",
              "instance":"/api/v1/interviews/config/catalog","code":"MEDIA_TYPE_NOT_ACCEPTABLE","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
-    private static final String EJEMPLO_500 = """
+    private static final String EXAMPLE_500 = """
             {"title":"Error interno","status":500,"detail":"Ocurrió un error. Inténtalo de nuevo.",
              "instance":"/api/v1/interviews/config/catalog","code":"INTERNAL_ERROR","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
@@ -79,19 +79,19 @@ class InterviewConfigController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Catálogo", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PersonalizationCatalogResponse.class),
-                    examples = @ExampleObject(name = "catalogo", value = EJEMPLO_200))),
+                    examples = @ExampleObject(name = "catalogo", value = EXAMPLE_200))),
             @ApiResponse(responseCode = "401", description = "Sin identidad (code IDENTITY_REQUIRED)", content = @Content(
                     mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class),
-                    examples = @ExampleObject(name = "sinIdentidad", value = EJEMPLO_401))),
+                    examples = @ExampleObject(name = "sinIdentidad", value = EXAMPLE_401))),
             @ApiResponse(responseCode = "405", description = "Método no admitido (code METHOD_NOT_ALLOWED)", content = @Content(
                     mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class),
-                    examples = @ExampleObject(name = "metodoNoAdmitido", value = EJEMPLO_405))),
+                    examples = @ExampleObject(name = "metodoNoAdmitido", value = EXAMPLE_405))),
             @ApiResponse(responseCode = "406", description = "Tipo de respuesta no admitido (code MEDIA_TYPE_NOT_ACCEPTABLE)", content = @Content(
                     mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class),
-                    examples = @ExampleObject(name = "formatoNoDisponible", value = EJEMPLO_406))),
+                    examples = @ExampleObject(name = "formatoNoDisponible", value = EXAMPLE_406))),
             @ApiResponse(responseCode = "500", description = "Error imprevisto (code INTERNAL_ERROR)", content = @Content(
                     mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class),
-                    examples = @ExampleObject(name = "falloInterno", value = EJEMPLO_500)))
+                    examples = @ExampleObject(name = "falloInterno", value = EXAMPLE_500)))
     })
     @GetMapping(path = "/catalog", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PersonalizationCatalogResponse> catalog(

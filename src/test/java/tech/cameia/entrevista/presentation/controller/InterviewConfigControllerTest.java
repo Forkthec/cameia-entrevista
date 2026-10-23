@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static tech.cameia.entrevista.support.CatalogTestData.EXPECTED_BODY;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,13 +28,6 @@ import tech.cameia.entrevista.presentation.advice.ProblemDetailTestSupport;
 class InterviewConfigControllerTest {
 
     private static final String PATH = "/api/v1/interviews/config/catalog";
-
-    private static final String EXPECTED_BODY = """
-            {"modes":[{"value":"SIMULACION","available":true},{"value":"ENTRENO","available":false}],\
-            "tones":[{"value":"PROFESIONAL_NEUTRO","available":true},{"value":"CALIDO","available":true},\
-            {"value":"ESTRICTO","available":true},{"value":"MOTIVADOR","available":true}],\
-            "answerFormats":[{"value":"AUDIO","available":true},{"value":"TEXTO","available":true}],\
-            "languages":[{"value":"es-CO","available":true},{"value":"en","available":true}]}""";
 
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new InterviewConfigController(

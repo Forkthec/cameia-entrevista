@@ -1,6 +1,7 @@
 package tech.cameia.entrevista.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static tech.cameia.entrevista.support.CatalogTestData.EXPECTED_BODY;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -44,13 +45,6 @@ import tech.cameia.entrevista.support.WithLanguageModelProperties;
 class PersonalizationCatalogEndToEndTest {
 
     private static final String PATH = "/api/v1/interviews/config/catalog";
-
-    private static final String EXPECTED_BODY = """
-            {"modes":[{"value":"SIMULACION","available":true},{"value":"ENTRENO","available":false}],\
-            "tones":[{"value":"PROFESIONAL_NEUTRO","available":true},{"value":"CALIDO","available":true},\
-            {"value":"ESTRICTO","available":true},{"value":"MOTIVADOR","available":true}],\
-            "answerFormats":[{"value":"AUDIO","available":true},{"value":"TEXTO","available":true}],\
-            "languages":[{"value":"es-CO","available":true},{"value":"en","available":true}]}""";
 
     @Container
     @ServiceConnection
