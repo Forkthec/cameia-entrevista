@@ -317,6 +317,335 @@
           }
         }
       ]
+    },
+    {
+      "name": "Catálogo de personalización",
+      "item": [
+        {
+          "name": "200 catálogo completo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const esperado = {\"modes\":[{\"value\":\"SIMULACION\",\"available\":true},{\"value\":\"ENTRENO\",\"available\":false}],\"tones\":[{\"value\":\"PROFESIONAL_NEUTRO\",\"available\":true},{\"value\":\"CALIDO\",\"available\":true},{\"value\":\"ESTRICTO\",\"available\":true},{\"value\":\"MOTIVADOR\",\"available\":true}],\"answerFormats\":[{\"value\":\"AUDIO\",\"available\":true},{\"value\":\"TEXTO\",\"available\":true}],\"languages\":[{\"value\":\"es-CO\",\"available\":true},{\"value\":\"en\",\"available\":true}]};",
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON con charset UTF-8', () => {",
+                  "    const tipo = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "    pm.expect(tipo).to.include('application/json');",
+                  "    pm.expect(tipo).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('Cuerpo igual al catálogo', () => pm.expect(pm.response.json()).to.eql(esperado));",
+                  "pm.test('Orden y formato exactos', () => pm.expect(pm.response.text()).to.eql(JSON.stringify(esperado)));",
+                  "pm.test('ENTRENO no disponible', () => pm.expect(pm.response.json().modes[1].available).to.eql(false));",
+                  "pm.test('AUDIO y TEXTO disponibles', () => {",
+                  "    const formas = pm.response.json().answerFormats;",
+                  "    pm.expect(formas.map(f => f.value + ':' + f.available)).to.eql(['AUDIO:true', 'TEXTO:true']);",
+                  "});",
+                  "pm.test('X-Request-Id devuelto igual', () => pm.expect(pm.response.headers.get('X-Request-Id')).to.eql('postman-cat-1'));",
+                  "pm.test('Responde en menos de 200 ms', () => pm.expect(pm.response.responseTime).to.be.below(200));",
+                  "pm.collectionVariables.set('catalogBody', pm.response.text());"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-postman-a"
+              },
+              {
+                "key": "X-Request-Id",
+                "value": "postman-cat-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 mismo catálogo con plan FREE",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Cuerpo idéntico al del catálogo completo', () => pm.expect(pm.response.text()).to.eql(pm.collectionVariables.get('catalogBody')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-postman-b"
+              },
+              {
+                "key": "X-User-Plan",
+                "value": "FREE"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 parámetros inesperados ignorados",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Cuerpo idéntico al del catálogo completo', () => pm.expect(pm.response.text()).to.eql(pm.collectionVariables.get('catalogBody')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-postman-a"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog?plan=PREMIUM&modality=ENTRENO",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ],
+              "query": [
+                {
+                  "key": "plan",
+                  "value": "PREMIUM"
+                },
+                {
+                  "key": "modality",
+                  "value": "ENTRENO"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "401 sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('code = IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Mensaje de sesión expirada', () => pm.expect(pm.response.json().detail).to.eql('Tu sesión expiró. Inicia sesión de nuevo.'));",
+                  "pm.test('Sin catálogo en el cuerpo', () => pm.expect(pm.response.json()).to.not.have.property('modes'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('Sin traza ni detalle interno', () => pm.expect(pm.response.text()).to.not.match(/Exception|trace|org\\.|tech\\.cameia/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ]
+            }
+          }
+        },
+        {
+          "name": "401 identidad en blanco",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('code = IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Mensaje de sesión expirada', () => pm.expect(pm.response.json().detail).to.eql('Tu sesión expiró. Inicia sesión de nuevo.'));",
+                  "pm.test('Sin catálogo en el cuerpo', () => pm.expect(pm.response.json()).to.not.have.property('modes'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('Sin traza ni detalle interno', () => pm.expect(pm.response.text()).to.not.match(/Exception|trace|org\\.|tech\\.cameia/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "   "
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ]
+            }
+          }
+        },
+        {
+          "name": "405 POST no admitido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 405', () => pm.response.to.have.status(405));",
+                  "pm.test('code = METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('METHOD_NOT_ALLOWED'));",
+                  "pm.test('Allow incluye GET', () => pm.expect(pm.response.headers.get('Allow')).to.include('GET'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('Sin traza ni detalle interno', () => pm.expect(pm.response.text()).to.not.match(/Exception|trace|org\\.|tech\\.cameia/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-postman-a"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ]
+            }
+          }
+        },
+        {
+          "name": "406 Accept XML",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 406', () => pm.response.to.have.status(406));",
+                  "pm.test('code = MEDIA_TYPE_NOT_ACCEPTABLE', () => pm.expect(pm.response.json().code).to.eql('MEDIA_TYPE_NOT_ACCEPTABLE'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "    const tipo = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "    pm.expect(tipo).to.include('application/problem+json');",
+                  "    pm.expect(tipo).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('Sin traza ni detalle interno', () => pm.expect(pm.response.text()).to.not.match(/Exception|trace|org\\.|tech\\.cameia/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-postman-a"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/config/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "config",
+                "catalog"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
