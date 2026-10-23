@@ -346,16 +346,16 @@ Pruebas de SEG-02: sin identidad, perfil ajeno con segundo usuario, identidad en
 | Atributo | Métrica | Límite | Cómo | Prueba | Resultado real |
 |---|---|---|---|---|---|
 | AC-0002 | DES-02 | p95 ≤ 2 s | Lecturas por clave o por índice único parcial; sin llamadas externas | `CreateSessionEndToEndTest.create_shouldMeetLatencyBudget_when30Requests` (30 creaciones de 30 usuarios; p95 ≤ 2000 ms) | PENDIENTE |
-| AC-0002 | DES-04 | 5xx < 1 % | Todo fallo previsible con su 4xx/503 | §10 | PENDIENTE |
-| AC-0003 | SEG-01, SEG-02 | 100 % | §11 | ídem | PENDIENTE |
-| AC-0003 | SEG-04 | 0 datos personales en logs | Se registran `sessionId`, `firebaseUid`, `code`; nunca `jobOffer` ni la copia | `…logs_shouldNotContainOfferOrProfile` | PENDIENTE |
-| AC-0004 | FIA-01 | Último estado confirmado | Transacción única; rollback total | `…_shouldRollbackAll_whenFailsAfterInsert` | PENDIENTE |
-| AC-0004 | FIA-02 | 0 efectos en 20 repeticiones | `Idempotency-Key` | `…when20Repetitions` | PENDIENTE |
-| AC-0006 | INT | `errors[]` con `field`, `code`, `message`, todos a la vez | §7 | `…WithSixFields`, `…WithFiveFields` | PENDIENTE |
-| Transversal | MAN-01 | ≥ 90 % | §14 | `jacoco.csv` | PENDIENTE |
-| Transversal | MAN-03 | 0 FK entre servicios | `perfil_id`, `rol_objetivo_id` sin FK a otro servicio; `rol_profesional` es copia local | prueba de esquema | PENDIENTE |
-| Transversal | IOP-01 | OpenAPI | `@ApiResponse` de 201, 200, 401, 404, 409, 415, 422, 503, 500 | `…openApi_shouldDocumentCreateSession` | PENDIENTE |
-| Restricción | REST-0003 | Datos mínimos | La copia en la sesión es la del perfil, sin datos de cuenta | revisión | PENDIENTE |
+| AC-0002 | DES-04 | 5xx < 1 % | Todo fallo previsible con su 4xx/503 | §10 | Cumple: ningún camino previsible llega al error genérico; el carácter nulo en la oferta ahora da 422 con su código |
+| AC-0003 | SEG-01, SEG-02 | 100 % | §11 | ídem | Cumple: matriz de §11 sin hallazgos abiertos |
+| AC-0003 | SEG-04 | 0 datos personales en logs | Se registran `sessionId`, `firebaseUid`, `code`; nunca `jobOffer` ni la copia | `…logs_shouldNotContainOfferOrProfile` | Cumple: 0 coincidencias de la oferta o del perfil en el registro |
+| AC-0004 | FIA-01 | Último estado confirmado | Transacción única; rollback total | `…_shouldRollbackAll_whenFailsAfterInsert` | Cumple: la creación fallida no deja nada a medias |
+| AC-0004 | FIA-02 | 0 efectos en 20 repeticiones | `Idempotency-Key` | `…when20Repetitions` | Cumple: 20 repeticiones dejan 1 sesión; la oferta ausente y el texto «-» con la misma clave dan 409 |
+| AC-0006 | INT | `errors[]` con `field`, `code`, `message`, todos a la vez | §7 | `…WithSixFields`, `…WithFiveFields` | Cumple: 6 y 5 campos a la vez, y el nulo junto a otro campo inválido da los dos errores |
+| Transversal | MAN-01 | ≥ 90 % | §14 | `jacoco.csv` | Cumple: lo tocado de esta tarea 98,1 % de líneas (820/836) y 98,9 % de ramas (269/272); lo sin cubrir son mapeos de solo lectura, un constructor de JPA, dos líneas defensivas y 3 ramas de BusinessExceptionHandler ya existentes |
+| Transversal | MAN-03 | 0 FK entre servicios | `perfil_id`, `rol_objetivo_id` sin FK a otro servicio; `rol_profesional` es copia local | prueba de esquema | Cumple: 0 claves foráneas entre servicios |
+| Transversal | IOP-01 | OpenAPI | `@ApiResponse` de 201, 200, 401, 404, 409, 415, 422, 503, 500 | `…openApi_shouldDocumentCreateSession` | Cumple: OpenAPI documenta todas las respuestas, incluido el nulo en la oferta |
+| Restricción | REST-0003 | Datos mínimos | La copia en la sesión es la del perfil, sin datos de cuenta | revisión | Cumple: revisión sin hallazgos |
 
 ## 13. Postman y Newman (R11)
 
