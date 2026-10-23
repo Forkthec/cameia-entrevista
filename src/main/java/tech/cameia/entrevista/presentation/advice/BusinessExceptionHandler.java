@@ -52,6 +52,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.IdentityRequiredException;
+import tech.cameia.entrevista.domain.exception.InvalidRequestException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.RequestPayloadTooLargeException;
@@ -227,6 +228,30 @@ class BusinessExceptionHandler {
         }
         List<RejectedField> fields = new ArrayList<>(byField.values());
         // Solo nombres de campo y códigos, que salen del contrato: nunca el valor ni el mensaje.
+        String summary = fields.stream()
+                .map(field -> field.field() + "=" + field.code())
+                .collect(Collectors.joining(",", "campos=[", "]"));
+        ProblemDetail problem = rejection(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION, DETAIL_VALIDATION,
+                ErrorCode.VALIDATION_FAILED, summary);
+        problem.setProperty(ERRORS, fields);
+        return problem;
+    }
+
+    /**
+     * Configuración de una sesión que incumple una o varias reglas del dominio.
+     *
+     * <p>Responde igual que la validación del contrato: {@code 422 VALIDATION_FAILED} con un elemento por campo, el
+     * código y el mensaje de cada causa. El registro lleva solo los nombres de los campos y sus códigos, nunca
+     * los valores recibidos.</p>
+     *
+     * @param error excepción con un rechazo por campo, en el orden del formulario
+     * @return {@code 422 Unprocessable Entity} con un elemento por campo
+     */
+    @ExceptionHandler(InvalidRequestException.class)
+    ProblemDetail invalidRequest(InvalidRequestException error) {
+        List<RejectedField> fields = error.rejections().stream()
+                .map(failure -> new RejectedField(failure.field(), failure.code().name(), failure.message()))
+                .toList();
         String summary = fields.stream()
                 .map(field -> field.field() + "=" + field.code())
                 .collect(Collectors.joining(",", "campos=[", "]"));
