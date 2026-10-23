@@ -17,6 +17,15 @@ import tech.cameia.entrevista.infrastructure.persistence.entity.ProfessionalRole
 interface ProfessionalRoleJpaRepository extends JpaRepository<ProfessionalRoleEntity, UUID> {
 
     /**
+     * Indica si existe un rol con ese identificador y estado.
+     *
+     * @param id identificador del rol
+     * @param status estado buscado, por ejemplo {@code ACTIVE}
+     * @return {@code true} si la fila existe con ese estado
+     */
+    boolean existsByIdAndStatus(UUID id, String status);
+
+    /**
      * Aplica una instantánea completa en una sola sentencia: inserta los roles nuevos y actualiza los
      * existentes solo si la fila guardada no es más nueva que la instantánea. Los roles guardados que
      * la instantánea no trae no se tocan. Al ser una sola sentencia con {@code ON CONFLICT}, dos

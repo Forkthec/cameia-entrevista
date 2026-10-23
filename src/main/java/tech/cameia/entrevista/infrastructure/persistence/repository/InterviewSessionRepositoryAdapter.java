@@ -62,6 +62,26 @@ class InterviewSessionRepositoryAdapter implements InterviewSessionRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<InterviewSession> findConfiguredByOwner(FirebaseUid owner) {
+        return jpa.findByFirebaseUidAndStatus(owner.value(), SessionStatus.CONFIGURED)
+                .map(InterviewSessionMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<InterviewSession> findInProgressByOwner(FirebaseUid owner) {
+        return jpa.findByFirebaseUidAndStatus(owner.value(), SessionStatus.IN_PROGRESS)
+                .map(InterviewSessionMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public int countDefinitiveAnswers(UUID sessionId) {
+        return jpa.countDefinitiveAnswers(sessionId);
+    }
+
+    @Override
     @Transactional
     public void deleteConfigured(UUID id, FirebaseUid owner) {
         if (jpa.deleteByIdAndOwnerAndStatus(id, owner.value(), SessionStatus.CONFIGURED) == 0) {

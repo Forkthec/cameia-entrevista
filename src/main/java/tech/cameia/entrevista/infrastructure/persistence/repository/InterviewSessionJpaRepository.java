@@ -39,4 +39,28 @@ interface InterviewSessionJpaRepository extends JpaRepository<InterviewSessionEn
      * @return la sesión, o vacío si no existe o es de otra persona
      */
     Optional<InterviewSessionEntity> findByIdAndFirebaseUid(UUID id, String firebaseUid);
+
+    /**
+     * Busca la sesión de una persona con un estado dado; los índices únicos parciales garantizan a lo sumo una
+     * para {@code CONFIGURED} y otra para {@code IN_PROGRESS}.
+     *
+     * @param firebaseUid dueño de la sesión
+     * @param status estado buscado
+     * @return la sesión, o vacío si no tiene
+     */
+    Optional<InterviewSessionEntity> findByFirebaseUidAndStatus(String firebaseUid, SessionStatus status);
+
+    /**
+     * Cuenta los intentos de respuesta definitivos de una sesión.
+     *
+     * @param sessionId identificador de la sesión
+     * @return cantidad de respuestas definitivas
+     */
+    @Query(value = """
+            SELECT count(*) FROM microentrevista.intento_respuesta ir
+              JOIN microentrevista.turno t ON t.id = ir.turno_id
+              JOIN microentrevista.pregunta p ON p.id = t.pregunta_id
+             WHERE p.sesion_id = :sessionId AND ir.es_definitiva
+            """, nativeQuery = true)
+    int countDefinitiveAnswers(@Param("sessionId") UUID sessionId);
 }
