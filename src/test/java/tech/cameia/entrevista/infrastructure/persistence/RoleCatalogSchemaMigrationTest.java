@@ -23,6 +23,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
+import tech.cameia.entrevista.domain.model.ProfessionalRoleReplica;
 import tech.cameia.entrevista.support.WithLanguageModelProperties;
 
 /**
@@ -37,7 +38,7 @@ class RoleCatalogSchemaMigrationTest {
 
     private static final String ROLES = "microentrevista.rol_profesional";
     private static final String INBOX = "microentrevista.evento_procesado";
-    private static final int NAME_MAX_LENGTH = 255;
+    private static final int NAME_MAX_LENGTH = ProfessionalRoleReplica.MAX_NAME_LENGTH;
 
     @Container
     @ServiceConnection
