@@ -83,7 +83,7 @@ No se confía en un encabezado enviado directamente por un cliente externo, y no
 - Los nombres JSON van en `camelCase`.
 - Los errores son `ProblemDetail` (RFC 9457) con `Content-Type: application/problem+json;charset=UTF-8`, `code` y `requestId`; los produce `BusinessExceptionHandler`. El formato y las reglas están en la [sección 6 del estándar](docs/estandar-backend.md#6-errores) y el catálogo de lo que el servicio emite, en [docs/errores.md](docs/errores.md). Cada código de dominio se registra en la tabla del manejador, y una prueba comprueba que todo código del catálogo tiene su fila en `docs/errores.md`.
 - Un fallo técnico se registra completo en el log y al cliente solo le llega un texto genérico.
-- El catálogo de personalización (`GET /api/v1/interviews/config/catalog`) es la única fuente de modalidades, tonos, formas de respuesta e idiomas; la creación de la sesión valida contra él.
+- El catálogo de personalización (`GET /api/v1/interviews/config/catalog`) es la única fuente de modalidades, tonos, formas de respuesta e idiomas; la creación de la sesión valida contra él. Su forma está en el [ADR 0007](docs/adr/0007-forma-del-catalogo-de-personalizacion.md).
 
 **Documentación de la API.** OpenAPI en `http://localhost:8083/v3/api-docs` y Swagger UI en `http://localhost:8083/swagger-ui.html`. Las dos rutas se publican y se retiran juntas, porque el JSON ya expone el contrato completo. Solo se publican en desarrollo: `application.properties` las deja apagadas, el perfil `local` las enciende y el perfil `production` las apaga, de modo que en despliegue responden `404`. La variable `API_DOCS_ENABLED` invierte ese valor por defecto sin reconstruir la imagen. Decisión en el [ADR 0004](docs/adr/0004-exposicion-de-la-documentacion-de-la-api.md).
 
