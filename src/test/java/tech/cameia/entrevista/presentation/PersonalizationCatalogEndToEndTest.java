@@ -181,10 +181,10 @@ class PersonalizationCatalogEndToEndTest {
                 "$.paths['/api/v1/interviews/config/catalog'].get.responses");
         assertThat(responses).containsKeys("200", "401", "405", "406", "500");
         // Cada respuesta lleva un ejemplo: el 200 con el catálogo y los errores con su código y su requestId.
-        assertThat(responses.get("200").toString()).contains("example=").contains("SIMULACION").contains("ENTRENO");
+        assertThat(responses.get("200").toString()).contains("examples=").contains("SIMULACION").contains("ENTRENO");
         for (String status : List.of("401", "405", "406", "500")) {
             assertThat(responses.get(status).toString()).as("ejemplo de %s", status)
-                    .contains("example=").contains("requestId").contains("code");
+                    .contains("examples=").contains("title").contains("instance").contains("requestId").contains("code");
         }
         Map<String, Object> properties = JsonPath.read(api,
                 "$.components.schemas.PersonalizationCatalogResponse.properties");
