@@ -167,6 +167,39 @@ class InterviewSessionTest {
     }
 
     @Test
+    @DisplayName("reconfigure reemplaza la configuración, reinicia los reintentos y mueve solo updatedAt")
+    void reconfigure_shouldReplaceConfigAndResetRetries() {
+        InterviewSession session = inState(SessionStatus.CONFIGURED);
+        SessionConfiguration other = new SessionConfiguration(UUID.randomUUID(), UUID.randomUUID(), "oferta", "{}",
+                Modality.SIMULATION, Tone.STRICT, AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA);
+
+        session.reconfigure(other, LATER_CLOCK);
+
+        assertThat(session.configuration()).isEqualTo(other);
+        assertThat(session.planningRetries()).isZero();
+        assertThat(session.updatedAt()).isEqualTo(LATER);
+        assertThat(session.createdAt()).isEqualTo(NOW);
+        assertThat(session.status()).isEqualTo(SessionStatus.CONFIGURED);
+        assertThat(session.version()).isEqualTo(3L);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = SessionStatus.class, names = "CONFIGURED", mode = EnumSource.Mode.EXCLUDE)
+    @DisplayName("reconfigure lanza la excepción en los otros cuatro estados y no cambia nada")
+    void reconfigure_shouldThrow_whenNotConfigured(SessionStatus status) {
+        InterviewSession session = inState(status);
+        SessionConfiguration other = new SessionConfiguration(UUID.randomUUID(), UUID.randomUUID(), null, "{}",
+                Modality.SIMULATION, Tone.STRICT, AnswerMode.AUDIO, InterviewLanguage.ENGLISH);
+
+        assertThatThrownBy(() -> session.reconfigure(other, LATER_CLOCK))
+                .isInstanceOf(SessionTransitionNotAllowedException.class);
+
+        assertThat(session.configuration()).isEqualTo(CONFIGURATION);
+        assertThat(session.planningRetries()).isEqualTo(1);
+        assertThat(session.updatedAt()).isEqualTo(NOW);
+    }
+
+    @Test
     @DisplayName("El largo máximo de la oferta laboral es 3000")
     void maxJobOfferLength_shouldBe3000() {
         assertThat(InterviewSession.MAX_JOB_OFFER_LENGTH).isEqualTo(3000);

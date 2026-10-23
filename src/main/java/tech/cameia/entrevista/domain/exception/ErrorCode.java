@@ -72,5 +72,62 @@ public enum ErrorCode {
     SESSION_ALREADY_EXISTS,
 
     /** La clave de la petición ya se registró para esa persona y operación. */
-    IDEMPOTENCY_KEY_ALREADY_EXISTS
+    IDEMPOTENCY_KEY_ALREADY_EXISTS,
+
+    /** El perfil no existe o es de otra persona; no se distingue para no revelar su existencia. */
+    PROFILE_NOT_FOUND,
+
+    /** La copia local del perfil todavía no está lista para crear la sesión. */
+    PROFILE_SYNC_PENDING,
+
+    /** La clave de la petición ya se usó con otra configuración. */
+    IDEMPOTENCY_KEY_CONFLICT,
+
+    /** Falta elegir el Perfil Profesional. */
+    PROFILE_ID_REQUIRED,
+
+    /** El identificador del Perfil Profesional no tiene formato de UUID. */
+    PROFILE_ID_INVALID_FORMAT,
+
+    /** Falta elegir el rol objetivo. */
+    TARGET_ROLE_ID_REQUIRED,
+
+    /** El identificador del rol objetivo no tiene formato de UUID. */
+    TARGET_ROLE_ID_INVALID_FORMAT,
+
+    /** El rol objetivo no está activo en el catálogo. */
+    TARGET_ROLE_ID_INVALID_VALUE,
+
+    /** La oferta laboral supera el largo permitido. */
+    JOB_OFFER_TOO_LONG,
+
+    /** Falta elegir la modalidad. */
+    MODE_REQUIRED,
+
+    /** La modalidad no es una de la lista. */
+    MODE_INVALID_VALUE,
+
+    /** La modalidad existe pero todavía no está disponible. */
+    MODE_NOT_ALLOWED,
+
+    /** Falta elegir el tono del entrevistador. */
+    TONE_REQUIRED,
+
+    /** El tono no es uno de la lista. */
+    TONE_INVALID_VALUE,
+
+    /** Falta elegir la forma de respuesta. */
+    ANSWER_FORMAT_REQUIRED,
+
+    /** La forma de respuesta no es una de la lista. */
+    ANSWER_FORMAT_INVALID_VALUE,
+
+    /** Falta elegir el idioma de la entrevista. */
+    SESSION_LANGUAGE_REQUIRED,
+
+    /** El idioma no es uno de la lista. */
+    SESSION_LANGUAGE_INVALID_VALUE,
+
+    /** El encabezado de la clave anti-duplicados no cumple el formato. */
+    IDEMPOTENCY_KEY_INVALID_FORMAT
 }

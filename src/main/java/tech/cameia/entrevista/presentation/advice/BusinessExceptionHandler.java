@@ -113,15 +113,18 @@ class BusinessExceptionHandler {
      * Fallos de negocio de la entrevista. Su {@code detail} es el mensaje de la excepción, escrito
      * para la persona. Un código que no esté aquí responde {@code 500} y se registra como defecto.
      */
-    static final Map<ErrorCode, Definition> DEFINITIONS = Map.of(
-            ErrorCode.SESSION_TRANSITION_NOT_ALLOWED, new Definition(HttpStatus.CONFLICT, "Acción no permitida"),
-            ErrorCode.TURN_TRANSITION_NOT_ALLOWED, new Definition(HttpStatus.CONFLICT, "Acción no permitida"),
-            ErrorCode.SESSION_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo"),
-            ErrorCode.SESSION_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Entrevista existente"),
-            ErrorCode.IDEMPOTENCY_KEY_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Solicitud repetida"),
-            ErrorCode.IDENTITY_REQUIRED, new Definition(HttpStatus.UNAUTHORIZED, "Identidad requerida"),
-            ErrorCode.REQUEST_PATH_INVALID_FORMAT, new Definition(HttpStatus.BAD_REQUEST, TITLE_VALIDATION),
-            ErrorCode.REQUEST_PAYLOAD_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Datos demasiado grandes"));
+    static final Map<ErrorCode, Definition> DEFINITIONS = Map.ofEntries(
+            Map.entry(ErrorCode.SESSION_TRANSITION_NOT_ALLOWED, new Definition(HttpStatus.CONFLICT, "Acción no permitida")),
+            Map.entry(ErrorCode.TURN_TRANSITION_NOT_ALLOWED, new Definition(HttpStatus.CONFLICT, "Acción no permitida")),
+            Map.entry(ErrorCode.SESSION_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo")),
+            Map.entry(ErrorCode.SESSION_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Entrevista existente")),
+            Map.entry(ErrorCode.IDEMPOTENCY_KEY_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Solicitud repetida")),
+            Map.entry(ErrorCode.IDENTITY_REQUIRED, new Definition(HttpStatus.UNAUTHORIZED, "Identidad requerida")),
+            Map.entry(ErrorCode.REQUEST_PATH_INVALID_FORMAT, new Definition(HttpStatus.BAD_REQUEST, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.REQUEST_PAYLOAD_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Datos demasiado grandes")),
+            Map.entry(ErrorCode.PROFILE_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Perfil no encontrado")),
+            Map.entry(ErrorCode.PROFILE_SYNC_PENDING, new Definition(HttpStatus.CONFLICT, "Perfil en actualización")),
+            Map.entry(ErrorCode.IDEMPOTENCY_KEY_CONFLICT, new Definition(HttpStatus.CONFLICT, "Solicitud distinta")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
