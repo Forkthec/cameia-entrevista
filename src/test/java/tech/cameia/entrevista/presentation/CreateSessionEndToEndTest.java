@@ -500,6 +500,20 @@ class CreateSessionEndToEndTest {
     }
 
     @Test
+    @DisplayName("Una oferta con el carácter nulo da 422 JOB_OFFER_INVALID_CHARACTERS y no un 500")
+    void create_shouldReject422_whenOfferHasNulCharacter() {
+        // El nulo viaja como el escape JSON, tal como lo envía un cliente real.
+        ResponseEntity<String> response = post(UID_A, null,
+                body(PROFILE_A, ROLE, "abc\\u0000def", "SIMULACION", "CALIDO", "TEXTO", "es-CO"));
+
+        assertThat(response.getStatusCode().value()).isEqualTo(422);
+        assertThat(field(response, "$.code")).isEqualTo("VALIDATION_FAILED");
+        assertThat(field(response, "$.errors[0].field")).isEqualTo("jobOffer");
+        assertThat(field(response, "$.errors[0].code")).isEqualTo("JOB_OFFER_INVALID_CHARACTERS");
+        assertThat(sessionsOf(UID_A)).isZero();
+    }
+
+    @Test
     @DisplayName("Una oferta de 5 MB se rechaza con JOB_OFFER_TOO_LONG sin llegar a la base")
     void create_shouldReject5MbOffer() {
         ResponseEntity<String> response = post(UID_A, null,

@@ -101,6 +101,9 @@ public enum ErrorCode {
     /** La oferta laboral supera el largo permitido. */
     JOB_OFFER_TOO_LONG,
 
+    /** La oferta laboral trae el carácter nulo, que la base de datos no puede guardar en un texto. */
+    JOB_OFFER_INVALID_CHARACTERS,
+
     /** Falta elegir la modalidad. */
     MODE_REQUIRED,
 

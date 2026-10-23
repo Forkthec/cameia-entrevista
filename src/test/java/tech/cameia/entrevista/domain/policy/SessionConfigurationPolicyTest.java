@@ -190,6 +190,24 @@ class SessionConfigurationPolicyTest {
     }
 
     @Test
+    @DisplayName("Una oferta con el carácter nulo se rechaza con su propio código")
+    void validate_shouldRejectNulCharacter_whenOnlyNulInOffer() {
+        assertSingleRejection(with(PROFILE, ROLE, "abc def", "SIMULACION", "CALIDO", "TEXTO", "es-CO", null),
+                "jobOffer", ErrorCode.JOB_OFFER_INVALID_CHARACTERS, "La oferta laboral contiene un carácter no permitido.");
+        assertSingleRejection(with(PROFILE, ROLE, " ", "SIMULACION", "CALIDO", "TEXTO", "es-CO", null),
+                "jobOffer", ErrorCode.JOB_OFFER_INVALID_CHARACTERS, "La oferta laboral contiene un carácter no permitido.");
+    }
+
+    @Test
+    @DisplayName("El carácter nulo y otro campo inválido dan los dos errores a la vez")
+    void validate_shouldReportBothErrors_whenNulAndOtherFieldInvalid() {
+        assertThat(rejectionsOf(with(PROFILE, ROLE, "a b", "SIMULACION", "INVENTADO", "TEXTO", "es-CO", null)))
+                .extracting(FieldRejection::field, FieldRejection::code)
+                .containsExactly(org.assertj.core.groups.Tuple.tuple("jobOffer", ErrorCode.JOB_OFFER_INVALID_CHARACTERS),
+                        org.assertj.core.groups.Tuple.tuple("tone", ErrorCode.TONE_INVALID_VALUE));
+    }
+
+    @Test
     @DisplayName("3001 caracteres se rechazan")
     void validate_shouldReject3001Offer() {
         assertSingleRejection(with(PROFILE, ROLE, "a".repeat(3001), "SIMULACION", "CALIDO", "TEXTO", "es-CO", null),

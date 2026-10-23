@@ -26,7 +26,7 @@ public record CreateSessionRequest(
                 requiredMode = Schema.RequiredMode.REQUIRED)
         String targetRoleId,
         @Schema(description = "Oferta laboral en texto libre. Opcional: vacía equivale a no enviarla. Se normaliza a"
-                + " NFC y se recortan los extremos; hasta 3000 caracteres (puntos de código)", maxLength = 3000,
+                + " NFC y se recortan los extremos; hasta 3000 caracteres (puntos de código); no admite el carácter nulo (JOB_OFFER_INVALID_CHARACTERS)", maxLength = 3000,
                 example = "Buscamos desarrollador backend con Java", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
         String jobOffer,
         @Schema(description = "Modalidad. ENTRENO todavía no está disponible",
