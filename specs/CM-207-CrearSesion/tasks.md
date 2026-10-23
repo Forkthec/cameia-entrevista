@@ -303,4 +303,12 @@ ResponseEntity<CreateSessionResponse> create(
 
 | Tarjeta | Resultado real | Fecha |
 |---|---|---|
-| T0 a T8 | Pendientes | — |
+| T0 | Hecha: rama desde la punta de CM-209, spec aprobada por Paula | 2026-10-22 |
+| T1 | Hecha: V4 (CHECK de la operación `CREAR_SESION`) y `CreateSessionSchemaMigrationTest` (6 pruebas). Efecto: la prueba `IdempotencyKeyRepositoryAdapterTest` que usaba la operación `INICIAR_SESION` pasó a comprobar que el esquema rechaza una operación que no admite | 2026-10-22 |
+| T2 | Hecha: `SessionConfigurationPolicyTest` 64, `ValidatedSessionRequestTest` 5, `InterviewSessionTest` 21, `ErrorCodeTest` 39; 19 códigos nuevos y 3 definiciones en el manejador | 2026-10-22 |
+| T3 | Hecha: `RoleCatalogAdapterTest` 3 y `InterviewSessionRepositoryAdapterTest` 24 (6 nuevas), contra PostgreSQL real. Desviación mínima: `existsByIdAndStatus` en el repositorio JPA del rol | 2026-10-22 |
+| T4 | Hecha: `CreateSessionServiceTest` 23 con dobles en memoria; 100 % de líneas y de ramas | 2026-10-22 |
+| T5 | Hecha: `CreateSessionControllerTest` 21; OpenAPI con 200, 201, 401, 404, 409, 415, 422, 500 y 503 | 2026-10-22 |
+| T6 | Hecha: `CreateSessionEndToEndTest` 37 contra PostgreSQL real y servidor completo; Newman de la carpeta «Crear sesión» 17/17 (72 verificaciones). Hallazgo corregido: con la misma clave a la vez, la perdedora recibía 409 `SESSION_ALREADY_EXISTS` en vez de repetir la respuesta guardada; ahora relee la clave (prueba nueva en el servicio y la de punta a punta lo comprueba) | 2026-10-23 |
+| T7 | Hecha: ADR 0009 (el 0008 es de la réplica), `docs/errores.md`, bitácora 07, README de Postman y `CLAUDE.md` | 2026-10-23 |
+| T8 | Hecha: `clean verify` sobre la punta de código (árbol `748d4b14`) con BUILD SUCCESS, 1102 pruebas, 0 fallos, 0 errores y 1 omitida (la llamada real al modelo); cobertura ≥ 90 % en todas las clases tocadas salvo `ValidatedSessionRequest` (75 % de líneas: el `catch` de SHA-256, inalcanzable); Newman de la colección completa 40 peticiones y 166 verificaciones sin fallos contra el jar empaquetado con PostgreSQL 16 y RabbitMQ reales. Pendiente con destino: sondeo de 5 MB en el entorno desplegado (H-4) tras el despliegue; lo cubre la prueba local `create_shouldReject5MbOffer` | 2026-10-23 |
