@@ -68,13 +68,14 @@ class IdempotencyKeyRepositoryAdapterTest extends AbstractPersistenceTest {
     }
 
     @Test
-    @DisplayName("La misma clave en otra operación no choca")
-    void save_shouldAllow_whenOtherOperation() {
+    @DisplayName("Una operación que el esquema no admite se propaga sin traducir a clave repetida")
+    void save_shouldPropagate_whenOperationNotAllowed() {
         keys.save(keyOf(UID_A, "k-1"));
         IdempotencyKey otherOperation = new IdempotencyKey(UUID.randomUUID(), UID_A, "INICIAR_SESION", "k-1",
                 "b".repeat(64), 200, "{}", CLOCK.instant());
 
-        assertThat(keys.save(otherOperation).operation()).isEqualTo("INICIAR_SESION");
+        assertThatThrownBy(() -> keys.save(otherOperation)).isNotInstanceOf(IdempotencyKeyAlreadyExistsException.class)
+                .hasMessageContaining("ck_clave_idempotencia_operacion");
     }
 
     @Test
