@@ -32,8 +32,10 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
+import tech.cameia.entrevista.domain.port.RoleCatalogReplicaRepository;
 import tech.cameia.entrevista.support.ReplicaProbeConfiguration;
 import tech.cameia.entrevista.support.ReplicaRepositoryProbe;
+import tech.cameia.entrevista.support.RoleCatalogRepositoryProbe;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -74,6 +76,9 @@ public abstract class ProfileEventsBrokerSupport {
             "rolesAspirados":[{"codigo":"a0000001-0000-0000-0000-000000000002","nombre":"Desarrollador Backend"}],\
             "actualizadoEn":"2026-10-15T12:00:00.123Z"}""".formatted(PROFILE_ID);
 
+    /** Instantánea del catálogo con 2 roles, igual al ejemplo del contrato. */
+    protected static final String VALID_CATALOG_BODY = catalogBody(2, "2026-10-24T12:00:00.123Z");
+
     private static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer("postgres:16-alpine");
 
     private static final GenericContainer<?> RABBIT = new GenericContainer<>(
@@ -87,6 +92,30 @@ public abstract class ProfileEventsBrokerSupport {
     static {
         POSTGRES.start();
         RABBIT.start();
+    }
+
+    /**
+     * Arma una instantánea del catálogo con {@code roles} roles activos de nombres distintos.
+     *
+     * @param roles    cantidad de roles
+     * @param snapshot instante de la instantánea, en UTC
+     * @return el cuerpo JSON del evento
+     */
+    public static String catalogBody(int roles, String snapshot) {
+        StringBuilder items = new StringBuilder();
+        for (int i = 1; i <= roles; i++) {
+            if (i > 1) {
+                items.append(',');
+            }
+            items.append("{\"codigo\":\"%s\",\"nombreEs\":\"Rol %d\",\"nombreEn\":\"Role %d\",\"estado\":\"ACTIVE\"}"
+                    .formatted(roleId(i), i, i));
+        }
+        return "{\"actualizadoEn\":\"%s\",\"roles\":[%s]}".formatted(snapshot, items);
+    }
+
+    /** @return el identificador del rol número {@code n} de {@link #catalogBody} */
+    public static UUID roleId(int n) {
+        return new UUID(0xa000000000000000L, n);
     }
 
     @DynamicPropertySource
@@ -113,6 +142,15 @@ public abstract class ProfileEventsBrokerSupport {
     @Autowired
     protected ProfileReplicaRepository replicas;
 
+    /** Copia del catálogo de roles, envuelta por el decorador de prueba. */
+    @Autowired
+    protected RoleCatalogReplicaRepository roleCatalog;
+
+    /** @return el decorador de la copia del catálogo de roles */
+    protected RoleCatalogRepositoryProbe roleProbe() {
+        return (RoleCatalogRepositoryProbe) roleCatalog;
+    }
+
     /** @return el decorador que cuenta llamadas e inyecta fallos en la copia del perfil */
     protected ReplicaRepositoryProbe probe() {
         return (ReplicaRepositoryProbe) replicas;
@@ -120,11 +158,13 @@ public abstract class ProfileEventsBrokerSupport {
 
     /** Deja las colas, las tablas de la réplica y el decorador de prueba en su estado inicial. */
     protected void resetState() {
-        for (String queue : new String[] {PROFILE_QUEUE, PROFILE_DLQ}) {
+        for (String queue : new String[] {PROFILE_QUEUE, PROFILE_DLQ, ROLES_QUEUE, ROLES_DLQ}) {
             rabbitAdmin.purgeQueue(queue, false);
         }
         probe().reset();
-        jdbc.execute("TRUNCATE microentrevista.contexto_profesional_replica, microentrevista.evento_procesado");
+        roleProbe().reset();
+        jdbc.execute("TRUNCATE microentrevista.contexto_profesional_replica, microentrevista.rol_profesional, "
+                + "microentrevista.evento_procesado");
     }
 
     /** Publica un cuerpo en el exchange de Perfil con las propiedades de un productor real. */

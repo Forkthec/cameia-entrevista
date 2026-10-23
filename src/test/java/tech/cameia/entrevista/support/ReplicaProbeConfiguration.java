@@ -6,10 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
+import tech.cameia.entrevista.domain.port.RoleCatalogReplicaRepository;
 
 /**
- * Sustituye la copia del perfil por {@link ReplicaRepositoryProbe} después de que Spring le ponga su
- * proxy transaccional. Se importa en las pruebas que inyectan fallos.
+ * Sustituye la copia del perfil por {@link ReplicaRepositoryProbe} y la del catálogo de roles por
+ * {@link RoleCatalogRepositoryProbe} después de que Spring les ponga su proxy transaccional. Se
+ * importa en las pruebas que inyectan fallos.
  */
 @TestConfiguration(proxyBeanMethods = false)
 public class ReplicaProbeConfiguration {
@@ -26,6 +28,10 @@ public class ReplicaProbeConfiguration {
         public Object postProcessAfterInitialization(Object bean, String beanName) {
             if (bean instanceof ProfileReplicaRepository repository && !(bean instanceof ReplicaRepositoryProbe)) {
                 return new ReplicaRepositoryProbe(repository);
+            }
+            if (bean instanceof RoleCatalogReplicaRepository repository
+                    && !(bean instanceof RoleCatalogRepositoryProbe)) {
+                return new RoleCatalogRepositoryProbe(repository);
             }
             return bean;
         }

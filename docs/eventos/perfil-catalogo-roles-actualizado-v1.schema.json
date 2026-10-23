@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cameia:eventos:perfil-catalogo-roles-actualizado:v1",
+  "title": "perfil.catalogo-roles-actualizado v1",
+  "description": "Instantánea completa del catálogo de roles profesionales que Perfil publica cada vez que arranca. Lleva todos los roles, activos e inactivos, con sus dos idiomas; un rol que la instantánea no trae no se borra en el consumidor.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["actualizadoEn", "roles"],
+  "properties": {
+    "actualizadoEn": {
+      "description": "Instante de la instantánea en UTC, con milisegundos y sufijo Z. El consumidor aplica un rol solo si este instante es igual o posterior al de la fila que ya tiene.",
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+    },
+    "roles": {
+      "description": "Todos los roles del catálogo, sin repetir codigo.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["codigo", "nombreEs", "nombreEn", "estado"],
+        "properties": {
+          "codigo": {
+            "description": "Identificador del rol en el catálogo de Perfil: el mismo codigo que viaja en rolesAspirados[] de perfil.profesional-actualizado.",
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreEs": { "description": "Nombre en español.", "type": "string", "minLength": 1, "maxLength": 255 },
+          "nombreEn": {
+            "description": "Nombre en inglés. Si el rol no tiene uno propio, Perfil envía el nombre en español.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "estado": { "description": "ACTIVE si el catálogo ofrece el rol hoy; INACTIVE si se desactivó.", "enum": ["ACTIVE", "INACTIVE"] }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "actualizadoEn": "2026-10-24T12:00:00.123Z",
+      "roles": [
+        {
+          "codigo": "a0000001-0000-0000-0000-000000000001",
+          "nombreEs": "Desarrollador Frontend",
+          "nombreEn": "Frontend Developer",
+          "estado": "ACTIVE"
+        },
+        {
+          "codigo": "a0000001-0000-0000-0000-000000000002",
+          "nombreEs": "Desarrollador Backend",
+          "nombreEn": "Backend Developer",
+          "estado": "INACTIVE"
+        }
+      ]
+    }
+  ]
+}
