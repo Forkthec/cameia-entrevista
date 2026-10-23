@@ -63,7 +63,9 @@ public class ProfileUpdatedEventReader {
             Map.entry("title", "titulo"),
             Map.entry("level", "nivel"),
             Map.entry("inProgress", "enCurso"),
-            Map.entry("code", "codigo"));
+            Map.entry("code", "codigo"),
+            Map.entry("nameEs", "nombreEs"),
+            Map.entry("nameEn", "nombreEn"));
 
     private final Validator validator;
     private final JsonMapper jsonMapper;
@@ -102,12 +104,13 @@ public class ProfileUpdatedEventReader {
      * La versión es un entero igual a 1. Se acepta cualquier tipo entero del encabezado AMQP
      * (byte, short, int o long): según el cliente que publique, el mismo {@code 1} llega con uno u otro.
      */
-    private static boolean isSupportedVersion(Object version) {
+    static boolean isSupportedVersion(Object version) {
         return (version instanceof Integer || version instanceof Long || version instanceof Short
                 || version instanceof Byte) && ((Number) version).longValue() == SUPPORTED_VERSION;
     }
 
-    private static UUID readMessageId(String messageId) {
+    /** El {@code message_id} debe ser un UUID canónico. */
+    static UUID readMessageId(String messageId) {
         if (messageId == null || !CANONICAL_UUID.matcher(messageId).matches()) {
             throw new ContractViolation(ContractViolation.MESSAGE_ID_INVALID, null);
         }

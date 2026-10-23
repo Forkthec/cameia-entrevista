@@ -21,6 +21,9 @@ final class ContractViolation extends RuntimeException {
     /** El cuerpo tiene la forma pero incumple una regla del contrato. */
     static final String PAYLOAD_CONTRACT_VIOLATION = "PAYLOAD_CONTRACT_VIOLATION";
 
+    /** El catálogo de roles trae dos roles con el mismo {@code codigo}. */
+    static final String CATALOG_ROLE_DUPLICATED = "CATALOG_ROLE_DUPLICATED";
+
     private static final long serialVersionUID = 1L;
 
     private final String reason;
