@@ -649,7 +649,7 @@
     },
     {
       "name": "Réplica del perfil (RabbitMQ)",
-      "description": "Comprueba contra la API de administración del broker local (docker compose --profile mensajeria) la topología del consumidor de perfil.profesional-actualizado y un mensaje válido y uno inválido. Usuario guest/guest del broker local de desarrollo, no es un secreto. La fila en la base la comprueban las pruebas automáticas.",
+      "description": "Comprueba contra la API de administración del broker local (docker compose --profile mensajeria) la topología de los consumidores de perfil.profesional-actualizado y perfil.catalogo-roles-actualizado y un mensaje válido y uno inválido. Usuario guest/guest del broker local de desarrollo, no es un secreto. La fila en la base la comprueban las pruebas automáticas.",
       "auth": {
         "type": "basic",
         "basic": [
@@ -965,6 +965,76 @@
                 "%2F",
                 "entrevista.perfil-profesional-actualizado.dlq",
                 "get"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola del catalogo de roles con sus argumentos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const cola = pm.response.json();",
+                  "pm.test('Cola durable', () => pm.expect(cola.durable).to.eql(true));",
+                  "pm.test('Fallidos a entrevista.dlx con el nombre de la cola', () => {",
+                  "    pm.expect(cola.arguments['x-dead-letter-exchange']).to.eql('entrevista.dlx');",
+                  "    pm.expect(cola.arguments['x-dead-letter-routing-key']).to.eql('entrevista.catalogo-roles-actualizado');",
+                  "});",
+                  "pm.test('Al menos un consumidor', () => pm.expect(cola.consumers).to.be.at.least(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.catalogo-roles-actualizado",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.catalogo-roles-actualizado"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola de fallidos del catalogo de roles vacia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const dlq = pm.response.json();",
+                  "pm.test('Cola durable', () => pm.expect(dlq.durable).to.eql(true));",
+                  "pm.test('Sin mensajes fallidos', () => pm.expect(dlq.messages).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.catalogo-roles-actualizado.dlq",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.catalogo-roles-actualizado.dlq"
               ]
             }
           }

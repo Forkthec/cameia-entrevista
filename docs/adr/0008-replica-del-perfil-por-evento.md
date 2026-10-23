@@ -35,3 +35,30 @@ Crear una sesión de entrevista necesita el perfil profesional de la persona. Ll
 - Tablas hijas de experiencias, formaciones, habilidades y roles: cuatro tablas y cuatro mapeos sin una consulta que los necesite.
 - Solo PostgreSQL real y pruebas unitarias, sin broker: no probaba la topología ni la confirmación tras el commit.
 - Aplicar un cambio de dueño: un mensaje erróneo movería un perfil a otra persona.
+
+## Catálogo de roles
+
+Para validar el rol objetivo de una sesión, Entrevista también copia el catálogo de roles profesionales de Perfil, con el evento `perfil.catalogo-roles-actualizado` (operación en `consumo-perfil-catalogo-roles-actualizado.md`).
+
+### Decisión
+
+- **Una instantánea completa en un solo mensaje.** El catálogo son 46 filas (menos de 10 KB) y solo cambia con un despliegue; con una instantánea, la tabla vacía de un servicio nuevo se llena con un solo mensaje y una sola transacción.
+- **Perfil publica en cada arranque** (si no hay otro mensaje pendiente). Es la forma más simple de cumplir la regla y es idempotente; el costo es un mensaje pequeño por arranque en frío.
+- **`actualizadoEn` por fila.** Cada fila se reemplaza solo si el instante de la instantánea es igual o posterior al guardado, sin una tabla aparte con una versión global.
+- **Los roles ausentes no se borran.** Perfil desactiva, nunca borra; borrar por omisión de un mensaje parcial dejaría sesiones con un rol inexistente.
+- **Una sola sentencia nativa por instantánea** (`INSERT … SELECT … FROM jsonb_to_recordset … ON CONFLICT DO UPDATE … WHERE`): evita 46 viajes a la base y resuelve la concurrencia sin error. Por eso un `codigo` repetido dentro del mensaje se rechaza antes (`CATALOG_ROLE_DUPLICATED`): PostgreSQL no permite que una sentencia afecte dos veces la misma fila.
+- **Mismas piezas que el evento del perfil.** Misma bandeja de entrada (`evento_procesado`, cuyo `CHECK` ahora admite los dos tipos), mismos reintentos y misma cola de fallidos por evento.
+
+### Consecuencias
+
+- Una sesión no puede validar un rol hasta que llegue la primera instantánea; con la tabla vacía, todo rol es desconocido.
+- Un rol desactivado sigue en la copia con estado `INACTIVE`.
+- Varias instancias de Perfil que arrancan a la vez pueden publicar una instantánea cada una; el orden por fila lo resuelve.
+
+### Alternativas descartadas
+
+- Un mensaje por rol cambiado: exige saber qué cambió y no llena una tabla vacía de una vez.
+- Guardar una huella para publicar solo si el catálogo cambió: agrega estado para ahorrar un mensaje pequeño.
+- Borrar los roles que una instantánea no trae: un mensaje parcial dejaría sesiones con un rol inexistente.
+- Una fila por rol con `INSERT` individual: 46 viajes a la base por mensaje.
+
