@@ -4,8 +4,8 @@ Esta carpeta trae la colección de Postman del microservicio de Entrevista y el 
 
 | Archivo | Contenido |
 |---|---|
-| `cameia-entrevista.postman_collection.json` | Colección v2.1: carpeta `Salud` (1 petición), carpeta `Errores del framework` (6 peticiones) y carpeta `Catálogo de personalización` (7 peticiones) |
-| `local.postman_environment.json` | Entorno local: `baseUrl` (`http://localhost:8083`, el puerto de `SERVER_PORT`). No lleva secretos |
+| `cameia-entrevista.postman_collection.json` | Colección v2.1: carpeta `Salud` (1 petición), carpeta `Errores del framework` (6 peticiones) carpeta `Catálogo de personalización` (7 peticiones), carpeta `Réplica del perfil (RabbitMQ)` (9 peticiones) y carpeta `Crear sesión` (17 peticiones) |
+| `local.postman_environment.json` | Entorno local: `baseUrl` (`http://localhost:8083`, el puerto de `SERVER_PORT`) y `rabbitManagementUrl` (`http://localhost:15673`, la API de administración del broker local). No lleva secretos |
 
 ## Qué verifica
 
@@ -36,6 +36,28 @@ El 500 del catálogo no tiene petición: no hay forma de provocar un fallo impre
 La ruta con codificación inválida (`/%zz`) no está en la colección porque Postman normaliza la URL; la comprueba `FrameworkErrorsTest`.
 
 Cada error comprueba además el estado, el `code`, un `requestId` presente, un `Content-Type` con `application/problem+json` y `charset=UTF-8`, y un cuerpo sin las palabras `trace` ni `exception`.
+
+Carpeta `Crear sesión` (`POST /api/v1/interviews/sessions`; necesita el broker local, `docker compose --profile mensajeria`). Cada corrida usa una persona y un perfil nuevos:
+
+| # | Petición | Resultado esperado |
+|---|---|---|
+| 1 | Publica el catálogo de roles en `perfil.events` | 200, el broker enruta el mensaje |
+| 2 | Publica el perfil completo de la persona de la corrida | 200, el broker enruta el mensaje |
+| 3 | Configuración válida con `Idempotency-Key` | 201, `CONFIGURADA`, la configuración enviada, sin entrevista en curso y sin datos del perfil |
+| 4 | La misma clave y la misma configuración | 201, el mismo `sessionId` |
+| 5 | La misma clave con otro tono | 409 `IDEMPOTENCY_KEY_CONFLICT` |
+| 6 | Otra configuración sin clave | 200, el mismo `sessionId` con el tono, el formato y la oferta nuevos |
+| 7 | Campos que el contrato no define (`firebaseUid`, `status`, `plan`) | 200, se ignoran |
+| 8 | Cuerpo `{}` | 422 `VALIDATION_FAILED` con los seis campos obligatorios a la vez |
+| 9 | Oferta de 3001 caracteres | 422 con `jobOffer` `JOB_OFFER_TOO_LONG` |
+| 10 | Modalidad `ENTRENO` | 422 con `mode` `MODE_NOT_ALLOWED` |
+| 11 | Rol que no está en el catálogo | 422 con `targetRoleId` `TARGET_ROLE_ID_INVALID_VALUE` |
+| 12 | Clave con espacios | 422 con `Idempotency-Key` `IDEMPOTENCY_KEY_INVALID_FORMAT` |
+| 13 | JSON mal formado | 422 `REQUEST_BODY_INVALID_FORMAT` |
+| 14 | Perfil de otra persona | 404 `PROFILE_NOT_FOUND`, sin revelar al dueño |
+| 15 | Perfil que todavía no llegó | 409 `PROFILE_SYNC_PENDING` |
+| 16 | Sin `X-User-Id` | 401 `IDENTITY_REQUIRED` |
+| 17 | `Content-Type: text/plain` | 415 `MEDIA_TYPE_NOT_ALLOWED` |
 
 ## Cómo correrla
 
