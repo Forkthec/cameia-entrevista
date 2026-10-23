@@ -75,14 +75,15 @@ class InterviewSchemaMigrationTest {
 	// ------------------------------------------------------------------ estructura
 
 	@Test
-	@DisplayName("La migración crea las 8 tablas del esquema")
+	@DisplayName("Las migraciones crean las 8 tablas del motor y las 3 de la réplica de Perfil")
 	void migration_shouldCreateAllTables_whenApplied() {
 		List<String> tables = jdbc.queryForList(
 				"SELECT table_name FROM information_schema.tables WHERE table_schema = ? AND table_name <> ?",
 				String.class, SCHEMA, FLYWAY_TABLE);
 
 		assertThat(tables).containsExactlyInAnyOrder("tipo_pregunta", "sesion", "pregunta", "turno",
-				"intento_respuesta", "feedback_turno", "ejecucion_ia", "clave_idempotencia");
+				"intento_respuesta", "feedback_turno", "ejecucion_ia", "clave_idempotencia",
+				"contexto_profesional_replica", "evento_procesado", "rol_profesional");
 	}
 
 	@Test

@@ -646,6 +646,400 @@
           }
         }
       ]
+    },
+    {
+      "name": "Réplica del perfil (RabbitMQ)",
+      "description": "Comprueba contra la API de administración del broker local (docker compose --profile mensajeria) la topología de los consumidores de perfil.profesional-actualizado y perfil.catalogo-roles-actualizado y un mensaje válido y uno inválido. Usuario guest/guest del broker local de desarrollo, no es un secreto. La fila en la base la comprueban las pruebas automáticas.",
+      "auth": {
+        "type": "basic",
+        "basic": [
+          {
+            "key": "username",
+            "value": "guest",
+            "type": "string"
+          },
+          {
+            "key": "password",
+            "value": "guest",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "200 cola con sus argumentos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const cola = pm.response.json();",
+                  "pm.test('Cola durable', () => pm.expect(cola.durable).to.eql(true));",
+                  "pm.test('Fallidos a entrevista.dlx con el nombre de la cola', () => {",
+                  "    pm.expect(cola.arguments['x-dead-letter-exchange']).to.eql('entrevista.dlx');",
+                  "    pm.expect(cola.arguments['x-dead-letter-routing-key']).to.eql('entrevista.perfil-profesional-actualizado');",
+                  "});",
+                  "pm.test('Al menos un consumidor', () => pm.expect(cola.consumers).to.be.at.least(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.perfil-profesional-actualizado",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.perfil-profesional-actualizado"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola de fallidos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Cola durable', () => pm.expect(pm.response.json().durable).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.perfil-profesional-actualizado.dlq",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.perfil-profesional-actualizado.dlq"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 enlace perfil.events a la cola",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Enlace con la clave del contrato', () => pm.expect(pm.response.json().some(b => b.destination === 'entrevista.perfil-profesional-actualizado' && b.routing_key === 'perfil.profesional-actualizado')).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/bindings/source",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "bindings",
+                "source"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 publicar evento válido",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('rplMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{rplMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rpl\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\":\\\"6f1d2c3b4a5e4f60718293a4b5c6d7e8\\\",\\\"contextoProfesional\\\":{\\\"id\\\":\\\"7c9e6679-7425-40de-944b-e07fc1f90ae7\\\",\\\"nombre\\\":\\\"Analista de datos\\\",\\\"estado\\\":\\\"COMPLETED\\\",\\\"fecha_archivado\\\":null,\\\"resumen\\\":\\\"Analista con tres años de experiencia en SQL y Python.\\\",\\\"experiencias\\\":[{\\\"empresa\\\":\\\"ACME\\\",\\\"cargo\\\":\\\"Analista\\\",\\\"descripcion\\\":null,\\\"inicio\\\":\\\"2022-01\\\",\\\"fin\\\":null,\\\"estadoEmpleo\\\":\\\"CURRENT\\\"}],\\\"formaciones\\\":[{\\\"institucion\\\":\\\"Universidad del Cauca\\\",\\\"titulo\\\":\\\"Ingeniería de Sistemas\\\",\\\"nivel\\\":\\\"UNDERGRADUATE\\\",\\\"inicio\\\":\\\"2017-02\\\",\\\"fin\\\":\\\"2021-12\\\",\\\"enCurso\\\":false}],\\\"habilidades\\\":[{\\\"nombre\\\":\\\"Python\\\",\\\"nivel\\\":\\\"INTERMEDIATE\\\"}]},\\\"rolesAspirados\\\":[{\\\"codigo\\\":\\\"a0000001-0000-0000-0000-000000000002\\\",\\\"nombre\\\":\\\"Desarrollador Backend\\\"}],\\\"actualizadoEn\\\":\\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            },
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola vacía tras consumir",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// El consumidor es asíncrono: se espera antes de leer la cola.",
+                  "setTimeout(function () {}, 2000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Mensaje consumido: no queda nada listo', () => pm.expect(pm.response.json().length).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"count\": 5, \"ackmode\": \"ack_requeue_true\", \"encoding\": \"auto\"}"
+            },
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.perfil-profesional-actualizado/get",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.perfil-profesional-actualizado",
+                "get"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 publicar evento con estado inválido",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('rplMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{rplMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rpl\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\":\\\"6f1d2c3b4a5e4f60718293a4b5c6d7e8\\\",\\\"contextoProfesional\\\":{\\\"id\\\":\\\"7c9e6679-7425-40de-944b-e07fc1f90ae7\\\",\\\"nombre\\\":\\\"Analista de datos\\\",\\\"estado\\\":\\\"ARCHIVED\\\",\\\"fecha_archivado\\\":null,\\\"resumen\\\":\\\"Analista con tres años de experiencia en SQL y Python.\\\",\\\"experiencias\\\":[{\\\"empresa\\\":\\\"ACME\\\",\\\"cargo\\\":\\\"Analista\\\",\\\"descripcion\\\":null,\\\"inicio\\\":\\\"2022-01\\\",\\\"fin\\\":null,\\\"estadoEmpleo\\\":\\\"CURRENT\\\"}],\\\"formaciones\\\":[{\\\"institucion\\\":\\\"Universidad del Cauca\\\",\\\"titulo\\\":\\\"Ingeniería de Sistemas\\\",\\\"nivel\\\":\\\"UNDERGRADUATE\\\",\\\"inicio\\\":\\\"2017-02\\\",\\\"fin\\\":\\\"2021-12\\\",\\\"enCurso\\\":false}],\\\"habilidades\\\":[{\\\"nombre\\\":\\\"Python\\\",\\\"nivel\\\":\\\"INTERMEDIATE\\\"}]},\\\"rolesAspirados\\\":[{\\\"codigo\\\":\\\"a0000001-0000-0000-0000-000000000002\\\",\\\"nombre\\\":\\\"Desarrollador Backend\\\"}],\\\"actualizadoEn\\\":\\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            },
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola de fallidos con un mensaje",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// El consumidor es asíncrono: se espera antes de leer la cola.",
+                  "setTimeout(function () {}, 2000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El mensaje inválido llegó a fallidos', () => pm.expect(pm.response.json().length).to.be.at.least(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"count\": 5, \"ackmode\": \"ack_requeue_true\", \"encoding\": \"auto\"}"
+            },
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.perfil-profesional-actualizado.dlq/get",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.perfil-profesional-actualizado.dlq",
+                "get"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola del catalogo de roles con sus argumentos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const cola = pm.response.json();",
+                  "pm.test('Cola durable', () => pm.expect(cola.durable).to.eql(true));",
+                  "pm.test('Fallidos a entrevista.dlx con el nombre de la cola', () => {",
+                  "    pm.expect(cola.arguments['x-dead-letter-exchange']).to.eql('entrevista.dlx');",
+                  "    pm.expect(cola.arguments['x-dead-letter-routing-key']).to.eql('entrevista.catalogo-roles-actualizado');",
+                  "});",
+                  "pm.test('Al menos un consumidor', () => pm.expect(cola.consumers).to.be.at.least(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.catalogo-roles-actualizado",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.catalogo-roles-actualizado"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cola de fallidos del catalogo de roles vacia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const dlq = pm.response.json();",
+                  "pm.test('Cola durable', () => pm.expect(dlq.durable).to.eql(true));",
+                  "pm.test('Sin mensajes fallidos', () => pm.expect(dlq.messages).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/queues/%2F/entrevista.catalogo-roles-actualizado.dlq",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "queues",
+                "%2F",
+                "entrevista.catalogo-roles-actualizado.dlq"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }

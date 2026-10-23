@@ -1,5 +1,7 @@
 package tech.cameia.entrevista.infrastructure.config;
 
+import java.time.Clock;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,5 +21,16 @@ class DomainPolicyConfiguration {
     @Bean
     PersonalizationCatalog personalizationCatalog() {
         return new PersonalizationCatalog();
+    }
+
+    /**
+     * Crea el reloj del servicio, en UTC, que los casos de uso usan para fechar lo que escriben.
+     * Las pruebas lo reemplazan por uno fijo.
+     *
+     * @return el reloj del sistema en UTC
+     */
+    @Bean
+    Clock clock() {
+        return Clock.systemUTC();
     }
 }

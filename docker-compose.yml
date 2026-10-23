@@ -63,6 +63,9 @@ services:
       LLM_TIMEOUT: ${LLM_TIMEOUT:-30s}
       JAVA_OPTS: ${JAVA_OPTS:-}
       API_DOCS_ENABLED: ${API_DOCS_ENABLED:-false}
+      # Broker local de mensajeria (solo existe con el perfil de compose "mensajeria"). Sin el, el
+      # consumidor reintenta conectarse y el servicio atiende HTTP igual.
+      SPRING_RABBITMQ_ADDRESSES: ${SPRING_RABBITMQ_ADDRESSES:-amqp://guest:guest@entrevista-rabbitmq:5672}
     ports:
       # 8083 es el puerto que el gateway espera en CAMEIA_ENTREVISTA_URL
       - "${SERVER_PORT:-8083}:8080"
@@ -73,6 +76,19 @@ services:
       # juntos para probar integracion. Solo la app se conecta a ella; entrevista-db se
       # queda en su propia red interna, sin cambios.
       - cameia-net
+
+  # Broker local para probar los consumidores de eventos de Perfil. Se levanta solo bajo demanda:
+  # docker compose --profile mensajeria up -d. El nombre del contenedor y los puertos publicados
+  # (5673 y 15673) no chocan con los brokers locales de Cuentas y Perfil.
+  entrevista-rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: cameia-entrevista-rabbitmq
+    profiles: ["mensajeria"]
+    ports:
+      - "127.0.0.1:5673:5672"
+      - "127.0.0.1:15673:15672"
+    networks:
+      - cameia-entrevista
 
 volumes:
   entrevista-db-data:
