@@ -45,6 +45,12 @@
 			<artifactId>spring-ai-starter-model-google-genai</artifactId>
 		</dependency>
 
+		<!-- Mensajería: consumidores de los eventos de Perfil (RabbitMQ con Spring AMQP). -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
 		<!-- Bean Validation para la sintaxis del cuerpo de las peticiones. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -197,6 +203,18 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<!-- Las pruebas que no necesitan broker no arrancan el consumidor de RabbitMQ; las de mensajería
+				 lo encienden con @SpringBootTest(properties). -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemPropertyVariables>
+						<spring.rabbitmq.listener.simple.auto-startup>false</spring.rabbitmq.listener.simple.auto-startup>
+					</systemPropertyVariables>
+				</configuration>
 			</plugin>
 
 			<!-- Cobertura Java para el pipeline de CI. prepare-agent instrumenta el bytecode
