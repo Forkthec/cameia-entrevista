@@ -656,6 +656,19 @@ class CreateSessionEndToEndTest {
     }
 
     @Test
+    @DisplayName("La misma clave con oferta ausente y luego con la oferta «-» responde 409 IDEMPOTENCY_KEY_CONFLICT")
+    void create_shouldReturn409_whenSameKeyOfferNullThenDash() {
+        post(UID_A, KEY, body(PROFILE_A, ROLE, null, "SIMULACION", "CALIDO", "TEXTO", "es-CO"));
+
+        ResponseEntity<String> response = post(UID_A, KEY,
+                body(PROFILE_A, ROLE, "-", "SIMULACION", "CALIDO", "TEXTO", "es-CO"));
+
+        assertThat(response.getStatusCode().value()).isEqualTo(409);
+        assertThat(field(response, "$.code")).isEqualTo("IDEMPOTENCY_KEY_CONFLICT");
+        assertThat(sessionsOf(UID_A)).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("La misma clave con otra configuración responde 409 IDEMPOTENCY_KEY_CONFLICT")
     void create_shouldReturn409_whenSameKeyDifferentBody() {
         post(UID_A, KEY, validBody());

@@ -1,6 +1,7 @@
 package tech.cameia.entrevista.domain.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.UUID;
 
@@ -31,10 +32,24 @@ class ValidatedSessionRequestTest {
     }
 
     @Test
-    @DisplayName("Una oferta nula y una oferta con el texto «-» se distinguen de una oferta distinta")
+    @DisplayName("Una oferta nula y una oferta con el texto «-» dan huellas distintas")
+    void fingerprint_shouldDiffer_whenOfferIsNullOrDash() {
+        assertThat(request(null, Tone.WARM, null).fingerprint())
+                .isNotEqualTo(request("-", Tone.WARM, null).fingerprint());
+    }
+
+    @Test
+    @DisplayName("Una oferta nula y una oferta con otro texto dan huellas distintas")
     void fingerprint_shouldDiffer_whenOfferDiffers() {
         assertThat(request(null, Tone.WARM, null).fingerprint())
                 .isNotEqualTo(request("otra", Tone.WARM, null).fingerprint());
+    }
+
+    @Test
+    @DisplayName("Un algoritmo que la JVM no trae falla con un error de instalación")
+    void sha256Hex_shouldFail_whenAlgorithmMissing() {
+        assertThatThrownBy(() -> ValidatedSessionRequest.sha256Hex("NO-EXISTE", "x"))
+                .isInstanceOf(IllegalStateException.class).hasMessage("NO-EXISTE no disponible");
     }
 
     @Test
