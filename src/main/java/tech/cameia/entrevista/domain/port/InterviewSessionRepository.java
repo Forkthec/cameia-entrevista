@@ -34,6 +34,30 @@ public interface InterviewSessionRepository {
     Optional<InterviewSession> findByIdAndOwner(UUID id, FirebaseUid owner);
 
     /**
+     * Busca la sesión configurada de una persona; a lo sumo hay una.
+     *
+     * @param owner dueño de la sesión
+     * @return la sesión configurada, o vacío si no tiene
+     */
+    Optional<InterviewSession> findConfiguredByOwner(FirebaseUid owner);
+
+    /**
+     * Busca la sesión en curso de una persona; a lo sumo hay una.
+     *
+     * @param owner dueño de la sesión
+     * @return la sesión en curso, o vacío si no tiene
+     */
+    Optional<InterviewSession> findInProgressByOwner(FirebaseUid owner);
+
+    /**
+     * Cuenta las respuestas definitivas de una sesión: una por pregunta ya respondida.
+     *
+     * @param sessionId identificador de la sesión
+     * @return cantidad de respuestas definitivas; 0 si todavía no hay ninguna
+     */
+    int countDefinitiveAnswers(UUID sessionId);
+
+    /**
      * Borra la sesión solo si es del dueño y sigue configurada; la base borra con ella sus preguntas y turnos.
      *
      * @param id identificador de la sesión

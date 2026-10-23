@@ -274,4 +274,90 @@ class InterviewSessionRepositoryAdapterTest extends AbstractPersistenceTest {
         assertThatThrownBy(() -> sessions.save(inconsistent)).isInstanceOf(DataIntegrityViolationException.class);
         assertThat(jdbc.queryForObject("SELECT count(*) FROM microentrevista.sesion", Integer.class)).isZero();
     }
+
+    private InterviewSession inProgress(String uid) {
+        InterviewSession session = newSession(uid);
+        session.start(CLOCK);
+        return sessions.save(session);
+    }
+
+    private void insertAttempt(UUID turnId, boolean definitive) {
+        jdbc.update("""
+                INSERT INTO microentrevista.intento_respuesta (id, turno_id, tipo_interaccion, es_definitiva,
+                    origen_respuesta, respuesta_texto, pregunta_mostrada, fecha_creacion)
+                VALUES (?, ?, 'INICIAL', ?, 'TEXTO', 'Mi respuesta', 'Cuéntame sobre ti', now())
+                """, UUID.randomUUID(), turnId, definitive);
+    }
+
+    @Test
+    @DisplayName("findConfiguredByOwner devuelve solo la sesión configurada del dueño")
+    void findConfiguredByOwner_shouldReturnOnlyOwnersConfigured() {
+        UUID mine = sessions.save(newSession("uid-a")).id();
+        sessions.save(newSession("uid-b"));
+
+        assertThat(sessions.findConfiguredByOwner(OWNER)).hasValueSatisfying(found -> {
+            assertThat(found.id()).isEqualTo(mine);
+            assertThat(found.status()).isEqualTo(SessionStatus.CONFIGURED);
+        });
+        assertThat(sessions.findConfiguredByOwner(new FirebaseUid("uid-c"))).isEmpty();
+    }
+
+    @Test
+    @DisplayName("findConfiguredByOwner ignora la sesión en curso del mismo dueño")
+    void findConfiguredByOwner_shouldIgnoreInProgress() {
+        inProgress("uid-a");
+
+        assertThat(sessions.findConfiguredByOwner(OWNER)).isEmpty();
+    }
+
+    @Test
+    @DisplayName("findInProgressByOwner devuelve solo la sesión en curso del dueño, aunque tenga otra configurada")
+    void findInProgressByOwner_shouldReturnOnlyOwnersInProgress() {
+        UUID running = inProgress("uid-a").id();
+        sessions.save(newSession("uid-a"));
+        inProgress("uid-b");
+
+        assertThat(sessions.findInProgressByOwner(OWNER)).hasValueSatisfying(found -> {
+            assertThat(found.id()).isEqualTo(running);
+            assertThat(found.status()).isEqualTo(SessionStatus.IN_PROGRESS);
+        });
+        assertThat(sessions.findInProgressByOwner(new FirebaseUid("uid-c"))).isEmpty();
+    }
+
+    @Test
+    @DisplayName("findInProgressByOwner devuelve vacío si el dueño solo tiene una sesión configurada")
+    void findInProgressByOwner_shouldBeEmpty_whenOnlyConfigured() {
+        sessions.save(newSession("uid-a"));
+
+        assertThat(sessions.findInProgressByOwner(OWNER)).isEmpty();
+    }
+
+    @Test
+    @DisplayName("countDefinitiveAnswers cuenta solo los intentos definitivos de esa sesión")
+    void countDefinitiveAnswers_shouldCountOnlyDefinitive() {
+        UUID id = inProgress("uid-a").id();
+        UUID other = inProgress("uid-b").id();
+        UUID first = insertTurn(id, 1);
+        UUID second = insertTurn(id, 2);
+        UUID third = insertTurn(id, 3);
+        insertAttempt(first, true);
+        insertAttempt(second, true);
+        insertAttempt(third, false);
+        insertAttempt(insertTurn(other, 1), true);
+
+        assertThat(sessions.countDefinitiveAnswers(id)).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("countDefinitiveAnswers es cero sin respuestas y sin preguntas")
+    void countDefinitiveAnswers_shouldBeZero_whenNoAnswers() {
+        UUID id = inProgress("uid-a").id();
+
+        assertThat(sessions.countDefinitiveAnswers(id)).isZero();
+
+        insertTurn(id, 1);
+
+        assertThat(sessions.countDefinitiveAnswers(id)).isZero();
+        assertThat(sessions.countDefinitiveAnswers(UUID.randomUUID())).isZero();
+    }
 }

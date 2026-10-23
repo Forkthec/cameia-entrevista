@@ -63,19 +63,24 @@ abstract class AbstractPersistenceTest {
 
     /** Inserta por SQL la ejecución de planificación, una pregunta y su turno pendiente; devuelve el turno. */
     protected UUID insertTurn(UUID sessionId) {
+        return insertTurn(sessionId, 1);
+    }
+
+    /** Igual que {@link #insertTurn(UUID)}, con la pregunta en la posición indicada (1 a 5). */
+    protected UUID insertTurn(UUID sessionId, int order) {
         UUID executionId = UUID.randomUUID();
         UUID questionId = UUID.randomUUID();
         UUID turnId = UUID.randomUUID();
         jdbc.update("""
                 INSERT INTO microentrevista.ejecucion_ia (id, sesion_id, turno_id, tipo_operacion, numero_intento,
                     idempotency_key, estado, fecha_inicio, fecha_fin, modelo, version_prompt)
-                VALUES (?, ?, NULL, 'PLANIFICAR', 1, ?, 'EXITOSA', now(), now(), 'modelo-de-prueba', 'v1')
-                """, executionId, sessionId, UUID.randomUUID());
+                VALUES (?, ?, NULL, 'PLANIFICAR', ?, ?, 'EXITOSA', now(), now(), 'modelo-de-prueba', 'v1')
+                """, executionId, sessionId, order, UUID.randomUUID());
         jdbc.update("""
                 INSERT INTO microentrevista.pregunta (id, sesion_id, orden, tipo, texto_original, fecha_creacion,
                     ejecucion_ia_id)
-                VALUES (?, ?, 1, 'APERTURA', 'Cuéntame sobre ti', now(), ?)
-                """, questionId, sessionId, executionId);
+                VALUES (?, ?, ?, 'APERTURA', 'Cuéntame sobre ti', now(), ?)
+                """, questionId, sessionId, order, executionId);
         jdbc.update("""
                 INSERT INTO microentrevista.turno (id, pregunta_id, estado, fecha_creacion, fecha_actualizacion,
                     version)

@@ -19,8 +19,8 @@ public final class InterviewSession {
 
     private final UUID id;
     private final FirebaseUid owner;
-    private final SessionConfiguration configuration;
-    private final int planningRetries;
+    private SessionConfiguration configuration;
+    private int planningRetries;
     private final Instant createdAt;
     private final Long version;
     private SessionStatus status;
@@ -65,6 +65,21 @@ public final class InterviewSession {
      */
     public static InterviewSession reconstitute(SessionSnapshot snapshot) {
         return new InterviewSession(snapshot);
+    }
+
+    /**
+     * Reemplaza la configuración de una sesión que todavía no empezó y reinicia los reintentos de planificación.
+     * La fecha de creación no cambia.
+     *
+     * @param newConfiguration configuración nueva
+     * @param clock reloj que da la fecha de modificación
+     * @throws SessionTransitionNotAllowedException si la sesión no está configurada; no cambia nada
+     */
+    public void reconfigure(SessionConfiguration newConfiguration, Clock clock) {
+        requireDeletable();
+        configuration = newConfiguration;
+        planningRetries = 0;
+        updatedAt = clock.instant();
     }
 
     /**

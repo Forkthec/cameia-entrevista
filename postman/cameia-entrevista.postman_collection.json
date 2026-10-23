@@ -1040,6 +1040,1050 @@
           }
         }
       ]
+    },
+    {
+      "name": "Crear sesión",
+      "description": "Crea o reutiliza la sesión configurada (POST /api/v1/interviews/sessions). Los dos primeros pasos publican el catálogo de roles y el perfil en el broker local (docker compose --profile mensajeria; usuario guest/guest del broker de desarrollo, no es un secreto); cada corrida usa una persona y un perfil nuevos.",
+      "item": [
+        {
+          "name": "200 preparar catálogo de roles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('crsMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                  "// Cada corrida usa una persona y un perfil nuevos para no depender de lo que dejó la anterior.",
+                  "pm.collectionVariables.set('crsUid', 'crs' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('crsProfileId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{crsMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-crs\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\":\\\"2026-10-15T12:00:00.123Z\\\",\\\"roles\\\":[{\\\"codigo\\\":\\\"a0000001-0000-0000-0000-000000000002\\\",\\\"nombreEs\\\":\\\"Desarrollador Backend\\\",\\\"nombreEn\\\":\\\"Backend Developer\\\",\\\"estado\\\":\\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+            },
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 preparar perfil completo",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('crsMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{crsMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-crs\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\":\\\"{{crsUid}}\\\",\\\"contextoProfesional\\\":{\\\"id\\\":\\\"{{crsProfileId}}\\\",\\\"nombre\\\":\\\"Analista de datos\\\",\\\"estado\\\":\\\"COMPLETED\\\",\\\"fecha_archivado\\\":null,\\\"resumen\\\":\\\"Analista con tres años de experiencia en SQL y Python.\\\",\\\"experiencias\\\":[{\\\"empresa\\\":\\\"ACME\\\",\\\"cargo\\\":\\\"Analista\\\",\\\"descripcion\\\":null,\\\"inicio\\\":\\\"2022-01\\\",\\\"fin\\\":null,\\\"estadoEmpleo\\\":\\\"CURRENT\\\"}],\\\"formaciones\\\":[{\\\"institucion\\\":\\\"Universidad del Cauca\\\",\\\"titulo\\\":\\\"Ingeniería de Sistemas\\\",\\\"nivel\\\":\\\"UNDERGRADUATE\\\",\\\"inicio\\\":\\\"2017-02\\\",\\\"fin\\\":\\\"2021-12\\\",\\\"enCurso\\\":false}],\\\"habilidades\\\":[{\\\"nombre\\\":\\\"Python\\\",\\\"nivel\\\":\\\"INTERMEDIATE\\\"}]},\\\"rolesAspirados\\\":[{\\\"codigo\\\":\\\"a0000001-0000-0000-0000-000000000002\\\",\\\"nombre\\\":\\\"Desarrollador Backend\\\"}],\\\"actualizadoEn\\\":\\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            },
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión configurada",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Los consumidores son asíncronos: se espera a que la copia del perfil exista.",
+                  "setTimeout(function () {}, 3000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const s = pm.response.json();",
+                  "pm.collectionVariables.set('crsSessionId', s.sessionId);",
+                  "pm.test('Estado CONFIGURADA', () => pm.expect(s.status).to.eql('CONFIGURADA'));",
+                  "pm.test('Configuración devuelta', () => pm.expect(s.configuration).to.eql({profileId: pm.collectionVariables.get('crsProfileId'), targetRoleId: 'a0000001-0000-0000-0000-000000000002', jobOffer: 'Buscamos desarrollador backend', mode: 'SIMULACION', tone: 'CALIDO', answerFormat: 'TEXTO', sessionLanguage: 'es-CO'}));",
+                  "pm.test('Sin entrevista en curso', () => pm.expect(s.ongoingSession).to.eql(null));",
+                  "pm.test('No expone datos del perfil', () => pm.expect(pm.response.text()).to.not.include('Python').and.not.include('ACME'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "crs-{{crsProfileId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 repetición con la misma clave",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Misma sesión', () => pm.expect(pm.response.json().sessionId).to.eql(pm.collectionVariables.get('crsSessionId')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "crs-{{crsProfileId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 misma clave con otra configuración",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código IDEMPOTENCY_KEY_CONFLICT', () => pm.expect(pm.response.json().code).to.eql('IDEMPOTENCY_KEY_CONFLICT'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Título', () => pm.expect(pm.response.json().title).to.eql('Solicitud distinta'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "crs-{{crsProfileId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"ESTRICTO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reutiliza la sesión y actualiza la configuración",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const s = pm.response.json();",
+                  "pm.test('Mismo sessionId', () => pm.expect(s.sessionId).to.eql(pm.collectionVariables.get('crsSessionId')));",
+                  "pm.test('Tono, formato y oferta nuevos', () => {",
+                  "    pm.expect(s.configuration.tone).to.eql('ESTRICTO');",
+                  "    pm.expect(s.configuration.answerFormat).to.eql('AUDIO');",
+                  "    pm.expect(s.configuration.jobOffer).to.eql(null);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":null,\"mode\":\"SIMULACION\",\"tone\":\"ESTRICTO\",\"answerFormat\":\"AUDIO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 ignora los campos que no existen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Sigue CONFIGURADA y es la misma sesión', () => {",
+                  "    pm.expect(pm.response.json().status).to.eql('CONFIGURADA');",
+                  "    pm.expect(pm.response.json().sessionId).to.eql(pm.collectionVariables.get('crsSessionId'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"firebaseUid\":\"otra-persona\",\"status\":\"EN_CURSO\",\"plan\":\"PREMIUM\",\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 cuerpo vacío: los seis campos a la vez",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Seis campos en orden', () => pm.expect(pm.response.json().errors.map(e => e.field)).to.eql(['profileId', 'targetRoleId', 'mode', 'tone', 'answerFormat', 'sessionLanguage']));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 oferta de 3001 caracteres",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('crsLongBody', JSON.stringify({profileId: pm.collectionVariables.get('crsProfileId'), targetRoleId: 'a0000001-0000-0000-0000-000000000002', jobOffer: 'a'.repeat(3001), mode: 'SIMULACION', tone: 'CALIDO', answerFormat: 'TEXTO', sessionLanguage: 'es-CO'}));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Error 0: jobOffer con JOB_OFFER_TOO_LONG', () => {",
+                  "    const e = pm.response.json().errors[0];",
+                  "    pm.expect(e.field).to.eql('jobOffer');",
+                  "    pm.expect(e.code).to.eql('JOB_OFFER_TOO_LONG');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{crsLongBody}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 oferta con el carácter nulo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Error 0: jobOffer con JOB_OFFER_INVALID_CHARACTERS', () => {",
+                  "    const e = pm.response.json().errors[0];",
+                  "    pm.expect(e.field).to.eql('jobOffer');",
+                  "    pm.expect(e.code).to.eql('JOB_OFFER_INVALID_CHARACTERS');",
+                  "    pm.expect(e.message).to.eql('La oferta laboral contiene un carácter no permitido.');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"abc\\u0000def\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 modalidad entreno todavía no disponible",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Error 0: mode con MODE_NOT_ALLOWED', () => {",
+                  "    const e = pm.response.json().errors[0];",
+                  "    pm.expect(e.field).to.eql('mode');",
+                  "    pm.expect(e.code).to.eql('MODE_NOT_ALLOWED');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"ENTRENO\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 rol que no existe en el catálogo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Error 0: targetRoleId con TARGET_ROLE_ID_INVALID_VALUE', () => {",
+                  "    const e = pm.response.json().errors[0];",
+                  "    pm.expect(e.field).to.eql('targetRoleId');",
+                  "    pm.expect(e.code).to.eql('TARGET_ROLE_ID_INVALID_VALUE');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"00000000-0000-0000-0000-000000000000\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 clave de idempotencia inválida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Error 0: Idempotency-Key con IDEMPOTENCY_KEY_INVALID_FORMAT', () => {",
+                  "    const e = pm.response.json().errors[0];",
+                  "    pm.expect(e.field).to.eql('Idempotency-Key');",
+                  "    pm.expect(e.code).to.eql('IDEMPOTENCY_KEY_INVALID_FORMAT');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "clave con espacios"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 JSON mal formado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código REQUEST_BODY_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('REQUEST_BODY_INVALID_FORMAT'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"mode\":"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 perfil de otra persona",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código PROFILE_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('PROFILE_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('No revela al dueño', () => pm.expect(pm.response.text()).to.not.include(pm.collectionVariables.get('crsUid')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "crs-otra-persona"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 perfil que todavía no llegó",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código PROFILE_SYNC_PENDING', () => pm.expect(pm.response.json().code).to.eql('PROFILE_SYNC_PENDING'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql('Tu perfil se está actualizando. Inténtalo en unos segundos.'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"11111111-2222-4333-8444-555555555555\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "401 sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "415 Content-Type que no es JSON",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código MEDIA_TYPE_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('MEDIA_TYPE_NOT_ALLOWED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos desarrollador backend\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 oferta ausente con una clave nueva",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200 o 201', () => pm.expect([200, 201]).to.include(pm.response.code));",
+                  "pm.test('Oferta ausente guardada como nula', () => pm.expect(pm.response.json().configuration.jobOffer).to.eql(null));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "nul-dash-{{crsProfileId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":null,\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 misma clave con la oferta «-»",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Código IDEMPOTENCY_KEY_CONFLICT', () => pm.expect(pm.response.json().code).to.eql('IDEMPOTENCY_KEY_CONFLICT'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{crsUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "nul-dash-{{crsProfileId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{crsProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"-\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
