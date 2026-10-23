@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import tech.cameia.entrevista.domain.policy.PersonalizationCatalog;
+import tech.cameia.entrevista.domain.policy.SessionConfigurationPolicy;
+import tech.cameia.entrevista.domain.port.RoleCatalog;
 
 /**
  * Ensambla como beans las reglas de dominio, que se construyen con {@code new} y no conocen Spring.
@@ -32,5 +34,18 @@ class DomainPolicyConfiguration {
     @Bean
     Clock clock() {
         return Clock.systemUTC();
+    }
+
+    /**
+     * Crea la política que valida la configuración de la sesión contra el catálogo de personalización y la
+     * copia local del catálogo de roles.
+     *
+     * @param catalog catálogo de personalización
+     * @param roles copia local del catálogo de roles
+     * @return la política de configuración de la sesión
+     */
+    @Bean
+    SessionConfigurationPolicy sessionConfigurationPolicy(PersonalizationCatalog catalog, RoleCatalog roles) {
+        return new SessionConfigurationPolicy(catalog, roles);
     }
 }
