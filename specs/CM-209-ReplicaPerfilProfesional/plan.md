@@ -52,8 +52,8 @@ src/main/java/tech/cameia/entrevista/infrastructure/messaging/consumer/{ProfileU
 src/test/java/tech/cameia/entrevista/... (spec §14)
 docs/eventos/consumo-perfil-profesional-actualizado.md
 docs/eventos/perfil-profesional-actualizado-v1.schema.json (copia literal)
-docs/adr/0007-replica-del-perfil-por-evento.md
-docs/bitacora-ia/05_replica-del-perfil_prompt.md
+docs/adr/0008-replica-del-perfil-por-evento.md
+docs/bitacora-ia/06_replica-del-perfil_prompt.md
 
 # Criterio de catálogo de roles (spec §25)
 src/main/resources/db/migration/V3__catalogo_roles_profesionales.sql
@@ -87,7 +87,7 @@ V10__evento_catalogo_roles.sql · RoleCatalogUpdated · ProfessionalRoleNames ·
 | T3 | `CM-209 \| feat(dominio): copia del perfil con su regla de uso y su persistencia` |
 | T4 | `CM-209 \| feat(mensajeria): consumidor de perfil.profesional-actualizado con cola de fallidos` |
 | T5 | `CM-209 \| test(mensajeria): topología, réplica e idempotencia contra RabbitMQ y PostgreSQL reales` |
-| T6 | `CM-209 \| docs(eventos): consumo del evento del perfil, ADR 0007 y Postman` |
+| T6 | `CM-209 \| docs(eventos): consumo del evento del perfil, ADR 0008 y Postman` |
 | T2b | `CM-209 \| feat(datos): tabla de la copia del catálogo de roles` |
 | T3b | `CM-209 \| feat(dominio): copia del catálogo de roles con su persistencia` |
 | T4b | `CM-209 \| feat(mensajeria): consumidor del catálogo de roles con cola de fallidos` |
@@ -106,7 +106,7 @@ Rama `CM-209-replica-perfil-profesional` desde `origin/develop` con CM-311 fusio
 | Consultas nativas sin el esquema `microentrevista` | Todas las tablas se escriben calificadas (`microentrevista.contexto_profesional_replica`); prueba de adaptador contra PostgreSQL real |
 | Argumentos de la cola distintos a los de Perfil → `PRECONDITION_FAILED` | `ProfileEventsRabbitConfigTest` fija los mismos argumentos que Perfil; la comprobación con la cola creada primero por Perfil la reproduce `ProfileEventsTopologyIT` en un broker real, que vuelve a declarar la cola con otros argumentos y espera `PRECONDITION_FAILED` (D-RPL-04) |
 | Perfil no declara la cola nueva → el broker devuelve el mensaje y queda pendiente para siempre | REQ-RPL-25: la declara también Perfil; `RabbitConfigTest` y `RoleCatalogEventsEndToEndIT` |
-| Orden de migraciones de Perfil con la tarea de alinear el estándar | Decidido: esta tarea usa `V10` y CM-296 usa `V10` (spec §25.4) |
+| Orden de migraciones de Perfil con la tarea de alinear el estándar | Decidido: esta tarea usa `V10` y CM-296 usa `V11` (spec §25.4) |
 | `--min-instances=0` en el entorno | H-1 a DevOps; no bloquea el código |
 
 ## 7. Estimación

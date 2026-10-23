@@ -437,14 +437,14 @@ La verificación manual de T6 con Postman (carpeta «Réplica del perfil (Rabbit
 
 1. `docs/eventos/consumo-perfil-profesional-actualizado.md`: qué consume y de dónde (exchange, clave, cola, cola de fallidos), qué valida (tabla de §8 resumida), las razones de rechazo (§10), idempotencia y orden, qué guarda y qué no (sin `embedding`, sin campos desconocidos), privacidad (qué nunca se registra), cómo reprocesar la cola de fallidos (pala de RabbitMQ de `….dlq` a la cola principal tras corregir la causa; el reproceso es idempotente), el SHA de Perfil del esquema copiado y que la versión 2 llegaría en paralelo.
 2. `docs/eventos/perfil-profesional-actualizado-v1.schema.json`: copia literal (T5).
-3. `docs/adr/0007-replica-del-perfil-por-evento.md` (estado, contexto, decisión, consecuencias, alternativas): D-RPL-01 a D-RPL-07 de la spec.
-4. `docs/bitacora-ia/05_replica-del-perfil_prompt.md` + fila en el README (número siguiente libre).
+3. `docs/adr/0008-replica-del-perfil-por-evento.md` (estado, contexto, decisión, consecuencias, alternativas): D-RPL-01 a D-RPL-07 de la spec.
+4. `docs/bitacora-ia/06_replica-del-perfil_prompt.md` + fila en el README (número siguiente libre).
 5. `CLAUDE.md`: §2 (árbol: `infrastructure.messaging` existe), §5 (tabla `contexto_profesional_replica` y `evento_procesado`, `V2`), §6 (logs del consumidor sin datos del perfil), §10 (quitar «`docs/eventos/`, mensajería» de pendientes).
 6. Postman: en el entorno `local`, variable `rabbitManagementUrl = http://localhost:15673`; carpeta «Réplica del perfil (RabbitMQ)» con las 7 peticiones de la spec §13 y las 2 de §25.9, 9 en total (autenticación básica `guest`/`guest` a nivel de carpeta).
 
 **Comando Newman:** `docker compose --profile mensajeria up -d`; jar con `SERVER_PORT=8083` y `SPRING_RABBITMQ_ADDRESSES=amqp://guest:guest@localhost:5673`; `npx newman run postman/cameia-entrevista.postman_collection.json -e postman/local.postman_environment.json --folder "Réplica del perfil (RabbitMQ)" --reporters cli,junit --reporter-junit-export ../../ejecucion/evidencia/CM-209/newman.xml` → 9/9.
 
-**Commit:** `CM-209 | docs(eventos): consumo del evento del perfil, ADR 0007 y Postman`.
+**Commit:** `CM-209 | docs(eventos): consumo del evento del perfil, ADR 0008 y Postman`.
 
 ---
 
@@ -454,10 +454,10 @@ Se ejecutan **después de T6** y antes de T7, salvo P1 a P3, que son otro reposi
 
 ### P1 a P3 · Perfil (repositorio `cameia-perfil`, rama `CM-209-catalogo-roles-evento` desde `origin/develop`)
 
-**P0 (previo):** `git fetch`; `git status` limpio; `ls src/main/resources/db/migration` (la última debe ser `V9` y esta migración es `V10`; si ya existe una `V10` de otra tarea, detenerse y avisar a Paula: CM-296 usa `V10`, spec §25.4); `ls docs/adr docs/bitacora-ia` para los números libres. Línea base: `./mvnw.cmd -B -ntp clean verify` en verde y anotar el número de pruebas.
+**P0 (previo):** `git fetch`; `git status` limpio; `ls src/main/resources/db/migration` (la última debe ser `V9` y esta migración es `V10`; si ya existe una `V10` de otra tarea, detenerse y avisar a Paula: CM-296 usa `V11`, spec §25.4); `ls docs/adr docs/bitacora-ia` para los números libres. Línea base: `./mvnw.cmd -B -ntp clean verify` en verde y anotar el número de pruebas.
 
 **P1 · Dominio y publicación.** Crear `ProfessionalRoleNames`, `RoleCatalogUpdated` (rechaza `roles` vacío o con más de 200; `AGGREGATE_ID = new UUID(0L, 0L)`), `RoleCatalogEventsAppService.announceCatalog()` (si `OutboxRepository.existsPendingOfType(RoleCatalogUpdated.TYPE)` → no hace nada; si no, lee `findAllWithBothLanguages()`, guarda con `saveRoleCatalog` y llama a `relayAfterCommit`), `RoleCatalogPayloadV1` y `RoleCatalogStartupAnnouncer`. Copiar la forma de `ProfileEventsAppService` y `ProfileUpdatedPayloadV1`. `correlationId = "perfil-catalogo-" + eventId.toString().substring(0, 8)`. `nombreEn` de respaldo = `nameEs`. En `application.properties` agregar `perfil.events.announce-role-catalog-on-startup=true` y ponerlo en `false` en las pruebas que arrancan el contexto completo salvo la de extremo a extremo (revisar `src/test/resources` y `MessagingIntegrationSupport`).
-**Trampas:** el anunciador no puede romper el arranque (captura la excepción, `WARN` con la clase de la causa, sin nombres de rol); la carga nunca se escribe en el log; usar `String.codePointCount` para los límites de texto si se valida en el contrato.
+**Trampas:** el anunciador no puede romper el arranque (captura la excepción, `ERROR` con la clase de la causa, sin nombres de rol; el servicio toma antes un candado de la base, `tryLockAnnouncement`, para que dos instancias no anoten dos instantáneas); la carga nunca se escribe en el log; usar `String.codePointCount` para los límites de texto si se valida en el contrato.
 **Pruebas (valores literales):** `RoleCatalogUpdatedTest` (0 roles → excepción; 200 pasa; 201 falla), `RoleCatalogPayloadV1Test` (`VALID_CATALOG_BODY` de la spec §25.2 serializa igual), `RoleCatalogEventsAppServiceTest` (hay uno pendiente → 0 escrituras; `nombre_en` nulo → `nombreEn` = español), `RoleCatalogStartupAnnouncerTest` (excepción del servicio → no se propaga).
 **Commit:** `CM-209 | feat(eventos): publicar el catálogo de roles al arrancar`.
 
@@ -498,7 +498,7 @@ Con la cabecera de T5: `RoleCatalogReplicationIntegrationTest` (E-01 a E-08 entr
 
 ### T6b · Documentación y Postman (Entrevista)
 
-`docs/eventos/consumo-perfil-catalogo-roles-actualizado.md` (como el de T6: cola, validación, razones, idempotencia y orden, qué no se borra, cómo reprocesar la cola de fallidos), sección nueva en el ADR 0007 con D-RPL-08 a D-RPL-12, `CLAUDE.md` §5 (tabla `rol_profesional`, `V3`) y las dos peticiones de Postman de §25.9 (9 en total en la carpeta).
+`docs/eventos/consumo-perfil-catalogo-roles-actualizado.md` (como el de T6: cola, validación, razones, idempotencia y orden, qué no se borra, cómo reprocesar la cola de fallidos), sección nueva en el ADR 0008 con D-RPL-08 a D-RPL-12, `CLAUDE.md` §5 (tabla `rol_profesional`, `V3`) y las dos peticiones de Postman de §25.9 (9 en total en la carpeta).
 **Commit:** `CM-209 | docs(eventos): consumo del catálogo de roles y Postman`.
 
 ---

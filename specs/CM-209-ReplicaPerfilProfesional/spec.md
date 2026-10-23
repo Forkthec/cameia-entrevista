@@ -374,8 +374,8 @@ El `embedding` (D-RPL-01); el 404 y el 409 al crear la sesión (CM-207); borrar 
 | `docker-compose.yml`, `.env.example` | comentarios | — | servicio `entrevista-rabbitmq`, `SPRING_RABBITMQ_ADDRESSES` | — | — |
 | Postman | crea | carpeta | carpeta «Réplica del perfil (RabbitMQ)» y variable `rabbitManagementUrl` en el entorno | carpeta | carpeta |
 | `docs/eventos/` | — | — | **crea** (`consumo-perfil-profesional-actualizado.md` y la copia del esquema) | — | — |
-| ADR | `0006` | — | `0007-replica-del-perfil-por-evento.md` | siguiente | siguiente |
-| Bitácora de IA | `03` | `04` | `05` | `06` | `07` |
+| ADR | `0006` | `0007` | `0008-replica-del-perfil-por-evento.md` | siguiente | siguiente |
+| Bitácora de IA | `03` y `04` | `05` | `06` | `07` | `08` |
 
 Rama: `CM-209-replica-perfil-profesional` desde `origin/develop` con CM-311 fusionada; no depende de CM-204 (pueden ir en paralelo; si CM-204 se fusiona antes, se rebasa sin conflictos: archivos distintos salvo `docs/bitacora-ia/README.md` y la colección de Postman, que se resuelven agregando). Si CM-311 no está fusionada: stack sobre su rama. Diff estimado: ≈ 2 100 líneas (≈ 700 de código, ≈ 1 200 de pruebas, ≈ 200 de documentación y configuración).
 
@@ -394,7 +394,7 @@ Antes de la tarjeta T1: con Docker encendido, `./mvnw.cmd -B -ntp clean verify` 
 | Regla «toda excepción de `domain.exception` hereda de `BusinessException`» (`UntypedExceptionClassificationTest`) | CM-311 | CM-209 no crea excepciones de dominio (§6) |
 | Colección `postman/` y entorno `local` | CM-311 T7 | abrir |
 | `ProcessedMessageInbox` no existe aún en Entrevista | — | `git grep -n ProcessedMessageInbox` vacío antes de T3; si CM-311 o CM-312 lo crearon, reutilizar |
-| Numeración de ADR (`0006` de CM-311) y de bitácora (`03` de CM-311, `04` de CM-204) | `docs/adr/`, `docs/bitacora-ia/` | `ls`; tomar el siguiente libre |
+| Numeración de ADR (`0006` de CM-311, `0007` de CM-204) y de bitácora (`03` y `04` de CM-311, `05` de CM-204) | `docs/adr/`, `docs/bitacora-ia/` | `ls`; tomar el siguiente libre |
 
 ## 21. Hallazgos con destino
 
@@ -426,7 +426,7 @@ Antes de la tarjeta T1: con Docker encendido, `./mvnw.cmd -B -ntp clean verify` 
 | V-11 | R5 | §9 | verde |
 | V-12 | R6 | §11; `…logs_shouldNotContainPersonalData` | verde |
 | V-13 | R7 | sin estado en memoria; métodos ≤ 20 líneas; ArchUnit | verde |
-| V-14 | R8 | ADR 0007, `docs/eventos/…`, Javadoc, `package-info` | revisión |
+| V-14 | R8 | ADR 0008, `docs/eventos/…`, Javadoc, `package-info` | revisión |
 | V-15 | R9/R10 | `clean verify`; `jacoco.csv` | ≥ 90 % por clase |
 | V-16 | R11 | Newman carpeta | 9/9 |
 | V-17 | R13 | tabla §12 con resultados reales | llena |
@@ -514,7 +514,7 @@ Los nombres de campo siguen el estilo del evento del perfil (`codigo` es el mism
 - La misma migración reemplaza `ck_evento_procesado_tipo` de la tabla `evento_procesado` (creada en `V2`) por `CHECK (tipo IN ('perfil.profesional-actualizado', 'perfil.catalogo-roles-actualizado'))` y agrega los `COMMENT ON` de la tabla nueva y de `estado` y `actualizado_en` (español sin tildes, como `V1`).
 - **Upsert** (una sola sentencia nativa, con el esquema calificado y los roles como un único parámetro JSON): `INSERT INTO microentrevista.rol_profesional (…) SELECT … FROM jsonb_to_recordset(CAST(:roles AS jsonb)) AS r(id uuid, nombre_es text, nombre_en text, estado text) ON CONFLICT (id) DO UPDATE SET nombre_es = EXCLUDED.nombre_es, nombre_en = EXCLUDED.nombre_en, estado = EXCLUDED.estado, actualizado_en = EXCLUDED.actualizado_en, fecha_replicacion = EXCLUDED.fecha_replicacion WHERE microentrevista.rol_profesional.actualizado_en <= EXCLUDED.actualizado_en`. Devuelve cuántas filas cambió.
 
-**Perfil.** `V10__evento_catalogo_roles.sql` reemplaza `ck_evento_saliente_tipo` por `CHECK (tipo IN ('perfil.profesional-actualizado', 'perfil.catalogo-roles-actualizado'))`; no toca datos. **Numeración (decidida por Paula el 22-oct):** esta migración es `V10` (la última de Perfil hoy es `V9`) y la tarea de alinear el estándar (`CHECK` de `perfil_profesional`, CM-296) pasa a `V10`. Flyway falla si una versión menor llega después de una mayor ya aplicada, por eso este orden.
+**Perfil.** `V10__evento_catalogo_roles.sql` reemplaza `ck_evento_saliente_tipo` por `CHECK (tipo IN ('perfil.profesional-actualizado', 'perfil.catalogo-roles-actualizado'))`; no toca datos. **Numeración (decidida por Paula el 22-oct):** esta migración es `V10` (la última de Perfil hoy es `V9`) y la tarea de alinear el estándar (`CHECK` de `perfil_profesional`, CM-296) pasa a `V11`. Flyway falla si una versión menor llega después de una mayor ya aplicada, por eso este orden.
 
 ### 25.5 Errores y rechazos del mensaje (R3)
 
@@ -559,7 +559,7 @@ La instantánea no contiene datos personales (el catálogo es público dentro de
 | `application.service` | `RoleCatalogEventsAppService.announceCatalog()` | Si no hay uno pendiente: lee, arma, guarda en una transacción y pide el relevo tras el commit (`OutboxRelayAppService.relayAfterCommit`) |
 | `infrastructure.messaging.payload` | `RoleCatalogPayloadV1` (+ `RoleItem`) | Cuerpo del contrato v1 |
 | `infrastructure.messaging.config` | `RabbitConfig`: constantes `ROLE_CATALOG_KEY`, `INTERVIEW_ROLE_CATALOG_QUEUE` y los beans de cola y enlace | REQ-RPL-25 |
-| `infrastructure.config` | `RoleCatalogStartupAnnouncer` (`@EventListener(ApplicationReadyEvent)`, propiedad de REQ-RPL-24; un fallo se registra en `WARN` sin traer abajo el arranque) | REQ-RPL-24 |
+| `infrastructure.config` | `RoleCatalogStartupAnnouncer` (`@EventListener(ApplicationReadyEvent)`, propiedad de REQ-RPL-24; un fallo se registra en `ERROR`, con la clase de la causa y sin nombres de rol, sin traer abajo el arranque; antes de anotar toma un candado de la base, `OutboxRepository.tryLockAnnouncement`, para que dos instancias que arrancan a la vez no anoten dos instantáneas) | REQ-RPL-24 |
 | `infrastructure.persistence` | métodos nuevos de `ProfessionalRoleRepositoryAdapter` y `OutboxRepositoryAdapter`; `V10` | §25.4 |
 | `docs` | `docs/eventos/perfil-catalogo-roles-actualizado-v1.md` y `.schema.json`; ADR siguiente libre (`docs/adr`); bitácora de IA siguiente libre | Contrato y decisión |
 
@@ -574,7 +574,7 @@ El relevo (`OutboxRelayAppService`) y el Job `profile-events-relay` publican **c
 | `application.command` / `service` | `ReplicateRoleCatalogCommand`, `ReplicateRoleCatalogService` (`@Transactional`; reutiliza `ProcessedMessageInbox` y `ReplicationOutcome`) | REQ-RPL-28 |
 | `infrastructure.persistence` | `ProfessionalRoleEntity` (solo `ddl-auto=validate`), `ProfessionalRoleJpaRepository` (consulta nativa de §25.4), `RoleCatalogReplicaRepositoryAdapter` | CM-207 reutiliza la entidad y el repositorio JPA y agrega solo su `RoleCatalogAdapter` de lectura |
 | `infrastructure.messaging` | `RoleCatalogRabbitConfig`, `RoleCatalogPayloadV1`, `RoleCatalogListener`, `RoleCatalogEventReader`; reutiliza `ProfileEventsRetryConfig`, `ProfileEventsErrorHandler`, `ProfileEventsRecoverer`, `ContractViolation` y `EventLogValues` (si alguno tiene fija la cola del perfil, se parametriza con el cambio mínimo) | REQ-RPL-26, 27, 29 |
-| `docs` | `docs/eventos/consumo-perfil-catalogo-roles-actualizado.md` y la copia del esquema; sección nueva en el ADR 0007 | Documentación |
+| `docs` | `docs/eventos/consumo-perfil-catalogo-roles-actualizado.md` y la copia del esquema; sección nueva en el ADR 0008 | Documentación |
 
 **Pruebas de Entrevista (las de broker, con RabbitMQ real, D-RPL-04 opción A):** `RoleCatalogEventReaderTest` (toda la matriz de §25.3), `ReplicateRoleCatalogServiceTest` (E-02 a E-06), `RoleCatalogReplicaRepositoryAdapterIT` (PostgreSQL real: E-01, E-03 a E-07 y E-10), `RoleCatalogSchemaMigrationTest` (cada restricción violada; `ColumnLength` de `nombre_es`/`nombre_en` = 255 contra la constante; el `CHECK` nuevo de `evento_procesado`), `RoleCatalogRabbitConfigTest` (argumentos exactos de la cola, la de fallidos y los enlaces), `RoleCatalogListenerTest` (reintento, rechazo sin reintento, `MDC`), `RoleCatalogBrokerIT` (RabbitMQ real: cola, exchange y cola de fallidos declarados con sus argumentos, un mensaje con contrato roto llega a `entrevista.catalogo-roles-actualizado.dlq` sin reintentos, un mensaje válido se copia y se confirma tras el commit) y `…logs_shouldNotContainRoleNames`. Cobertura de lo nuevo: ≥ 90 % de líneas y de ramas por clase. Con la opción A de D-RPL-04, la cola, su cola de fallidos y el `ack` del catálogo de roles tienen prueba automática en Entrevista (`RoleCatalogBrokerIT`) y, del lado de Perfil, `RoleCatalogEventsEndToEndIT`.
 
