@@ -104,7 +104,7 @@ Rama `CM-209-replica-perfil-profesional` desde `origin/develop` con CM-311 fusio
 |---|---|
 | Arranque sin broker en las demás pruebas (ruido o espera) | Surefire fija `spring.rabbitmq.listener.simple.auto-startup=false`; las pruebas de mensajería lo encienden en `@SpringBootTest(properties)` |
 | Consultas nativas sin el esquema `microentrevista` | Todas las tablas se escriben calificadas (`microentrevista.contexto_profesional_replica`); prueba de adaptador contra PostgreSQL real |
-| Argumentos de la cola distintos a los de Perfil → `PRECONDITION_FAILED` | `ProfileEventsRabbitConfigTest` fija los mismos argumentos que Perfil; la comprobación con la cola creada primero por Perfil la reproduce `ProfileEventsTopologyIT` en un broker real, que vuelve a declarar la cola con otros argumentos y espera `PRECONDITION_FAILED` (D-RPL-04) |
+| Argumentos de la cola distintos a los de Perfil → `PRECONDITION_FAILED` | `ProfileEventsRabbitConfigTest` fija los mismos argumentos que Perfil; la comprobación con la cola creada primero por Perfil la reproduce `ProfileEventsTopologyTest` en un broker real, que vuelve a declarar la cola con otros argumentos y espera `PRECONDITION_FAILED` (D-RPL-04) |
 | Perfil no declara la cola nueva → el broker devuelve el mensaje y queda pendiente para siempre | REQ-RPL-25: la declara también Perfil; `RabbitConfigTest` y `RoleCatalogEventsEndToEndIT` |
 | Orden de migraciones de Perfil con la tarea de alinear el estándar | Decidido: esta tarea usa `V10` y CM-296 usa `V11` (spec §25.4) |
 | `--min-instances=0` en el entorno | H-1 a DevOps; no bloquea el código |

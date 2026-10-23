@@ -43,8 +43,8 @@ HT-03 no tiene CA numerados. Se numeran aquí con el texto literal del backlog.
 
 | CA | Texto literal (v8.3) | Requisitos | Pruebas (nombre exacto) | Verificación con Postman (API de administración de RabbitMQ) |
 |---|---|---|---|---|
-| HT03-C1 | «exchange perfil.events · routing key perfil.profesional-actualizado · cola entrevista.perfil-profesional-actualizado» | REQ-RPL-01 | `ProfileEventsRabbitConfigTest` (argumentos declarados de la cola, el exchange y el enlace) | `GET cola con sus argumentos`, `GET enlace perfil.events → cola` (complemento manual contra el broker local; la topología real la prueba `ProfileEventsTopologyIT`; D-RPL-04) |
-| HT03-C2 | «Perfil declara la cola; Entrevistas la declara con los mismos argumentos (x-dead-letter-exchange = entrevista.dlx)» | REQ-RPL-01, REQ-RPL-02 | `ProfileEventsRabbitConfigTest` (mismos argumentos que Perfil), `ProfileEventsErrorHandlerTest`, `ProfileEventsDeadLetterIT` | `GET cola de fallidos` (complemento manual; el enrutamiento real a la cola de fallidos lo prueba `ProfileEventsDeadLetterIT`, D-RPL-04) |
+| HT03-C1 | «exchange perfil.events · routing key perfil.profesional-actualizado · cola entrevista.perfil-profesional-actualizado» | REQ-RPL-01 | `ProfileEventsRabbitConfigTest` (argumentos declarados de la cola, el exchange y el enlace) | `GET cola con sus argumentos`, `GET enlace perfil.events → cola` (complemento manual contra el broker local; la topología real la prueba `ProfileEventsTopologyTest`; D-RPL-04) |
+| HT03-C2 | «Perfil declara la cola; Entrevistas la declara con los mismos argumentos (x-dead-letter-exchange = entrevista.dlx)» | REQ-RPL-01, REQ-RPL-02 | `ProfileEventsRabbitConfigTest` (mismos argumentos que Perfil), `ProfileEventsErrorHandlerTest`, `ProfileEventsDeadLetterTest` | `GET cola de fallidos` (complemento manual; el enrutamiento real a la cola de fallidos lo prueba `ProfileEventsDeadLetterTest`, D-RPL-04) |
 | HT03-C3 | «payload usuarioId, contextoProfesional (debe incluir id, nombre, estado y fecha_archivado), rolesAspirados (cada rol con el UUID del catálogo de Perfil), actualizadoEn (sin embedding…)» | REQ-RPL-03 a REQ-RPL-06 | `ProfileUpdatedEventReaderTest` (una por campo y límite, §8), `ProfileUpdatedContractTest.example_shouldBeValid_whenReadFromSchema`, `…limits_shouldMatchSchema` | `POST publicar evento válido` |
 | HT03-C4 | «Entrevistas descarta eventos con actualizadoEn anterior al de su réplica» | REQ-RPL-08 | `ProfileReplicaRepositoryAdapterTest.upsert_shouldIgnore_whenOlderThanCopy`, `…_shouldApply_whenSameInstant`, `ProfileReplicationIntegrationTest.replication_shouldKeepNewest_whenOlderArrivesLater` | — |
 | HT03-C5 | «el consumo es idempotente» | REQ-RPL-07 | `ReplicateProfileServiceTest.apply_shouldIgnore_whenMessageAlreadyProcessed`, `ProfileReplicationIntegrationTest.replication_shouldApplyOnce_when20Redeliveries` | — |
@@ -214,7 +214,7 @@ Orden de comprobación (determinista, para que el `WARN` sea estable): propiedad
 | Concurrencia | dos instancias con el mismo `message_id` a la vez | dos hilos, `CountDownLatch` | 1 aplicado, 1 `DUPLICATE_IGNORED`; 1 fila | `ProcessedMessageInboxAdapterTest.registerIfAbsent_shouldLetOnlyOneWin_whenConcurrent` |
 | Concurrencia | dos mensajes del mismo perfil fuera de orden en dos hilos | `…:00.100Z` y `…:00.200Z` | queda el de `.200Z` | `ProfileReplicaRepositoryAdapterTest.upsert_shouldKeepNewest_whenConcurrent` |
 | Falla parcial | la base falla después de anotar el Inbox y antes del upsert | adaptador que lanza `DataAccessResourceFailureException` en el upsert | se revierte el Inbox; el mensaje se reintenta; al volver, se aplica una vez | `ProfileReplicationIntegrationTest.replication_shouldRollBackAndApplyOnce_whenDatabaseFailsOnce` |
-| Falla parcial | la base falla los 3 intentos | — | cola de fallidos; 1 línea `ERROR` | `ProfileEventsRecovererTest` (tras el último intento registra un `ERROR` y rechaza sin reencolar); el envío real a la cola de fallidos tras los 3 intentos lo prueba `ProfileEventsDeadLetterIT.deadLetter_shouldRouteToDlq_whenDatabaseFailsThreeTimes` con RabbitMQ real (D-RPL-04) |
+| Falla parcial | la base falla los 3 intentos | — | cola de fallidos; 1 línea `ERROR` | `ProfileEventsRecovererTest` (tras el último intento registra un `ERROR` y rechaza sin reencolar); el envío real a la cola de fallidos tras los 3 intentos lo prueba `ProfileEventsDeadLetterTest.deadLetter_shouldRouteToDlq_whenDatabaseFailsThreeTimes` con RabbitMQ real (D-RPL-04) |
 | Dependencias | broker caído al arrancar | — | el servicio arranca y atiende HTTP; el consumidor reintenta la conexión (comportamiento del contenedor de Spring AMQP) | `ProfileEventsContextTest.context_shouldStart_whenBrokerUnavailable` |
 | Dependencias | Perfil detenido | — | la copia sigue disponible (no se llama a Perfil) | por diseño; lo prueba CM-207 (HT03-C7) |
 | Carga | cuerpo de 1 MiB | `resumen` con 1 048 576 caracteres | `PAYLOAD_CONTRACT_VIOLATION` (supera 2000) | `read_shouldReject_whenBodyHuge` |
@@ -281,18 +281,18 @@ HT-03 es un habilitador sin épica; se declaran los que toca.
 
 | Atributo | Métrica | Límite | Cómo lo cumple | Prueba o comando | Resultado real |
 |---|---|---|---|---|---|
-| AC-0004 fiabilidad | FIA-01 | Conserva el último estado confirmado | Transacción única; `ack` tras el commit; reintento con la base caída | `…_whenDatabaseFailsOnce`, `…_whenDatabaseKeepsFailing` | PENDIENTE |
-| AC-0004 fiabilidad | FIA-02 | 0 efectos extra en 20 repeticiones | Inbox por `message_id` | `…when20Redeliveries` | PENDIENTE |
-| AC-0004 fiabilidad | FIA-05 | Recuperación de mensajería sin duplicados | Cola de fallidos + reproceso idempotente | `ProfileEventsErrorHandlerTest` + `ProfileEventsDeadLetterIT` (RabbitMQ real) + documento de reproceso | PENDIENTE |
-| AC-0003 seguridad | SEG-01 | ASVS aplicable 100 % | §11.1 | ídem | PENDIENTE |
-| AC-0003 seguridad | SEG-04 | 0 datos personales en logs | Solo identificadores y razones | `ProfileUpdatedListenerTest.logs_shouldNotContainPersonalData` (captura con `ListAppender`: el log no contiene `Analista de datos`, `Python`, `ACME` ni el resumen) | PENDIENTE |
-| Transversal | MAN-01 | ≥ 90 % líneas y ramas | §14 | `jacoco.csv` | PENDIENTE |
-| Transversal | MAN-03 | 0 FK entre servicios | `perfil_id` sin FK | `ReplicaSchemaMigrationTest.replica_shouldHaveNoForeignKeys` | PENDIENTE |
-| Transversal | IOP-01 | Eventos con esquema versionado | Copia del JSON Schema v1 y prueba de contrato | `ProfileUpdatedContractTest` | PENDIENTE |
-| Transversal | IOP-02 | Integración en un adaptador | Todo lo de RabbitMQ en `infrastructure.messaging` | `LayeredArchitectureTest` | PENDIENTE |
-| Transversal | IOP-04 | Consumidor con Inbox | `evento_procesado` | `ProcessedMessageInboxAdapterTest` | PENDIENTE |
-| AC-0002 desempeño | DES-02 (indirecto) | La copia no debe retrasar la creación de la sesión | Consulta por clave primaria | `findById` sobre `pk_` | PENDIENTE |
-| Restricción | REST-0003 | Datos personales mínimos | Solo lo que el contrato trae y la entrevista usa; sin `embedding`; sin campos desconocidos | §7 | PENDIENTE |
+| AC-0004 fiabilidad | FIA-01 | Conserva el último estado confirmado | Transacción única; `ack` tras el commit; reintento con la base caída | `…_whenDatabaseFailsOnce`, `ProfileEventsDeadLetterTest.deadLetter_shouldRouteToDlq_whenDatabaseFailsThreeTimes` | Cumple: pruebas en verde (896 ejecutadas, 0 fallos, 1 omitida manual) |
+| AC-0004 fiabilidad | FIA-02 | 0 efectos extra en 20 repeticiones | Inbox por `message_id` | `…when20Redeliveries` | Cumple: 20 reentregas dejan 1 efecto |
+| AC-0004 fiabilidad | FIA-05 | Recuperación de mensajería sin duplicados | Cola de fallidos + reproceso idempotente | `ProfileEventsErrorHandlerTest` + `ProfileEventsDeadLetterTest` (RabbitMQ real) + documento de reproceso | Cumple: mensaje con contrato roto y fallo agotado llegan a la cola de fallidos con RabbitMQ real |
+| AC-0003 seguridad | SEG-01 | ASVS aplicable 100 % | §11.1 | ídem | Cumple: §11.1 sin hallazgos |
+| AC-0003 seguridad | SEG-04 | 0 datos personales en logs | Solo identificadores y razones | `ProfileUpdatedListenerTest.logs_shouldNotContainPersonalData` (captura con `ListAppender`: el log no contiene `Analista de datos`, `Python`, `ACME` ni el resumen) | Cumple: 0 coincidencias de datos personales en el registro |
+| Transversal | MAN-01 | ≥ 90 % líneas y ramas | §14 | `jacoco.csv` | Cumple: lo tocado 95,9 % de líneas (370/386) y 100 % de ramas (130/130); las 16 líneas sin cubrir son mapeos de solo lectura, un constructor de JPA y dos líneas defensivas |
+| Transversal | MAN-03 | 0 FK entre servicios | `perfil_id` sin FK | `ReplicaSchemaMigrationTest.replica_shouldHaveNoForeignKeys` | Cumple: 0 claves foráneas |
+| Transversal | IOP-01 | Eventos con esquema versionado | Copia del JSON Schema v1 y prueba de contrato | `ProfileUpdatedContractTest` | Cumple: contrato contrastado con el de Perfil |
+| Transversal | IOP-02 | Integración en un adaptador | Todo lo de RabbitMQ en `infrastructure.messaging` | `LayeredArchitectureTest` | Cumple: arquitectura en verde |
+| Transversal | IOP-04 | Consumidor con Inbox | `evento_procesado` | `ProcessedMessageInboxAdapterTest` | Cumple: bandeja probada |
+| AC-0002 desempeño | DES-02 (indirecto) | La copia no debe retrasar la creación de la sesión | Consulta por clave primaria | `findById` sobre `pk_` | Cumple: búsqueda por clave primaria |
+| Restricción | REST-0003 | Datos personales mínimos | Solo lo que el contrato trae y la entrevista usa; sin `embedding`; sin campos desconocidos | §7 | Cumple: sin embedding ni campos desconocidos |
 
 ## 13. Postman y Newman (R11)
 
@@ -322,7 +322,7 @@ Comando: `npx newman run postman/cameia-entrevista.postman_collection.json -e po
 | Contrato | `ProfileUpdatedContractTest` | Jackson sobre `docs/eventos/perfil-profesional-actualizado-v1.schema.json` |
 | Persistencia | `ReplicaSchemaMigrationTest`, `ProfileReplicaRepositoryAdapterTest`, `ProcessedMessageInboxAdapterTest` | `@SpringBootTest` + Testcontainers PostgreSQL |
 | Integración | `ProfileReplicationIntegrationTest`, `ProfileEventsContextTest` | `@SpringBootTest` + Testcontainers PostgreSQL; el mensaje se entrega al listener directamente |
-| Integración con broker real | `ProfileEventsTopologyIT`, `ProfileEventsDeadLetterIT`, `ProfileEventsAckIT`, `ProfileReplicationBrokerIT` | `@SpringBootTest` + PostgreSQL y RabbitMQ reales (`GenericContainer` de Testcontainers con `rabbitmq:3.13-management-alpine`, como `MessagingIntegrationSupport` de Perfil; sin artefacto nuevo en el `pom.xml`) (D-RPL-04, opción A) |
+| Integración con broker real | `ProfileEventsTopologyTest`, `ProfileEventsDeadLetterTest`, `ProfileEventsAckTest`, `ProfileReplicationBrokerTest` | `@SpringBootTest` + PostgreSQL y RabbitMQ reales (`GenericContainer` de Testcontainers con `rabbitmq:3.13-management-alpine`, como `MessagingIntegrationSupport` de Perfil; sin artefacto nuevo en el `pom.xml`) (D-RPL-04, opción A) |
 | Arquitectura | `LayeredArchitectureTest` (de CM-311) | ArchUnit |
 
 Clases a medir (≥ 90 % líneas y ramas): todas las de §6. Comandos:
@@ -413,7 +413,7 @@ Antes de la tarjeta T1: con Docker encendido, `./mvnw.cmd -B -ntp clean verify` 
 
 | # | Qué | Cómo | Esperado |
 |---|---|---|---|
-| V-01 | HT03-C1, C2 | `ProfileEventsRabbitConfigTest`, `ProfileEventsTopologyIT`; Newman (3 GET, complemento manual) | colas, exchange y enlaces con los argumentos exactos |
+| V-01 | HT03-C1, C2 | `ProfileEventsRabbitConfigTest`, `ProfileEventsTopologyTest`; Newman (3 GET, complemento manual) | colas, exchange y enlaces con los argumentos exactos |
 | V-02 | HT03-C3 | `ProfileUpdatedEventReaderTest`, `ProfileUpdatedContractTest` | cada fila de §8 |
 | V-03 | HT03-C4 | `…upsert_shouldIgnore_whenOlderThanCopy`, `…_whenOlderArrivesLater` | la copia conserva el más nuevo |
 | V-04 | HT03-C5 | `…when20Redeliveries` | 1 fila y 1 Inbox |
@@ -576,7 +576,7 @@ El relevo (`OutboxRelayAppService`) y el Job `profile-events-relay` publican **c
 | `infrastructure.messaging` | `RoleCatalogRabbitConfig`, `RoleCatalogPayloadV1`, `RoleCatalogListener`, `RoleCatalogEventReader`; reutiliza `ProfileEventsRetryConfig`, `ProfileEventsErrorHandler`, `ProfileEventsRecoverer`, `ContractViolation` y `EventLogValues` (si alguno tiene fija la cola del perfil, se parametriza con el cambio mínimo) | REQ-RPL-26, 27, 29 |
 | `docs` | `docs/eventos/consumo-perfil-catalogo-roles-actualizado.md` y la copia del esquema; sección nueva en el ADR 0008 | Documentación |
 
-**Pruebas de Entrevista (las de broker, con RabbitMQ real, D-RPL-04 opción A):** `RoleCatalogEventReaderTest` (toda la matriz de §25.3), `ReplicateRoleCatalogServiceTest` (E-02 a E-06), `RoleCatalogReplicaRepositoryAdapterIT` (PostgreSQL real: E-01, E-03 a E-07 y E-10), `RoleCatalogSchemaMigrationTest` (cada restricción violada; `ColumnLength` de `nombre_es`/`nombre_en` = 255 contra la constante; el `CHECK` nuevo de `evento_procesado`), `RoleCatalogRabbitConfigTest` (argumentos exactos de la cola, la de fallidos y los enlaces), `RoleCatalogListenerTest` (reintento, rechazo sin reintento, `MDC`), `RoleCatalogBrokerIT` (RabbitMQ real: cola, exchange y cola de fallidos declarados con sus argumentos, un mensaje con contrato roto llega a `entrevista.catalogo-roles-actualizado.dlq` sin reintentos, un mensaje válido se copia y se confirma tras el commit) y `…logs_shouldNotContainRoleNames`. Cobertura de lo nuevo: ≥ 90 % de líneas y de ramas por clase. Con la opción A de D-RPL-04, la cola, su cola de fallidos y el `ack` del catálogo de roles tienen prueba automática en Entrevista (`RoleCatalogBrokerIT`) y, del lado de Perfil, `RoleCatalogEventsEndToEndIT`.
+**Pruebas de Entrevista (las de broker, con RabbitMQ real, D-RPL-04 opción A):** `RoleCatalogEventReaderTest` (toda la matriz de §25.3), `ReplicateRoleCatalogServiceTest` (E-02 a E-06), `RoleCatalogReplicaRepositoryAdapterTest` (PostgreSQL real: E-01, E-03 a E-07 y E-10), `RoleCatalogSchemaMigrationTest` (cada restricción violada; `ColumnLength` de `nombre_es`/`nombre_en` = 255 contra la constante; el `CHECK` nuevo de `evento_procesado`), `RoleCatalogRabbitConfigTest` (argumentos exactos de la cola, la de fallidos y los enlaces), `RoleCatalogListenerTest` (reintento, rechazo sin reintento, `MDC`), `RoleCatalogBrokerTest` (RabbitMQ real: cola, exchange y cola de fallidos declarados con sus argumentos, un mensaje con contrato roto llega a `entrevista.catalogo-roles-actualizado.dlq` sin reintentos, un mensaje válido se copia y se confirma tras el commit) y `…logs_shouldNotContainRoleNames`. Cobertura de lo nuevo: ≥ 90 % de líneas y de ramas por clase. Con la opción A de D-RPL-04, la cola, su cola de fallidos y el `ack` del catálogo de roles tienen prueba automática en Entrevista (`RoleCatalogBrokerTest`) y, del lado de Perfil, `RoleCatalogEventsEndToEndIT`.
 
 **Postman (Newman):** dos peticiones más en la carpeta «Réplica del perfil (RabbitMQ)» (consulta a la API de administración del broker): cola `entrevista.catalogo-roles-actualizado` con los argumentos exactos y cola de fallidos `….dlq` vacía.
 
