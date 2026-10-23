@@ -4,7 +4,7 @@ Esta carpeta trae la colección de Postman del microservicio de Entrevista y el 
 
 | Archivo | Contenido |
 |---|---|
-| `cameia-entrevista.postman_collection.json` | Colección v2.1: carpeta `Salud` (1 petición) y carpeta `Errores del framework` (6 peticiones) |
+| `cameia-entrevista.postman_collection.json` | Colección v2.1: carpeta `Salud` (1 petición), carpeta `Errores del framework` (6 peticiones) y carpeta `Catálogo de personalización` (7 peticiones) |
 | `local.postman_environment.json` | Entorno local: `baseUrl` (`http://localhost:8083`, el puerto de `SERVER_PORT`). No lleva secretos |
 
 ## Qué verifica
@@ -18,6 +18,20 @@ Esta carpeta trae la colección de Postman del microservicio de Entrevista y el 
 | 5 | `POST /health` con `Content-Type: multipart/form-data` sin `boundary` | 415 `REQUEST_MULTIPART_INVALID_FORMAT` |
 | 6 | `POST /health` con un `multipart/form-data` de 11 MB (el script previo arma el cuerpo) | 413 `REQUEST_PAYLOAD_TOO_LARGE` |
 | 7 | `GET /error` | 404 `ROUTE_NOT_FOUND` |
+
+Carpeta `Catálogo de personalización` (`GET /api/v1/interviews/config/catalog`; las tres primeras guardan y comparan el cuerpo):
+
+| # | Petición | Resultado esperado |
+|---|---|---|
+| 8 | `X-User-Id` válido y `X-Request-Id: postman-cat-1` | 200, `application/json;charset=UTF-8`, el catálogo exacto (Entreno con `available: false`; Audio y Texto disponibles) y el mismo `X-Request-Id` |
+| 9 | `X-User-Id` válido y `X-User-Plan: FREE` | 200, el mismo cuerpo que la anterior |
+| 10 | Parámetros de consulta `plan=PREMIUM&modality=ENTRENO` | 200, el mismo cuerpo (se ignoran) |
+| 11 | Sin `X-User-Id` | 401 `IDENTITY_REQUIRED` |
+| 12 | `X-User-Id` solo con espacios | 401 `IDENTITY_REQUIRED` |
+| 13 | `POST` | 405 `METHOD_NOT_ALLOWED`, con `Allow` que incluye `GET` |
+| 14 | `Accept: application/xml` | 406 `MEDIA_TYPE_NOT_ACCEPTABLE` |
+
+El 500 del catálogo no tiene petición: no hay forma de provocar un fallo imprevisto desde fuera sin alterar el servicio; lo cubre la prueba web `InterviewConfigControllerTest`.
 
 La ruta con codificación inválida (`/%zz`) no está en la colección porque Postman normaliza la URL; la comprueba `FrameworkErrorsTest`.
 
