@@ -1,19 +1,30 @@
-name: CD # despliegue a Cloud Run (staging), solo despues de que CI pase en develop
+name: CD # despliegue a Cloud Run (preproducción desde develop, producción desde main)
 
-# Se dispara cuando el workflow "CI" de este repo termina en develop, no directamente
-# por push -- asi el despliegue nunca corre sobre un commit cuyas pruebas fallaron
-# (disparado directo por push, el job de pruebas y el de despliegue correrian en
+# Dos caminos, con disparadores distintos a propósito:
+#
+# Preproducción: se dispara cuando el workflow "CI" de este repo termina en develop, no
+# directamente por push -- asi el despliegue nunca corre sobre un commit cuyas pruebas
+# fallaron (disparado directo por push, el job de pruebas y el de despliegue correrian en
 # paralelo sobre el mismo evento, sin que uno esperara al otro).
 #
 # github.sha no sirve dentro de un workflow disparado por workflow_run: apunta a la
 # punta de la rama en el momento del evento, no al commit que realmente paso las
-# pruebas -- por eso todo el workflow usa github.event.workflow_run.head_sha en su
+# pruebas -- por eso ese job usa github.event.workflow_run.head_sha en su
 # lugar.
+#
+# Producción: se dispara con el push que deja en main la fusión del PR de promoción. No
+# reconstruye la imagen: copia al registro de producción el mismo digest que ya se
+# construyó, desplegó y probó en preproducción, y despliega ese digest. Reconstruir
+# produciría otro digest a partir del mismo código (las capas base y las dependencias
+# pueden haber cambiado), de modo que lo desplegado en producción no sería el artefacto
+# que se probó.
 on:
   workflow_run:
     workflows: ["CI"]
     types: [completed]
     branches: [develop]
+  push:
+    branches: [main]
 
 concurrency:
   group: cd-entrevista-${{ github.ref }}
@@ -27,16 +38,19 @@ env:
   REGION: us-east1
   SERVICE: cameia-entrevista
   AR_REPO: cameia
-  # Cloud SQL solo es alcanzable por IP privada dentro de esta VPC.
-  VPC_NETWORK: cameia-staging
-  VPC_SUBNET: cameia-staging-us-east1
 
 jobs:
   desplegar-staging:
     name: Build, publicar imagen y desplegar a Cloud Run (staging)
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment: staging
+    env:
+      # Cloud SQL solo es alcanzable por IP privada dentro de esta VPC. Van en el job y no
+      # en el workflow porque son valores de preproducción: a nivel de workflow el otro job
+      # las heredaría y desplegaría contra la red equivocada.
+      VPC_NETWORK: cameia-staging
+      VPC_SUBNET: cameia-staging-us-east1
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -86,7 +100,7 @@ jobs:
       # puede ser temporal al principio y reemplazarse mas adelante sin tocar este
       # workflow, porque solo cambia el contenido del secreto, no su nombre.
       #
-      # LLM_MODEL: id del modelo de Gemini en la API (spec de CM-312, PD-01): gemini-3.7-flash quedo
+      # LLM_MODEL: id del modelo de Gemini en la API: gemini-3.7-flash quedo
       # obsoleto y Google lo redirige a 3.8, por eso se usa gemini-3.8-flash. Es obligatorio:
       # sin el, el servicio no arranca. No es un secreto, por eso va en texto plano. El tiempo
       # de espera (LLM_TIMEOUT) no se define aqui y queda en su valor por defecto, 30s.
@@ -157,3 +171,250 @@ jobs:
           print("Smoke test PASA.")
           PYEOF
           python3 /tmp/smoke.py
+
+  desplegar-produccion:
+    name: Promover imagen y desplegar a Cloud Run (producción)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      PROYECTO_PRODUCCION: cameia-prod-2026
+      # Red y subred propias de producción, separadas de las de preproducción: Cloud Run
+      # llega por VPC a la IP privada de Cloud SQL y sale por Cloud NAT con la IP fija
+      # que CloudAMQP autoriza.
+      VPC_NETWORK: cameia-production
+      VPC_SUBNET: cameia-production-us-east1
+    steps:
+      # fetch-depth: 0 porque el paso siguiente necesita el historial completo: lee los
+      # dos padres de la fusión y comprueba que el segundo esté en develop.
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # main solo recibe commits por un PR de promoción fusionado con merge commit, así
+      # que HEAD debe tener dos padres y el segundo es la punta de develop cuya imagen ya
+      # se construyó y probó. Se comprueba, además de los dos padres, que el árbol sea
+      # idéntico al de ese commit (una resolución de conflictos durante la fusión
+      # cambiaría el código sin que exista una imagen de ese árbol) y que ese commit siga
+      # siendo parte de develop. Cualquiera de las tres cosas rota significa que el digest
+      # que se va a promover no corresponde al código que hay en main.
+      - name: Verificar que el commit de main es una promoción de develop
+        id: origen
+        run: |
+          set -euo pipefail
+          NUM_PADRES=$(($(git rev-list --parents -n 1 HEAD | wc -w) - 1))
+          if [ "$NUM_PADRES" -ne 2 ]; then
+            echo "::error::HEAD tiene ${NUM_PADRES} padre(s); se esperaba una fusión de dos padres. main solo admite el merge commit del PR de promoción."
+            exit 1
+          fi
+          SHA_DEVELOP=$(git rev-parse "HEAD^2")
+          if ! git diff --quiet "HEAD^2" HEAD; then
+            echo "::error::El árbol de main difiere del commit ${SHA_DEVELOP} de develop; no existe una imagen probada para este código."
+            git --no-pager diff --stat "HEAD^2" HEAD
+            exit 1
+          fi
+          git fetch --no-tags origin develop
+          if ! git merge-base --is-ancestor "$SHA_DEVELOP" FETCH_HEAD; then
+            echo "::error::El commit ${SHA_DEVELOP} no es ancestro de origin/develop; el segundo padre de la fusión no viene de develop."
+            exit 1
+          fi
+          echo "sha_develop=${SHA_DEVELOP}" >> "$GITHUB_OUTPUT"
+          echo "sha_corto=$(echo "$SHA_DEVELOP" | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
+      # Las variables de proyecto, cuenta de despliegue, registro y base existen a nivel de
+      # repositorio apuntando a preproducción, y el environment las sobrescribe con las de
+      # producción. Si faltara una en el environment, GitHub usaría en silencio la del
+      # repositorio y este job desplegaría en preproducción creyendo estar en producción.
+      - name: Verificar que el environment apunta a producción
+        env:
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+          GCP_DEPLOY_SERVICE_ACCOUNT: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          REGISTRO_ORIGEN: ${{ vars.REGISTRO_ORIGEN }}
+          DB_HOST: ${{ vars.DB_HOST }}
+        run: |
+          set -euo pipefail
+          if [ "$GCP_PROJECT_ID" != "$PROYECTO_PRODUCCION" ]; then
+            echo "::error::GCP_PROJECT_ID vale '${GCP_PROJECT_ID}' y se esperaba '${PROYECTO_PRODUCCION}'; falta definirla en el environment."
+            exit 1
+          fi
+          case "$GCP_DEPLOY_SERVICE_ACCOUNT" in
+            *"@${PROYECTO_PRODUCCION}.iam.gserviceaccount.com") ;;
+            *)
+              echo "::error::La cuenta de despliegue no pertenece al proyecto de producción; falta definirla en el environment."
+              exit 1
+              ;;
+          esac
+          if [ -z "$REGISTRO_ORIGEN" ]; then
+            echo "::error::REGISTRO_ORIGEN está vacía; sin ella no se puede localizar la imagen probada en preproducción."
+            exit 1
+          fi
+          if [ -z "$DB_HOST" ]; then
+            echo "::error::DB_HOST está vacía; sin ella el servicio quedaría sin base de datos."
+            exit 1
+          fi
+          echo "El environment apunta al proyecto ${GCP_PROJECT_ID}."
+
+      - name: Autenticar en GCP (WIF)
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Configurar gcloud
+        uses: google-github-actions/setup-gcloud@v3
+
+      # Una sola autenticación sirve para leer el registro de origen y escribir el de
+      # destino: ambos están en el mismo host de Artifact Registry.
+      - name: Autenticar Docker contra Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      # crane copia el manifiesto tal cual, así que la imagen en destino conserva el mismo
+      # digest que se probó. docker pull/tag/push no lo garantiza: el daemon puede
+      # recomprimir capas o reescribir el manifiesto y producir otro digest para el mismo
+      # contenido, y con eso se pierde la trazabilidad del artefacto promovido.
+      - name: Instalar crane
+        run: |
+          set -euo pipefail
+          go install github.com/google/go-containerregistry/cmd/crane@v0.22.1
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Resolver el digest probado en preproducción
+        id: digest
+        env:
+          REGISTRO_ORIGEN: ${{ vars.REGISTRO_ORIGEN }}
+          SHA_CORTO: ${{ steps.origen.outputs.sha_corto }}
+        run: |
+          set -euo pipefail
+          DIGEST=$(gcloud artifacts docker images describe "${REGISTRO_ORIGEN}/${SERVICE}:${SHA_CORTO}" --format="value(image_summary.digest)")
+          if [ -z "$DIGEST" ]; then
+            echo "::error::No hay imagen con el tag ${SHA_CORTO} en ${REGISTRO_ORIGEN}; ese commit nunca se desplegó en preproducción."
+            exit 1
+          fi
+          echo "Digest probado en preproducción: ${DIGEST}"
+          echo "digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      # Se lee por digest y se escribe con tag: el registro de producción borra a los 7
+      # días las imágenes sin tag, y una imagen desplegada que desaparece del registro deja
+      # el servicio sin forma de reiniciar ni de volver a una versión anterior.
+      - name: Copiar la imagen al registro de producción
+        id: imagen
+        env:
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+          REGISTRO_ORIGEN: ${{ vars.REGISTRO_ORIGEN }}
+          SHA_CORTO: ${{ steps.origen.outputs.sha_corto }}
+          DIGEST: ${{ steps.digest.outputs.digest }}
+        run: |
+          set -euo pipefail
+          DESTINO="${REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPO}/${SERVICE}"
+          crane copy "${REGISTRO_ORIGEN}/${SERVICE}@${DIGEST}" "${DESTINO}:${SHA_CORTO}"
+          DIGEST_DESTINO=$(crane digest "${DESTINO}:${SHA_CORTO}")
+          if [ "$DIGEST_DESTINO" != "$DIGEST" ]; then
+            echo "::error::El digest en destino (${DIGEST_DESTINO}) no coincide con el de origen (${DIGEST}); la imagen promovida no es la que se probó."
+            exit 1
+          fi
+          echo "imagen=${DESTINO}@${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      # Mismos ajustes que preproducción, con los valores de producción. Se despliega por
+      # digest y no por tag: un tag puede reapuntarse, el digest no, así que la revisión
+      # queda atada al artefacto exacto que se probó.
+      #
+      # Cloud SQL de producción exige TLS y el driver JDBC ya lo negocia, sin opciones
+      # extra en la conexión. Sin --allow-unauthenticated: la identidad que ejecuta el
+      # despliegue no tiene permiso para cambiar quién puede invocar el servicio.
+      #
+      # La clave del modelo de lenguaje es la de producción, con cuota separada de la de
+      # preproducción, para que las pruebas no consuman la cuota de los usuarios reales.
+      - name: Desplegar a Cloud Run
+        env:
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+          DB_HOST: ${{ vars.DB_HOST }}
+          IMAGEN: ${{ steps.imagen.outputs.imagen }}
+        run: |
+          set -euo pipefail
+          gcloud run deploy "$SERVICE" \
+            --image="$IMAGEN" \
+            --project="$GCP_PROJECT_ID" \
+            --region="$REGION" \
+            --platform=managed \
+            --ingress=internal \
+            --min-instances=0 \
+            --max-instances=2 \
+            --service-account="cameia-entrevista-run@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \
+            --network="$VPC_NETWORK" \
+            --subnet="$VPC_SUBNET" \
+            --vpc-egress=all-traffic \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash" \
+            --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
+
+      - name: URL del servicio desplegado
+        id: url
+        env:
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          URL=$(gcloud run services describe "$SERVICE" --project="$GCP_PROJECT_ID" --region="$REGION" --format="value(status.url)")
+          echo "$URL"
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+
+      # El servicio usa --ingress=internal, sin ruta pública alcanzable desde este runner,
+      # así que el smoke test consulta la API de administración de Cloud Run con la misma
+      # identidad del despliegue. Además de que la revisión quedó lista y sirve el 100% del
+      # tráfico, comprueba que su imagen sea exactamente el digest promovido: así un
+      # despliegue que dejó sirviendo la revisión anterior no pasa por bueno.
+      - name: Smoke test — revisión lista, con todo el tráfico y la imagen promovida
+        id: smoke
+        env:
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+          IMAGEN: ${{ steps.imagen.outputs.imagen }}
+        run: |
+          set -euo pipefail
+          gcloud run services describe "$SERVICE" --project="$GCP_PROJECT_ID" --region="$REGION" --format=json > /tmp/servicio.json
+          cat > /tmp/smoke.py <<'PYEOF'
+          import json, sys
+          data = json.load(open("/tmp/servicio.json"))
+          conditions = data.get("status", {}).get("conditions", [])
+          ready = next((c["status"] for c in conditions if c.get("type") == "Ready"), None)
+          traffic = data.get("status", {}).get("traffic", [])
+          full = [t.get("revisionName") for t in traffic if t.get("percent") == 100]
+          print(f"Ready={ready}, revision con 100% de trafico={full}", file=sys.stderr)
+          if ready != "True" or not full:
+              print("::error::Smoke test FALLA: la revision no quedo Ready o no recibe el 100% del trafico.", file=sys.stderr)
+              sys.exit(1)
+          print(full[0])
+          PYEOF
+          REVISION=$(python3 /tmp/smoke.py)
+          IMAGEN_REVISION=$(gcloud run revisions describe "$REVISION" --project="$GCP_PROJECT_ID" --region="$REGION" --format="value(spec.containers[0].image)")
+          if [ "$IMAGEN_REVISION" != "$IMAGEN" ]; then
+            echo "::error::Smoke test FALLA: la revisión ${REVISION} sirve ${IMAGEN_REVISION} y se esperaba ${IMAGEN}."
+            exit 1
+          fi
+          echo "revision=${REVISION}" >> "$GITHUB_OUTPUT"
+          echo "Smoke test PASA: la revisión ${REVISION} sirve el 100% del tráfico con la imagen promovida."
+
+      # Evidencia del despliegue: qué commit se promovió, qué artefacto quedó sirviendo y
+      # dónde. Con if: always() para que también quede registro de un despliegue fallido.
+      - name: Resumen del despliegue
+        if: always()
+        env:
+          SHA_DEVELOP: ${{ steps.origen.outputs.sha_develop }}
+          SHA_MAIN: ${{ github.sha }}
+          DIGEST: ${{ steps.digest.outputs.digest }}
+          IMAGEN: ${{ steps.imagen.outputs.imagen }}
+          REVISION: ${{ steps.smoke.outputs.revision }}
+          URL: ${{ steps.url.outputs.url }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## Despliegue a producción"
+            echo ""
+            echo "| Dato | Valor |"
+            echo "| --- | --- |"
+            echo "| Commit de develop promovido | \`${SHA_DEVELOP:-no resuelto}\` |"
+            echo "| Commit de main | \`${SHA_MAIN}\` |"
+            echo "| Digest | \`${DIGEST:-no resuelto}\` |"
+            echo "| Imagen | \`${IMAGEN:-no promovida}\` |"
+            echo "| Revisión | \`${REVISION:-no verificada}\` |"
+            echo "| URL | ${URL:-no resuelta} |"
+          } >> "$GITHUB_STEP_SUMMARY"
