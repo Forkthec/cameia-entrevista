@@ -1,0 +1,23 @@
+name: Validar nombre de rama
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  validar-nombre-rama:
+    name: Validar nombre de rama
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' # CM-138: Dependabot no puede seguir CM-<n>-<desc> ni la plantilla de 8 campos
+    steps:
+      - name: Verificar patron CM-numero-descripcion-kebab-case
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          echo "Rama: $BRANCH"
+          if [[ "$BRANCH" =~ ^CM-[0-9]+-[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+            echo "Nombre de rama valido."
+          else
+            echo "::error::La rama '$BRANCH' no sigue el patron CM-<numero>-<descripcion-kebab-case>."
+            exit 1
+          fi

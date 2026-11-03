@@ -1,0 +1,17 @@
+# Contexto de build minimo: solo lo que necesita la etapa de compilacion.
+# Impide que credenciales locales o artefactos previos entren en la imagen.
+.env
+.env.*
+!.env.example
+.git
+.github
+.idea
+.vscode
+target
+*.log
+docs
+specs
+*.md
+docker-compose.yml
+Dockerfile
+.dockerignore
