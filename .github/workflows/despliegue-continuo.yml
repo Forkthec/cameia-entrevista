@@ -128,6 +128,10 @@ jobs:
       # compartían acceso a los secretos de la otra (contraseña de base de datos y clave
       # del proveedor LLM) sin necesitarlo. La cuenta dedicada solo puede leer los dos
       # secretos que este servicio usa de verdad.
+      # SPRING_DATASOURCE_HIKARI_*: la base de datos admite pocas conexiones simultáneas y
+      # Spring abre 10 por instancia si no se le indica otra cosa; con varios servicios
+      # encendidos se agotan y lo que arranca después no puede conectarse. Con 2 como máximo
+      # y 1 cuando no hay tráfico caben todos los servicios y los procesos programados.
       - name: Desplegar a Cloud Run
         run: |
           gcloud run deploy "${{ env.SERVICE }}" \
@@ -142,7 +146,7 @@ jobs:
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash" \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1" \
             --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
 
       - name: URL del servicio desplegado
@@ -326,6 +330,10 @@ jobs:
       #
       # La clave del modelo de lenguaje es la de producción, con cuota separada de la de
       # preproducción, para que las pruebas no consuman la cuota de los usuarios reales.
+      # SPRING_DATASOURCE_HIKARI_*: la base de datos admite pocas conexiones simultáneas y
+      # Spring abre 10 por instancia si no se le indica otra cosa; con varios servicios
+      # encendidos se agotan y lo que arranca después no puede conectarse. Con 2 como máximo
+      # y 1 cuando no hay tráfico caben todos los servicios y los procesos programados.
       - name: Desplegar a Cloud Run
         env:
           GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
@@ -345,7 +353,7 @@ jobs:
             --network="$VPC_NETWORK" \
             --subnet="$VPC_SUBNET" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash" \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1" \
             --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
 
       - name: URL del servicio desplegado
