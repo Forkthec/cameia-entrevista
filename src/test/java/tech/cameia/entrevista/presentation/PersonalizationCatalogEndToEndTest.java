@@ -79,6 +79,8 @@ class PersonalizationCatalogEndToEndTest {
                 .contains("application/json").contains("charset=utf-8");
         assertThat(response.getHeaders().getFirst("X-Request-Id")).isEqualTo("cat-e2e-1");
         assertThat(response.getBody()).isEqualTo(EXPECTED_BODY);
+        assertThat(JsonPath.<List<String>>read(response.getBody(), "$.tones[*].value"))
+                .containsExactly("PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO");
     }
 
     @Test
@@ -186,5 +188,25 @@ class PersonalizationCatalogEndToEndTest {
         List<Object> userIdParameters = JsonPath.read(api,
                 "$.paths['/api/v1/interviews/config/catalog'].get..parameters[?(@.name=='X-User-Id')]");
         assertThat(userIdParameters).isEmpty();
+    }
+
+    @Test
+    @DisplayName("OpenAPI ofrece exactamente tres tonos en la petición, la respuesta y el ejemplo del catálogo")
+    void openApi_shouldOfferThreeTones_whenRead() {
+        String api = client.getForObject("/v3/api-docs", String.class);
+        List<String> threeTones = List.of("PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO");
+
+        List<String> requestTones = JsonPath.read(api,
+                "$.components.schemas.CreateSessionRequest.properties.tone.enum");
+        List<String> responseTones = JsonPath.read(api,
+                "$.components.schemas.SessionConfigurationResponse.properties.tone.enum");
+        Map<String, Object> responses = JsonPath.read(api,
+                "$.paths['/api/v1/interviews/config/catalog'].get.responses");
+
+        assertThat(requestTones).containsExactlyElementsOf(threeTones);
+        assertThat(responseTones).containsExactlyElementsOf(threeTones);
+        assertThat(responses.get("200").toString()).contains("PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO")
+                .doesNotContain("MOTIVADOR");
+        assertThat(api).doesNotContain("MOTIVADOR");
     }
 }

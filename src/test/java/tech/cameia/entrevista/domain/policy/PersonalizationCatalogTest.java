@@ -30,7 +30,6 @@ class PersonalizationCatalogTest {
                 Arguments.of(Tone.PROFESSIONAL_NEUTRAL, true),
                 Arguments.of(Tone.WARM, true),
                 Arguments.of(Tone.STRICT, true),
-                Arguments.of(Tone.MOTIVATING, true),
                 Arguments.of(AnswerMode.AUDIO, true),
                 Arguments.of(AnswerMode.TEXT, true),
                 Arguments.of(InterviewLanguage.SPANISH_COLOMBIA, true),
@@ -46,10 +45,10 @@ class PersonalizationCatalogTest {
     }
 
     @Test
-    @DisplayName("Los cuatro tonos salen en orden y todos disponibles")
-    void tones_shouldOfferFourTonesInOrder_whenRead() {
+    @DisplayName("Los tres tonos salen en orden y todos disponibles")
+    void tones_shouldOfferThreeTonesInOrder_whenRead() {
         assertThat(catalog.tones()).extracting(CatalogOption::value)
-                .containsExactly(Tone.PROFESSIONAL_NEUTRAL, Tone.WARM, Tone.STRICT, Tone.MOTIVATING);
+                .containsExactly(Tone.PROFESSIONAL_NEUTRAL, Tone.WARM, Tone.STRICT);
         assertThat(catalog.tones()).extracting(CatalogOption::available).containsOnly(true);
     }
 
