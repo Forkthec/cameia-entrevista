@@ -1,0 +1,64 @@
+{
+  "id" : "A24",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 2799,
+  "inicio" : "2026-11-07T11:26:16.645698200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 969,
+  "tokensEntrada" : 714,
+  "tokensSalida" : 182,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your background as a quality analyst on web applications and explain what motivates you to apply for this role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you approach designing test cases for web applications before running manual execution?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you found a defect during testing and had to report it in Jira.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"How do you implement Selenium-automated tests for web applications as part of your quality assurance process?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you are testing a web application and discover a critical defect right before a scheduled release; how would you handle this situation?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 143 caracteres"
+    }
+  },
+  "largos" : [ 137, 94, 99, 109, 143 ],
+  "validoTrasReintento" : true
+}

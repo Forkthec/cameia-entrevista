@@ -1,0 +1,86 @@
+{
+  "id" : "A23",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3036,
+  "inicio" : "2026-11-08T16:02:32.092741800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 898,
+  "tokensEntrada" : 798,
+  "tokensSalida" : 294,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Can you briefly describe your professional background and what specifically motivates you to apply for this Software Quality Analyst role?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Explain how you structure your test automation framework using Selenium and how you handle test data management to ensure reproducibility.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you identified a defect in a web application that others had missed. What was the situation, what actions did you take, and what was the outcome?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"What are the best practices you follow when writing bug reports in Jira to ensure developers can quickly reproduce and understand the issue?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagine a critical feature is about to be deployed, but a high-priority test case fails unexpectedly without a clear cause. How would you proceed with your immediate actions and communication with the team?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "974",
+    "x-ratelimit-remaining-tokens" : "6846",
+    "x-ratelimit-reset-requests" : "37m26.4s",
+    "x-ratelimit-reset-tokens" : "8.655s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 206 caracteres"
+    }
+  },
+  "largos" : [ 138, 138, 180, 140, 206 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 4]"
+  },
+  "validoTrasReintento" : true
+}

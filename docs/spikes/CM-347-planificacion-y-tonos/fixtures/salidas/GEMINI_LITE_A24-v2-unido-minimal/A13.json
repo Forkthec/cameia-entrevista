@@ -1,0 +1,64 @@
+{
+  "id" : "A13",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3135,
+  "inicio" : "2026-11-07T11:25:32.420270600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1065,
+  "tokensEntrada" : 796,
+  "tokensSalida" : 211,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría contarme sobre su experiencia como analista de calidad en aplicaciones web y qué le motiva a postularse en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza Selenium para la ejecución de pruebas automatizadas en sus proyectos actuales?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de una situación en la que haya tenido que reportar y gestionar defectos complejos utilizando Jira.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera diseña los casos de prueba para asegurar la trazabilidad de los requisitos en las aplicaciones web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se encuentra ejecutando pruebas de regresión con Selenium y detecta una falla crítica justo antes de liberar una actualización para una aplicación web, ¿cómo procedería?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 172 caracteres"
+    }
+  },
+  "largos" : [ 138, 92, 108, 114, 172 ],
+  "validoTrasReintento" : true
+}

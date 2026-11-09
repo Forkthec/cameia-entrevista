@@ -1,0 +1,64 @@
+{
+  "id" : "A08",
+  "grupo" : "A",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2799,
+  "inicio" : "2026-11-07T11:27:12.783067800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1137,
+  "tokensEntrada" : 714,
+  "tokensSalida" : 208,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly describe your two years of experience as a quality analyst on web applications and what motivates you to apply for this role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you design test cases and execute Selenium-automated tests for web applications?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific time when you reported defects in Jira while working on web applications; what was the situation, what task did you face, what actions did you take, and what was the result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your process for documenting and tracking bugs when moving from manual testing to Selenium automation?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you find a critical defect in Jira right before a web application release, but the team wants to deploy anyway; how would you handle this situation?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 193 caracteres"
+    }
+  },
+  "largos" : [ 143, 87, 193, 110, 156 ],
+  "validoTrasReintento" : true
+}

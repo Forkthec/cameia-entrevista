@@ -1,0 +1,86 @@
+{
+  "id" : "B19",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-08T16:24:29.956524200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 923,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 305,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Presente por favor su trayectoria profesional y explique qué le motiva específicamente para optar por el rol de Desarrollador Backend en esta empresa.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Cómo estructura y gestiona las dependencias y los servicios en una aplicación construida con Spring Boot?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Cuéntenos sobre una experiencia concreta en la que haya trabajado en un equipo con metodologías ágiles, describiendo la situación, la tarea asignada, las acciones que tomó y el resultado obtenido.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Qué consideraciones de diseño e implementación tiene en cuenta al modelar bases de datos en PostgreSQL para optimizar el rendimiento de las consultas?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si detectara un cuello de botella en una cola de mensajes basada en RabbitMQ durante horas pico, ¿cómo abordaría la situación para resolverla?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "925",
+    "x-ratelimit-remaining-tokens" : "6494",
+    "x-ratelimit-reset-requests" : "1h48m0s",
+    "x-ratelimit-reset-tokens" : "41.279s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 196 caracteres"
+    }
+  },
+  "largos" : [ 150, 106, 196, 151, 142 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}

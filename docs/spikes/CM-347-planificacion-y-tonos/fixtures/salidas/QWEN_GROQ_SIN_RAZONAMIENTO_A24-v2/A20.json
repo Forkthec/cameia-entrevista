@@ -1,0 +1,87 @@
+{
+  "id" : "A20",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3051,
+  "inicio" : "2026-11-07T11:44:34.746457100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 176,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 873, Requested 365. Please try again in 14.28s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "15",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "952",
+      "x-ratelimit-remaining-tokens" : "6804",
+      "x-ratelimit-reset-requests" : "1h9m7.2s",
+      "x-ratelimit-reset-tokens" : "52.38s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 732,
+  "tokensEntrada" : 790,
+  "tokensSalida" : 221,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you briefly describe your background and explain why you are interested in this Software Quality Analyst role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you structure your Selenium test scripts to ensure they can be easily maintained and reused across different web application modules?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific instance where you identified a critical defect during manual or automated testing, and detail the steps you took to report it in Jira and verify the fix.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"In the context of the job offer, how do you ensure that your test plans and cases maintain full requirements traceability using Jira?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If you discovered a regression failure in your automated test suite that was not related to new code changes, how would you proceed to isolate the cause and resolve the impact on the release timeline?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "951",
+    "x-ratelimit-remaining-tokens" : "6242",
+    "x-ratelimit-reset-requests" : "1h10m33.6s",
+    "x-ratelimit-reset-tokens" : "58.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 200 caracteres"
+    }
+  },
+  "largos" : [ 114, 140, 174, 133, 200 ],
+  "validoTrasReintento" : true
+}

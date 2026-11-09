@@ -1,0 +1,98 @@
+{
+  "id" : "A04",
+  "grupo" : "A",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2005,
+  "inicio" : "2026-11-07T10:46:47.582067800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 135,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 710, Requested 388. Please try again in 5.88s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "6",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "979",
+      "x-ratelimit-remaining-tokens" : "7162",
+      "x-ratelimit-reset-requests" : "30m14.4s",
+      "x-ratelimit-reset-tokens" : "42.599s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 145,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 591, Requested 504. Please try again in 5.7s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "6",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "979",
+      "x-ratelimit-remaining-tokens" : "7409",
+      "x-ratelimit-reset-requests" : "30m14.4s",
+      "x-ratelimit-reset-tokens" : "35.46s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1027,
+  "tokensEntrada" : 524,
+  "tokensSalida" : 321,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you briefly describe your background and what specifically motivates you to pursue a Backend Developer role with a focus on architecture design?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"In a Spring Boot application, how do you manage database transactions to ensure data consistency when interacting with multiple services via message queues?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Tell me about a specific instance where you had to debug a performance issue in a web service built with Java and PostgreSQL; what was the situation, your task, the actions you took, and the result?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What are the key considerations when designing an API for cloud deployment to ensure scalability and fault tolerance?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you were to design the architecture for a new high-traffic backend service, how would you approach the separation of concerns and data flow to ensure maintainability?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "978",
+    "x-ratelimit-remaining-tokens" : "6616",
+    "x-ratelimit-reset-requests" : "31m40.8s",
+    "x-ratelimit-reset-tokens" : "51.6s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 198 caracteres"
+    }
+  },
+  "largos" : [ 148, 156, 198, 117, 169 ]
+}

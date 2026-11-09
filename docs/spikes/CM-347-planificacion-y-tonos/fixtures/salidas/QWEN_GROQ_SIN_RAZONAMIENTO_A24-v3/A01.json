@@ -1,0 +1,86 @@
+{
+  "id" : "A01",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3379,
+  "inicio" : "2026-11-08T15:53:57.025008700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 3502,
+  "tokensEntrada" : 879,
+  "tokensSalida" : 347,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuéntanos brevemente por qué te interesa el rol de Desarrollador Backend en Andina Ficticia S.A.S. y cómo tu experiencia previa se alinea con nuestras necesidades.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explica cómo diseñarías la estructura de tablas y las relaciones en PostgreSQL para un modelo de datos que requiera alta consistencia transaccional.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbeme una experiencia en la que implementaste una solución de despliegue en la nube que requirió coordinación con otro equipo.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿De qué manera estructuras la lógica de tu aplicación Spring Boot para garantizar que las pruebas automatizadas cubran adecuadamente los casos de borde?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagina que recibes un mensaje en RabbitMQ que provoca un error desconocido y bloquea el procesamiento de la cola; ¿qué pasos seguirías para diagnosticar y resolver la situación?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "999",
+    "x-ratelimit-remaining-tokens" : "6710",
+    "x-ratelimit-reset-requests" : "1m26.4s",
+    "x-ratelimit-reset-tokens" : "9.675s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 178 caracteres"
+    }
+  },
+  "largos" : [ 163, 148, 131, 152, 178 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,64 @@
+{
+  "id" : "A11",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2783,
+  "inicio" : "2026-11-07T11:25:24.204228400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1116,
+  "tokensEntrada" : 708,
+  "tokensSalida" : 199,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you walk me through your professional background and what interests you about this Backend Developer position?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle transaction management and data consistency when building web services with Java and Spring Boot connected to a PostgreSQL database?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you implemented message queues in a project, detailing the situation, the task you faced, the actions you took, and the final result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your approach to managing and configuring cloud deployments for applications that rely on relational databases?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you need to transition your current monolithic service architecture into a system that incorporates more distributed components; how would you plan and execute this architectural change?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 194 caracteres"
+    }
+  },
+  "largos" : [ 114, 150, 154, 119, 194 ],
+  "validoTrasReintento" : true
+}

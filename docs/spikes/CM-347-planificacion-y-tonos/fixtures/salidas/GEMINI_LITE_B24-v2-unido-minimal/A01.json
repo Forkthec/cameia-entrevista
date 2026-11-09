@@ -1,0 +1,64 @@
+{
+  "id" : "A01",
+  "grupo" : "A",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-07T11:26:42.091895200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2205,
+  "tokensEntrada" : 798,
+  "tokensSalida" : 242,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría contarme sobre su trayectoria y qué le motiva a postularse como Desarrollador Backend en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo ha utilizado Spring Boot para desarrollar servicios web y optimizar consultas en PostgreSQL en su experiencia previa?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Hábleme de alguna ocasión en la que haya implementado colas de mensajes en un proyecto; describa la situación, la tarea que asumió, la acción que realizó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera realiza los despliegues en la nube y qué estrategias aplica para garantizar la integración con servicios de mensajería?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante un despliegue en la nube detecta que las APIs REST en Spring Boot presentan latencia elevada debido a un cuello de botella en PostgreSQL, ¿cómo procedería para resolverlo?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 182 caracteres"
+    }
+  },
+  "largos" : [ 120, 123, 178, 134, 182 ],
+  "validoTrasReintento" : true
+}

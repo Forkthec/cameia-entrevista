@@ -1,0 +1,86 @@
+{
+  "id" : "B07",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-08T16:19:49.277959500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 968,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 265,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuéntenme sobre su experiencia desarrollando servicios web en Java con Spring Boot y PostgreSQL, y por qué considera que este rol de Desarrollador Backend es adecuado para su carrera.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura y gestiona las consultas en PostgreSQL dentro de su arquitectura actual, teniendo en cuenta la escalabilidad y el rendimiento de labase de datos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación específica donde haya integrado colas de mensajes en un proyecto de servicios web, detallando la tarea asignada, las acciones que tomó y el resultado final obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué prácticas utiliza al escribir pruebas automatizadas para las APIs REST en Spring Boot, y cómo se asegura de cubrir los escenarios críticos de integración con RabbitMQ?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante un despliegue en la nube la API REST deja de responder debido a un fallo en la conexión con RabbitMQ, ¿cuáles serían los primeros pasos que tomaría para diagnosticar y resolver la situación?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "938",
+    "x-ratelimit-remaining-tokens" : "6573",
+    "x-ratelimit-reset-requests" : "1h29m16.8s",
+    "x-ratelimit-reset-tokens" : "36.54s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 201 caracteres"
+    }
+  },
+  "largos" : [ 183, 162, 188, 172, 201 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}

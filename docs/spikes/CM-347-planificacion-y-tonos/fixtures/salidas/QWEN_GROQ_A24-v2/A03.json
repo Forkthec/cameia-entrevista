@@ -1,0 +1,72 @@
+{
+  "id" : "A03",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-07T11:29:41.403300500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 925,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 296,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"es-CO\",\n\"preguntas\":[\n{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuénteme qué lo motiva para postularse como Desarrollador Backend en Andina Ficticia S.A.S. y cómo su búsqueda de crecer hacia el diseño de arquitectura se alinea con este rol.\"},\n{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo diseña la estructura de las tablas en PostgreSQL para garantizar la integridad de los datos y el rendimiento de las consultas en sus aplicaciones con Spring Boot?\"},\n{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una experiencia pasada donde implementó la integración de colas de mensajes en un proyecto y explique la situación, su tarea, las acciones que tomó y el resultado obtenido.\"},\n{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué estrategia sigue para escribir pruebas automatizadas unitarias e integradas en servicios desarrollados con Spring Boot y cómo asegura la cobertura de las funcionalidades críticas?\"},\n{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante el despliegue en la nubedetecta que una API REST está respondiendo más lento de lo esperado debido a un bloqueo en la base de datos, ¿cuál sería su proceder inmediato para resolverlo sin interrumpir el servicio?\"}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "996",
+    "x-ratelimit-remaining-tokens" : "5079",
+    "x-ratelimit-reset-requests" : "5m45.6s",
+    "x-ratelimit-reset-tokens" : "58.44s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 222 caracteres"
+    }
+  },
+  "largos" : [ 176, 168, 181, 184, 222 ],
+  "validoTrasReintento" : true
+}

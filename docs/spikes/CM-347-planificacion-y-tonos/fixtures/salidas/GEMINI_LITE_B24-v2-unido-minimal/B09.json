@@ -1,0 +1,64 @@
+{
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-07T11:27:50.929308-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1381,
+  "tokensEntrada" : 800,
+  "tokensSalida" : 307,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Qué le motiva específicamente de la vacante en Andina Ficticia S.A.S. para dar el siguiente paso en su carrera hacia el diseño de arquitectura?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Basándose en sus tres años de experiencia con Spring Boot y PostgreSQL, descríbame exactamente qué estrategia de indexación y optimización aplicó en una consulta compleja para reducir el tiempo de respuesta en producción, aportando cifras concretas.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de una ocasión en la que tuvo que integrar colas de mensajes en un sistema; descríbame la situación, la tarea exacta que asumió, la acción que ejecutó para garantizar que no se perdieran mensajes y el resultado medible que obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona el aislamiento de transacciones y la consistencia de los datos en Spring Boot cuando procesa eventos de forma asincrónica mediante colas de mensajes y PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante un despliegue en la nube detecta que las APIs REST comienzan a arrojar errores de tiempo de espera debido a un pico repentino de tráfico, ¿qué pasos exactos seguiría para mitigar el incidente y mantener la estabilidad del sistema?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 249 caracteres"
+    }
+  },
+  "largos" : [ 144, 249, 239, 177, 241 ],
+  "validoTrasReintento" : true
+}

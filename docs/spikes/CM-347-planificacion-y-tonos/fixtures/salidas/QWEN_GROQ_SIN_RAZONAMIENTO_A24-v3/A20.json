@@ -1,0 +1,86 @@
+{
+  "id" : "A20",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3288,
+  "inicio" : "2026-11-08T16:01:23.443312500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 826,
+  "tokensEntrada" : 851,
+  "tokensSalida" : 305,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Please provide a brief overview of your background and explain why you are motivated to specialize in automation for this Software Quality Analyst position.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain the process you follow to design test cases for web applications and how you ensure they cover the functional requirements.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you identified and reported a critical defect during manual testing, detailing the situation, your actions, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What is your approach to maintaining and debugging Selenium automated tests when the underlying web application interface changes?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you discovered a discrepancy between the executed test results and the expected behavior that is not documented in Jira, how would you proceed to ensure accurate defect tracking?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "977",
+    "x-ratelimit-remaining-tokens" : "6821",
+    "x-ratelimit-reset-requests" : "33m7.2s",
+    "x-ratelimit-reset-tokens" : "19.68s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 181 caracteres"
+    }
+  },
+  "largos" : [ 156, 131, 159, 130, 181 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}

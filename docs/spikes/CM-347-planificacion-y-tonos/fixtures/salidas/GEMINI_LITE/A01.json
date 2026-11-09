@@ -1,0 +1,60 @@
+{
+  "id" : "A01",
+  "grupo" : "A",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:38:46.505250600-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2189,
+  "tokensEntrada" : 595,
+  "tokensSalida" : 263,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría resumir su trayectoria en el desarrollo backend y comentarnos qué le motiva específicamente a postularse a esta vacante en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona la transaccionalidad y el aislamiento de datos en PostgreSQL al procesar operaciones concurrentes de alto volumen utilizando Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya tenido que identificar y solucionar un cuello de botella en el rendimiento de una API REST. ¿Cuál fue el problema, qué acción tomó y qué resultado obtuvo?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué estrategia implementa para garantizar que los mensajes no se pierdan en RabbitMQ cuando el consumidor cae durante el procesamiento?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que durante un despliegue a producción en la nube, las pruebas automatizadas fallan y el tiempo de inactividad empieza a afectar a los usuarios. ¿Cómo prioriza y maneja esta incidencia con su equipo de trabajo?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 218 caracteres"
+    }
+  },
+  "largos" : [ 154, 152, 192, 136, 218 ]
+}

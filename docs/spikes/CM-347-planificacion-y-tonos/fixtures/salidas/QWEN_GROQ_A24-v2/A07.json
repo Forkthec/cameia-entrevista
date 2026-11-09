@@ -1,0 +1,59 @@
+{
+  "id" : "A07",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-07T11:30:24.945821100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 134,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 852, Requested 354. Please try again in 12.36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "13",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "994",
+      "x-ratelimit-remaining-tokens" : "6867",
+      "x-ratelimit-reset-requests" : "8m38.4s",
+      "x-ratelimit-reset-tokens" : "51.12s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 142,
+    "causa" : "HTTP 429: Request too large for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1717. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the request's expected output) and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "994",
+      "x-ratelimit-remaining-tokens" : "7384",
+      "x-ratelimit-reset-requests" : "8m38.4s",
+      "x-ratelimit-reset-tokens" : "36.96s"
+    }
+  }, {
+    "intento" : 3,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 205,
+    "causa" : "HTTP 429: Request too large for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1514. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the request's expected output) and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "994",
+      "x-ratelimit-remaining-tokens" : "8000",
+      "x-ratelimit-reset-requests" : "8m38.4s",
+      "x-ratelimit-reset-tokens" : "1ms"
+    }
+  } ],
+  "estado" : "FALLO_DEL_PROVEEDOR",
+  "validoTrasReintento" : false
+}

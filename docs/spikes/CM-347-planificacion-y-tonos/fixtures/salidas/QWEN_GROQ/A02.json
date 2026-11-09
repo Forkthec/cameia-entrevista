@@ -1,0 +1,69 @@
+{
+  "id" : "A02",
+  "grupo" : "A",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2053,
+  "inicio" : "2026-11-07T10:36:21.025221600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1038,
+  "tokensEntrada" : 542,
+  "tokensSalida" : 354,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"¿Qué aspectos específicos del rol de Desarrollador Backend motivan su postulación a esta posición?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo asegura la consistencia de los datos en PostgreSQL cuando su aplicación en Spring Boot debe realizar operaciones transaccionales complejas que involucran múltiples tablas?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación pasada en la que un despliegue en la nube falló de manera crítica; explique cuál era su responsabilidad, qué acción tomó para resolverlo y cuál fue el resultado final.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué patrones de diseño ha implementado utilizando colas de mensajes para desacoplar los servicios y garantizar la resiliencia ante caídas de sistemas downstream?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si detecta durante la ejecución de una prueba de carga que un servicio backend presenta cuellos de botella por bloqueos de conexión en la base de datos, ¿qué pasos específicos seguiría para diagnosticar y mitigar el problema?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "998",
+    "x-ratelimit-remaining-tokens" : "6868",
+    "x-ratelimit-reset-requests" : "2m52.8s",
+    "x-ratelimit-reset-tokens" : "8.489s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 225 caracteres"
+    }
+  },
+  "largos" : [ 98, 177, 190, 162, 225 ]
+}

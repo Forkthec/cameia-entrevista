@@ -1,0 +1,71 @@
+{
+  "id" : "A05",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2053,
+  "inicio" : "2026-11-07T11:14:15.926607600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v1",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 6353,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "encabezadosDeLimites" : { }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 3190,
+  "tokensEntrada" : 523,
+  "tokensSalida" : 229,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría resumir su trayectoria y qué le motiva a postularse como desarrollador backend en nuestra empresa?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la gestión de transacciones y la optimización de consultas complejas en bases de datos PostgreSQL utilizando Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya tenido que solucionar un problema de rendimiento en producción en alguno de sus servicios web; detalle qué acción tomó y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué estrategia utiliza para garantizar la entrega confiable de mensajes al integrar colas de mensajes en una arquitectura de microservicios?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que debe liderar el diseño de un nuevo servicio que tendrá un alto volumen de tráfico concurrente; ¿cómo abordaría la planificación inicial de la arquitectura para asegurar la escalabilidad?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 198 caracteres"
+    }
+  },
+  "largos" : [ 106, 134, 181, 141, 198 ],
+  "validoTrasReintento" : true
+}

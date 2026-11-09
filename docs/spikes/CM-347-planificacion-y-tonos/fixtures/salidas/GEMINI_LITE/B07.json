@@ -1,0 +1,60 @@
+{
+  "id" : "B07",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:45:21.163101800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2175,
+  "tokensEntrada" : 595,
+  "tokensSalida" : 246,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuéntenos sobre su trayectoria en el desarrollo backend con Java y qué le motiva a postularse para este rol en Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona las transacciones y asegura la consistencia de los datos en una aplicación desarrollada con Spring Boot y PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya tenido que resolver un problema de rendimiento en un servicio web; detalle la situación, la tarea que asumió, la acción que implementó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera implementa el intercambio de mensajes utilizando colas con RabbitMQ para desacoplar servicios en la nube?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que se identifica un cuello de botella en una API REST crítica durante un despliegue en producción; ¿cómo procedería para diagnosticar y solucionar el inconveniente junto con su equipo?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 197 caracteres"
+    }
+  },
+  "largos" : [ 133, 132, 197, 120, 193 ]
+}

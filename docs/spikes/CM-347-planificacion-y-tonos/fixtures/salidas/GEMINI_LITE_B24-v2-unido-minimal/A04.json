@@ -1,0 +1,64 @@
+{
+  "id" : "A04",
+  "grupo" : "A",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2783,
+  "inicio" : "2026-11-07T11:26:55.568433-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1104,
+  "tokensEntrada" : 708,
+  "tokensSalida" : 198,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your background and what interests you about this Backend Developer role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle dependency injection and transaction management when building web services with Spring Boot and PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you implemented a message queue in a web service project, explaining the specific situation, the task you faced, the actions you took, and the final result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies do you use for zero-downtime cloud deployments of Java applications?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you need to design a scalable web service architecture from scratch for a new project; how would you approach the system design and the integration of your components?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 177 caracteres"
+    }
+  },
+  "largos" : [ 99, 125, 177, 84, 175 ],
+  "validoTrasReintento" : true
+}

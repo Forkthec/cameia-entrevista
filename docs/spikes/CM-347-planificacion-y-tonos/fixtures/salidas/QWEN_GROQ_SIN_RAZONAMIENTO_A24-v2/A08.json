@@ -1,0 +1,72 @@
+{
+  "id" : "A08",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-07T11:40:49.564565900-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 885,
+  "tokensEntrada" : 787,
+  "tokensSalida" : 313,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you briefly describe your three years of experience building web services and explain why you are applying for this Backend Developer role at Andina Ficticia S.A.S.?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you manage database schema evolution and migrations in PostgreSQL when maintaining REST APIs built with Spring Boot?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific experience where you implemented message queues in one of your previous projects, including the situation, your specific task, the actions you took, and the result.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use to ensure reliable message delivery and order processing when integrating applications with RabbitMQ?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a critical REST API starts experiencing high latency during a peak usage period, what steps would you take to diagnose and resolve the issue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "964",
+    "x-ratelimit-remaining-tokens" : "6066",
+    "x-ratelimit-reset-requests" : "51m50.399s",
+    "x-ratelimit-reset-tokens" : "51.9s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 184 caracteres"
+    }
+  },
+  "largos" : [ 169, 123, 184, 128, 144 ],
+  "validoTrasReintento" : true
+}

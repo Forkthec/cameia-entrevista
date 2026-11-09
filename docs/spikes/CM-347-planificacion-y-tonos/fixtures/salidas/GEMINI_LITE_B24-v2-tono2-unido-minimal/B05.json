@@ -1,0 +1,78 @@
+{
+  "id" : "B05",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:15:47.728627300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1419,
+  "tokensEntrada" : 889,
+  "tokensSalida" : 213,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome and thank you for being here today; I would love for you to tell me a bit about yourself and what motivates you to apply for this Backend Developer position at Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you approach designing and optimizing database models in PostgreSQL when working with Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you tell me about a time when you successfully integrated message queues into a web service?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your strategy for writing and organizing automated tests in a Java and Spring Boot environment?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our last question: imagine you are planning a cloud deployment for a new web service and notice a potential scalability bottleneck in the architecture; how would you handle it?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 200 caracteres"
+    }
+  },
+  "largos" : [ 200, 105, 98, 103, 184 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

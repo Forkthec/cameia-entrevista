@@ -1,0 +1,160 @@
+{
+  "id" : "A23",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2799,
+  "inicio" : "2026-11-07T11:45:21.955003-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 173,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 852, Requested 353. Please try again in 12.299999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "13",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "949",
+      "x-ratelimit-remaining-tokens" : "6890",
+      "x-ratelimit-reset-requests" : "1h13m26.4s",
+      "x-ratelimit-reset-tokens" : "51.12s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 1449,
+  "tokensEntrada" : 737,
+  "tokensSalida" : 314,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your two years of experience as a quality analyst and your desire to specialize in automation, what motivates you to join this role as a Software Quality Analyst?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you structure and maintain your test cases when transitioning from manual execution to Selenium-based automated tests for web applications?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"text\": \"Describe a specific instance where you identified a defect during testing; what was the situation, what actions did you take, and what was the result?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you use Jira to report defects and ensure that the information provided is sufficient for development teams to reproduce and fix the issue?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If an automated Selenium test fails during a critical release cycle but the manual test passes, how would you handle this discrepancy?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "948",
+    "x-ratelimit-remaining-tokens" : "6295",
+    "x-ratelimit-reset-requests" : "1h14m52.8s",
+    "x-ratelimit-reset-tokens" : "58.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "fallosDeProveedor" : [ {
+      "intento" : 1,
+      "tipo" : "LIMITE_POR_MINUTO",
+      "latenciaMs" : 171,
+      "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 906, Requested 353. Please try again in 15.54s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+      "encabezadosDeLimites" : {
+        "retry-after" : "16",
+        "x-ratelimit-limit-requests" : "1000",
+        "x-ratelimit-limit-tokens" : "8000",
+        "x-ratelimit-remaining-requests" : "948",
+        "x-ratelimit-remaining-tokens" : "6525",
+        "x-ratelimit-reset-requests" : "1h14m52.8s",
+        "x-ratelimit-reset-tokens" : "54.36s"
+      }
+    } ],
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 2,
+    "latenciaMs" : 956,
+    "tokensEntrada" : 737,
+    "tokensSalida" : 301,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Given your two years of experience as a quality analyst focusing on web applications and your interest in specializing in automation, please introduce yourself and explain your motivation for this role.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Can you explain the key differences between manual testing strategies and Selenium-based automated testing frameworks, and how you determine which defects are suitable for automation?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you designed test cases for a web application feature and identified a critical defect that was not caught by the development team.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you structure and maintain defect reports in Jira to ensure they contain all the necessary information for developers to reproduce and resolve the issue efficiently?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If a critical automated test suite written with Selenium starts failing intermittently during a release candidate build, what steps would you take to diagnose the issue before escalating it?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "947",
+      "x-ratelimit-remaining-tokens" : "6279",
+      "x-ratelimit-reset-requests" : "1h16m19.2s",
+      "x-ratelimit-reset-tokens" : "59.04s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "no se envió oferta: no aplica"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 202 caracteres"
+      }
+    },
+    "largos" : [ 202, 183, 166, 172, 190 ]
+  },
+  "validoTrasReintento" : true
+}

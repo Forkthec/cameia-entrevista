@@ -1,0 +1,86 @@
+{
+  "id" : "B21",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:25:16.131966100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1476,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 425,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Teniendo en cuenta tus tres años de experiencia en desarrollo backend, ¿cuál es el objetivo arquitectónico específico que buscas alcanzar en esta posición y cómo entiendes que este rol te pone directamente en el camino hacia él?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategia concreta de modelado de datos en PostgreSQL implementaste para optimizar consultas complejas en tus servicios Spring Boot, y qué mejora en los tiempos de respuesta o uso de recursos lograste cuantificar?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbeme una situación en la que debiste integrar un componente de cola de mensajes crítico en un proyecto, detallando la decisión técnica clave que tomaste y el resultado específico en términos de estabilidad del sistema.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo diseñas tus pruebas automatizadas para garantizar la integridad de las transacciones en bases de relacionales cuando se consumen eventos desde colas de RabbitMQ, y qué porcentaje de cobertura consideras mínimo aceptable para validar esa lógica?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si al desplegar una nueva versión de una API en la nube detectas que los consumidores de RabbitMQ saturan los recursos y caen por completo, ¿cuáles son los tres pasos inmediatos y concretos que ejecutarías para diagnosticar y mitigar la falla antes de revertir el despliegue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "923",
+    "x-ratelimit-remaining-tokens" : "6595",
+    "x-ratelimit-reset-requests" : "1h50m52.8s",
+    "x-ratelimit-reset-tokens" : "35.099s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 275 caracteres"
+    }
+  },
+  "largos" : [ 228, 219, 224, 250, 275 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4, 5]; base de datos en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

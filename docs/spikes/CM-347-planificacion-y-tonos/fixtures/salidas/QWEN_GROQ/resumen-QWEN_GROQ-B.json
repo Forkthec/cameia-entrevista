@@ -1,0 +1,993 @@
+[ {
+  "id" : "B01",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:40:28.821954-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1240,
+  "tokensEntrada" : 611,
+  "tokensSalida" : 288,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Could you briefly describe your background and explain why you are motivated to apply for the Backend Developer role at Andina Ficticia S.A.S.?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Explain how you would design and optimize a complex API endpoint in Spring Boot to ensure efficient data persistence using PostgreSQL.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific situation where you had to resolve a critical production issue related to message queues or cloud deployments, detailing your actions and the outcome.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"What is your approach to writing automated tests for backend services, and how do you ensure that these tests cover edge cases effectively?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If you discovered a significant performance bottleneck in an existing REST API during a sprint, how would you prioritize and address this issue while maintaining team collaboration?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "992",
+    "x-ratelimit-remaining-tokens" : "7062",
+    "x-ratelimit-reset-requests" : "11m31.2s",
+    "x-ratelimit-reset-tokens" : "7.034s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "no parecen estar en es-CO: pos 1 (es=1, en=11); pos 2 (es=0, en=7); pos 3 (es=1, en=10); pos 4 (es=0, en=10); pos 5 (es=0, en=10)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 181 caracteres"
+    }
+  },
+  "largos" : [ 143, 134, 170, 139, 181 ]
+}, {
+  "id" : "B02",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2414,
+  "inicio" : "2026-11-07T10:40:33.110507500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1182,
+  "tokensEntrada" : 619,
+  "tokensSalida" : 416,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Qué gusto tenerte aquí, me alegra mucho que hayas aplicado; ¿qué es lo que más te atrae de la oportunidad de continuar creciendo en el diseño de arquitecturas dentro de nuestra empresa?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Dado tu manejo con PostgreSQL, ¿cómo optimizas la gestión de transacciones y conectores en Spring Boot para asegurar la integridad de los datos en escenarios de alta concurrencencia?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Comentamos que el trabajo en equipo con metodologías ágiles es clave para nosotros; cuéntame sobre una situación específica donde tu propuesta técnica entró en conflicto con las prioridades del colectivo y cómo gestionaste ambos pensamientos para llegar a una solución efectiva.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Viendo que valoramos la fiabilidad de los sistemas, ¿qué estrategias de testing automatizado habías implementado previamente para garantizar la estabilidad de integraciones asíncronas mediante colas de mensajes como RabbitMQ?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagina que mientras estás en medio del ciclo de desarrollo detectas un error crítico en una API microservicio que está causando que se acumule tráfico en RabbitMQ; ¿cómo priorizarías tus acciones y qué pasos seguirías para resolverlo sin detener el flujo general del equipo?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "991",
+    "x-ratelimit-remaining-tokens" : "6604",
+    "x-ratelimit-reset-requests" : "12m57.599s",
+    "x-ratelimit-reset-tokens" : "10.469s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 278 caracteres"
+    }
+  },
+  "largos" : [ 185, 182, 278, 225, 275 ]
+}, {
+  "id" : "B03",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2372,
+  "inicio" : "2026-11-07T10:40:37.306923300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1173,
+  "tokensEntrada" : 613,
+  "tokensSalida" : 450,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Dado su estancamiento en el desarrollo de servicios y su deseo de transitar hacia la arquitectura, ¿cuáles son las tres evidencias concretas de impacto que ha generado en sus tres años de experiencia con Java y Spring Boot que justifican su postulento a esta posición específica en Andina Ficticia?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"En el contexto de modelado de bases de datos PostgreSQL para APIs REST de alto volumen, ¿qué estrategias de indexación y particionamiento específicas ha implementado usted para reducir el tiempo de respuesta de consultas complejas, y puede cuantificar la mejora de rendimiento lograda?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describa con exactitud una situación donde una integración de colas de mensajes falló en producción causando pérdida de datos o cuellos de botella, y detalle paso a paso qué acciones técnicas tomó para diagnosticar la raíz y cuál fue el resultado final en términos de consistencia de datos.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Considerando nuestra exigencia por pruebas automatizadas robustas, ¿cómo estructura usted la capa de pruebas de integración para servicios Spring Boot que dependen de RabbitMQ, y qué porcentaje de cobertura de código y qué métricas de defectos residuales ha logrado mantener en sus proyectos anteriores?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si durante un sprint ágil detecta que la arquitectura actual de las APIs no soporta la tasa de crecimiento proyectada y el equipo de frontend necesita cambios inmediatos, ¿cuál es el procedimiento técnico y de gestión exacto que ejecutará para implementar la reestructuración sin romper el deploy actual?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "990",
+    "x-ratelimit-remaining-tokens" : "6152",
+    "x-ratelimit-reset-requests" : "14m24s",
+    "x-ratelimit-reset-tokens" : "13.86s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 304 caracteres"
+    }
+  },
+  "largos" : [ 298, 285, 290, 303, 304 ]
+}, {
+  "id" : "B04",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2286,
+  "inicio" : "2026-11-07T10:40:41.505793600-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 148,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 947, Requested 416. Please try again in 21.78s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "22",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "990",
+      "x-ratelimit-remaining-tokens" : "6646",
+      "x-ratelimit-reset-requests" : "14m24s",
+      "x-ratelimit-reset-tokens" : "10.155s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 228,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 561, Requested 450. Please try again in 659.999999ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "1",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "990",
+      "x-ratelimit-remaining-tokens" : "7439",
+      "x-ratelimit-reset-requests" : "14m24s",
+      "x-ratelimit-reset-tokens" : "33.66s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 709,
+  "tokensEntrada" : 582,
+  "tokensSalida" : 188,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Please introduce yourself and explain what motivates you to pursue this Backend Developer position.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you design and implement automated tests for REST APIs built with Spring Boot to ensure reliability?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you had to debug a critical issue in a Spring Boot application; what was the outcome?\"},{\"posicion\":4\",\"tipo\":\"TECNICA\",\"texto\":\"How would you model a complex data relationship in PostgreSQL to optimize query performance for a high-traffic service?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If you notice a performance degradation in a RabbitMQ integration within an agile sprint, how would you identify the bottleneck and propose a solution?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "989",
+    "x-ratelimit-remaining-tokens" : "6478",
+    "x-ratelimit-reset-requests" : "15m50.4s",
+    "x-ratelimit-reset-tokens" : "56.4s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "el texto no es un JSON válido"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}, {
+  "id" : "B05",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2339,
+  "inicio" : "2026-11-07T10:41:10.631217200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 133,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 651, Requested 416. Please try again in 4.02s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "5",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "989",
+      "x-ratelimit-remaining-tokens" : "7202",
+      "x-ratelimit-reset-requests" : "15m50.4s",
+      "x-ratelimit-reset-tokens" : "39.06s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 1044,
+  "tokensEntrada" : 590,
+  "tokensSalida" : 406,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Welcome to the team! We are thrilled to have you here; could you please share a little bit about your background in Java and Spring Boot and tell us why this specific Backend Developer role at Andina Ficticia excites you the most?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Given your experience with PostgreSQL, could you walk us through how you typically approach designing a normalized database schema for a high-transaction web service, and can you show us a code snippet of how you would use JPA or Hibernate to map an entity with a one-to-many relationship?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"It sounds like teamwork is a big part of your previous roles; can you tell me about a specific time in an agile environment when you and a teammate had conflicting technical opinions on a feature, and how did you collaborate to reach a resolution that benefited the project?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Since our team relies heavily on RabbitMQ for message integration, could you explain how you would ensure reliable message delivery in a Spring Boot application, and perhaps show us how you would implement a retry mechanism or dead-letter queue handling in your code?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagine we have just deployed a new REST API endpoint and monitoring shows a sudden spike in 500 errors within minutes; how would you systematically troubleshoot the issue, and what steps would you take to resolve it and prevent it from happening again?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "988",
+    "x-ratelimit-remaining-tokens" : "6412",
+    "x-ratelimit-reset-requests" : "17m16.8s",
+    "x-ratelimit-reset-tokens" : "59.88s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 289 caracteres"
+    }
+  },
+  "largos" : [ 230, 289, 274, 267, 253 ]
+}, {
+  "id" : "B06",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2297,
+  "inicio" : "2026-11-07T10:41:20.829415300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 132,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 887, Requested 416. Please try again in 18.18s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "19",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "988",
+      "x-ratelimit-remaining-tokens" : "6996",
+      "x-ratelimit-reset-requests" : "17m16.8s",
+      "x-ratelimit-reset-tokens" : "53.22s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 146,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 552, Requested 535. Please try again in 5.22s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "6",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "988",
+      "x-ratelimit-remaining-tokens" : "7448",
+      "x-ratelimit-reset-requests" : "17m16.8s",
+      "x-ratelimit-reset-tokens" : "33.12s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1182,
+  "tokensEntrada" : 584,
+  "tokensSalida" : 413,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your three years of experience with Java and Spring Boot, provide specific metrics from your previous projects that demonstrate why you are uniquely qualified for this Backend Developer role at Andina Ficticia S.A.S. and how your interest in architecture design aligns with our current infrastructure goals.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"text\": \"Describe a specific optimization you performed on a PostgreSQL database query in a high-traffic Spring Boot application, citing the exact indexing strategy used and the measurable reduction in response time or resource consumption.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Recall a specific instance where a production incident related to a REST API failure occurred in your last role; detail the exact technical steps you took to diagnose the root cause, the immediate mitigation you implemented, and the permanent architectural change you introduced to prevent recurrence.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain how you would implement an end-to-end test suite for a transactional flow involving Spring Boot services and RabbitMQ message consumption, specifying the mocking strategies used for external dependencies and the coverage metrics you achieved.\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you were tasked with migrating a legacy monolithic module to a microservices architecture using RabbitMQ for communication within a two-week sprint, what specific technical trade-offs would you make regarding database consistency and service boundaries to ensure delivery without compromising performance?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "987",
+    "x-ratelimit-remaining-tokens" : "6806",
+    "x-ratelimit-reset-requests" : "18m43.2s",
+    "x-ratelimit-reset-tokens" : "36.6s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 2 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}, {
+  "id" : "B07",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:41:52.327573700-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 977,
+  "tokensEntrada" : 611,
+  "tokensSalida" : 231,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Puede presentarse brevemente y explicarnos qué motivos lo llevan a buscar este rol de Desarrollador Backend en Andina Ficticia S.A.S.\"},{\"posicion\":2\",\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura y modela las relaciones en una base de datos PostgreSQL para garantizar la integridad de los datos en una API REST?\n\n\n\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntenos una situación específica en la que haya tenido que resolver un error crítico en uno de sus servicios web.\n\n\n\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo implementa la comunicación asíncrona entre microservicios utilizando RabbitMQ para asegurar la entrega de mensajes?\n\n\n\"},{\"posicion\":5\",\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la revisión de un código usted detecta que una implementación actual no sigue las mejores prácticas de la empresa, ¿cómo procedería para abordarlo con el equipo?\n\n\n\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "986",
+    "x-ratelimit-remaining-tokens" : "6383",
+    "x-ratelimit-reset-requests" : "20m9.6s",
+    "x-ratelimit-reset-tokens" : "54.54s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "el texto no es un JSON válido"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}, {
+  "id" : "B08",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2414,
+  "inicio" : "2026-11-07T10:41:56.321281-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 157,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 941, Requested 165. Please try again in 6.359999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "7",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "986",
+      "x-ratelimit-remaining-tokens" : "6817",
+      "x-ratelimit-reset-requests" : "20m9.6s",
+      "x-ratelimit-reset-tokens" : "56.459s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 152,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 806, Requested 766. Please try again in 34.32s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "35",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "986",
+      "x-ratelimit-remaining-tokens" : "7194",
+      "x-ratelimit-reset-requests" : "20m9.6s",
+      "x-ratelimit-reset-tokens" : "48.36s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1489,
+  "tokensEntrada" : 619,
+  "tokensSalida" : 514,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Para comenzar, queríamos que te sintieras como en casa, así que cuéntanos con confianza: ¿qué es lo que más te atrae de pasar del desarrollo funcional al diseño de arquitectura y por qué sientes que Andina Ficticia S.A.S. es el lugar ideal para lograr ese crecimiento?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Sabemos que has trabajado extensamente con Spring Boot, una tecnología que amamos por su versatilidad, pero nos interesaría saber cómo estructuras las dependencias del entorno de pruebas para que las pruebas de integración de tus microservicios sean estables y rápidas, incluso cuando se conectan a instancias de PostgreSQL.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Dado que valoramos mucho el trabajo en equipo, nos encantaría que nos compartas una experiencia concreta en la que tu solución técnica fuera desafiada por un colega o un stakeholder; ¿cómo manejaste esa situación, qué acciones tomaste para llegar a un consenso y qué resultó finalmente del debate?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Me alegra saber que tienes experiencia con colas de mensajes, una pieza clave en lo que haremos aquí, así que me gustaría que me explicaras con calma: ¿qué estrategia de reconexión o reintentos implements habitualmente en RabbitMQ para garantizar la durabilidad de los mensajes ante caídas temporales del servicio consumidor?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagina que durante una ventana de despliegue, las pruebas automatizadas de las APIs REST nuevas empiezan a fallar de forma intermitente porque la carga de datos iniciales está saturando la base de datos; ¿cómo abordarías esa situación para diagnosticar el problema sin romper el flujo de trabajo del equipo ni retrasar la entrega?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "985",
+    "x-ratelimit-remaining-tokens" : "6763",
+    "x-ratelimit-reset-requests" : "21m36s",
+    "x-ratelimit-reset-tokens" : "37.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 331 caracteres"
+    }
+  },
+  "largos" : [ 268, 324, 297, 325, 331 ]
+}, {
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2372,
+  "inicio" : "2026-11-07T10:42:45.143333200-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 163,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 643, Requested 416. Please try again in 3.54s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "4",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "985",
+      "x-ratelimit-remaining-tokens" : "7257",
+      "x-ratelimit-reset-requests" : "21m36s",
+      "x-ratelimit-reset-tokens" : "38.58s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 138,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 557, Requested 450. Please try again in 420ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "1",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "985",
+      "x-ratelimit-remaining-tokens" : "7443",
+      "x-ratelimit-reset-requests" : "21m36s",
+      "x-ratelimit-reset-tokens" : "33.42s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1380,
+  "tokensEntrada" : 613,
+  "tokensSalida" : 504,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"text\": \"¿Qué específicas razones técnicas y estratégicas le motivan a buscar un cambio hacia una postura más enfática en el diseño de arquitectura, y cómo cree que su experiencia anterior de tres años en Spring Boot y despliegues en la nube lo prepara para asumir esa responsabilidad?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Al diseñar una nueva API REST en Spring Boot, ¿qué criterios técnicos específicos utiliza para definir la estructura de los endpoints y la paginación de la respuesta, y puede citar un ejemplo concreto donde estas decisiones impactaron directamente la velocidad de respuesta o la facilidad de consumo del frontend?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación específica en la que tuvo que resolver un cuello de botella significativo en un servicio web; detalle la situación, la tarea asignada, las acciones técnicas exactas que implementó y cuantifique el resultado en términos de mejora de latencia o capacidad de concurrencia.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"En el contexto de la integración de colas con RabbitMQ para gestionar asincronía, ¿cómo garantiza la idempotencia de los mensajes y evita la pérdida de datos durante un fallo del consumidor, y qué estrategia de reintentos o manejo de errores ha implementado en sus proyectos anteriores para asegurar la consistencia de los datos en PostgreSQL?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagine que durante una ventana de despliegue ágil detecta que una nueva migración de esquema en PostgreSQL ha degradado el rendimiento de la base de datos al 40% de su capacidad normal; ¿cuáles son los tres primeros pasos concretos que ejecutaría para diagnosticar, revertir o mitigar el impacto, y cómo comunicaría el estado a su equipo en tiempo real?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "984",
+    "x-ratelimit-remaining-tokens" : "6417",
+    "x-ratelimit-reset-requests" : "23m2.4s",
+    "x-ratelimit-reset-tokens" : "58.199s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}, {
+  "id" : "B10",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2286,
+  "inicio" : "2026-11-07T10:42:56.843318700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 135,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 948, Requested 327. Please try again in 16.5s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "17",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "984",
+      "x-ratelimit-remaining-tokens" : "6944",
+      "x-ratelimit-reset-requests" : "23m2.4s",
+      "x-ratelimit-reset-tokens" : "56.879s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 945,
+  "tokensEntrada" : 582,
+  "tokensSalida" : 326,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you provide a brief overview of your background and explain what motivated you to apply for this Backend Developer role at Andina Ficticia S.A.S.?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you manage database transactions and ensure data consistency when implementing complex services in Spring Boot with PostgreSQL?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific situation where you had to troubleshoot a performance issue in a backend service; what was your task, what actions did you take, and what was the final result?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Given our requirement to integrate message queues, how would you implement a producer-consumer pattern using RabbitMQ to handle asynchronous processing in a Spring Boot application?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagine that a critical REST API endpoint is failing intermittently in production due to a database lock; how would you systematically diagnose and resolve this issue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "983",
+    "x-ratelimit-remaining-tokens" : "6446",
+    "x-ratelimit-reset-requests" : "24m28.8s",
+    "x-ratelimit-reset-tokens" : "58.32s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 181 caracteres"
+    }
+  },
+  "largos" : [ 150, 134, 179, 181, 167 ]
+}, {
+  "id" : "B11",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2339,
+  "inicio" : "2026-11-07T10:43:18.954997100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 137,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 907, Requested 514. Please try again in 25.259999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "26",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "983",
+      "x-ratelimit-remaining-tokens" : "6971",
+      "x-ratelimit-reset-requests" : "24m28.8s",
+      "x-ratelimit-reset-tokens" : "54.42s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 1000,
+  "tokensEntrada" : 590,
+  "tokensSalida" : 345,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"It is great to have you with us today; given your background in Java and Spring Boot, what specifically excites you about the opportunity to grow toward architecture design here at Andina Ficticia S.A.S.?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Since our core stack relies heavily on Spring Boot, could you walk us through how you would design a secure REST API endpoint that handles complex data validation?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Thinking about a time when you used agile methodologies to solve a challenging technical problem, can you share a specific situation where your teamwork directly improved the outcome?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"We place a strong emphasis on quality assurance, so how do you normally approach writing automated tests for Spring Boot services to ensure they are reliable before deployment?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagine you are integrating RabbitMQ for message queueing and suddenly notice a spike in failed messages; how would you investigate and resolve this issue in a production environment?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "982",
+    "x-ratelimit-remaining-tokens" : "6629",
+    "x-ratelimit-reset-requests" : "25m55.199s",
+    "x-ratelimit-reset-tokens" : "46.86s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 204 caracteres"
+    }
+  },
+  "largos" : [ 204, 163, 183, 176, 183 ]
+}, {
+  "id" : "B12",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2297,
+  "inicio" : "2026-11-07T10:43:50.120334200-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 162,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 733, Requested 504. Please try again in 14.219999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "15",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "982",
+      "x-ratelimit-remaining-tokens" : "7147",
+      "x-ratelimit-reset-requests" : "25m55.199s",
+      "x-ratelimit-reset-tokens" : "43.98s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 1214,
+  "tokensEntrada" : 584,
+  "tokensSalida" : 388,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your three years of backend experience, what specific aspect of moving from solid implementation to architecture design at Andina Ficticia S.A.S. drives your motivation for this role, and how does our stack align with that goal?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Describe a specific instance where you optimized a PostgreSQL query in a Spring Boot application, detailing the exact indexing strategy or query modification you implemented and the measurable performance gain you achieved.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Tell me about a time you had a significant disagreement with a colleague regarding a technical design decision in an agile team; walk me through the situation, the specific actions you took to resolve it, and the final outcome for the project timeline and quality.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain exactly how you structured consumer logic and error handling in RabbitMQ to ensure idempotency and prevent data corruption during high-throughput processing in your previous services.\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a critical REST API endpoint you maintain begins timing out under peak load due to an unhandled dependency failure, what are the first three specific steps you would take to diagnose the root cause and stabilize the service in the short term?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "981",
+    "x-ratelimit-remaining-tokens" : "6607",
+    "x-ratelimit-reset-requests" : "27m21.6s",
+    "x-ratelimit-reset-tokens" : "48.54s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 264 caracteres"
+    }
+  },
+  "largos" : [ 234, 223, 264, 191, 245 ]
+} ]

@@ -1,0 +1,98 @@
+{
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2372,
+  "inicio" : "2026-11-07T10:42:45.143333200-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 163,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 643, Requested 416. Please try again in 3.54s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "4",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "985",
+      "x-ratelimit-remaining-tokens" : "7257",
+      "x-ratelimit-reset-requests" : "21m36s",
+      "x-ratelimit-reset-tokens" : "38.58s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 138,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 557, Requested 450. Please try again in 420ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "1",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "985",
+      "x-ratelimit-remaining-tokens" : "7443",
+      "x-ratelimit-reset-requests" : "21m36s",
+      "x-ratelimit-reset-tokens" : "33.42s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1380,
+  "tokensEntrada" : 613,
+  "tokensSalida" : 504,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"text\": \"¿Qué específicas razones técnicas y estratégicas le motivan a buscar un cambio hacia una postura más enfática en el diseño de arquitectura, y cómo cree que su experiencia anterior de tres años en Spring Boot y despliegues en la nube lo prepara para asumir esa responsabilidad?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Al diseñar una nueva API REST en Spring Boot, ¿qué criterios técnicos específicos utiliza para definir la estructura de los endpoints y la paginación de la respuesta, y puede citar un ejemplo concreto donde estas decisiones impactaron directamente la velocidad de respuesta o la facilidad de consumo del frontend?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación específica en la que tuvo que resolver un cuello de botella significativo en un servicio web; detalle la situación, la tarea asignada, las acciones técnicas exactas que implementó y cuantifique el resultado en términos de mejora de latencia o capacidad de concurrencia.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"En el contexto de la integración de colas con RabbitMQ para gestionar asincronía, ¿cómo garantiza la idempotencia de los mensajes y evita la pérdida de datos durante un fallo del consumidor, y qué estrategia de reintentos o manejo de errores ha implementado en sus proyectos anteriores para asegurar la consistencia de los datos en PostgreSQL?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagine que durante una ventana de despliegue ágil detecta que una nueva migración de esquema en PostgreSQL ha degradado el rendimiento de la base de datos al 40% de su capacidad normal; ¿cuáles son los tres primeros pasos concretos que ejecutaría para diagnosticar, revertir o mitigar el impacto, y cómo comunicaría el estado a su equipo en tiempo real?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "984",
+    "x-ratelimit-remaining-tokens" : "6417",
+    "x-ratelimit-reset-requests" : "23m2.4s",
+    "x-ratelimit-reset-tokens" : "58.199s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}

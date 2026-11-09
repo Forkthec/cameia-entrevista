@@ -1,0 +1,86 @@
+{
+  "id" : "B11",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:21:21.707173400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1092,
+  "tokensEntrada" : 916,
+  "tokensSalida" : 355,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Welcome! I'm excited to connect with you today; could you tell me what attracted you to the Backend Developer role at Andina Ficticia, especially given your recent experience with cloud deployments?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"I'd love for you to walk me through how you've handled database modeling in PostgreSQL to support complex Spring Boot REST APIs in your past projects.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Can you describe a specific situation where you integrated message queues into a service, what your role was in that implementation, and what the outcome was for the system's reliability?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Since Andina Ficticia values automated testing, could you share the specific tools and strategies you use to write effective unit and integration tests for Java applications?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"This is our last question for today, but imagine a scenario where a production RabbitMQ queue starts filling up unexpectedly due to a consumer error; how would you approach diagnosing and resolving this issue while maintaining team communication?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "934",
+    "x-ratelimit-remaining-tokens" : "6466",
+    "x-ratelimit-reset-requests" : "1h35m2.4s",
+    "x-ratelimit-reset-tokens" : "37.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 246 caracteres"
+    }
+  },
+  "largos" : [ 198, 150, 187, 174, 246 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+  },
+  "validoTrasReintento" : true
+}

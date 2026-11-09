@@ -1,0 +1,144 @@
+{
+  "id" : "A08",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-07T11:31:47.448755300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 157,
+    "causa" : "HTTP 429: Request too large for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1514. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the request's expected output) and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "995",
+      "x-ratelimit-remaining-tokens" : "8000",
+      "x-ratelimit-reset-requests" : "7m12s",
+      "x-ratelimit-reset-tokens" : "1ms"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 738,
+  "tokensEntrada" : 787,
+  "tokensSalida" : 185,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you introduce yourself and explain your motivation for applying to this Backend Developer role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you model relational data in PostgreSQL to support efficient query performance in Spring Boot applications?\"},{\"posicion\":3,\"tipo\":\"CONDESCENDIENTE\",\"texto\":\"Describe a specific past experience where you implemented a message queue solution, including the situation, your task, the actions you took, and the result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your approach to writing automated tests for REST APIs in Spring Boot?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If you notice a breaking change in a shared RabbitMQ topic that affects multiple microservices, how would you proceed?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "994",
+    "x-ratelimit-remaining-tokens" : "7051",
+    "x-ratelimit-reset-requests" : "8m38.4s",
+    "x-ratelimit-reset-tokens" : "7.117s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 840,
+    "tokensEntrada" : 787,
+    "tokensSalida" : 267,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Can you briefly introduce yourself and explain your motivation for applying to this Backend Developer role, particularly regarding your interest in growing toward architecture design?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you structure and maintain REST APIs in Spring Boot to ensure they are scalable and adher to standard conventions?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific experience where you worked in an agile team to deliver a feature involving PostgreSQL database modeling or maintenance.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"What is your approach to writing automated tests for backend services built with Spring Boot?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagine you are integrating a new microservice with RabbitMQ and encounter a message consumption failure during deployment; how would you diagnose and resolve the issue?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "993",
+      "x-ratelimit-remaining-tokens" : "6141",
+      "x-ratelimit-reset-requests" : "10m4.8s",
+      "x-ratelimit-reset-tokens" : "21.9s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 183 caracteres"
+      }
+    },
+    "largos" : [ 183, 121, 140, 93, 169 ]
+  },
+  "validoTrasReintento" : true
+}

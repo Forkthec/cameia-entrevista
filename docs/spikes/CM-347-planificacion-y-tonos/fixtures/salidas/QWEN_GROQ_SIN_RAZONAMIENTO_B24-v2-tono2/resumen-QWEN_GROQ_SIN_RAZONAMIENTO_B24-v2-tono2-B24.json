@@ -1,0 +1,2241 @@
+[ {
+  "id" : "B01",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-08T16:17:27.938997800-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1537,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 331,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuéntenos brevemente por qué este rol de Desarrollador Backend en Andina Ficticia S.A.S. coincide con su intención de crecer hacia el diseño de arquitectura.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain how you would design a complex relationship between tables in PostgreSQL to ensure data integrity when maintaining REST APIs with Spring Boot.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación específica en la que haya trabajado en equipo utilizando metodologías ágiles para resolver un problema técnico en un proyecto de servicios web.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué criterios técnicos considera esenciales al escribir pruebas automatizadas para una API desarrollada en Java con Spring Boot?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si detecta que la integración de colas de mensajes con RabbitMQ está generando inconsistencias en los datos, ¿cuál sería el primer paso de su proceso de diagnóstico?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "946",
+    "x-ratelimit-remaining-tokens" : "6747",
+    "x-ratelimit-reset-requests" : "1h17m45.6s",
+    "x-ratelimit-reset-tokens" : "9.397s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "no parecen estar en es-CO: pos 2 (es=0, en=8)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 166 caracteres"
+    }
+  },
+  "largos" : [ 157, 150, 166, 129, 165 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: Spring Boot en las preguntas [2, 4]"
+  },
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 947,
+    "tokensEntrada" : 818,
+    "tokensSalida" : 332,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"¿Qué le motiva a buscar un rol como Desarrollador Backend en nuestra empresa tras tres años trabajando con Java, Spring Boot y PostgreSQL?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo abordaría el modelado de la base de datos en PostgreSQL para garantizar la integridad de los datos en las APIs que desarrollaremos?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Cuénteme sobre una experiencia específica en la que haya trabajado con colas de mensajes en un proyecto real, detallando qué hz y cuál fue el resultado.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategias sigue para escribir pruebas automatizadas robustas en aplicaciones construidas con Spring Boot?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si durante la revisión de código detecta que una funcionalidad nueva no cumple con los estándares de calidad del equipo, ¿cómo manejaría la situación para mantener la productividad y el bienestar del grupo?\"\n    }\n  ]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "945",
+      "x-ratelimit-remaining-tokens" : "5775",
+      "x-ratelimit-reset-requests" : "1h19m12s",
+      "x-ratelimit-reset-tokens" : "43.62s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 206 caracteres"
+      }
+    },
+    "largos" : [ 138, 137, 152, 112, 206 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 1,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+    }
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B02",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3659,
+  "inicio" : "2026-11-08T16:17:52.607606900-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1008,
+  "tokensEntrada" : 947,
+  "tokensSalida" : 333,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Buenos días, qué gusto tenerte aquí; me encantaría saber qué te motiva a buscar crecer hacia el diseño de arquitectura en este nuevo rol.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Me gustaría que me contaras cómo has abordado el modelado de bases de datos en PostgreSQL para garantizar la integridad de la información en tus servicios.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"¿Podrías compartirme una experiencia concreta en la que hayan tenido que ajustar operaciones de despliegue en la nube y cómo lograste resolverlo?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo has estructurado la escritura de pruebas automatizadas para validar la estabilidad de tus APIs REST en Spring Boot?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Esta es la última pregunta que te haré; ¿cómo actuarías si detectas un cuello de botella en la integración con RabbitMQ durante un pico de tráfico?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "944",
+    "x-ratelimit-remaining-tokens" : "6378",
+    "x-ratelimit-reset-requests" : "1h20m38.4s",
+    "x-ratelimit-reset-tokens" : "40.5s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 155 caracteres"
+    }
+  },
+  "largos" : [ 137, 155, 145, 121, 147 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B03",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:18:15.640634500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1332,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 413,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Teniendo en cuenta su trayectoria de tres años diseñando servicios web en Java con Spring Boot, ¿cuál es la motivación específica y tangible que lo lleva a buscar esta transición hacia el diseño de arquitectura utilizando exclusivamente la experiencia descrita en sus métricas de rendimiento?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"No se aceptan descripciones teóricas; indíquenos con cifras exactas de latencia y capacidad de concurrencia, ¿cuáles fueron las decisiones específicas de modelado de esquemas y estrategia de indexación en PostgreSQL que implementó para optimizar el rendimiento de las consultas críticas en sus servicios Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación concreta donde la implementación de una arquitectura de colas de mensajes falló o presentó cuellos de botella significativamente, indicando los KPIs impactados, las acciones técnicas exactas que tomó para remediarlo y el resultado cuantitativo final en términos de estabilidad del sistema.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Dado que la oferta exige integración con RabbitMQ y pruebas automatizadas, ¿cuál es la tasa de deficiencias detectadas en fase de integración versus producción en sus proyectos anteriores, y qué métricas exactas de cobertura de código utiliza para garantizar la robustez de estas integraciones en Spring Boot?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante una iteración ágil detectase que el despliegue en la nube de un servicio crítico está degradando el 99.9% de las peticiones debido a una configuación incorrecta de balanceo de carga, ¿cuál es el procedimiento técnico exacto y los criterios de decisión inmediata que ejecutaría para mitigar el impacto sin sacrificar la integridad de los datos?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "943",
+    "x-ratelimit-remaining-tokens" : "6637",
+    "x-ratelimit-reset-requests" : "1h22m4.8s",
+    "x-ratelimit-reset-tokens" : "32.58s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 354 caracteres"
+    }
+  },
+  "largos" : [ 292, 316, 312, 309, 354 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B04",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-08T16:18:39.024097500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1161,
+  "tokensEntrada" : 787,
+  "tokensSalida" : 268,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Please introduce yourself and explain why you are motivated to apply for this Backend Developer role.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you design and optimize complex queries in PostgreSQL to ensure efficient data retrieval?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you had to maintain or improve a REST API built with Spring Boot.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What is your approach to writing automated tests for services that integrate with RabbitMQ?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a critical API endpoint experiences high latency during peak traffic, how would you investigate and resolve the issue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "942",
+    "x-ratelimit-remaining-tokens" : "6783",
+    "x-ratelimit-reset-requests" : "1h23m31.2s",
+    "x-ratelimit-reset-tokens" : "25.8s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 121 caracteres"
+    }
+  },
+  "largos" : [ 101, 96, 100, 91, 121 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B05",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:19:02.198868600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1026,
+  "tokensEntrada" : 916,
+  "tokensSalida" : 348,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Hi there, welcome! How are you feeling about moving from building web services in Java with Spring Boot toward architecture design roles?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"I'd like you to tell me how you approach modeling databases in PostgreSQL when designing a new REST API in Spring Boot, specifically regarding schema normalization and performance.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Can you share a specific instance where you implemented message queues in a project and describe the situation, your task, the actions you took, and the result?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Since Andina Ficticia S.A.S. places high value on automated testing, how do you typically structure your tests for Spring Boot applications to ensure the reliability of your business logic?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Just so you know, this is the last one: imagine we discover a critical bug in a cloud-deployed service that uses RabbitMQ; how would you proceed to diagnose and resolve it while collaborating with your agile team?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "941",
+    "x-ratelimit-remaining-tokens" : "6552",
+    "x-ratelimit-reset-requests" : "1h24m57.599s",
+    "x-ratelimit-reset-tokens" : "31.92s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 213 caracteres"
+    }
+  },
+  "largos" : [ 137, 180, 160, 189, 213 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B06",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-08T16:19:25.255310300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 841,
+  "tokensEntrada" : 789,
+  "tokensSalida" : 287,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Given your three years of experience building web services in Java and Spring Boot, what specific technical challenges in architectural design have driven your decision to apply for this Backend Developer role at Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When designing a high-throughput REST API in Spring Boot connected to PostgreSQL, what specific indexing strategies and query optimization techniques have you implemented to sub-50ms response times for complex data models?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific instance where you had to refactor a complex module in your previous Spring Boot project; detail the technical obstacles you faced, the exact architectural changes you made, and the measurable impact on system reliability or performance.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"How have you specifically used RabbitMQ in your past projects to decouple services, including the exact message acknowledgement mechanisms you adopted to ensure data integrity during transient network failures?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texts\":\"If you detect a critical performance bottleneck in a production PostgreSQL endpoint that is also the target of an imminent automated test suite update, what are the precise first three steps you would take to isolate the issue without disrupting ongoing agile sprints?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "940",
+    "x-ratelimit-remaining-tokens" : "7035",
+    "x-ratelimit-reset-requests" : "1h26m24s",
+    "x-ratelimit-reset-tokens" : "10.559s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 5 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1157,
+    "tokensEntrada" : 789,
+    "tokensSalida" : 368,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Given your three years of experience with Spring Boot and PostgreSQL, as well your stated goal to grow toward architecture design, what specific technical responsibilities in this Backend Developer role at Andina Ficticia S.A.S. will most effectively advance that objective?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Provide a specific calculation or configuration detail from a past project where you optimized PostgreSQL query performance, including the initial response time, the optimization applied, and the final measured latency.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you encountered a critical bug in a message queue integration; what was the system state, what specific debugging steps did you take to isolate the issue, and what was the final resolution with the resulting system stability metrics?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"In the context of the job offer's requirement for automated tests, how do you structure your unit testing strategy for Spring Boot services, specifically regarding the isolation of dependencies and the target coverage percentage you enforce for critical business logic?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Hypothetically, if a new feature requires integrating a legacy system that does not support synchronous REST calls, how would you design the communication pattern using RabbitMQ within our agile team to ensure resilience and maintainability?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "939",
+      "x-ratelimit-remaining-tokens" : "5894",
+      "x-ratelimit-reset-requests" : "1h27m50.4s",
+      "x-ratelimit-reset-tokens" : "37.32s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 274 caracteres"
+      }
+    },
+    "largos" : [ 274, 219, 268, 269, 241 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "ESTRICTO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 4,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+    }
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B07",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-08T16:19:49.277959500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 968,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 265,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuéntenme sobre su experiencia desarrollando servicios web en Java con Spring Boot y PostgreSQL, y por qué considera que este rol de Desarrollador Backend es adecuado para su carrera.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura y gestiona las consultas en PostgreSQL dentro de su arquitectura actual, teniendo en cuenta la escalabilidad y el rendimiento de labase de datos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación específica donde haya integrado colas de mensajes en un proyecto de servicios web, detallando la tarea asignada, las acciones que tomó y el resultado final obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué prácticas utiliza al escribir pruebas automatizadas para las APIs REST en Spring Boot, y cómo se asegura de cubrir los escenarios críticos de integración con RabbitMQ?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante un despliegue en la nube la API REST deja de responder debido a un fallo en la conexión con RabbitMQ, ¿cuáles serían los primeros pasos que tomaría para diagnosticar y resolver la situación?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "938",
+    "x-ratelimit-remaining-tokens" : "6573",
+    "x-ratelimit-reset-requests" : "1h29m16.8s",
+    "x-ratelimit-reset-tokens" : "36.54s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 201 caracteres"
+    }
+  },
+  "largos" : [ 183, 162, 188, 172, 201 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B08",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3659,
+  "inicio" : "2026-11-08T16:20:12.259414800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1129,
+  "tokensEntrada" : 947,
+  "tokensSalida" : 408,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"¡Hola, qué gusto tenerte aquí! Me encantaría que te presentaras brevemente y me contaras qué es lo que más te motiva de buscar un rol enfocado en el diseño de arquitectura dentro de nuestro equipo.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Sabiendo que trabajas con Spring Boot, me gustaría que me contaras cómo estructuras las transacciones para garantizar la consistencia de los datos cuando interactúas con PostgreSQL en servicios críticos.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"¿Podrías compartirme una experiencia concreta en la que hayas tenido que resolver un problema complejo de rendimiento o disponibilidad involucrando colas de mensajes, y qué acción específica tomaste para solucionarlo?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"En cuanto a la calidad del código que entregamos, ¿qué prácticas de pruebas automatizadas con JUnit o Mockito aplicas habitualmente en tus proyectos con Spring Boot para asegurar que las APIs REST funcionan correctamente antes de llegar a producción?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Como última pregunta, imagina que RabbitMQ se satura de repente y las APIs empiezan a fallar; ¿cómo actuarías tú, paso a paso, para diagnosticar y mitigar la situación mientras trabajas con tu equipo en metodología ágil?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "937",
+    "x-ratelimit-remaining-tokens" : "6561",
+    "x-ratelimit-reset-requests" : "1h30m43.2s",
+    "x-ratelimit-reset-tokens" : "29.52s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 250 caracteres"
+    }
+  },
+  "largos" : [ 197, 203, 217, 250, 220 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:20:35.412769100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1139,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 422,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Dado que llevas tres años desarrollando servicios web en Java con Spring Boot y ahora buscas crecer hacia el diseño de arquitectura, ¿cuál es la evidencia concreta de que estás preparado para asumir la responsabilidad técnica de mantener las APIs REST en nuestra empresa?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo has resuelto problemas de rendimiento a nivel de consultas en PostgreSQL durante tus tres años de experiencia, y qué métricas específicas usaste para cuantificar la mejora obtenida en tus proyectos?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbame una situación específica donde tuvo que tomar una decisión crítica en el manejo de colas de mensajes, detallando cuál fue la tarea asignada, la acción técnica que ejecutó y el resultado medible para el sistema.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Con respecto a su experiencia en despliegues en la nube, ¿qué estrategias concretas implementó con RabbitMQ para garantizar la tolerancia a fallos y la entrega confiada de mensajes en entornos distribuidos?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si en un entorno ágil se detecta que una nueva funcionalidad en Spring Boot rompe las pruebas automatizadas existentes y bloquee el despliegue, ¿cuáles son los pasos exactos que seguiría para resolver el conflicto y retomar el flujo de trabajo del equipo?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "936",
+    "x-ratelimit-remaining-tokens" : "6520",
+    "x-ratelimit-reset-requests" : "1h32m9.6s",
+    "x-ratelimit-reset-tokens" : "39.6s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 271 caracteres"
+    }
+  },
+  "largos" : [ 271, 204, 221, 206, 255 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]; despliegue y nube en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B10",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-08T16:20:58.566360900-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1125,
+  "tokensEntrada" : 787,
+  "tokensSalida" : 298,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you briefly describe your three years of experience building web services and explain what motivates you to apply for this Backend Developer role?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you design and optimize the schema for a PostgreSQL database to support the maintenance of REST APIs?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you worked with message queues in a past project, including the situation, your task, the actions you took, and the result.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use to write effective automated tests for Spring Boot applications?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you were required to integrate RabbitMQ into an existing service under a tight deadline, how would you approach the implementation and ensure reliability?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "935",
+    "x-ratelimit-remaining-tokens" : "6518",
+    "x-ratelimit-reset-requests" : "1h33m36s",
+    "x-ratelimit-reset-tokens" : "41.699s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 158 caracteres"
+    }
+  },
+  "largos" : [ 150, 108, 158, 91, 157 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B11",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:21:21.707173400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1092,
+  "tokensEntrada" : 916,
+  "tokensSalida" : 355,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Welcome! I'm excited to connect with you today; could you tell me what attracted you to the Backend Developer role at Andina Ficticia, especially given your recent experience with cloud deployments?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"I'd love for you to walk me through how you've handled database modeling in PostgreSQL to support complex Spring Boot REST APIs in your past projects.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Can you describe a specific situation where you integrated message queues into a service, what your role was in that implementation, and what the outcome was for the system's reliability?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Since Andina Ficticia values automated testing, could you share the specific tools and strategies you use to write effective unit and integration tests for Java applications?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"This is our last question for today, but imagine a scenario where a production RabbitMQ queue starts filling up unexpectedly due to a consumer error; how would you approach diagnosing and resolving this issue while maintaining team communication?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "934",
+    "x-ratelimit-remaining-tokens" : "6466",
+    "x-ratelimit-reset-requests" : "1h35m2.4s",
+    "x-ratelimit-reset-tokens" : "37.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 246 caracteres"
+    }
+  },
+  "largos" : [ 198, 150, 187, 174, 246 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B12",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-08T16:21:44.819324300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1587,
+  "tokensEntrada" : 789,
+  "tokensSalida" : 378,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Given your three years of experience with Java Spring Boot and PostgreSQL, and your specific interest in growing toward architecture design, what is the single most compelling reason you are applying to this role at Andina Ficticia S.A.S. rather than pursuing a senior architecture position immediately?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"When modeling complex relationships in PostgreSQL for a Spring Boot application, what specific indexing strategies or normalization decisions have you implemented to ensure query performance remains under fifty milliseconds for high-traffic endpoints?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you integrated a message queue into a Java Web service; what was the concrete business problem, what architectural decision did you make regarding message durability, and what was the measurable impact on system throughput?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"In your previous work with Spring Boot, how did you structure your automated test suite to balance unit testing with integration testing for REST APIs, and what specific metrics did you use to determine if your coverage was sufficient for production release?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If a critical RabbitMQ integration in our Spring Boot environment suddenly starts dropping messages due to an undefined concurrency issue, and you have only thirty minutes to resolve it before a major release, what is your exact step-by-step diagnostic and mitigation plan?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "933",
+    "x-ratelimit-remaining-tokens" : "6675",
+    "x-ratelimit-reset-requests" : "1h36m28.8s",
+    "x-ratelimit-reset-tokens" : "32.16s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 303 caracteres"
+    }
+  },
+  "largos" : [ 303, 251, 258, 258, 273 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; despliegue y nube en las preguntas [4, 5]; Spring Boot en las preguntas [2, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B13",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-08T16:22:08.428879500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 986,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 350,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Háblanos brevemente sobre tu trayecto profesional y qué aspect específico del rol de Desarrollador Backend en Andina Ficticia S.A.S. te motiva para esta búsqueda.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Describe tu experiencia en el diseño de esquemas de bases de datos en PostgreSQL apoyándote tus proyectos anteriores en Java y Spring Boot.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Cuéntanos sobre una experiencia concreta en la que implementaste o administraste colas de mensajes en un entorno de despliegue en la nube; detalla la situación, tu tarea, las acciones que realizas y el resultado obtenido.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Cómo estructuras la escritura de pruebas automatizadas para servicios REST en Spring Boot y qué controles aplicas para garantizar la cobertura de los casos críticos?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagina que estás trabajando en equipo con metodologías ágiles y detectas que las integraciones con RabbitMQ están causando latencias inesperadas en la API; ¿cuáles serían los primeros pasos que tomarías para diagnosticar y resolver la situación?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "932",
+    "x-ratelimit-remaining-tokens" : "6988",
+    "x-ratelimit-reset-requests" : "1h37m55.2s",
+    "x-ratelimit-reset-tokens" : "11.64s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 246 caracteres"
+    }
+  },
+  "largos" : [ 162, 139, 221, 166, 246 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B14",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3659,
+  "inicio" : "2026-11-08T16:22:31.432249100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1118,
+  "tokensEntrada" : 947,
+  "tokensSalida" : 347,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Qué gusto tenerte aquí hoy, cuéntame un poco sobre ti y qué es lo que más te motiva de buscar crecer hacia el diseño de arquitectura teniendo ya experiencia con Java y Spring Boot.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Ya que has trabajado bastante con estos servicios, me gustaría que me contaras cómo estructuras las configuraciones y dependencias en Spring Boot para mantener tus APIs limpias y fáciles de pruebas.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"¿Puedes contarme de una experiencia específica en la que tuviste que resolver un problema complejidad al trabajar con colas de mensajes y cómo llegaste a una solución estable?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Cuando modelas bases de datos en PostgreSQL, ¿qué criterios técnicos consideras críticos para asegurar el rendimiento y la consistencia de los datos en servicios de alta demanda?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Para cerrar, imagina que durante una implementación ágil descubres que una integración con RabbitMQ está causando retrasos en el procesamiento, ¿ cómo gestionarías esta situación para mantener el flujo del equipo y resolver el error?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "931",
+    "x-ratelimit-remaining-tokens" : "6645",
+    "x-ratelimit-reset-requests" : "1h39m21.6s",
+    "x-ratelimit-reset-tokens" : "24.479s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 233 caracteres"
+    }
+  },
+  "largos" : [ 180, 198, 175, 178, 233 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B15",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:22:54.575603100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1155,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 399,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"es-CO\",\n\"preguntas\":[\n{\n\"posicion\":1,\n\"tipo\":\"APERTURA\",\n\"texto\":\"Con tres años de experiencia y un interés declarado en arquitectura, diseñe en una frase la transición exacta que necesita para dar el salto y justifique por qué sus métricas actuales de desempeño lo posicionan para asumir este rol de mantenimiento y diseño en Andina Ficticia S.A.S.\"\n},\n{\n\"posicion\":2,\n\"type\":\"TECNICA\",\n\"texto\":\"Describa la estrategia de indexación y modelado que implementó en PostgreSQL para soportar su carga de trabajo más intensa, especificando el número de consultas por segundo que procesaba y la reducción de latencia lograda.\"\n},\n{\n\"posicion\":3,\n\"tipo\":\"CONDUCTUAL\",\n\"texto\":\"Cuéntenos de una experiencia específica en la que enfrentó problemas de rendimiento o consistencia al usar colas de mensajes, detallando la tarea que debía resolver, la acción técnica que tomó y el resultado medible en términos de disponibilidad del sistema.\"\n},\n{\n\"posicion\":4,\n\"type\":\"TECNICA\",\n\"texto\":\"Detalle el flujo completo de una integración con RabbitMQ que haya desplegado, especificando las políticas de reconexión configuradas y el número de pruebas automatizadas que escribió para validar la tolerancia a fallos de esa conexión.\"\n},\n{\n\"posicion\":5,\n\"tipo\":\"SITUACIONAL\",\n\"texto\":\"Si al desplegar una nueva versión de nuestra API REST en Spring Boot detecta que el tiempo de respuesta se triplica y el equipo ágil exige una solución inmediata, explique paso a paso su plan de acción para diagnosticar el cuello de botella y restaurar los niveles de servicio en cuatro horas.\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "930",
+    "x-ratelimit-remaining-tokens" : "6675",
+    "x-ratelimit-reset-requests" : "1h40m48s",
+    "x-ratelimit-reset-tokens" : "30.3s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 2 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]"
+  },
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1688,
+    "tokensEntrada" : 820,
+    "tokensSalida" : 318,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Con tres años de experiencia específica en servicios web con Java y Spring Boot, qué métricas concretas ha logrado mejorar en su tránsito hacia el diseño de arquitectura y por qué considera que Andina Ficticia S.A.S. es el lugar para consolidar esas competencias.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Detalle la estrategia de indexación y particionamiento que ha implementado en PostgreSQL para reducir la latencia de consultas en sus APIs REST, citando los tiempos de respuesta antes y después del cambio.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que una integración con colas de mensajes falló en producción; ¿cuál fue la acción técnica inmediata, cómo decidió la solución y qué resultado alcanzó en términos de disponibilidad del servicio?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Cuál es su enfoque para ampliar la cobertura de pruebas automatizadas en proyectos con Spring Boot y RabbitMQ, indicando los tipos de pruebas que prioriza y la ganancia porcentual en detección de incidencias que ha obtenido.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si descubriera que una API crítica en producción presenta una fuga de memoria que incrementa el tiempo de respuesta un 40%, ¿cuáles son los tres pasos de diagnóstico y mitigación que ejecutaría de inmediato para restablecer el servicio?\"}]}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "929",
+      "x-ratelimit-remaining-tokens" : "5608",
+      "x-ratelimit-reset-requests" : "1h42m14.4s",
+      "x-ratelimit-reset-tokens" : "53.16s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 263 caracteres"
+      }
+    },
+    "largos" : [ 263, 205, 223, 224, 236 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 2,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: mensajería en las preguntas [3, 4]"
+    }
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B16",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-08T16:23:19.436665-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1238,
+  "tokensEntrada" : 787,
+  "tokensSalida" : 321,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your background in building web services, what specifically motivates you to pursue a Backend Developer role at Andina Ficticia S.A.S. while aiming to grow toward architecture design?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you model complex relational data in PostgreSQL to support the maintenance and stability of REST APIs built with Spring Boot?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you integrated message queues into a web service, outlining the situation, your task, the actions you took, and the result.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you apply when writing automated tests for Spring Boot applications to ensure the reliability of system integrations?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you identified a critical bottleneck in a RabbitMQ-based integration that was impacting API response times, how would you approach diagnosing and resolving the issue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "928",
+    "x-ratelimit-remaining-tokens" : "6403",
+    "x-ratelimit-reset-requests" : "1h43m40.799s",
+    "x-ratelimit-reset-tokens" : "48.6s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 189 caracteres"
+    }
+  },
+  "largos" : [ 189, 132, 158, 136, 169 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B17",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:23:42.686893300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2197,
+  "tokensEntrada" : 916,
+  "tokensSalida" : 373,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Hi there! I'm really glad you could make it. Given your background in Java and Spring Boot, what excites you most about this Backend Developer role and how it could help you move toward architecture design?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"I'd like you to walk me through how you typically structure your data models in PostgreSQL when handling complex relationships, especially within a Spring Boot environment.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Could you tell me about a specific time you integrated a message queue into a project? I'm curious about the situation you were in, your specific role, the actions you took to implement it, and the final result.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Since we rely heavily on automated testing, how do you approach writing unit tests and integration tests for REST APIs in Spring Boot to ensure reliability without over-mocking dependencies?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Just a heads-up, this is my last question, so please take your time. If you were to notice a critical performance bottleneck in our RabbitMQ integration during a go-live, how would you prioritize your investigation and mitigation steps?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "927",
+    "x-ratelimit-remaining-tokens" : "6351",
+    "x-ratelimit-reset-requests" : "1h45m7.2s",
+    "x-ratelimit-reset-tokens" : "43.98s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 236 caracteres"
+    }
+  },
+  "largos" : [ 206, 172, 211, 190, 236 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 2,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B18",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-08T16:24:06.901881100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1037,
+  "tokensEntrada" : 789,
+  "tokensSalida" : 369,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your three years of experience with Java and Spring Boot, what specific architectural milestones have you achieved that drive your current objective of transitioning into system architecture design?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"When optimizing high-transaction REST APIs in Spring Boot, can you detail a specific indexing strategy or query optimization you implemented in PostgreSQL that resulted in a measurable reduction of response times?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you had to debug a critical production issue in a web service: what was the root cause, what actions did you take to resolve it, and what was the final impact on system stability?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How have you structured your unit testing strategy for Spring Boot controllers using JUnit and Mockito, and can you provide concrete coverage metrics or specific scenarios you test to ensure integration reliability?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a consumer application starts rejecting messages from the RabbitMQ queue due to an unhandled exception in the handler, what diagnostic steps would you take immediately and how would you implement a retry mechanism with dead-letter queues to prevent data loss?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "926",
+    "x-ratelimit-remaining-tokens" : "6496",
+    "x-ratelimit-reset-requests" : "1h46m33.599s",
+    "x-ratelimit-reset-tokens" : "42.9s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 262 caracteres"
+    }
+  },
+  "largos" : [ 204, 213, 214, 215, 262 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B19",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3142,
+  "inicio" : "2026-11-08T16:24:29.956524200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 923,
+  "tokensEntrada" : 818,
+  "tokensSalida" : 305,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Presente por favor su trayectoria profesional y explique qué le motiva específicamente para optar por el rol de Desarrollador Backend en esta empresa.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Cómo estructura y gestiona las dependencias y los servicios en una aplicación construida con Spring Boot?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Cuéntenos sobre una experiencia concreta en la que haya trabajado en un equipo con metodologías ágiles, describiendo la situación, la tarea asignada, las acciones que tomó y el resultado obtenido.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Qué consideraciones de diseño e implementación tiene en cuenta al modelar bases de datos en PostgreSQL para optimizar el rendimiento de las consultas?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si detectara un cuello de botella en una cola de mensajes basada en RabbitMQ durante horas pico, ¿cómo abordaría la situación para resolverla?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "925",
+    "x-ratelimit-remaining-tokens" : "6494",
+    "x-ratelimit-reset-requests" : "1h48m0s",
+    "x-ratelimit-reset-tokens" : "41.279s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 196 caracteres"
+    }
+  },
+  "largos" : [ 150, 106, 196, 151, 142 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B20",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3659,
+  "inicio" : "2026-11-08T16:24:52.900432400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1195,
+  "tokensEntrada" : 947,
+  "tokensSalida" : 347,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"¡Hola! Qué gusto tenerte aquí. Me encantaría que nos hablaras un poco sobre qué es lo que más te motiva de la posibilidad de enfocarte en el diseño de arquitectura a partir de tu experiencia con servicios web en Java.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Me gustaría que me contaras cómo has optimizado las consultas a bases de datos PostgreSQL en las APIs REST que has desarrollado con Spring Boot para garantizar un buen rendimiento.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Cuéntame sobre una ocasión específica en la que tuvieras que implementar un sistema de colas de mensajes donde tu papel fue clave para asegurar la estabilidad del servicio.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Qué prácticas específicas de integración de RabbitMQ has utilizado y cómo has abordado el despliegue de estos componentes en entornos de nube?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Para cerrar, te pongo en esta situación: si detectaras que una de las APIs en la que trabajas tiene problemas de latencia justo en pleno despliegue, ¿cómo procederías para resolverlo manteniendo el equilibrio del equipo?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "924",
+    "x-ratelimit-remaining-tokens" : "6442",
+    "x-ratelimit-reset-requests" : "1h49m26.4s",
+    "x-ratelimit-reset-tokens" : "36.66s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 220 caracteres"
+    }
+  },
+  "largos" : [ 217, 180, 172, 143, 220 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]; despliegue y nube en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B21",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:25:16.131966100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1476,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 425,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Teniendo en cuenta tus tres años de experiencia en desarrollo backend, ¿cuál es el objetivo arquitectónico específico que buscas alcanzar en esta posición y cómo entiendes que este rol te pone directamente en el camino hacia él?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategia concreta de modelado de datos en PostgreSQL implementaste para optimizar consultas complejas en tus servicios Spring Boot, y qué mejora en los tiempos de respuesta o uso de recursos lograste cuantificar?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbeme una situación en la que debiste integrar un componente de cola de mensajes crítico en un proyecto, detallando la decisión técnica clave que tomaste y el resultado específico en términos de estabilidad del sistema.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo diseñas tus pruebas automatizadas para garantizar la integridad de las transacciones en bases de relacionales cuando se consumen eventos desde colas de RabbitMQ, y qué porcentaje de cobertura consideras mínimo aceptable para validar esa lógica?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si al desplegar una nueva versión de una API en la nube detectas que los consumidores de RabbitMQ saturan los recursos y caen por completo, ¿cuáles son los tres pasos inmediatos y concretos que ejecutarías para diagnosticar y mitigar la falla antes de revertir el despliegue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "923",
+    "x-ratelimit-remaining-tokens" : "6595",
+    "x-ratelimit-reset-requests" : "1h50m52.8s",
+    "x-ratelimit-reset-tokens" : "35.099s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 275 caracteres"
+    }
+  },
+  "largos" : [ 228, 219, 224, 250, 275 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4, 5]; base de datos en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B22",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3064,
+  "inicio" : "2026-11-08T16:25:39.630624700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 892,
+  "tokensEntrada" : 787,
+  "tokensSalida" : 297,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Why are you interested in this Backend Developer role at Andina Ficticia S.A.S.?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Can you explain the core principles of Spring Boot and how it manages dependency injection in web services?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific project where you built web services using Java with Spring Boot and PostgreSQL, including the technical challenges you faced and the results achieved.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you design PostgreSQL database schemas to ensure data integrity and performance in a microservices environment?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagine a critical REST API experiences a sudden spike in traffic that causes message queue latency to increase unexpectedly; what steps would you take to diagnose and resolve the issue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "922",
+    "x-ratelimit-remaining-tokens" : "6590",
+    "x-ratelimit-reset-requests" : "1h52m19.2s",
+    "x-ratelimit-reset-tokens" : "37.38s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 186 caracteres"
+    }
+  },
+  "largos" : [ 80, 107, 171, 118, 186 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [3, 4]; Spring Boot en las preguntas [2, 3]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B23",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:26:02.536849500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1032,
+  "tokensEntrada" : 916,
+  "tokensSalida" : 379,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Welcome, I'm really glad you're here. To start us off, could you tell me a bit about your journey over the last three years building services in Java and what draws you to this Backend Developer role at Andina Ficticia S.A.S.?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"I'd love for you to walk me through how you approach modeling a complex database in PostgreSQL for a specific service. How do you decide on your schema design and ensure it supports efficient queries for your REST APIs?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Could you share a specific instance where you worked on a team using agile methodologies to deliver a feature? Please go into detail about the situation, your specific task, the actions you took, and the result you achieved.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Since the role involves heavy use of RabbitMQ, how do you typically handle message reliability and ensure that your Spring Boot services process messages correctly even if the queue experiences a temporary failure?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"This is the last question, and I hope you're enjoying our conversation so far. If you were joining our team and noticed a pattern of slow API responses due to inefficient database queries in a microservice, what would be your immediate steps to diagnose and resolve the issue?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "921",
+    "x-ratelimit-remaining-tokens" : "6367",
+    "x-ratelimit-reset-requests" : "1h53m45.6s",
+    "x-ratelimit-reset-tokens" : "43.019s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 276 caracteres"
+    }
+  },
+  "largos" : [ 226, 219, 224, 214, 276 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "B24",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-08T16:26:25.589997100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1542,
+  "tokensEntrada" : 789,
+  "tokensSalida" : 411,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Given your three years of experience building web services in Java with Spring Boot and PostgreSQL, and your specific interest in growing toward architecture design, what concrete alignment does this Backend Developer role at Andina Ficticia S.A.S. offer that justifies your application over other structural positions?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"In one of your recent projects using Spring Boot and PostgreSQL, how did you optimize a slow-performing query by analyzing the execution plan and implementing specific indexing strategies, and what was the measured reduction in response time?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you implemented a message queue to handle high throughput or decouple services; what was the exact architectural problem you were solving, how did you manage failure scenarios, and what quantifiable improvement in system reliability or latency did you achieve?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"When designing the integration between Spring Boot services and RabbitMQ, which specific configuration parameters did you adjust to ensure messages are not lost during consumer restarts, and how did you verify the reliability of these settings in your testing environment?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagine you discover that a critical RabbitMQ consumer in the production environment is dead-lettering messages due to a unhandled exception, and the team is currently in a tight agile sprint with no spare capacity; what immediate steps would you take to mitigate the impact, and how would you propose a long-term fix without disrupting the current sprint goals?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "920",
+    "x-ratelimit-remaining-tokens" : "6722",
+    "x-ratelimit-reset-requests" : "1h55m12s",
+    "x-ratelimit-reset-tokens" : "29.34s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 362 caracteres"
+    }
+  },
+  "largos" : [ 319, 242, 295, 272, 362 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+} ]

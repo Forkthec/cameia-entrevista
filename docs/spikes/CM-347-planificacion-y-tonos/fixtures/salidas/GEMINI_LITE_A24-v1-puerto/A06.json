@@ -1,0 +1,63 @@
+{
+  "id" : "A06",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 2053,
+  "inicio" : "2026-11-07T11:20:17.823908800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v1",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1487,
+  "tokensEntrada" : 523,
+  "tokensSalida" : 237,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría resumir su experiencia en el desarrollo de servicios web y qué le motiva a postularse para este rol de Desarrollador Backend?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona la concurrencia y la consistencia de los datos al utilizar Spring Boot junto con bases de datos PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya tenido que optimizar el rendimiento de un servicio backend existente; detalle la tarea, la acción que tomó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera ha integrado el uso de colas de mensajes en la arquitectura de sus despliegues en la nube para desacoplar servicios?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se le asigna la tarea de diseñar la arquitectura inicial para un nuevo microservicio con alta demanda, ¿qué pasos seguiría para definir su estructura y garantizar su escalabilidad?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 183 caracteres"
+    }
+  },
+  "largos" : [ 133, 122, 169, 131, 183 ],
+  "validoTrasReintento" : true
+}

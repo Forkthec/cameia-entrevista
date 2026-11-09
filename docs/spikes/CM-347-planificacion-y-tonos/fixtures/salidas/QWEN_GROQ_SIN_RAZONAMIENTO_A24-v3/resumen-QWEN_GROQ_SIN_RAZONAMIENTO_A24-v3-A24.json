@@ -1,0 +1,2215 @@
+[ {
+  "id" : "A01",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3379,
+  "inicio" : "2026-11-08T15:53:57.025008700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 3502,
+  "tokensEntrada" : 879,
+  "tokensSalida" : 347,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuéntanos brevemente por qué te interesa el rol de Desarrollador Backend en Andina Ficticia S.A.S. y cómo tu experiencia previa se alinea con nuestras necesidades.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explica cómo diseñarías la estructura de tablas y las relaciones en PostgreSQL para un modelo de datos que requiera alta consistencia transaccional.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbeme una experiencia en la que implementaste una solución de despliegue en la nube que requirió coordinación con otro equipo.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿De qué manera estructuras la lógica de tu aplicación Spring Boot para garantizar que las pruebas automatizadas cubran adecuadamente los casos de borde?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagina que recibes un mensaje en RabbitMQ que provoca un error desconocido y bloquea el procesamiento de la cola; ¿qué pasos seguirías para diagnosticar y resolver la situación?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "999",
+    "x-ratelimit-remaining-tokens" : "6710",
+    "x-ratelimit-reset-requests" : "1m26.4s",
+    "x-ratelimit-reset-tokens" : "9.675s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 178 caracteres"
+    }
+  },
+  "largos" : [ 163, 148, 131, 152, 178 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A02",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3379,
+  "inicio" : "2026-11-08T15:54:22.657553400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 904,
+  "tokensEntrada" : 879,
+  "tokensSalida" : 317,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Puede usted describir brevemente su experiencia de tres años en Java y la motivación que lo lleva a buscar crecer en diseño de arquitectura dentro de nuestra empresa.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo maneja la creación de las transacciones y las consultas en PostgreSQL para optimizar el rendimiento de las API REST en Spring Boot?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"¿Puede describir una experiencia pasada en la que haya trabajado en equipo utilizando metodologías ágiles para entregar un servicio web?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategias implementa con RabbitMQ para garantizar el procesamiento confiable de los mensajes en las colas?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si detecta una falta de cobertura en las pruebas automatizadas de un módulo crítico durante el desarrollo, ¿cómo procedería?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "998",
+    "x-ratelimit-remaining-tokens" : "7060",
+    "x-ratelimit-reset-requests" : "2m52.8s",
+    "x-ratelimit-reset-tokens" : "7.05s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 166 caracteres"
+    }
+  },
+  "largos" : [ 166, 137, 136, 113, 124 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 3]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A03",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3379,
+  "inicio" : "2026-11-08T15:54:45.597491600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1106,
+  "tokensEntrada" : 879,
+  "tokensSalida" : 250,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuéntenos qué motivaciones lo llevan a buscar un giro hacia el diseño de arquitectura desde su posición actual de desarrollador de servicios web.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Describa cómo optimizaría el rendimiento de las consultas en una base de datos PostgreSQL cuando el volumen de datos crece significativamente en una API REST.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación pasada en la que tuvo que implementar un sistema de colas de mensajes para manejar picos de demanda o desacoplar servicios, detallando la acción que tomó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explique qué estrategias o herramientas utiliza para asegurar la calidad y la cobertura de sus pruebas automatizadas en proyectos con Spring Boot.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la ejecución de una entrega ágil identificara que el diseño actual de la arquitectura no permite escalar la integración con RabbitMQ, ¿cómo procedería para resolverlo y comunicar el cambio?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "997",
+    "x-ratelimit-remaining-tokens" : "6774",
+    "x-ratelimit-reset-requests" : "4m19.2s",
+    "x-ratelimit-reset-tokens" : "9.195s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 201 caracteres"
+    }
+  },
+  "largos" : [ 145, 158, 201, 146, 200 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; servicios web y Spring en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A04",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3071,
+  "inicio" : "2026-11-08T15:55:08.744144800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1016,
+  "tokensEntrada" : 810,
+  "tokensSalida" : 318,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuénteme brevemente sobre su experiencia y por qué busca desarrollarse hacia el diseño de arquitectura.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo gestiona la integridad de las transacciones en PostgreSQL cuando opera con servicios de colas de mensajes?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación en la que implementó un despliegue en la nube que requirió ajustes en la configuración de Spring Boot para asegurar la estabilidad del servicio.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué patrones de diseño utiliza en Java para garantizar que la capa de servicio sea agnóstica al motor de base de datos?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si un servicio de Java experimenta una caída constante en el rendimiento durante las horas pico, ¿qué pasos seguiría para diagnosticar y resolver el problema?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "996",
+    "x-ratelimit-remaining-tokens" : "6843",
+    "x-ratelimit-reset-requests" : "5m45.6s",
+    "x-ratelimit-reset-tokens" : "8.677s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 167 caracteres"
+    }
+  },
+  "largos" : [ 103, 112, 167, 120, 158 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A05",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3071,
+  "inicio" : "2026-11-08T15:55:31.773598900-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1030,
+  "tokensEntrada" : 810,
+  "tokensSalida" : 354,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"¿Cuál es su principal motivación para aplicar a esta posición de Desarrollador Backend y cómo ve esta oportunidad en relación con su objetivo de crecer hacia el diseño de arquitectura?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cuáles son las principales ventajas y desventajas de utilizar colas de mensajes para la asincronía frente a la llamada directa entre servicios en una microservicio con Spring Boot?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación específica en la que haya sido responsable de desplegar un service en la nube y detalle la situación, la tarea asignada, las acciones que tomó y el resultado obtenido.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo optimizaría las consultas a la base de datos PostgreSQL para mejorar el rendimiento de un endpoint de alta carga?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si detectara que la arquitectura actual de una de sus aplicaciones con Java presenta cuellos de botella bajo picos de tráfico, ¿cuál sería su plan de acción para resolverlo?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "995",
+    "x-ratelimit-remaining-tokens" : "6873",
+    "x-ratelimit-reset-requests" : "7m12s",
+    "x-ratelimit-reset-tokens" : "8.452s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 190 caracteres"
+    }
+  },
+  "largos" : [ 184, 181, 190, 119, 173 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A06",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3071,
+  "inicio" : "2026-11-08T15:55:54.819309-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2024,
+  "tokensEntrada" : 810,
+  "tokensSalida" : 339,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"¿Qué motiva tu interés por la posición de Desarrollador Backend y cómo te gustaría evolucionar hacia el diseño de arquitectura con su base actual en servicios web Java?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo gestionas la definición de las capas de dominio y la inyección de dependencias en aplicaciones construidas con Spring Boot?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbame una experiencia concreta en la que tuvo que implementar o administrar colas de mensajes para asegurar la integridad de los datos.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategias de modelado de datos y manejo de transacciones aplica cuando diseña esquemas complejos en PostgreSQL?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si observa que los tiempos de respuesta se degradan al escalar un servicio desplegado en la nube, ¿cuáles serían los primeros pasos de su plan de acción para diagnosticar y resolver la situación?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "994",
+    "x-ratelimit-remaining-tokens" : "6900",
+    "x-ratelimit-reset-requests" : "8m38.4s",
+    "x-ratelimit-reset-tokens" : "8.25s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 195 caracteres"
+    }
+  },
+  "largos" : [ 168, 129, 140, 118, 195 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A07",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3301,
+  "inicio" : "2026-11-08T15:56:18.870438400-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1013,
+  "tokensEntrada" : 848,
+  "tokensSalida" : 319,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"What motivated you to transition from backend development toward architecture design, and why does this specific Backend Developer role at Andina Ficticia S.A.S. align with that goal?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you ensure data consistency when managing database transactions in PostgreSQL within a Spring Boot application?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"text\": \"Describe a specific instance where you had to coordinate with your team using agile methodologies to meet a deadline, including the task, the actions you took, and the result.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use to maintain high availability when integrating message queues with RabbitMQ in a web service?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a critical bug is discovered in a deployed REST API endpoint and existing automated tests fail to catch it immediately, how would you handle the situation to resolve the issue?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "993",
+    "x-ratelimit-remaining-tokens" : "6798",
+    "x-ratelimit-reset-requests" : "10m4.8s",
+    "x-ratelimit-reset-tokens" : "9.015s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 910,
+    "tokensEntrada" : 848,
+    "tokensSalida" : 267,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Tell us about your motivation for this Backend Developer role and how your interest in growing toward architecture design aligns with this position.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you structure database models in PostgreSQL to support the requirements of complex REST APIs built with Spring Boot?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you had to coordinate with a team using agile methodologies to deliver a feature involving message queues.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"What strategies do you apply when writing automated tests for backend microservices to ensure reliability?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If you encountered a production issue where a message queue integration with RabbitMQ started failing unexpectedly, what would be your first steps to diagnose and resolve it?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "992",
+      "x-ratelimit-remaining-tokens" : "5780",
+      "x-ratelimit-reset-requests" : "11m31.2s",
+      "x-ratelimit-reset-tokens" : "16.65s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 174 caracteres"
+      }
+    },
+    "largos" : [ 148, 123, 141, 106, 174 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 1,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+    }
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A08",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3301,
+  "inicio" : "2026-11-08T15:56:42.829055800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1014,
+  "tokensEntrada" : 848,
+  "tokensSalida" : 311,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you present yourself and explain why you are interested in the Backend Developer role at Andina Ficticia S.A.S. given your background in Java and Spring Boot?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you approach modeling complex database schemas in PostgreSQL to ensure data integrity and query performance for high-load web services?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific past experience where you worked with message queues, detailing the situation, your specific actions, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What is your strategy for writing automated tests in Spring Boot to cover critical business logic while maintaining test execution speed?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you identified a critical dependency risk in the existing REST API architecture that could impact scalability, how would you handle this situation within the agile process?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "991",
+    "x-ratelimit-remaining-tokens" : "6617",
+    "x-ratelimit-reset-requests" : "12m57.599s",
+    "x-ratelimit-reset-tokens" : "32.1s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 175 caracteres"
+    }
+  },
+  "largos" : [ 162, 142, 138, 137, 175 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A09",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3301,
+  "inicio" : "2026-11-08T15:57:05.864294400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1027,
+  "tokensEntrada" : 848,
+  "tokensSalida" : 310,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Please introduce yourself and explain why you are motivated to take on the role of Backend Developer at Andina Ficticia S.A.S.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you structure database models in PostgreSQL to efficiently support the high-volume transactional requirements of a Spring Boot REST API?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific experience where you integrated a message queue into a web service, detailing the situation, your task, the actions you took, and the final result.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use to write automated tests for Spring Boot applications to ensure the reliability of your backend services?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a production issue occurs that affects the performance of the RabbitMQ integration, how would you approach diagnosing and resolving the situation?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "990",
+    "x-ratelimit-remaining-tokens" : "6697",
+    "x-ratelimit-reset-requests" : "14m24s",
+    "x-ratelimit-reset-tokens" : "27.3s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 167 caracteres"
+    }
+  },
+  "largos" : [ 126, 143, 167, 132, 149 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; servicios web y Spring en las preguntas [2, 3, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A10",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3020,
+  "inicio" : "2026-11-08T15:57:28.906718500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 816,
+  "tokensEntrada" : 790,
+  "tokensSalida" : 192,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you describe your background in building web services with Spring Boot and what motivates you to apply for this Backend Developer role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle connection pooling and transaction management when working with PostgreSQL in a Spring Boot application?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Please describe a specific incident where a message queue failure disrupted your service and the steps you took to resolve it.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies have you implemented for cloud deployments to ensure high availability and scalability of your Java services?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If you were tasked with designing the architecture for a new microservice, how would you approach defining its boundaries and communication patterns?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "989",
+    "x-ratelimit-remaining-tokens" : "6813",
+    "x-ratelimit-reset-requests" : "15m50.4s",
+    "x-ratelimit-reset-tokens" : "23.82s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 149 caracteres"
+    }
+  },
+  "largos" : [ 139, 122, 126, 125, 149 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A11",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3020,
+  "inicio" : "2026-11-08T15:57:51.745848200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 3223,
+  "tokensEntrada" : 790,
+  "tokensSalida" : 289,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you explain what specifically motivates you to move toward architecture design within your current backend role?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you manage long-running transactions in Spring Boot when interacting with PostgreSQL to ensure data consistency?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you implemented a message queue to handle high-volume requests, detailing the challenge, your actions, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use to optimize cloud deployments for Java applications to minimize startup time and resource consumption?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a production MySQL database experienced sudden latency issues despite adequate indexing, what steps would you take to diagnose and resolve the problem?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "988",
+    "x-ratelimit-remaining-tokens" : "6856",
+    "x-ratelimit-reset-requests" : "17m16.8s",
+    "x-ratelimit-reset-tokens" : "8.58s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 154 caracteres"
+    }
+  },
+  "largos" : [ 116, 119, 154, 129, 154 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A12",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3020,
+  "inicio" : "2026-11-08T15:58:16.990796200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 904,
+  "tokensEntrada" : 790,
+  "tokensSalida" : 300,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your background in web services and interest in architecture, what specifically motivates you to apply for this Backend Developer role?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you design and optimize queries in PostgreSQL to ensure efficient data retrieval for high-traffic services?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you implemented message queues to decouple system components. What was the context, your specific actions, and the measurable outcome?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use when deploying Java applications on cloud infrastructure to ensure scalability and reliability?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you were given full responsibility for designing the architecture of a new service from scratch, what key decisions would you make regarding modularity and communication patterns?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "987",
+    "x-ratelimit-remaining-tokens" : "6871",
+    "x-ratelimit-reset-requests" : "18m43.2s",
+    "x-ratelimit-reset-tokens" : "8.467s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 182 caracteres"
+    }
+  },
+  "largos" : [ 141, 114, 169, 122, 182 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : true,
+    "aproximado" : true,
+    "detalle" : "ningún tema se repite entre las preguntas 2 a 5 (aproximado)"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A13",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3372,
+  "inicio" : "2026-11-08T15:58:39.901937500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1232,
+  "tokensEntrada" : 880,
+  "tokensSalida" : 341,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Cuáles son las razones específicas que lo motivan para buscar especializarse en automatización dentro del rol de Analista de Calidad de Software en Andina Ficticia S.A.S.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Cómo estructura técnicamente sus scripts para garantizar que las pruebas de regresión ejecutadas con Selenium mantengan la trazabilidad con los requisitos funcionales de las aplicaciones web.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describa una experiencia concreta en la que haya diseñado y ejecutado casos de prueba manuales que revelaran defectos críticos, detallando la situación, la acción tomada y el resultado final reportado.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Qué criterios técnicos utiliza para clasificar y priorizar los defectos que registra en Jira durante el proceso de aseguramiento de la calidad.\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si durante la ejecución de una suite de pruebas automatizadas con Selenium se presenta una falla ininteligible que no está relacionada con el código de la aplicación, cómo procedería para determinar si es un fallo del script o del entorno de pruebas?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "986",
+    "x-ratelimit-remaining-tokens" : "6766",
+    "x-ratelimit-reset-requests" : "20m9.6s",
+    "x-ratelimit-reset-tokens" : "9.254s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 250 caracteres"
+    }
+  },
+  "largos" : [ 170, 191, 201, 143, 250 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 5]; gestión de defectos en las preguntas [3, 4]; trazabilidad y requisitos en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A14",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3372,
+  "inicio" : "2026-11-08T15:59:03.152882400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 821,
+  "tokensEntrada" : 880,
+  "tokensSalida" : 226,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hábleme sobre su motivación para especializarse en automatización de pruebas y por qué desea ocupar este cargo en nuestra empresa.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Describa cómo estructura una estrategia de pruebas manuales para una aplicación web, asegurando la cobertura de los requisitos funcionales.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntenos una experiencia spesifikA en la que haya identificado un defecto crítico durante la ejecución de pruebas manuales y cómo lo documentó.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explique la metodología que utiliza para garantizar la trazabilidad entre los requisitos del sistema y los casos de prueba en proyectos de software.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine que detecta que un defecto reportado no se ha resuelto a tiempo y afecta la línea base del proyecto; ¿qué acciones tomaría primeramente?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "985",
+    "x-ratelimit-remaining-tokens" : "6773",
+    "x-ratelimit-reset-requests" : "21m36s",
+    "x-ratelimit-reset-tokens" : "9.202s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 148 caracteres"
+    }
+  },
+  "largos" : [ 130, 139, 144, 148, 144 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 5]; trazabilidad y requisitos en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A15",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3372,
+  "inicio" : "2026-11-08T15:59:25.986286400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1569,
+  "tokensEntrada" : 880,
+  "tokensSalida" : 224,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Qué motivación específica le lleva a buscar un rol como Analista de Calidad de Software en esta oportunidad?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructuraría el flujo de trabajo para asegurar la trazabilidad de los requisitos con los casos de prueba que diseñe?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una experiencia concreta en la que haya identificado un defecto crítico durante la ejecución de pruebas manuales, indicando cuál fue la situación, la acción que tomó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué estrategia de mantenimiento implementa para garantizar la estabilidad de las pruebas automatizadas de regresión desarrolladas con Selenium?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante una ejecución de pruebas detecta una discrepancia no documentada entre el comportamiento de la aplicación y los requisitos aprobados, ¿cómo procedería?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "984",
+    "x-ratelimit-remaining-tokens" : "6766",
+    "x-ratelimit-reset-requests" : "23m2.4s",
+    "x-ratelimit-reset-tokens" : "9.254s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 199 caracteres"
+    }
+  },
+  "largos" : [ 109, 123, 199, 144, 162 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: trazabilidad y requisitos en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A16",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3101,
+  "inicio" : "2026-11-08T15:59:49.565135300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1034,
+  "tokensEntrada" : 819,
+  "tokensSalida" : 356,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuéntenos qué lo motivó a postularse para el rol de Analista de Calidad de Software y cómo ve esta oportunidad en relación con su interés por especializarse en automatización.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo estructura los arreglos de elementos y las locators dentro de sus scripts para garantizar la estabilidad de sus pruebas automatizadas en Selenium?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una experiencia en la que haya tenido que reportar un defecto crítico en Jira, especificando la situación, la acción que tomó hace para validarlo y el resultado obtenido.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué criterios técnicos utiliza al definir los casos de prueba funcionales para una nueva funcionalidad de una aplicación web antes de iniciar la ejecución?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si durante la ejecución de una prueba automatizada en Selenium detecta que un proceso de integración con un servicio externo falla de manera intermitente, ¿cómo procedería para diagnosticar y documentar el problema?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "983",
+    "x-ratelimit-remaining-tokens" : "6842",
+    "x-ratelimit-reset-requests" : "24m28.8s",
+    "x-ratelimit-reset-tokens" : "8.684s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 215 caracteres"
+    }
+  },
+  "largos" : [ 175, 152, 179, 156, 215 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A17",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3101,
+  "inicio" : "2026-11-08T16:00:12.621832700-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 943,
+  "tokensEntrada" : 819,
+  "tokensSalida" : 318,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"text\": \"Cuénteme brevemente su experiencia previa como analista de calidad en aplicaciones web y lo que le motiva a buscar especializarse en automatización para este rol.\"\n},\n{\n\"posccion\": 2,\n\"tipo\": \"TECNICA\",\n\"text\": \"Al utilizar Selenium para pruebas automatizadas, ¿cómo determina qué estrategia de locate WebElement es la más estable para evitar fallas intermitentes en las pruebas?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"text\": \"Describa una situación específica en la que tuvo que diseñar casos de prueba para una funcionalidad con un alcance inicial ambiguo o incompleto.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"¿Qué criterios específicos utiliza al reportar defectos en Jira para que el desarrollo pueda reproducir el problema de manera exacta sin necesidad de aclaraciones adicionales?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"text\": \"Si detecta un defecto crítico en el entorno de pruebas justo antes del despliegue programado para horas, ¿cómo manejaría esta situación para equilibrar la calidad con los plazos del proyecto?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "982",
+    "x-ratelimit-remaining-tokens" : "6825",
+    "x-ratelimit-reset-requests" : "25m55.199s",
+    "x-ratelimit-reset-tokens" : "8.812s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 765,
+    "tokensEntrada" : 819,
+    "tokensSalida" : 226,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuénteme brevemente sobre su perfil profesional y qué lo motiva a aplicar al rol de Analista de Calidad de Software.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura sus scripts al usar Selenium para garantizar la mantenibilidad del código de automatización?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya reportado un defecto crítico usando Jira; ¿cuál era el problema, qué acciones tomó al registrarlo y cuál fue el resultado final?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué criterios utiliza para definir si un escenario de prueba en una aplicación web debe ejecutarse manualmente o si conviene automatizarlo?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si detectara durante una ejecución de pruebas que el ambiente de pruebas no está estable y no puede continuar, ¿qué pasos seguiría para manejar la situación?\"}]}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "981",
+      "x-ratelimit-remaining-tokens" : "5821",
+      "x-ratelimit-reset-requests" : "27m21.6s",
+      "x-ratelimit-reset-tokens" : "16.342s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "no se envió oferta: no aplica"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 166 caracteres"
+      }
+    },
+    "largos" : [ 116, 109, 166, 140, 157 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 0,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 4]"
+    }
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A18",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3101,
+  "inicio" : "2026-11-08T16:00:36.336267600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 972,
+  "tokensEntrada" : 819,
+  "tokensSalida" : 322,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuéntenos qué motivación tiene para buscar especializarse en la automatización de pruebas tras su experiencia como analista de calidad en aplicaciones web.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Describa cómo estructura sus escenarios de prueba automatizados cuando utiliza Selenium.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una experiencia concreta en la que diseñó casos de prueba para una funcionalidad compleja, especificando la situación, la tarea asignada, la acción que tomó y el resultado obtenido.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué criterios utiliza al momento de reportar un defecto en Jira para garantizar que el equipo de desarrollo pueda replicarlo?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagínese que durante la ejecución de pruebas manuales identifica un defecto crítico justo antes del despliegue a producción; ¿cómo actuaría?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "980",
+    "x-ratelimit-remaining-tokens" : "6675",
+    "x-ratelimit-reset-requests" : "28m48s",
+    "x-ratelimit-reset-tokens" : "30.36s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 190 caracteres"
+    }
+  },
+  "largos" : [ 155, 88, 190, 126, 141 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A19",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3288,
+  "inicio" : "2026-11-08T16:00:59.320555200-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 946,
+  "tokensEntrada" : 851,
+  "tokensSalida" : 269,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Can you present yourself and explain why you want to move into a role that focuses on specializing automation?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you structure your Selenium test scripts to ensure they are maintainable and efficient for regression testing?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONVENTUAL\",\n\"texto\": \"Describe a specific time when you identified a defect during manual testing; what was the situation, what actions did you take, and what was the result?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you use Jira to track automated test failures and link them back to specific requirements or user stories?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If a stakeholder asks to skip a set of regression tests to meet a tight release deadline, how would you handle the situation?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "979",
+    "x-ratelimit-remaining-tokens" : "6497",
+    "x-ratelimit-reset-requests" : "30m14.4s",
+    "x-ratelimit-reset-tokens" : "39.12s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 4]; gestión de defectos en las preguntas [3, 4]"
+  },
+  "reintento" : {
+    "planValido" : false,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1164,
+    "tokensEntrada" : 851,
+    "tokensSalida" : 264,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"text\": \"Please introduce yourself and explain why you want to specialize in automation for this Software Quality Analyst role.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"text\": \"How do you design and implement Selenium-automated tests to ensure the regression suite is reliable and maintainable?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"text\": \"Describe a specific occasion where you had to report a critical defect in Jira; what was the situation, what actions did you take, and what was the result?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"What is your approach to ensuring requirements traceability when designing test plans and test cases for web applications?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"text\": \"If a severe bug is found in the production environment after a release, how would you handle the response and analysis process?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "978",
+      "x-ratelimit-remaining-tokens" : "5900",
+      "x-ratelimit-reset-requests" : "31m40.8s",
+      "x-ratelimit-reset-tokens" : "32.76s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ]
+  },
+  "validoTrasReintento" : false
+}, {
+  "id" : "A20",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3288,
+  "inicio" : "2026-11-08T16:01:23.443312500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 826,
+  "tokensEntrada" : 851,
+  "tokensSalida" : 305,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Please provide a brief overview of your background and explain why you are motivated to specialize in automation for this Software Quality Analyst position.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain the process you follow to design test cases for web applications and how you ensure they cover the functional requirements.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you identified and reported a critical defect during manual testing, detailing the situation, your actions, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What is your approach to maintaining and debugging Selenium automated tests when the underlying web application interface changes?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you discovered a discrepancy between the executed test results and the expected behavior that is not documented in Jira, how would you proceed to ensure accurate defect tracking?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "977",
+    "x-ratelimit-remaining-tokens" : "6821",
+    "x-ratelimit-reset-requests" : "33m7.2s",
+    "x-ratelimit-reset-tokens" : "19.68s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 181 caracteres"
+    }
+  },
+  "largos" : [ 156, 131, 159, 130, 181 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A21",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3288,
+  "inicio" : "2026-11-08T16:01:46.307540-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 915,
+  "tokensEntrada" : 851,
+  "tokensSalida" : 301,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Could you briefly introduce yourself and explain why you are interested in this Software Quality Analyst position at Andina Ficticia S.A.S.?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you approach the design of test cases and test plans to ensure that all functional requirements are covered?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Please describe a specific situation where you managed defects in Jira, detailing the task you handled, the actions you took, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Which strategies do you use when automating regression tests with Selenium to handle dynamic elements and ensure test stability?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Suppose you identify a critical discrepancy between the documented requirements and the actual application behavior during testing; how would you proceed?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "976",
+    "x-ratelimit-remaining-tokens" : "6849",
+    "x-ratelimit-reset-requests" : "34m33.6s",
+    "x-ratelimit-reset-tokens" : "18s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 154 caracteres"
+    }
+  },
+  "largos" : [ 140, 115, 142, 128, 154 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: trazabilidad y requisitos en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A22",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3036,
+  "inicio" : "2026-11-08T16:02:09.229099800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 848,
+  "tokensEntrada" : 798,
+  "tokensSalida" : 299,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Please introduce yourself and explain why you want to specialize in automation for this Software Quality Analyst role.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What criteria do you use to distinguish between defects that require Selenium automation and those that are best handled manually?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describe a specific instance where you identified a critical defect in Jira during a testing cycle, detailing the situation, your actions, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you structure your test cases to ensure comprehensive coverage of different functional areas in web applications?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you discovered a regression in a stable module during a late phase of the development cycle, what steps would you take to manage the impact and communicate the risk?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "975",
+    "x-ratelimit-remaining-tokens" : "6780",
+    "x-ratelimit-reset-requests" : "36m0s",
+    "x-ratelimit-reset-tokens" : "25.32s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 168 caracteres"
+    }
+  },
+  "largos" : [ 118, 130, 155, 120, 168 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [2, 3]; riesgo y cobertura en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A23",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3036,
+  "inicio" : "2026-11-08T16:02:32.092741800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 898,
+  "tokensEntrada" : 798,
+  "tokensSalida" : 294,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Can you briefly describe your professional background and what specifically motivates you to apply for this Software Quality Analyst role?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Explain how you structure your test automation framework using Selenium and how you handle test data management to ensure reproducibility.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you identified a defect in a web application that others had missed. What was the situation, what actions did you take, and what was the outcome?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"What are the best practices you follow when writing bug reports in Jira to ensure developers can quickly reproduce and understand the issue?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagine a critical feature is about to be deployed, but a high-priority test case fails unexpectedly without a clear cause. How would you proceed with your immediate actions and communication with the team?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "974",
+    "x-ratelimit-remaining-tokens" : "6846",
+    "x-ratelimit-reset-requests" : "37m26.4s",
+    "x-ratelimit-reset-tokens" : "8.655s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 206 caracteres"
+    }
+  },
+  "largos" : [ 138, 138, 180, 140, 206 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 4]"
+  },
+  "validoTrasReintento" : true
+}, {
+  "id" : "A24",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3036,
+  "inicio" : "2026-11-08T16:02:55.001691300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1048,
+  "tokensEntrada" : 798,
+  "tokensSalida" : 217,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"en\",\n\"preguntas\":[\n{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you briefly describe your current experience as a quality analyst and explain why you are seeking this specific opportunity?\"},\n{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you structure your Selenium test scripts to ensure they are both maintainable and independent from one another?\"},\n{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you identified a significant defect during manual testing; what was the situation, what actions did you take, and what was the result?\"},\n{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific fields do you prioritize populating in Jira to ensure a defect report provides developers with all necessary information for reproduction?\"},\n{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you discover a critical bug in a production web application release; what is your immediate course of action?\"}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "973",
+    "x-ratelimit-remaining-tokens" : "6855",
+    "x-ratelimit-reset-requests" : "38m52.8s",
+    "x-ratelimit-reset-tokens" : "8.587s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 155 caracteres"
+    }
+  },
+  "largos" : [ 128, 118, 155, 152, 117 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 4, 5]"
+  },
+  "validoTrasReintento" : true
+} ]

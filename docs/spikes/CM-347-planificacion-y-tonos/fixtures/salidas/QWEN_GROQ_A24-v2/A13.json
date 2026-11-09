@@ -1,0 +1,101 @@
+{
+  "id" : "A13",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3135,
+  "inicio" : "2026-11-07T11:33:26.067561100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 136,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 767, Requested 268. Please try again in 2.1s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "3",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "989",
+      "x-ratelimit-remaining-tokens" : "6579",
+      "x-ratelimit-reset-requests" : "15m50.4s",
+      "x-ratelimit-reset-tokens" : "46.02s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 136,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 698, Requested 354. Please try again in 3.119999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "4",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "989",
+      "x-ratelimit-remaining-tokens" : "7131",
+      "x-ratelimit-reset-requests" : "15m50.4s",
+      "x-ratelimit-reset-tokens" : "41.879s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 994,
+  "tokensEntrada" : 819,
+  "tokensSalida" : 309,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"es-CO\",\n\"preguntas\":[\n{\n\"posicion\":1,\n\"tipo\":\"APERTURA\",\n\"texto\":\"Presentese brevemente y explique la motivacion por la cual desea ocupar el puesto de Analista de Calidad de Software en nuestra empresa.\"\n},\n{\n\"posicion\":2,\n\"tipo\":\"TECNICA\",\n\"texto\":\"Cuales son los aspectos fundamentales que consideraria al disenar los casos de prueba para una aplicacion web a fin de garantizar la cobertura del alcance funcional?\"\n},\n{\n\"posicion\":3,\n\"tipo\":\"CONDUCTUAL\",\n\"texto\":\"Describa una experiencia concreta en la que haya ejecutado tanto pruebas manuales como automatizadas, detallando la situacion inicial, la tarea asignada, las acciones especificas que realizo y el resultado obtenido.\"\n},\n{\n\"posicion\":4,\n\"tipo\":\"TECNICA\",\n\"texto\":\"Como se estructura el proceso de registro de defectos en Jira para asegurar la trazabilidad completa desde los requisitos originales hasta la solucion implementada?\"\n},\n{\n\"posicion\":5,\n\"tipo\":\"SITUACIONAL\",\n\"texto\":\"Suponga que se le solicita automatizar un proceso de regresion en Selenium que presenta inestabilidad por cambios constantes en el front-end; como abordaria esta situacion para garantizar la estabilidad de las pruebas?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "988",
+    "x-ratelimit-remaining-tokens" : "6302",
+    "x-ratelimit-reset-requests" : "17m16.8s",
+    "x-ratelimit-reset-tokens" : "52.74s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 218 caracteres"
+    }
+  },
+  "largos" : [ 136, 165, 215, 164, 218 ],
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,86 @@
+{
+  "id" : "B15",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3390,
+  "inicio" : "2026-11-08T16:08:54.236374-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1127,
+  "tokensEntrada" : 881,
+  "tokensSalida" : 421,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Considerando sus tres años desarrollando servicios web en Java con Spring Boot y PostgreSQL, identifique con precisión qué aspectos de la arquitectura actual le han limitado y qué logros técnicos específicos lo motivan a buscar un rol en Andina Ficticia S.A.S. más enfocado en el diseño de arquitectura.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Describa la estrategia específica de optimización de consultas en PostgreSQL que implementó en su proyecto anterior para reducir la latencia de la API, incluyendo las métricas de rendimiento antes y después de la intervención.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Relate una experiencia concreta donde integró colas de mensajes para manejar picos de tráfico, detallando la situación, la acción técnica que tomó para garantizar la consistencia de los datos y el resultado cuantificable obtenido.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Explique cómo estructuraría las pruebas automatizadas unitarias y de integración para las nuevas funcionalidades de la API REST en Spring Boot, especificando las herramientas de Mockito o JUnit que emplearía para cubrir el 90% de la lógica de negocio crítica.\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si durante la revisión de código de un despliegue en la nube detecta que un compañero ha omitido la implementación de manejo de excepciones globales en un endpoint crítico, ¿cuál es el procedimiento exacto y la justificación técnica que presentaría para forzar su corrección inmediata antes de pasar a producción?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "955",
+    "x-ratelimit-remaining-tokens" : "6343",
+    "x-ratelimit-reset-requests" : "1h4m48s",
+    "x-ratelimit-reset-tokens" : "46.56s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 313 caracteres"
+    }
+  },
+  "largos" : [ 303, 226, 230, 259, 313 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,78 @@
+{
+  "id" : "B23",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3818,
+  "inicio" : "2026-11-08T15:53:28.275937300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1265,
+  "tokensEntrada" : 950,
+  "tokensSalida" : 224,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview, and thank you for taking the time to chat with us today; I would love for you to introduce yourself and share what excites you about this Backend Developer role at Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle database migrations and connection pooling when building REST APIs with Spring Boot and PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you tell me about a time when you successfully deployed a web service to the cloud, specifically detailing the steps you took and the outcome?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your preferred approach for consuming and acknowledging messages in a microservices environment using RabbitMQ?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"As this is our final question, imagine that two teams need conflicting changes in a shared Spring Boot API simultaneously; how would you prioritize and manage that situation?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 212 caracteres"
+    }
+  },
+  "largos" : [ 212, 117, 148, 119, 174 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 3, 5]"
+  },
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,64 @@
+{
+  "id" : "A10",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2783,
+  "inicio" : "2026-11-07T11:23:13.141668500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 0.3,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1736,
+  "tokensEntrada" : 708,
+  "tokensSalida" : 207,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your background and what motivates you to apply for this Backend Developer position?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle transaction management and connection pooling when building web services with Spring Boot and PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you had to integrate a message queue into an existing web service; what was the situation, the task you faced, the actions you took, and the resulting outcome?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies do you use to ensure zero-downtime cloud deployments for applications running in production?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If you are tasked with designing the architecture for a new high-traffic microservice, how would you approach the initial system design phase to ensure scalability and maintainability?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 184 caracteres"
+    }
+  },
+  "largos" : [ 110, 123, 180, 108, 184 ],
+  "validoTrasReintento" : true
+}

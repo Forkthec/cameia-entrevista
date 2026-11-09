@@ -1,0 +1,84 @@
+{
+  "id" : "B12",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2297,
+  "inicio" : "2026-11-07T10:43:50.120334200-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 162,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 733, Requested 504. Please try again in 14.219999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "15",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "982",
+      "x-ratelimit-remaining-tokens" : "7147",
+      "x-ratelimit-reset-requests" : "25m55.199s",
+      "x-ratelimit-reset-tokens" : "43.98s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 1214,
+  "tokensEntrada" : 584,
+  "tokensSalida" : 388,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your three years of backend experience, what specific aspect of moving from solid implementation to architecture design at Andina Ficticia S.A.S. drives your motivation for this role, and how does our stack align with that goal?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Describe a specific instance where you optimized a PostgreSQL query in a Spring Boot application, detailing the exact indexing strategy or query modification you implemented and the measurable performance gain you achieved.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Tell me about a time you had a significant disagreement with a colleague regarding a technical design decision in an agile team; walk me through the situation, the specific actions you took to resolve it, and the final outcome for the project timeline and quality.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain exactly how you structured consumer logic and error handling in RabbitMQ to ensure idempotency and prevent data corruption during high-throughput processing in your previous services.\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a critical REST API endpoint you maintain begins timing out under peak load due to an unhandled dependency failure, what are the first three specific steps you would take to diagnose the root cause and stabilize the service in the short term?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "981",
+    "x-ratelimit-remaining-tokens" : "6607",
+    "x-ratelimit-reset-requests" : "27m21.6s",
+    "x-ratelimit-reset-tokens" : "48.54s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 264 caracteres"
+    }
+  },
+  "largos" : [ 234, 223, 264, 191, 245 ]
+}

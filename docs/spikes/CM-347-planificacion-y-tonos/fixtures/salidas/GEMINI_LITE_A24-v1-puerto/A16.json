@@ -1,0 +1,63 @@
+{
+  "id" : "A16",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2083,
+  "inicio" : "2026-11-07T11:21:14.586973400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v1",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2442,
+  "tokensEntrada" : 531,
+  "tokensSalida" : 198,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría resumir su experiencia previa como analista de calidad y qué le motiva a postularse para este rol?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura y diseña los casos de prueba para una nueva funcionalidad en una aplicación web?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya identificado un defecto crítico antes de salir a producción, detallando qué acción tomó y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la sincronización y la localización de elementos al automatizar pruebas utilizando Selenium?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si descubre un defecto crítico en una funcionalidad clave pocas horas antes del despliegue a producción, ¿cómo procedería?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 150 caracteres"
+    }
+  },
+  "largos" : [ 106, 97, 150, 105, 122 ],
+  "validoTrasReintento" : true
+}

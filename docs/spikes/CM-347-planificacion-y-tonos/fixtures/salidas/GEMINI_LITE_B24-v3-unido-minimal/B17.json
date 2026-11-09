@@ -1,0 +1,78 @@
+{
+  "id" : "B17",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3818,
+  "inicio" : "2026-11-08T15:52:59.473420300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1234,
+  "tokensEntrada" : 950,
+  "tokensSalida" : 235,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to the interview, it is great to have you here; I would love for you to tell me a little bit about yourself and what motivates you to apply for this Backend Developer position at Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle entity relationship mapping and query optimization when modeling a PostgreSQL database in a Spring Boot application?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation where you worked with message queues, detailing the task you faced, the action you took, and the result you achieved?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategy do you follow to write automated tests for REST APIs in Java?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our last question: imagine you are working on a cloud deployment in an agile team and an unexpected performance issue arises in your web services, so how would you act to resolve it with your teammates?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 210 caracteres"
+    }
+  },
+  "largos" : [ 209, 134, 154, 75, 210 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,78 @@
+{
+  "id" : "B03",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3390,
+  "inicio" : "2026-11-08T15:51:47.559661700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1533,
+  "tokensEntrada" : 861,
+  "tokensSalida" : 277,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Qué le motiva a postularse como Desarrollador Backend en Andina Ficticia S.A.S. y de qué manera su experiencia previa se alinea con este rol?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Tomando en cuenta su recorrido con Spring Boot y PostgreSQL, descríbame una decisión concreta de diseño que haya tomado para optimizar el rendimiento de una API REST y qué métricas exactas respaldaron ese resultado.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de una ocasión en la que haya tenido que integrar servicios utilizando colas de mensajes; explíqueme la situación, la tarea que asumió, la acción exacta que ejecutó y el resultado cuantificable que obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo ha implementado estrategias de despliegues en la nube garantizando la estabilidad de los servicios y qué herramientas específicas utilizó para este fin?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si en el equipo detectamos un fallo crítico en producción relacionado con la sincronización de datos en PostgreSQL justo antes de un despliegue importante, ¿cómo procedería para resolverlo?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 215 caracteres"
+    }
+  },
+  "largos" : [ 142, 215, 214, 158, 189 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 3,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 5]; despliegue y nube en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}

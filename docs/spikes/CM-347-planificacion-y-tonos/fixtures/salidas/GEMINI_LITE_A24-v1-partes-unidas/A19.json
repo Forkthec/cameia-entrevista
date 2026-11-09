@@ -1,0 +1,114 @@
+{
+  "id" : "A19",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2273,
+  "inicio" : "2026-11-07T11:16:16.565482800-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v1",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2291,
+  "tokensEntrada" : 566,
+  "tokensSalida" : 197,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you please introduce yourself and share what motivates you to apply for the Software Quality Analyst position at Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you approach designing comprehensive test cases for a new web application feature?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a situation where you found a critical defect during testing, how you reported it in Jira, and what the final outcome was.\"},{\"posicion\":4,\"tipo\":\"TEcnICA\",\"texto\":\"What is your strategy for maintaining and structuring regression test suites using Selenium as the application evolves?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a major release is scheduled for tomorrow and you discover a high-priority defect today, how would you handle the situation with your team?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 4 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1928,
+    "tokensEntrada" : 566,
+    "tokensSalida" : 209,
+    "modelo" : "gemini-3.5-flash-lite",
+    "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce yourself and explain what motivates you to apply for the Software Quality Analyst position at Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you approach designing and structuring test cases for a new web application feature?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you found a critical defect during testing; what was the situation, how did you document it in Jira, and what was the outcome?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your process for maintaining and updating Selenium-automated regression tests when the web application UI changes?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a developer disagrees with a defect you reported in Jira and claims it is expected behavior, how would you handle the situation to ensure requirements traceability and product quality?\"}]}",
+    "motivoDeCorte" : "partes=1; motivo=STOP",
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 187 caracteres"
+      }
+    },
+    "largos" : [ 145, 91, 147, 122, 187 ]
+  },
+  "validoTrasReintento" : true
+}

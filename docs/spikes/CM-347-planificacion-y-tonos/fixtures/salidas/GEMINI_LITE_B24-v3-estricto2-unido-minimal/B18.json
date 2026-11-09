@@ -1,0 +1,78 @@
+{
+  "id" : "B18",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3719,
+  "inicio" : "2026-11-09T01:30:22.907993700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1449,
+  "tokensEntrada" : 924,
+  "tokensSalida" : 288,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your 3 years of experience building web services, what specific architectural design responsibility do you want to take on at Andina Ficticia S.A.S., and cite one concrete professional goal you have measured with a specific metric?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When developing REST APIs with Spring Boot and PostgreSQL, what exact database modeling decision or indexing strategy have you implemented, and what specific query performance metric did you measure as a result?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you integrated message queues with RabbitMQ in a project; state the exact task you handled, the specific action you took, and cite the exact result measured in throughput or latency.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding automated tests in your previous work, what specific testing framework did you use, and what exact percentage of code coverage did you achieve in your Spring Boot applications?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you join our agile team at Andina Ficticia S.A.S. and need to deploy a cloud service while maintaining an active RabbitMQ queue; what exact tool and deployment step would you use, and what specific metric would you monitor to verify success?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 249 caracteres"
+    }
+  },
+  "largos" : [ 243, 211, 218, 186, 249 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

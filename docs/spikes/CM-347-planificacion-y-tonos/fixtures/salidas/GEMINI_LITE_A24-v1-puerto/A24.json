@@ -1,0 +1,63 @@
+{
+  "id" : "A24",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 2021,
+  "inicio" : "2026-11-07T11:22:03.976680-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v1",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1135,
+  "tokensEntrada" : 512,
+  "tokensSalida" : 192,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce yourself and explain what motivates you to pursue a Software Quality Analyst role focused on automation?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you approach the design and structuring of effective test cases for web applications?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you found a critical defect just before a release; what was the situation, what action did you take, and what was the result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your experience with Selenium-automated tests and how do you integrate them into your testing workflow?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a developer disagrees with a defect you reported in Jira and claims it is expected behavior, how would you handle the situation?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 146 caracteres"
+    }
+  },
+  "largos" : [ 132, 92, 146, 111, 131 ],
+  "validoTrasReintento" : true
+}
