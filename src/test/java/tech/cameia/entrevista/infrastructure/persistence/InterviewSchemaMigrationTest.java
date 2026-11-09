@@ -209,6 +209,7 @@ class InterviewSchemaMigrationTest {
 				Arguments.of("turno", "estado", "FAILED", "ck_turno_estado"),
 				Arguments.of("sesion", "modalidad", "PRESENCIAL", "ck_sesion_modalidad"),
 				Arguments.of("sesion", "tono", "AMABLE", "ck_sesion_tono"),
+				Arguments.of("sesion", "tono", "MOTIVADOR", "ck_sesion_tono"),
 				Arguments.of("sesion", "forma_respuesta", "VIDEO", "ck_sesion_forma_respuesta"),
 				Arguments.of("sesion", "idioma", "es", "ck_sesion_idioma"),
 				Arguments.of("intento_respuesta", "tipo_interaccion", "FOLLOW_UP",

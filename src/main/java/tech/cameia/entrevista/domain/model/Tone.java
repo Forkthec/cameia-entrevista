@@ -10,9 +10,7 @@ public enum Tone {
     /** Tono cálido */
     WARM("CALIDO"),
     /** Tono estricto */
-    STRICT("ESTRICTO"),
-    /** Tono motivador */
-    MOTIVATING("MOTIVADOR");
+    STRICT("ESTRICTO");
 
     private final String code;
 
