@@ -1,0 +1,86 @@
+{
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3390,
+  "inicio" : "2026-11-08T16:06:34.656905800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1210,
+  "tokensEntrada" : 881,
+  "tokensSalida" : 455,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Dado tu interés en transitar hacia el diseño de arquitectura, exactos cuáles han sido tus tres aportes más significativos en los últimos tres años que demuestren que ya posees la madurez técnica para asumir esa responsabilidad de forma inminente.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"En el contexto de tus servicios en Spring Boot, explica con precisión técnica cómo has optimizado el modelado de bases de datos en PostgreSQL para garantizar rendimiento bajo carga concurrente, detallando qué índices o estrategias de particionamiento implementaste y cuantificando la mejora en los tiempos de respuesta.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"¿En qué situación específica trabajaste con RabbitMQ para resolver un cuello de botella crítico en el procesamiento de mensajes, cómo ejecutaste la solución y qué métricas concretas de estabilidad o velocidad obtuvo el sistema tras tu intervención?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cuál es tu estrategia concreta para el despliegue en la nube de aplicaciones Java, fundamentada en métricas de disponibilidad y tiempos de inactividad, que hayas implementado en tus proyectos recientes para asegurar la continuidad del servicio?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si al poner en producción una nueva API REST detectas que las pruebas automatizadas no capturan una falla latente en la integración con la cola de mensajes, ¿cuál es el procedimiento exacto que ejecutarías para identificar la causa raíz y corregir el defecto sin detener el despliegue de las demás funcionalidades?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "962",
+    "x-ratelimit-remaining-tokens" : "6452",
+    "x-ratelimit-reset-requests" : "54m43.2s",
+    "x-ratelimit-reset-tokens" : "40.02s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 319 caracteres"
+    }
+  },
+  "largos" : [ 246, 319, 248, 245, 314 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; despliegue y nube en las preguntas [4, 5]; servicios web y Spring en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}

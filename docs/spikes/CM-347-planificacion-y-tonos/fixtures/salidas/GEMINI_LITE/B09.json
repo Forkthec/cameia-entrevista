@@ -1,0 +1,60 @@
+{
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2372,
+  "inicio" : "2026-11-07T10:45:41.894632100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1762,
+  "tokensEntrada" : 597,
+  "tokensSalida" : 354,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Buenas tardes. Teniendo en cuenta tus tres años de experiencia en Java y Spring Boot, cuéntame específicamente qué te motiva a postularte hoy a la vacante de Desarrollador Backend en Andina Ficticia S.A.S. y cómo se alinea esto con tu interés de crecer hacia el diseño de arquitectura.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Para garantizar la alta disponibilidad de nuestras APIs REST en Spring Boot, explícame con un ejemplo métrico y técnico cómo has optimizado el rendimiento y los tiempos de respuesta en consultas complejas sobre PostgreSQL.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Descríbeme una situación exacta de tu experiencia pasada donde hayas tenido que implementar y depurar una integración crítica utilizando colas de mensajes; detalla qué tarea asumiste, qué acciones exactas realizaste y qué resultado medible obtuviste.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Dado que en Andina Ficticia S.A.S. utilizamos RabbitMQ para la comunicación asíncrona, explícame bajo qué criterios técnicos decides implementar un patrón de intercambio tipo 'topic' frente a uno tipo 'direct' en un entorno de producción.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás a pocas horas de un despliegue importante en la nube y las pruebas automatizadas fallan de manera intermitente debido a un problema de concurrencia en la base de datos; ¿cuál sería tu plan de acción inmediato y cómo lo comunicarías al equipo?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 285 caracteres"
+    }
+  },
+  "largos" : [ 285, 222, 250, 238, 260 ]
+}

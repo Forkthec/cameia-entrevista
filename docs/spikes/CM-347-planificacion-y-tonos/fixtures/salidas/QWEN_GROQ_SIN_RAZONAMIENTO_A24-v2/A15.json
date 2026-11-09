@@ -1,0 +1,100 @@
+{
+  "id" : "A15",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3135,
+  "inicio" : "2026-11-07T11:42:38.838909900-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 171,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 866, Requested 354. Please try again in 13.2s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "14",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "958",
+      "x-ratelimit-remaining-tokens" : "6769",
+      "x-ratelimit-reset-requests" : "1h0m28.8s",
+      "x-ratelimit-reset-tokens" : "51.96s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 30176,
+    "causa" : "HTTP 503: qwen/qwen3.8-27b is currently over capacity. Please try again and back off exponentially. Visit https://groqstatus.com to see if there is an active incident.",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "957",
+      "x-ratelimit-remaining-tokens" : "6215",
+      "x-ratelimit-reset-requests" : "1h1m55.2s",
+      "x-ratelimit-reset-tokens" : "57.96s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 865,
+  "tokensEntrada" : 819,
+  "tokensSalida" : 277,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Cuál es la motivación principal que le lleva a buscar esta posición de Analista de Calidad de Software en Andina Ficticia S.A.S. y cómo se relaciona con su objetivo de especialización en automatización?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué criterios técnicos tiene en cuenta al diseñar casos de prueba para aplicaciones web que luego serán cubiertos por scripts de automatización con Selenium?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una experiencia concreta en la que haya reportado un defecto crítico en Jira durante la ejecución de pruebas manuales, detallando la situación, la tarea asignada, la acción que tomó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza Jira para garantizar la trazabilidad entre los requisitos de negocio y los casos de prueba automatizados con Selenium que usted diseña?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si al ejecutar una suite de pruebas de regresión automatizadas con Selenium detecta que una prueba que antes pasaba ahora falla de forma intermitente, ¿qué pasos seguiría para diagnosticar y resolver el problema?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "956",
+    "x-ratelimit-remaining-tokens" : "6685",
+    "x-ratelimit-reset-requests" : "1h3m21.6s",
+    "x-ratelimit-reset-tokens" : "29.759s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 215 caracteres"
+    }
+  },
+  "largos" : [ 203, 158, 215, 149, 212 ],
+  "validoTrasReintento" : true
+}

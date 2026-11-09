@@ -1,0 +1,60 @@
+{
+  "id" : "B06",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2297,
+  "inicio" : "2026-11-07T10:45:08.926930400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 4228,
+  "tokensEntrada" : 569,
+  "tokensSalida" : 259,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your background with Java and Spring Boot over the last three years, and specifically what drives your career goal to transition into architecture design?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When designing REST APIs in Spring Boot that interact with PostgreSQL, how do you handle complex database transactions and optimize query performance under high concurrency?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you had to integrate a message queue like RabbitMQ into an existing architecture; walk me through the task, the exact actions you took to ensure message delivery reliability, and the measurable result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific strategies and design patterns do you implement to ensure high test coverage and maintainability when writing automated tests for your backend services?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine that during a cloud deployment at Andina Ficticia S.A.S., a sudden spike in traffic causes a bottleneck in the RabbitMQ message consumption pipeline; walk me through the exact steps you would take to diagnose and resolve this issue in a production environment.\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 268 caracteres"
+    }
+  },
+  "largos" : [ 180, 173, 237, 166, 268 ]
+}

@@ -1,0 +1,131 @@
+{
+  "id" : "B05",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3818,
+  "inicio" : "2026-11-08T16:05:00.876328100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 832,
+  "tokensEntrada" : 977,
+  "tokensSalida" : 247,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, it's great to have you here today, and I'd love to hear a little about your background and what draws you to this Backend Developer role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Could you walk me through how you typically structure your database schema in PostgreSQL when designing a new service to ensure performance and data integrity?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"text\":\"Please tell me about a specific time when you had to coordinate with a team using agile methodologies to deliver a complex feature, and what was your specific task, the action you took, and the result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"When designing automated tests for Spring Boot applications, how do you decide which parts of the system to cover with unit tests versus integration tests?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are in our last round and you encounter a scenario where the RabbitMQ message queue is experiencing a significant backlog; how would you investigate and handle this situation to minimize impact on the users?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "968",
+    "x-ratelimit-remaining-tokens" : "6667",
+    "x-ratelimit-reset-requests" : "46m4.8s",
+    "x-ratelimit-reset-tokens" : "9.997s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : false,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 864,
+    "tokensEntrada" : 977,
+    "tokensSalida" : 266,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hey there, welcome! We are so happy you could join us today. To help us get to know each other, tell us a bit about your background and what excites you about the possibility of working as a Backend Developer.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras how you typically approach designing and optimizing complex queries in PostgreSQL to ensure your APIs respond quickly.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific example from your past where you had to implement an asynchronous solution using message queues to handle a high-volume task? What was the situation, what did you do, and what was the result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me explicaras how you structure your automated testing strategy when working with Spring Boot applications, specifically regarding unit vs integration tests.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our last question, but think about this: if you noticed a critical bug in one of the REST APIs you maintain, how would you handle the immediate fix while keeping the team updated in an agile environment?\",\" \"}]}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "967",
+      "x-ratelimit-remaining-tokens" : "5521",
+      "x-ratelimit-reset-requests" : "47m31.2s",
+      "x-ratelimit-reset-tokens" : "37.08s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "el texto no es un JSON válido"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ]
+  },
+  "validoTrasReintento" : false
+}

@@ -1,0 +1,86 @@
+{
+  "id" : "B18",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3312,
+  "inicio" : "2026-11-08T16:10:15.211283800-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 938,
+  "tokensEntrada" : 850,
+  "tokensSalida" : 281,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"You have three years of experience building web services in Java; given your specific goal to grow toward architecture design, what precise technical achievements in your current role do you cite as direct evidence that you are ready for this transition?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Describe the specific design decisions you made on a recent PostgreSQL schema to handle complex data relationships, including the exact indexing strategies you implemented and the quantitative impact they had on query performance.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a specific instance where you resolved a significant performance bottleneck in a Java service; detail the exact metrics you used to identify the problem, the specific actions you took, and the measurable results you achieved.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explain how you have structured your automated testing strategy for Spring Boot applications, specifying which testing frameworks and tools you use to ensure high coverage of critical business logic without slowing down the deployment cycle.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a critical REST API you maintain starts dropping connections due to unexpected load on the RabbitMQ queue, what immediate diagnostic steps would you take and what specific configuration changes would you apply to stabilize the system?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "951",
+    "x-ratelimit-remaining-tokens" : "6461",
+    "x-ratelimit-reset-requests" : "1h10m33.6s",
+    "x-ratelimit-reset-tokens" : "41.34s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 254 caracteres"
+    }
+  },
+  "largos" : [ 254, 230, 239, 241, 237 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: servicios web y Spring en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}

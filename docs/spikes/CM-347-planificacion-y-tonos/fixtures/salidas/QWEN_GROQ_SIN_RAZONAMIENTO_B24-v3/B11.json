@@ -1,0 +1,86 @@
+{
+  "id" : "B11",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3818,
+  "inicio" : "2026-11-08T16:07:20.826688400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 839,
+  "tokensEntrada" : 977,
+  "tokensSalida" : 273,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"en\",\n\"preguntas\":[\n{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, it's great to have you here; could you start by telling me a little about your background and what specifically draws you to this Backend Developer role?\"},\n{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love for you to walk me through how you usually design your data models in PostgreSQL for a Java Spring Boot application, and any specific best practices you keep in mind for performance.\"},\n{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Can you think of a specific situation in your past work where you had to integrate message queues, and describe the context, what you did, and the outcome?\"},\n{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Since automated testing is crucial for us, which frameworks do you typically use with Spring Boot to write reliable tests, and how do you ensure your logic is clearly separated for testability?\"},\n{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our last question, but imagine a scenario where a new database migration breaks a live API endpoint; how would you handle the debugging and communication with the team to resolve it?\"}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "960",
+    "x-ratelimit-remaining-tokens" : "6343",
+    "x-ratelimit-reset-requests" : "57m36s",
+    "x-ratelimit-reset-tokens" : "40.8s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 193 caracteres"
+    }
+  },
+  "largos" : [ 163, 191, 155, 193, 190 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 3,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 5]; servicios web y Spring en las preguntas [2, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}
