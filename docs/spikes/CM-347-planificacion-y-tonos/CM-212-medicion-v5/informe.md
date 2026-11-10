@@ -34,7 +34,7 @@ MINIMAL is not supported for this model»): no produjo ningún plan y no cuenta 
 
 ### Que al menos una pregunta cite la formación sin inventar experiencia
 
-La lectura la hizo una persona sobre el texto de las preguntas; una regla automática (término al inicio de palabra) dio el mismo resultado.
+La lectura del texto de las preguntas la hizo la IA (la confirmación humana está pendiente, ver el final); una regla automática (término al inicio de palabra) dio el mismo resultado.
 
 | Perfil | `v4` (referencia) | `v5` |
 |---|---|---|
