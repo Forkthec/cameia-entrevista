@@ -28,6 +28,8 @@ Crear (si no existen): `domain/model/InterviewQuestion` (id, sessionId, position
 
 `domain/policy/PlanningRetryPolicy` (decide: `ALLOW`, `EXHAUSTED`; constante `MAX_MANUAL_RETRIES = 2`; no accede a la base), `domain/model/PlanningClaim` (marca y caducidad `llmTimeout + 15 s`, recibe `Clock`). Pruebas con valores literales de la spec §9 (contador 0, 1, 2; pedidos 1.º a 4.º). Sin Spring en el dominio.
 
+**Resultado T3 y T5.** `PlanningRetryPolicy`, `PlanningClaim`, `CompetencyTemplate`, `PlanValidator`, `PlanDraft` y `PlannedQuestion` en dominio; `./mvnw.cmd -B -ntp test -Dtest=PlanValidatorTest,PlanningRetryPolicyTest`: 21 pruebas, 0 fallos. Falta `PlanOutputReader` (lector del JSON), que va con el caso de uso en el commit 4.
+
 ## T4 · Caso de uso `start`, `state`, `delete`
 
 `application/service/StartSessionService`, `GetSessionStateService`, `DeleteSessionService`; `application/command/SessionCommand(sessionId, owner)`. Flujo de `start` (sin una sola transacción alrededor de la IA):
