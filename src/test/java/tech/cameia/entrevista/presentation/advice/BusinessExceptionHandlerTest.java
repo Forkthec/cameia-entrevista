@@ -37,7 +37,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
+import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException;
+import tech.cameia.entrevista.domain.exception.ProfileSnapshotInvalidException;
+import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 
 /**
@@ -93,6 +97,53 @@ class BusinessExceptionHandlerTest {
                 .andExpect(jsonPath("$.title").value("Servicio no disponible"))
                 .andExpect(jsonPath("$.detail").value(DETAIL))
                 .andExpect(jsonPath("$.code").value("LLM_LIMIT_REACHED"))
+                .andExpect(jsonPath("$.requestId").value("abc-123"));
+    }
+
+    @Test
+    @DisplayName("Una sesión inexistente responde 404 SESSION_NOT_FOUND con el mensaje fijo")
+    void sessionNotFound_shouldReturn404_whenSessionIsMissing() throws Exception {
+        mockMvc.perform(get("/sin-sesion").header("X-Request-Id", "abc-123"))
+                .andExpect(status().isNotFound())
+                .andExpect(header().string("Content-Type", containsStringIgnoringCase("charset=UTF-8")))
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.detail").value("No encontramos lo que buscabas."))
+                .andExpect(jsonPath("$.code").value("SESSION_NOT_FOUND"))
+                .andExpect(jsonPath("$.requestId").value("abc-123"));
+    }
+
+    @Test
+    @DisplayName("Un plan inválido responde 503 LLM_INVALID_OUTPUT sin la razón interna")
+    void modelInvalidOutput_shouldReturn503_whenPlanIsInvalid() throws Exception {
+        MvcResult result = mockMvc.perform(get("/plan-invalido").header("X-Request-Id", "abc-123"))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.detail").value(DETAIL))
+                .andExpect(jsonPath("$.code").value("LLM_INVALID_OUTPUT"))
+                .andExpect(jsonPath("$.requestId").value("abc-123"))
+                .andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).doesNotContain("cantidad de preguntas");
+    }
+
+    @Test
+    @DisplayName("Los reintentos agotados responden 503 PLANNING_RETRIES_EXHAUSTED con su mensaje")
+    void planningRetriesExhausted_shouldReturn503_whenAttemptsAreExhausted() throws Exception {
+        mockMvc.perform(get("/sin-reintentos").header("X-Request-Id", "abc-123"))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.detail")
+                        .value("No pudimos preparar tu entrevista en este momento. Inténtalo más tarde."))
+                .andExpect(jsonPath("$.code").value("PLANNING_RETRIES_EXHAUSTED"))
+                .andExpect(jsonPath("$.requestId").value("abc-123"));
+    }
+
+    @Test
+    @DisplayName("Un perfil congelado inservible responde 503 PROFILE_SNAPSHOT_INVALID con su mensaje")
+    void profileSnapshotInvalid_shouldReturn503_whenSnapshotIsUnusable() throws Exception {
+        mockMvc.perform(get("/perfil-inservible").header("X-Request-Id", "abc-123"))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.detail").value("No pudimos preparar tu entrevista con tu perfil actual."
+                        + " Revisa tu perfil e inténtalo de nuevo."))
+                .andExpect(jsonPath("$.code").value("PROFILE_SNAPSHOT_INVALID"))
                 .andExpect(jsonPath("$.requestId").value("abc-123"));
     }
 
@@ -340,6 +391,26 @@ class BusinessExceptionHandlerTest {
         @GetMapping("/sin-cuota")
         String withoutQuota() {
             throw new LlmLimitReachedException(new IllegalStateException("429 RESOURCE_EXHAUSTED"));
+        }
+
+        @GetMapping("/sin-sesion")
+        String withoutSession() {
+            throw new SessionNotFoundException();
+        }
+
+        @GetMapping("/plan-invalido")
+        String invalidPlan() {
+            throw new LlmInvalidOutputException("cantidad de preguntas");
+        }
+
+        @GetMapping("/perfil-inservible")
+        String unusableProfile() {
+            throw new ProfileSnapshotInvalidException(new IllegalStateException("tamaño"));
+        }
+
+        @GetMapping("/sin-reintentos")
+        String withoutRetries() {
+            throw new PlanningRetriesExhaustedException();
         }
 
         @GetMapping("/falla")

@@ -132,5 +132,17 @@ public enum ErrorCode {
     SESSION_LANGUAGE_INVALID_VALUE,
 
     /** El encabezado de la clave anti-duplicados no cumple el formato. */
-    IDEMPOTENCY_KEY_INVALID_FORMAT
+    IDEMPOTENCY_KEY_INVALID_FORMAT,
+
+    /** La sesión no existe, es de otra persona o su identificador no es válido; no se distingue. */
+    SESSION_NOT_FOUND,
+
+    /** El modelo de lenguaje respondió con un plan de preguntas que no cumple el formato exigido. */
+    LLM_INVALID_OUTPUT,
+
+    /** La sesión agotó el intento inicial y los dos reintentos de preparar sus preguntas. */
+    PLANNING_RETRIES_EXHAUSTED,
+
+    /** La copia del perfil congelada en la sesión es demasiado grande, ilegible o no trae el rol de la sesión. */
+    PROFILE_SNAPSHOT_INVALID
 }
