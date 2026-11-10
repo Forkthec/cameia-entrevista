@@ -30,6 +30,18 @@ public final class InterviewTurn {
     }
 
     /**
+     * Abre el turno de una pregunta recién creada, en {@link TurnStatus#PENDING}.
+     *
+     * @param questionId pregunta a la que pertenece
+     * @param clock reloj que da la fecha de creación
+     * @return el turno nuevo, sin versión
+     */
+    public static InterviewTurn open(UUID questionId, Clock clock) {
+        Instant now = clock.instant();
+        return new InterviewTurn(new TurnSnapshot(UUID.randomUUID(), questionId, TurnStatus.PENDING, now, now, null));
+    }
+
+    /**
      * Reconstruye el turno desde la persistencia, sin validar transiciones.
      *
      * @param snapshot datos guardados

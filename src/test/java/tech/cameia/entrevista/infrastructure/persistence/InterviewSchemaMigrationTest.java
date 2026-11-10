@@ -385,11 +385,11 @@ class InterviewSchemaMigrationTest {
 	// ------------------------------------------------------------------ pregunta
 
 	@Test
-	@DisplayName("El texto de la pregunta acepta 1000 puntos de código, también emoji")
-	void question_shouldAccept1000CodePoints() {
+	@DisplayName("El texto de la pregunta acepta 500 puntos de código, también emoji")
+	void question_shouldAccept500CodePoints() {
 		UUID session = insertSession("uid-a", "CONFIGURADA", null);
 
-		for (String text : List.of("😀".repeat(1000), "é".repeat(1000))) {
+		for (String text : List.of("😀".repeat(500), "é".repeat(500))) {
 			Map<String, Object> row = questionRow(session, nextOrder(session), planExecution(session));
 			row.put("texto_original", text);
 			assertThatCode(() -> insert("pregunta", row)).doesNotThrowAnyException();
@@ -397,11 +397,11 @@ class InterviewSchemaMigrationTest {
 	}
 
 	@Test
-	@DisplayName("El texto de la pregunta rechaza 1001 puntos de código")
-	void question_shouldReject1001CodePoints() {
+	@DisplayName("El texto de la pregunta rechaza 501 puntos de código")
+	void question_shouldReject501CodePoints() {
 		UUID session = insertSession("uid-a", "CONFIGURADA", null);
 		Map<String, Object> row = questionRow(session, 1, planExecution(session));
-		row.put("texto_original", "é".repeat(1001));
+		row.put("texto_original", "é".repeat(501));
 
 		assertRejected(() -> insert("pregunta", row));
 	}
