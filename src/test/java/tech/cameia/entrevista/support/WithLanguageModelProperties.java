@@ -23,9 +23,9 @@ import org.springframework.test.context.TestPropertySource;
         "spring.ai.google.genai.api-key=clave-falsa-de-prueba",
         "cameia.llm.api-key=clave-falsa-de-prueba",
         "cameia.llm.model=modelo-de-prueba",
-        "cameia.llm.timeout=30s",
+        "cameia.llm.timeout=9500ms",
         "cameia.llm.temperature=1.0",
-        "cameia.llm.thinking-level=low"
+        "cameia.llm.thinking-level=minimal"
 })
 public @interface WithLanguageModelProperties {
 }
