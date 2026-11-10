@@ -64,12 +64,12 @@ El servicio solo debe aceptar peticiones autenticadas del API Gateway, con dos c
 
 **Identidad de entrada.** El servicio recibirá del Gateway solo lo necesario para la autorización de negocio, nunca el JWT completo, en estos encabezados. Los lee cada endpoint de `/api/v1/interviews/**`; hoy, `GET /api/v1/interviews/config/catalog`, `POST /api/v1/interviews/sessions`, `POST /api/v1/interviews/sessions/{sessionId}/start`, `GET /api/v1/interviews/sessions/{sessionId}/state` y `DELETE /api/v1/interviews/sessions/{sessionId}`. `GET /health` no lleva identidad.
 
-| Encabezado | Obligatorio | Contenido |
+| Encabezado | Obligatorio para el servicio | Contenido |
 |---|---|---|
 | `X-User-Id` | Sí | `firebaseUid` del usuario |
-| `X-User-Email` | Sí | Correo del usuario |
-| `X-User-Roles` | Sí | Roles del usuario |
-| `X-Request-Id` | Sí | Identificador de la petición |
+| `X-User-Email` | Lo envía el Gateway; el servicio aún no lo exige | Correo del usuario |
+| `X-User-Roles` | Lo envía el Gateway; el servicio aún no lo exige | Roles del usuario |
+| `X-Request-Id` | Lo envía el Gateway; el servicio aún no lo exige | Identificador de la petición |
 | `X-User-Plan` | No | Plan del usuario; no respalda ningún derecho ni cuota hasta que exista la spec de planes |
 | `X-User-Email-Verified` | No | Si el correo está verificado |
 
