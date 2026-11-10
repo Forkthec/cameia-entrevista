@@ -105,6 +105,19 @@ class GeminiLanguageModelAdapterTest {
     }
 
     @Test
+    @DisplayName("Si Gemini reparte la respuesta en varias partes, se unen todas en orden")
+    void generate_shouldJoinAllParts() {
+        respuesta = json(200, """
+                {"candidates":[{"content":{"role":"model","parts":[{"text":"UNO "},{"text":"DOS"}]},"finishReason":"STOP"}],
+                 "usageMetadata":{"promptTokenCount":5,"candidatesTokenCount":2,"totalTokenCount":7},
+                 "modelVersion":"gemini-3.7-flash-001"}
+                """);
+
+        contexto().run(arrancado -> assertThat(arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Responde.", 16)).text()).isEqualTo("UNO DOS"));
+    }
+
+    @Test
     @DisplayName("Cada llamada envía el texto, el tope de tokens, la temperatura y el nivel de pensamiento")
     void generate_shouldSendConfiguredOptions_whenCalled() {
         respuesta = json(200, respuestaCon("OK"));
