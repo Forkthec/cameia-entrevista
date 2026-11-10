@@ -1,0 +1,624 @@
+{
+  "aviso": "Datos 100 % ficticios creados para la medición de CM-212 (perfil sin experiencia laboral). Ninguna persona, empresa o institución es real. El contexto tiene la forma del contextoProfesional que recibe el servicio.",
+  "roles": {
+    "SIN1": {
+      "grupo": "S",
+      "nombre": {
+        "es-CO": "Desarrollador Backend",
+        "en": "Backend Developer"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000001\",\"nombre\":\"Perfil ficticio SIN1\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Egresada reciente de Ingeniería de Sistemas. Hizo su proyecto de grado en una API con Java y PostgreSQL. Busca su primer empleo como desarrolladora backend.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Valle\",\"titulo\":\"Ingeniería de Sistemas\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2019-02\",\"fin\":\"2024-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Java\",\"nivel\":\"BASIC\"},{\"nombre\":\"PostgreSQL\",\"nivel\":\"BASIC\"},{\"nombre\":\"Git\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000001\",\"nombre\":\"Perfil ficticio SIN1\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Recent Systems Engineering graduate. Built a capstone project: an API with Java and PostgreSQL. Looking for a first job as a backend developer.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Fictitious Valley University\",\"titulo\":\"Systems Engineering\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2019-02\",\"fin\":\"2024-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Java\",\"nivel\":\"BASIC\"},{\"nombre\":\"PostgreSQL\",\"nivel\":\"BASIC\"},{\"nombre\":\"Git\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "api",
+        "base de datos",
+        "database",
+        "sql",
+        "java",
+        "rest",
+        "transacci",
+        "transaction",
+        "prueba",
+        "test",
+        "endpoint",
+        "spring",
+        "git",
+        "seguridad",
+        "security"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": false
+    },
+    "SIN2": {
+      "grupo": "S",
+      "nombre": {
+        "es-CO": "Analista de Calidad (QA)",
+        "en": "QA Analyst"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000002\",\"nombre\":\"Perfil ficticio SIN2\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Tecnóloga recién graduada en Desarrollo de Software con interés en pruebas de software. Practicó diseño de casos de prueba en sus cursos.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Instituto Técnico Ficticio del Norte\",\"titulo\":\"Tecnología en Desarrollo de Software\",\"nivel\":\"TECHNICAL\",\"inicio\":\"2021-02\",\"fin\":\"2024-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Casos de prueba\",\"nivel\":\"BASIC\"},{\"nombre\":\"Selenium\",\"nivel\":\"BASIC\"},{\"nombre\":\"Jira\",\"nivel\":\"BASIC\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000002\",\"nombre\":\"Perfil ficticio SIN2\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Recent Software Development technologist interested in software testing. Practiced test case design in coursework.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Fictitious Northern Technical Institute\",\"titulo\":\"Software Development Technology\",\"nivel\":\"TECHNICAL\",\"inicio\":\"2021-02\",\"fin\":\"2024-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Casos de prueba\",\"nivel\":\"BASIC\"},{\"nombre\":\"Selenium\",\"nivel\":\"BASIC\"},{\"nombre\":\"Jira\",\"nivel\":\"BASIC\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "prueba",
+        "test",
+        "caso de prueba",
+        "test case",
+        "defecto",
+        "defect",
+        "bug",
+        "selenium",
+        "automatiz",
+        "automat",
+        "regresi",
+        "regression",
+        "calidad",
+        "quality",
+        "jira",
+        "reporte",
+        "report"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": false
+    },
+    "SIN3": {
+      "grupo": "S",
+      "nombre": {
+        "es-CO": "Analista de Datos",
+        "en": "Data Analyst"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000003\",\"nombre\":\"Perfil ficticio SIN3\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Estudiante de último año de Estadística. Ha trabajado con SQL y Python en sus cursos y en un trabajo de análisis de encuestas.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Centro\",\"titulo\":\"Estadística\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2021-02\",\"fin\":null,\"enCurso\":true}],\"habilidades\":[{\"nombre\":\"SQL\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Python\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Excel\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000003\",\"nombre\":\"Perfil ficticio SIN3\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Final-year Statistics student. Has used SQL and Python in coursework and in a survey analysis project.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Fictitious Central University\",\"titulo\":\"Statistics\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2021-02\",\"fin\":null,\"enCurso\":true}],\"habilidades\":[{\"nombre\":\"SQL\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Python\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Excel\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "sql",
+        "python",
+        "datos",
+        "data",
+        "consulta",
+        "query",
+        "estad",
+        "statist",
+        "visualiz",
+        "dashboard",
+        "limpieza",
+        "clean",
+        "modelo",
+        "model",
+        "regresi",
+        "regression",
+        "excel"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": false
+    },
+    "SIN4": {
+      "grupo": "S",
+      "nombre": {
+        "es-CO": "Desarrollador Frontend",
+        "en": "Frontend Developer"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000004\",\"nombre\":\"Perfil ficticio SIN4\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Técnica en programación web, recién egresada. Armó un portafolio con páginas en HTML, CSS y JavaScript durante su programa.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Instituto Técnico Ficticio del Sur\",\"titulo\":\"Técnico en Programación Web\",\"nivel\":\"TECHNICAL\",\"inicio\":\"2022-02\",\"fin\":\"2024-11\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"HTML\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"CSS\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"JavaScript\",\"nivel\":\"BASIC\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000004\",\"nombre\":\"Perfil ficticio SIN4\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Recently graduated web programming technician. Built a portfolio with HTML, CSS and JavaScript pages during the program.\",\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Fictitious Southern Technical Institute\",\"titulo\":\"Web Programming Technician\",\"nivel\":\"TECHNICAL\",\"inicio\":\"2022-02\",\"fin\":\"2024-11\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"HTML\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"CSS\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"JavaScript\",\"nivel\":\"BASIC\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "html",
+        "css",
+        "javascript",
+        "react",
+        "componente",
+        "component",
+        "accesibilidad",
+        "accessib",
+        "responsiv",
+        "navegador",
+        "browser",
+        "rendimiento",
+        "performance",
+        "estado",
+        "state",
+        "dom",
+        "frontend",
+        "interfaz",
+        "interface",
+        "prueba",
+        "test"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": false
+    },
+    "CON1": {
+      "grupo": "C",
+      "nombre": {
+        "es-CO": "Desarrollador Backend",
+        "en": "Backend Developer"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000011\",\"nombre\":\"Perfil ficticio CON1\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Desarrollador con 3 años de experiencia en servicios web con Java, Spring Boot y PostgreSQL.\",\"experiencias\":[{\"empresa\":\"Empresa Ficticia Andina\",\"cargo\":\"Desarrollador Backend\",\"descripcion\":\"Mantiene APIs REST y colas de mensajes.\",\"inicio\":\"2021-03\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Valle\",\"titulo\":\"Ingeniería de Sistemas\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2016-02\",\"fin\":\"2020-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Java\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Spring Boot\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"PostgreSQL\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000011\",\"nombre\":\"Perfil ficticio CON1\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Developer with 3 years of experience in web services with Java, Spring Boot and PostgreSQL.\",\"experiencias\":[{\"empresa\":\"Fictitious Andean Company\",\"cargo\":\"Backend Developer\",\"descripcion\":\"Maintains REST APIs and message queues.\",\"inicio\":\"2021-03\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Fictitious Valley University\",\"titulo\":\"Systems Engineering\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2016-02\",\"fin\":\"2020-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Java\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Spring Boot\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"PostgreSQL\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "api",
+        "base de datos",
+        "database",
+        "sql",
+        "spring",
+        "java",
+        "rest",
+        "transacci",
+        "transaction",
+        "cola",
+        "queue",
+        "mensaj",
+        "message",
+        "prueba",
+        "test",
+        "endpoint",
+        "seguridad",
+        "security",
+        "despliegue",
+        "deploy"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": true
+    },
+    "CON2": {
+      "grupo": "C",
+      "nombre": {
+        "es-CO": "Analista de Calidad (QA)",
+        "en": "QA Analyst"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000012\",\"nombre\":\"Perfil ficticio CON2\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Analista de calidad con 2 años de experiencia en aplicaciones web y pruebas automatizadas con Selenium.\",\"experiencias\":[{\"empresa\":\"Software Ficticio S.A.S.\",\"cargo\":\"Analista de Calidad\",\"descripcion\":\"Diseña casos de prueba y reporta defectos en Jira.\",\"inicio\":\"2022-06\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Instituto Técnico Ficticio del Norte\",\"titulo\":\"Tecnología en Desarrollo de Software\",\"nivel\":\"TECHNICAL\",\"inicio\":\"2018-02\",\"fin\":\"2021-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Selenium\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Jira\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000012\",\"nombre\":\"Perfil ficticio CON2\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Quality analyst with 2 years of experience on web applications and Selenium automated tests.\",\"experiencias\":[{\"empresa\":\"Fictitious Software Inc.\",\"cargo\":\"QA Analyst\",\"descripcion\":\"Designs test cases and reports defects in Jira.\",\"inicio\":\"2022-06\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Fictitious Northern Technical Institute\",\"titulo\":\"Software Development Technology\",\"nivel\":\"TECHNICAL\",\"inicio\":\"2018-02\",\"fin\":\"2021-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Selenium\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Jira\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "prueba",
+        "test",
+        "caso de prueba",
+        "test case",
+        "defecto",
+        "defect",
+        "bug",
+        "selenium",
+        "automatiz",
+        "automat",
+        "regresi",
+        "regression",
+        "calidad",
+        "quality",
+        "jira",
+        "reporte",
+        "report"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": true
+    },
+    "CON3": {
+      "grupo": "C",
+      "nombre": {
+        "es-CO": "Analista de Datos",
+        "en": "Data Analyst"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000013\",\"nombre\":\"Perfil ficticio CON3\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Analista de datos con 4 años de experiencia en SQL, Python y tableros de indicadores.\",\"experiencias\":[{\"empresa\":\"Comercio Ficticio Ltda.\",\"cargo\":\"Analista de Datos\",\"descripcion\":\"Construye consultas SQL y tableros para ventas.\",\"inicio\":\"2020-09\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"},{\"empresa\":\"Consultora Ficticia\",\"cargo\":\"Analista Junior\",\"descripcion\":\"Limpieza y análisis de datos de clientes.\",\"inicio\":\"2019-01\",\"fin\":\"2020-08\",\"estadoEmpleo\":\"ENDED\"}],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Centro\",\"titulo\":\"Estadística\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2014-02\",\"fin\":\"2018-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"SQL\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Python\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000013\",\"nombre\":\"Perfil ficticio CON3\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Data analyst with 4 years of experience in SQL, Python and KPI dashboards.\",\"experiencias\":[{\"empresa\":\"Fictitious Retail Ltd.\",\"cargo\":\"Data Analyst\",\"descripcion\":\"Builds SQL queries and sales dashboards.\",\"inicio\":\"2020-09\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"},{\"empresa\":\"Fictitious Consulting\",\"cargo\":\"Junior Analyst\",\"descripcion\":\"Cleans and analyzes customer data.\",\"inicio\":\"2019-01\",\"fin\":\"2020-08\",\"estadoEmpleo\":\"ENDED\"}],\"formaciones\":[{\"institucion\":\"Fictitious Central University\",\"titulo\":\"Statistics\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2014-02\",\"fin\":\"2018-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"SQL\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Python\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "sql",
+        "python",
+        "datos",
+        "data",
+        "consulta",
+        "query",
+        "estad",
+        "statist",
+        "visualiz",
+        "dashboard",
+        "limpieza",
+        "clean",
+        "modelo",
+        "model",
+        "regresi",
+        "regression",
+        "excel",
+        "indicador",
+        "kpi"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": true
+    },
+    "CON4": {
+      "grupo": "C",
+      "nombre": {
+        "es-CO": "Desarrollador Frontend",
+        "en": "Frontend Developer"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000014\",\"nombre\":\"Perfil ficticio CON4\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Desarrolladora frontend con 3 años de experiencia en React y TypeScript.\",\"experiencias\":[{\"empresa\":\"Estudio Ficticio Digital\",\"cargo\":\"Desarrolladora Frontend\",\"descripcion\":\"Construye interfaces accesibles con React.\",\"inicio\":\"2022-01\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Sur\",\"titulo\":\"Ingeniería de Software\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2017-02\",\"fin\":\"2021-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"React\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"TypeScript\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000014\",\"nombre\":\"Perfil ficticio CON4\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Frontend developer with 3 years of experience in React and TypeScript.\",\"experiencias\":[{\"empresa\":\"Fictitious Digital Studio\",\"cargo\":\"Frontend Developer\",\"descripcion\":\"Builds accessible interfaces with React.\",\"inicio\":\"2022-01\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Fictitious Southern University\",\"titulo\":\"Software Engineering\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2017-02\",\"fin\":\"2021-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"React\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"TypeScript\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "react",
+        "componente",
+        "component",
+        "accesibilidad",
+        "accessib",
+        "responsiv",
+        "navegador",
+        "browser",
+        "rendimiento",
+        "performance",
+        "estado",
+        "state",
+        "dom",
+        "frontend",
+        "interfaz",
+        "interface",
+        "prueba",
+        "test"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": true
+    },
+    "CON5": {
+      "grupo": "C",
+      "nombre": {
+        "es-CO": "Ingeniero DevOps",
+        "en": "DevOps Engineer"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000015\",\"nombre\":\"Perfil ficticio CON5\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Ingeniero DevOps con 5 años de experiencia en contenedores, integración continua y nube.\",\"experiencias\":[{\"empresa\":\"Plataforma Ficticia Cloud\",\"cargo\":\"Ingeniero DevOps\",\"descripcion\":\"Mantiene pipelines de CI/CD y clústeres.\",\"inicio\":\"2020-02\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Valle\",\"titulo\":\"Ingeniería de Sistemas\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2013-02\",\"fin\":\"2018-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Docker\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Kubernetes\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Terraform\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000015\",\"nombre\":\"Perfil ficticio CON5\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"DevOps engineer with 5 years of experience in containers, continuous integration and cloud.\",\"experiencias\":[{\"empresa\":\"Fictitious Cloud Platform\",\"cargo\":\"DevOps Engineer\",\"descripcion\":\"Maintains CI/CD pipelines and clusters.\",\"inicio\":\"2020-02\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Fictitious Valley University\",\"titulo\":\"Systems Engineering\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2013-02\",\"fin\":\"2018-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Docker\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Kubernetes\",\"nivel\":\"INTERMEDIATE\"},{\"nombre\":\"Terraform\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "docker",
+        "kubernetes",
+        "contenedor",
+        "container",
+        "pipeline",
+        "ci",
+        "cd",
+        "integración continua",
+        "continuous integration",
+        "terraform",
+        "infraestructura",
+        "infrastructure",
+        "nube",
+        "cloud",
+        "monitoreo",
+        "monitoring",
+        "despliegue",
+        "deploy",
+        "observabilidad",
+        "observability",
+        "incidente",
+        "incident"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": true
+    },
+    "CON6": {
+      "grupo": "C",
+      "nombre": {
+        "es-CO": "Diseñadora de Producto",
+        "en": "Product Designer"
+      },
+      "contexto": {
+        "es-CO": "{\"id\":\"00000000-0000-4000-8000-000000000016\",\"nombre\":\"Perfil ficticio CON6\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Diseñadora de producto con 4 años de experiencia en investigación de usuarios y prototipos.\",\"experiencias\":[{\"empresa\":\"Producto Ficticio S.A.\",\"cargo\":\"Diseñadora de Producto\",\"descripcion\":\"Lidera pruebas de usabilidad y prototipos.\",\"inicio\":\"2021-01\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Universidad Ficticia del Centro\",\"titulo\":\"Diseño Gráfico\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2015-02\",\"fin\":\"2020-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Figma\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Investigación de usuarios\",\"nivel\":\"INTERMEDIATE\"}]}",
+        "en": "{\"id\":\"00000000-0000-4000-8000-000000000016\",\"nombre\":\"Perfil ficticio CON6\",\"estado\":\"COMPLETED\",\"fecha_archivado\":null,\"resumen\":\"Product designer with 4 years of experience in user research and prototyping.\",\"experiencias\":[{\"empresa\":\"Fictitious Product Inc.\",\"cargo\":\"Product Designer\",\"descripcion\":\"Leads usability tests and prototypes.\",\"inicio\":\"2021-01\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[{\"institucion\":\"Fictitious Central University\",\"titulo\":\"Graphic Design\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2015-02\",\"fin\":\"2020-06\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Figma\",\"nivel\":\"ADVANCED\"},{\"nombre\":\"Investigación de usuarios\",\"nivel\":\"INTERMEDIATE\"}]}"
+      },
+      "oferta": {
+        "es-CO": "",
+        "en": ""
+      },
+      "terminosDeLaOferta": [],
+      "terminosTecnicosDelRol": [
+        "usuario",
+        "user",
+        "usabilidad",
+        "usability",
+        "prototipo",
+        "prototype",
+        "investigación",
+        "research",
+        "figma",
+        "accesibilidad",
+        "accessib",
+        "sistema de diseño",
+        "design system",
+        "flujo",
+        "flow",
+        "interfaz",
+        "interface",
+        "métrica",
+        "metric"
+      ],
+      "terminosDeLaFormacion": [
+        "formaci",
+        "estudi",
+        "carrera",
+        "universidad",
+        "técnic",
+        "tecnolog",
+        "grado",
+        "académic",
+        "egres",
+        "curso",
+        "degree",
+        "stud",
+        "universit",
+        "education",
+        "academic",
+        "coursework",
+        "graduat",
+        "program",
+        "college",
+        "training",
+        "capstone",
+        "thesis"
+      ],
+      "tieneExperiencia": true
+    }
+  }
+}
