@@ -4,10 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,6 +45,9 @@ import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.Tone;
 import tech.cameia.entrevista.domain.policy.PersonalizationCatalog;
 import tech.cameia.entrevista.domain.policy.SessionConfigurationPolicy;
+import tech.cameia.entrevista.domain.exception.SessionConflictException;
+import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.IdempotencyKeyRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
@@ -62,10 +68,37 @@ class CreateSessionServiceTest {
     private final FakeProfiles profiles = new FakeProfiles();
     private final FakeSessions sessions = new FakeSessions();
     private final FakeKeys keys = new FakeKeys();
+    private AiExecution openMark;
+    private final List<UUID> clearedPlanning = new ArrayList<>();
     private final FakeTransactions transactions = new FakeTransactions();
     private final CreateSessionService service = new CreateSessionService(
             new SessionConfigurationPolicy(new PersonalizationCatalog(), id -> id.equals(ROLE_ID)), profiles,
-            sessions, keys, new TransactionTemplate(transactions), JSON, CLOCK);
+            sessions, keys, planningCleaner(), new TransactionTemplate(transactions), JSON, CLOCK,
+            Duration.ofMillis(9500));
+
+    private AiExecutionRepository planningCleaner() {
+        return new AiExecutionRepository() {
+            @Override
+            public AiExecution save(AiExecution execution) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Optional<AiExecution> findPlanningInProgress(UUID sessionId) {
+                return Optional.ofNullable(openMark);
+            }
+
+            @Override
+            public boolean hasFailedPlanning(UUID sessionId) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void deletePlanningOf(UUID sessionId) {
+                clearedPlanning.add(sessionId);
+            }
+        };
+    }
 
     private static ProfileReplica profile(FirebaseUid owner, ReplicatedProfileStatus status, Instant archivedAt) {
         return new ProfileReplica(PROFILE_ID, owner, "Perfil de Ana", status, archivedAt, CONTEXT, ROLES, NOW);
@@ -144,6 +177,7 @@ class CreateSessionServiceTest {
         assertThat(saved.configuration().tone()).isEqualTo(Tone.STRICT);
         assertThat(saved.configuration().jobOffer()).isEqualTo("Buscamos");
         assertThat(saved.planningRetries()).isZero();
+        assertThat(clearedPlanning).containsExactly(old.id());
         assertThat(saved.updatedAt()).isEqualTo(NOW);
         assertThat(saved.createdAt()).isEqualTo(Instant.parse("2026-10-19T10:00:00Z"));
     }
@@ -163,6 +197,34 @@ class CreateSessionServiceTest {
         assertThat(result.ongoing()).isEqualTo(new OngoingSession(running.id(), 2));
         assertThat(sessions.byId.get(running.id()).status()).isEqualTo(SessionStatus.IN_PROGRESS);
         assertThat(sessions.byId).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("Con la marca de planificación vigente no reconfigura: 409 y la sesión queda como estaba")
+    void create_shouldThrowConflict_whenPlanningMarkIsLive() {
+        givenUsableProfile();
+        InterviewSession old = existing(SessionStatus.CONFIGURED, 1);
+        sessions.byId.put(old.id(), old);
+        openMark = AiExecution.planningStarted(old.id(), 1, "modelo", "v", "gemini", CLOCK);
+
+        assertThatThrownBy(() -> create(draft("ESTRICTO", null))).isInstanceOf(SessionConflictException.class);
+
+        assertThat(sessions.byId.get(old.id()).configuration().tone()).isEqualTo(Tone.STRICT);
+        assertThat(clearedPlanning).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Con la marca caducada sí reconfigura")
+    void create_shouldReuse_whenPlanningMarkIsStale() {
+        givenUsableProfile();
+        InterviewSession old = existing(SessionStatus.CONFIGURED, 1);
+        sessions.byId.put(old.id(), old);
+        openMark = AiExecution.planningStarted(old.id(), 1, "modelo", "v", "gemini",
+                Clock.fixed(NOW.minusSeconds(60), ZoneOffset.UTC));
+
+        assertThat(create(draft("CALIDO", null)).httpStatus()).isEqualTo(200);
+
+        assertThat(clearedPlanning).containsExactly(old.id());
     }
 
     @Test

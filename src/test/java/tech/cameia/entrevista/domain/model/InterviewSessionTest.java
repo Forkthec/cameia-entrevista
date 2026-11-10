@@ -204,4 +204,23 @@ class InterviewSessionTest {
     void maxJobOfferLength_shouldBe3000() {
         assertThat(InterviewSession.MAX_JOB_OFFER_LENGTH).isEqualTo(3000);
     }
+
+    @Test
+    @DisplayName("Contar un reintento de planificación sube el contador y la fecha de cambio")
+    void registerPlanningRetry_shouldRaiseCounter_whenConfigured() {
+        InterviewSession session = inState(SessionStatus.CONFIGURED);
+
+        session.registerPlanningRetry(LATER_CLOCK);
+        session.registerPlanningRetry(LATER_CLOCK);
+
+        // La sesión de prueba parte con 1 reintento.
+        assertThat(session.planningRetries()).isEqualTo(3);
+        assertThat(session.updatedAt()).isEqualTo(LATER);
+    }
+
+    @Test
+    @DisplayName("Contar un reintento en una sesión que ya no está configurada se rechaza sin cambios")
+    void registerPlanningRetry_shouldBeRejected_whenNotConfigured() {
+        assertRejectedWithoutChange(SessionStatus.IN_PROGRESS, session -> session.registerPlanningRetry(LATER_CLOCK));
+    }
 }
