@@ -7,8 +7,9 @@ tonos. No cambia el servicio: el código vive en `src/test/java/tech/cameia/entr
 |---|---|
 | `informe.md` | Resultados, comparación de modelos y recomendación |
 | `plantilla-competencias.md` | Orden de los tipos de pregunta del plan |
-| `prompts/` | `planificacion.v1.txt` a `planificacion.v3.txt` y un bloque por tono (`tono.<TONO>.v1.txt`; `tono.CALIDO.v2.txt` y `tono.ESTRICTO.v2.txt` en la configuración final) |
+| `prompts/` | `planificacion.v1.txt` a `planificacion.v4.txt` (la `v4` es la `v3` con el contexto y la oferta entre `<datos_de_la_persona>` y su cierre) y un bloque por tono (`tono.<TONO>.v1.txt`; `tono.CALIDO.v2.txt` y `tono.ESTRICTO.v2.txt` en la configuración final) |
 | `schemas/` | Esquema JSON del plan |
+| `CM-212-medicion-v4/` | Medición de `planificacion.v4` y del tope de entrada: informe y un resumen por cada grupo (`A24`, `B24`, `H` con casos hostiles y `T` con tamaños de 2.000, 8.000 y 32.000 caracteres) y por los controles con `v3` |
 | `fixtures/entradas/` | Roles, contextos y ofertas ficticios |
 | `fixtures/reevaluaciones/` | Las mismas salidas vueltas a evaluar con la regla vigente, sin llamar al modelo |
 | `fixtures/salidas/<CARPETA>/` | Salida cruda de cada corrida (`A01`…`B12`) y `resumen-<CARPETA>-<grupo>.json` |
@@ -27,7 +28,7 @@ Los intentos con errores del proveedor (503 con `gemini-3.8-flash`, 401 por falt
 ## Cómo se corre (manual)
 
 Variables: `SPIKE_CM347=true`, `SPIKE_MODELO` (`GEMINI_LITE` o `QWEN_GROQ`), `SPIKE_GRUPO` (`A`, `B` o `todo`), `SPIKE_PAUSA_S`,
-`SPIKE_PRESUPUESTO` (máximo de llamadas), `SPIKE_MAX_TOKENS`, `SPIKE_TIMEOUT` `SPIKE_PROMPT` (`v1`, `v2` o `v3`), `SPIKE_TONO` (`v2` usa los bloques de tono `v2`; los que no tienen `v2` caen a `v1`), `SPIKE_TEMPERATURA`, `SPIKE_PENSAMIENTO` (Gemini: `minimal`, `low`…), `SPIKE_REINTENTO=true`, `SPIKE_UNIR_PARTES=true` (Gemini: une todas las partes de la respuesta), `SPIKE_ETIQUETA` (rotula la carpeta), los grupos `A24` y `B24` y, solo para Qwen, `SPIKE_RAZONAMIENTO=none`.
+`SPIKE_PRESUPUESTO` (máximo de llamadas), `SPIKE_MAX_TOKENS`, `SPIKE_TIMEOUT` `SPIKE_PROMPT` (`v1` a `v4`; con `v4` el banco quita del texto de la persona las marcas de apertura y de cierre), `SPIKE_TONO` (`v2` usa los bloques de tono `v2`; los que no tienen `v2` caen a `v1`), `SPIKE_TEMPERATURA`, `SPIKE_PENSAMIENTO` (Gemini: `minimal`, `low`…), `SPIKE_REINTENTO=true`, `SPIKE_UNIR_PARTES=true` (Gemini: une todas las partes de la respuesta), `SPIKE_ETIQUETA` (rotula la carpeta), los grupos `A24` y `B24`, `H` (un perfil hostil por tono, dos variantes) y `T` (contexto y oferta de 2.000, 8.000 y 32.000 caracteres) y, solo para Qwen, `SPIKE_RAZONAMIENTO=none`.
 Las llaves viven en `GOOGLE_GENAI_API_KEY` (con `LLM_MODEL=gemini-3.5-flash-lite`) y `GROQ_API_KEY`; nunca se imprimen ni se guardan.
 
 ```text
