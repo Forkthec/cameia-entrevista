@@ -100,10 +100,11 @@ jobs:
       # puede ser temporal al principio y reemplazarse mas adelante sin tocar este
       # workflow, porque solo cambia el contenido del secreto, no su nombre.
       #
-      # LLM_MODEL: id del modelo de Gemini en la API: gemini-3.7-flash quedo
-      # obsoleto y Google lo redirige a 3.8, por eso se usa gemini-3.8-flash. Es obligatorio:
-      # sin el, el servicio no arranca. No es un secreto, por eso va en texto plano. El tiempo
-      # de espera (LLM_TIMEOUT) no se define aqui y queda en su valor por defecto, 30s.
+      # LLM_MODEL: id del modelo de Gemini en la API. Se usa gemini-3.5-flash-lite, el modelo
+      # que mide la planificacion de las preguntas: acepta el nivel de razonamiento minimo
+      # y tiene un cupo diario mucho mayor que gemini-3.8-flash. Es obligatorio: sin el, el
+      # servicio no arranca. No es un secreto, por eso va en texto plano. El tiempo de espera
+      # (LLM_TIMEOUT) no se define aqui y queda en el valor por defecto del servicio.
       #
       # SPRING_PROFILES_ACTIVE=production: el nombre de este perfil es "production", no
       # "prod" como en cameia-gateway/cameia-cuentas (application-production.properties,
@@ -146,7 +147,7 @@ jobs:
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1" \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1" \
             --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
 
       - name: URL del servicio desplegado
@@ -353,7 +354,7 @@ jobs:
             --network="$VPC_NETWORK" \
             --subnet="$VPC_SUBNET" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.8-flash,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1" \
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1" \
             --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
 
       - name: URL del servicio desplegado
