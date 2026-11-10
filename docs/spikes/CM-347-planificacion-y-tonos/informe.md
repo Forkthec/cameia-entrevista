@@ -24,6 +24,8 @@ con la regla vigente, sin llamar al modelo). Nada de producción cambió: el ban
 | Columna de la pregunta | `pregunta.texto_original` es `VARCHAR(1000)` (CM-311). Con un límite validado de 500, el estándar pide que el esquema repita el límite: CM-212 baja la columna a 500 con una migración Flyway nueva | §2b |
 | Límites de Gemini | Nivel gratuito del proyecto «Proyecto CAMEIA» (AI Studio, 8-nov-2026): `gemini-3.5-flash-lite` 15 peticiones por minuto, 250.000 tokens por minuto y 500 por día. Máximos en 28 días: 16, 12.430 y 217 | §5 |
 
+El texto de instrucción que usa hoy el servicio es `planificacion.v5`, no la `v3` de la tabla: la `v4` encierra el texto de la persona entre marcas y la `v5` agrega la regla para quien no tiene experiencia laboral. Sus mediciones están en `CM-212-medicion-v4/informe.md` y `CM-212-medicion-v5/informe.md`; las cifras de este informe son las de la `v3`.
+
 Respaldo: Qwen 3.8 27B en Groq con `reasoning_effort = none` y el mismo prompt v3. Con ese prompt, 19 de 24 planes de tonos salieron válidos a la
 primera y 22 de 24 con un reintento (mediana 0,99 s); devuelve textos vacíos con más frecuencia que Gemini (§4). El bloque
 `tono.ESTRICTO.v2.txt` no se midió con Qwen. Tiene un tope de 1.000 tokens de salida por minuto (unos 3 planes por minuto).
