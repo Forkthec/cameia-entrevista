@@ -23,7 +23,7 @@ class PlanningModelTest {
     private static final UUID SESSION = UUID.randomUUID();
 
     private static AiExecution started(int attempt) {
-        return AiExecution.planningStarted(SESSION, attempt, "gemini-3.5-flash-lite", "planificacion.v4+CALIDO.v2",
+        return AiExecution.planningStarted(SESSION, attempt, "gemini-3.5-flash-lite", "planificacion.v5+CALIDO.v2",
                 "gemini", CLOCK);
     }
 
@@ -35,7 +35,7 @@ class PlanningModelTest {
         assertThat(execution.status()).isEqualTo(AiExecutionStatus.IN_PROGRESS);
         assertThat(execution.finishedAt()).isNull();
         assertThat(execution.errorCode()).isNull();
-        assertThat(execution.promptVersion()).isEqualTo("planificacion.v4+CALIDO.v2");
+        assertThat(execution.promptVersion()).isEqualTo("planificacion.v5+CALIDO.v2");
     }
 
     @Test

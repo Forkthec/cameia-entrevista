@@ -99,7 +99,7 @@ class PlanificacionSpikeRunner {
         }
     }
 
-    /** Marca que delimita los datos de la persona en {@code planificacion.v4}. */
+    /** Marca que delimita los datos de la persona en {@code planificacion.v4} y posteriores. */
     private static final String MARCA_DE_CIERRE = "</datos_de_la_persona>";
 
     /** Texto hostil 1: pide cambiar la cantidad de preguntas. */
@@ -424,7 +424,7 @@ class PlanificacionSpikeRunner {
             textoContexto = rellenar(textoContexto, c.tamano());
             textoOferta = rellenar(textoOferta, c.tamano());
         }
-        if (version.equals("v4")) {
+        if (version.equals("v4") || version.equals("v5")) {
             textoContexto = neutralizarMarcas(textoContexto);
             textoOferta = neutralizarMarcas(textoOferta);
         }

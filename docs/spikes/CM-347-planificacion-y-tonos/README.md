@@ -7,7 +7,7 @@ tonos. No cambia el servicio: el código vive en `src/test/java/tech/cameia/entr
 |---|---|
 | `informe.md` | Resultados, comparación de modelos y recomendación |
 | `plantilla-competencias.md` | Orden de los tipos de pregunta del plan |
-| `prompts/` | `planificacion.v1.txt` a `planificacion.v4.txt` (la `v4` es la `v3` con el contexto y la oferta entre `<datos_de_la_persona>` y su cierre) y un bloque por tono (`tono.<TONO>.v1.txt`; `tono.CALIDO.v2.txt` y `tono.ESTRICTO.v2.txt` en la configuración final) |
+| `prompts/` | `planificacion.v1.txt` a `planificacion.v5.txt` (la `v4` es la `v3` con el contexto y la oferta entre `<datos_de_la_persona>` y su cierre; la `v5` es la `v4` más la regla para quien no tiene experiencia laboral) y un bloque por tono (`tono.<TONO>.v1.txt`; `tono.CALIDO.v2.txt` y `tono.ESTRICTO.v2.txt` en la configuración final) |
 | `schemas/` | Esquema JSON del plan |
 | `CM-212-medicion-v4/` | Medición de `planificacion.v4` y del tope de entrada: informe y un resumen por cada grupo (`A24`, `B24`, `H` con casos hostiles y `T` con tamaños de 2.000, 8.000 y 32.000 caracteres) y por los controles con `v3` |
 | `fixtures/entradas/` | Roles, contextos y ofertas ficticios |

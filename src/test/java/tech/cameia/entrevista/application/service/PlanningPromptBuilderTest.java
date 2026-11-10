@@ -69,8 +69,8 @@ class PlanningPromptBuilderTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"PROFESSIONAL_NEUTRAL,planificacion.v4+PROFESIONAL_NEUTRO.v1,Tono PROFESIONAL_NEUTRO:",
-            "WARM,planificacion.v4+CALIDO.v2,Tono CALIDO:", "STRICT,planificacion.v4+ESTRICTO.v2,Tono ESTRICTO:"})
+    @CsvSource({"PROFESSIONAL_NEUTRAL,planificacion.v5+PROFESIONAL_NEUTRO.v1,Tono PROFESIONAL_NEUTRO:",
+            "WARM,planificacion.v5+CALIDO.v2,Tono CALIDO:", "STRICT,planificacion.v5+ESTRICTO.v2,Tono ESTRICTO:"})
     void build_shouldUseToneBlockAndVersion(Tone tone, String version, String toneStart) {
         PlanningPrompt result = builder.build(basic(null, tone, InterviewLanguage.SPANISH_COLOMBIA));
         assertThat(result.version()).isEqualTo(version);
@@ -141,6 +141,21 @@ class PlanningPromptBuilderTest {
                 InterviewLanguage.ENGLISH)))
                 .isInstanceOf(ProfileSnapshotInvalidException.class)
                 .satisfies(e -> assertThat(String.valueOf(e.getCause().getMessage())).doesNotContain("secreto-xyz"));
+    }
+
+    @Test
+    void build_shouldRuleOutPastJobQuestionAndAskForEducationWhenThereIsNoWorkExperience() {
+        String withoutExperience = "{\"resumen\":\"Egresada reciente de Ingenier\\u00eda de Sistemas\","
+                + "\"experiencias\":[],\"formaciones\":[{\"institucion\":\"Universidad del Cauca\","
+                + "\"titulo\":\"Ingenier\\u00eda de Sistemas\",\"nivel\":\"UNDERGRADUATE\",\"inicio\":\"2020-02\","
+                + "\"fin\":\"2024-12\",\"enCurso\":false}],\"habilidades\":[{\"nombre\":\"Java\",\"nivel\":\"BASIC\"}]}";
+        String text = builder.build(config(snapshot(withoutExperience), null, Tone.PROFESSIONAL_NEUTRAL,
+                InterviewLanguage.SPANISH_COLOMBIA)).prompt().text();
+        // El dato llega tal cual y la plantilla trae la regla para ese caso.
+        assertThat(text).contains("\"experiencias\":[]")
+                .contains("Si la lista \"experiencias\" está vacía o no aparece")
+                .contains("la pregunta 3 NO puede pedir un empleo")
+                .contains("al menos una pregunta se apoya en la formación académica");
     }
 
     private static SessionConfiguration withContextOfLength(int serializedLength) {
