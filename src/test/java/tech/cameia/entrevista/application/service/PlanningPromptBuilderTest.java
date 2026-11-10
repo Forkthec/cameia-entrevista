@@ -158,6 +158,20 @@ class PlanningPromptBuilderTest {
                 .contains("al menos una pregunta se apoya en la formación académica");
     }
 
+    @Test
+    void build_shouldKeepExperiencesInTheDataWhenThereAreSome() {
+        String withExperience = "{\"resumen\":\"Tres a\\u00f1os con Java\",\"experiencias\":[{\"empresa\":"
+                + "\"Empresa Ficticia Andina\",\"cargo\":\"Desarrollador Backend\",\"descripcion\":null,"
+                + "\"inicio\":\"2021-03\",\"fin\":null,\"estadoEmpleo\":\"CURRENT\"}],\"formaciones\":[]}";
+        String text = builder.build(config(snapshot(withExperience), null, Tone.PROFESSIONAL_NEUTRAL,
+                InterviewLanguage.SPANISH_COLOMBIA)).prompt().text();
+        // La regla de quien no tiene experiencia es condicional; con experiencia, los datos viajan completos.
+        assertThat(text).contains("\"cargo\":\"Desarrollador Backend\"")
+                .contains("\"empresa\":\"Empresa Ficticia Andina\"")
+                .contains("3 = \"CONDUCTUAL\": pide una experiencia pasada concreta")
+                .contains("Si la lista \"experiencias\" está vacía o no aparece");
+    }
+
     private static SessionConfiguration withContextOfLength(int serializedLength) {
         String value = "x".repeat(serializedLength - 2);
         return config(snapshot("\"" + value + "\""), null, Tone.WARM, InterviewLanguage.SPANISH_COLOMBIA);
