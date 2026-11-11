@@ -114,6 +114,23 @@ class PlanningPersistenceTest extends AbstractPersistenceTest {
     }
 
     @Test
+    @DisplayName("failIfInProgress cierra la marca en curso, y no crea ni toca nada si ya no existe o ya está cerrada")
+    void failIfInProgress_shouldCloseOnlyAnOpenMark() {
+        UUID sessionId = savedSession("uid-a").id();
+        AiExecution open = claim(sessionId, 1);
+
+        assertThat(executions.failIfInProgress(open.failed(ErrorCode.DATABASE_UNAVAILABLE, CLOCK))).isTrue();
+        assertThat(executions.hasFailedPlanning(sessionId)).isTrue();
+        assertThat(executions.failIfInProgress(open.failed(ErrorCode.LLM_UNAVAILABLE, CLOCK))).isFalse();
+
+        executions.deletePlanningOf(sessionId);
+        assertThat(executions.failIfInProgress(open.failed(ErrorCode.LLM_UNAVAILABLE, CLOCK))).isFalse();
+        assertThat(jdbc.queryForObject(
+                "SELECT count(*) FROM microentrevista.ejecucion_ia WHERE sesion_id = ?", Integer.class, sessionId))
+                .isZero();
+    }
+
+    @Test
     @DisplayName("deletePlanningOf borra las ejecuciones de planificación de la sesión")
     void deletePlanningOf_shouldRemoveExecutions() {
         UUID sessionId = savedSession("uid-a").id();

@@ -105,12 +105,12 @@ class InterviewSessionController {
              "requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
     private static final String EXAMPLE_NOT_ALLOWED = """
-            {"title":"Transición no permitida","status":409,"detail":"Esta entrevista ya no admite esa acción.",
+            {"title":"Acción no permitida","status":409,"detail":"Esta entrevista ya no admite esa acción.",
              "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/start",
              "code":"SESSION_TRANSITION_NOT_ALLOWED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
     private static final String EXAMPLE_LLM = """
-            {"title":"Servicio de IA no disponible","status":503,"detail":"Ocurrió un error. Inténtalo de nuevo.",
+            {"title":"Servicio no disponible","status":503,"detail":"Ocurrió un error. Inténtalo de nuevo.",
              "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/start","code":"LLM_UNAVAILABLE",
              "requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 

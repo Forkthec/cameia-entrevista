@@ -74,7 +74,7 @@ class CreateSessionServiceTest {
     private final CreateSessionService service = new CreateSessionService(
             new SessionConfigurationPolicy(new PersonalizationCatalog(), id -> id.equals(ROLE_ID)), profiles,
             sessions, keys, planningCleaner(), new TransactionTemplate(transactions), JSON, CLOCK,
-            Duration.ofMillis(9500));
+            Duration.ofMillis(20000));
 
     private AiExecutionRepository planningCleaner() {
         return new AiExecutionRepository() {
@@ -96,6 +96,11 @@ class CreateSessionServiceTest {
             @Override
             public void deletePlanningOf(UUID sessionId) {
                 clearedPlanning.add(sessionId);
+            }
+
+            @Override
+            public boolean failIfInProgress(AiExecution failed) {
+                throw new UnsupportedOperationException();
             }
         };
     }

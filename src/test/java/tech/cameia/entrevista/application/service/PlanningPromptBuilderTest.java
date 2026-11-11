@@ -136,6 +136,13 @@ class PlanningPromptBuilderTest {
     }
 
     @Test
+    void build_shouldFailWhenTheRoleHasNoName() {
+        String snapshot = snapshot("{}").replace("Desarrolladora Backend", "   ");
+        assertThatThrownBy(() -> builder.build(config(snapshot, null, Tone.WARM, InterviewLanguage.ENGLISH)))
+                .isInstanceOf(ProfileSnapshotInvalidException.class);
+    }
+
+    @Test
     void build_shouldFailWithoutLeakingTextWhenSnapshotIsNotJson() {
         assertThatThrownBy(() -> builder.build(config("{\"contextoProfesional\": secreto-xyz", null, Tone.WARM,
                 InterviewLanguage.ENGLISH)))

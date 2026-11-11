@@ -47,4 +47,21 @@ interface AiExecutionJpaRepository extends JpaRepository<AiExecutionEntity, UUID
     @Modifying
     @Query("delete from AiExecutionEntity e where e.sessionId = :sessionId and e.operation = :operation")
     int deleteBySessionAndOperation(@Param("sessionId") UUID sessionId, @Param("operation") String operation);
+
+    /**
+     * Cierra como fallida la ejecución con ese identificador solo si sigue en el estado dado.
+     *
+     * @param id identificador de la ejecución
+     * @param inProgress estado guardado de «en curso»
+     * @param failed estado guardado de «fallida»
+     * @param errorCode código de la causa
+     * @param finishedAt instante de cierre
+     * @return filas cambiadas (0 si la fila ya no existe o ya no estaba en curso)
+     */
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query("update AiExecutionEntity e set e.status = :failed, e.errorCode = :errorCode, e.finishedAt = :finishedAt"
+            + " where e.id = :id and e.status = :inProgress")
+    int failIfInProgress(@Param("id") UUID id, @Param("inProgress") String inProgress,
+            @Param("failed") String failed, @Param("errorCode") String errorCode,
+            @Param("finishedAt") java.time.Instant finishedAt);
 }

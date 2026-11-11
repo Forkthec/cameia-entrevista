@@ -131,7 +131,12 @@ public class PlanningPromptBuilder {
         for (JsonNode role : snapshot.path("rolesAspirados")) {
             String code = role.path("codigo").asString("");
             if (code.toLowerCase(Locale.ROOT).equals(roleId.toString())) {
-                return role.path("nombre").asString("");
+                String name = role.path("nombre").asString("");
+                if (name.isBlank()) {
+                    throw new ProfileSnapshotInvalidException(
+                            new IllegalStateException("El rol de la copia del perfil no trae nombre"));
+                }
+                return name;
             }
         }
         throw new ProfileSnapshotInvalidException(new IllegalStateException("La copia del perfil no trae el rol de la sesión"));

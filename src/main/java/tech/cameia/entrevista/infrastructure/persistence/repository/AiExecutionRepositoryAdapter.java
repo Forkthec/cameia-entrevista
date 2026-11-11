@@ -63,6 +63,13 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
         jpa.deleteBySessionAndOperation(sessionId, PLAN);
     }
 
+    @Override
+    @Transactional
+    public boolean failIfInProgress(AiExecution failed) {
+        return jpa.failIfInProgress(failed.id(), AiExecutionStatus.IN_PROGRESS.code(),
+                AiExecutionStatus.FAILED.code(), failed.errorCode(), failed.finishedAt()) > 0;
+    }
+
     private static AiExecutionEntity toEntity(AiExecution e) {
         return new AiExecutionEntity(e.id(), e.sessionId(), PLAN, (short) e.attempt(), e.idempotencyKey(),
                 e.status().code(), e.model(), e.promptVersion(), e.errorCode(), e.provider(), e.inputTokens(),

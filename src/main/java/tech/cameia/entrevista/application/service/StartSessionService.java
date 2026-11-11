@@ -17,6 +17,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import tech.cameia.entrevista.application.command.SessionCommand;
 import tech.cameia.entrevista.domain.exception.BusinessException;
+import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException;
@@ -125,8 +126,15 @@ public class StartSessionService {
             throw new SessionTransitionNotAllowedException();
         }
         PlanningPrompt prompt = prompts.build(session.configuration());
-        Reservation reservation = transaction.execute(status ->
-                reserve(session.id(), command.owner(), prompt.version()));
+        Reservation reservation;
+        try {
+            reservation = transaction.execute(status -> reserve(session.id(), command.owner(), prompt.version()));
+        } catch (DataAccessException | TransactionException failure) {
+            // La base falló antes de llamar a la IA: no se gastó ningún intento ni ninguna llamada.
+            log.error("No se pudo reservar la planificación [code={}, sessionId={}, causa={}]",
+                    ErrorCode.DATABASE_UNAVAILABLE, session.id(), failure.getClass().getSimpleName());
+            throw new DatabaseUnavailableException(failure);
+        }
         return plan(session, reservation, prompt);
     }
 
@@ -147,14 +155,7 @@ public class StartSessionService {
         try {
             transaction.executeWithoutResult(status -> finish(session, mark, response, plan));
         } catch (RuntimeException failure) {
-            ErrorCode code = failure instanceof BusinessException business ? business.getErrorCode()
-                    : failure instanceof DataAccessException || failure instanceof TransactionException
-                            ? ErrorCode.DATABASE_UNAVAILABLE
-                    : ErrorCode.INTERNAL_ERROR;
-            closeAsFailed(mark, code);
-            log.warn("No se pudo guardar el plan [code={}, sessionId={}, executionId={}]", code, session.id(),
-                    mark.id());
-            throw failure;
+            throw failSaving(session, mark, reservation, failure);
         }
         log.info("Entrevista iniciada [sessionId={}, executionId={}, intento={}]", session.id(), mark.id(),
                 mark.attempt());
@@ -246,10 +247,40 @@ public class StartSessionService {
         return cause;
     }
 
+    /**
+     * Cierra la marca cuando el guardado del plan falló y devuelve lo que debe subir. Un cambio de configuración o
+     * una sesión que desapareció no son un intento fallido del modelo y suben tal cual; un fallo de la base sube como
+     * {@code DATABASE_UNAVAILABLE} y, si era el tercer intento, como reintentos agotados.
+     */
+    private RuntimeException failSaving(InterviewSession session, AiExecution mark, Reservation reservation,
+            RuntimeException failure) {
+        if (failure instanceof SessionConflictException || failure instanceof SessionNotFoundException) {
+            closeAsFailed(mark, ((BusinessException) failure).getErrorCode());
+            log.warn("No se guardó el plan [code={}, sessionId={}, executionId={}]",
+                    ((BusinessException) failure).getErrorCode(), session.id(), mark.id());
+            return failure;
+        }
+        if (failure instanceof DataAccessException || failure instanceof TransactionException) {
+            log.error("Falla de base al guardar el plan [code={}, sessionId={}, executionId={}, causa={}]",
+                    ErrorCode.DATABASE_UNAVAILABLE, session.id(), mark.id(), failure.getClass().getSimpleName());
+            return failPlanning(session, mark, reservation, ErrorCode.DATABASE_UNAVAILABLE,
+                    new DatabaseUnavailableException(failure));
+        }
+        if (failure instanceof BusinessException business) {
+            return failPlanning(session, mark, reservation, business.getErrorCode(), business);
+        }
+        closeAsFailed(mark, ErrorCode.INTERNAL_ERROR);
+        log.warn("No se pudo guardar el plan [code={}, sessionId={}, executionId={}]", ErrorCode.INTERNAL_ERROR,
+                session.id(), mark.id());
+        return failure;
+    }
+
     // En su propia transacción: nunca debe depender de la que falló. Si ni así se puede cerrar, la marca caduca sola.
     private void closeAsFailed(AiExecution mark, ErrorCode code) {
         try {
-            transaction.executeWithoutResult(status -> executions.save(mark.failed(code, clock)));
+            // Solo cierra una fila que sigue en curso: si la persona reconfiguró o canceló mientras tanto, la marca ya
+            // no existe y no debe reaparecer como un intento fallido de la configuración nueva.
+            transaction.executeWithoutResult(status -> executions.failIfInProgress(mark.failed(code, clock)));
         } catch (RuntimeException closing) {
             log.error("No se pudo cerrar la marca de planificación [executionId={}, causa={}]", mark.id(),
                     closing.getClass().getSimpleName());

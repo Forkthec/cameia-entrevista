@@ -42,4 +42,15 @@ public interface AiExecutionRepository {
      * @param sessionId identificador de la sesión
      */
     void deletePlanningOf(UUID sessionId);
+
+    /**
+     * Cierra como fallida una ejecución que sigue en curso, sin crear la fila si ya no existe.
+     *
+     * <p>La fila puede haber desaparecido entre tanto (la persona reconfiguró o canceló mientras la IA
+     * respondía): en ese caso no se escribe nada, para no resucitar un intento de una configuración anterior.</p>
+     *
+     * @param failed la ejecución ya marcada como fallida, con su código de causa y su fecha de fin
+     * @return {@code true} si la fila estaba en curso y se cerró; {@code false} si ya no existía o ya estaba cerrada
+     */
+    boolean failIfInProgress(AiExecution failed);
 }

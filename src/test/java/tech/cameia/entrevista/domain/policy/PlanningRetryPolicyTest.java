@@ -56,10 +56,10 @@ class PlanningRetryPolicyTest {
         Instant start = Instant.parse("2026-11-10T10:00:00Z");
         AiExecution mark = AiExecution.planningStarted(UUID.randomUUID(), 1, "m", "p", "gemini",
                 Clock.fixed(start, ZoneOffset.UTC));
-        PlanningClaim claim = new PlanningClaim(Duration.ofMillis(9500));
-        assertThat(claim.maxAge()).isEqualTo(Duration.ofMillis(24500));
-        assertThat(claim.isLive(mark, start.plusMillis(24499))).isTrue();
-        assertThat(claim.isLive(mark, start.plusMillis(24500))).isFalse();
+        PlanningClaim claim = new PlanningClaim(Duration.ofMillis(20000));
+        assertThat(claim.maxAge()).isEqualTo(Duration.ofMillis(35000));
+        assertThat(claim.isLive(mark, start.plusMillis(34999))).isTrue();
+        assertThat(claim.isLive(mark, start.plusMillis(35000))).isFalse();
     }
 
     @Test

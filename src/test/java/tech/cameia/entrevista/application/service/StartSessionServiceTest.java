@@ -30,8 +30,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 import tools.jackson.databind.json.JsonMapper;
 
 import tech.cameia.entrevista.application.command.SessionCommand;
+import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.model.AiExecution;
@@ -90,27 +92,24 @@ class StartSessionServiceTest {
         }).when(transaction).executeWithoutResult(any());
         when(executions.findPlanningInProgress(session.id())).thenReturn(Optional.empty());
         when(executions.save(any())).thenAnswer(call -> call.getArgument(0));
+        when(executions.failIfInProgress(any())).thenReturn(true);
         when(sessions.save(any())).thenAnswer(call -> call.getArgument(0));
         GetSessionStateService state = new GetSessionStateService(sessions, questions, turns);
         service = new StartSessionService(sessions, executions, questions, turns, model,
                 new PlanningPromptBuilder(JsonMapper.builder().build()), new PlanOutputReader(JsonMapper.builder().build()),
                 new PlanValidator(), new PlanningRetryPolicy(), state, transaction, clock, "modelo-de-prueba",
-                Duration.ofMillis(9500));
+                Duration.ofMillis(20000));
     }
 
     private SessionCommand command() {
         return new SessionCommand(session.id(), OWNER);
     }
 
-    private List<AiExecution> savedExecutions() {
-        ArgumentCaptor<AiExecution> captor = ArgumentCaptor.forClass(AiExecution.class);
-        verify(executions, org.mockito.Mockito.atLeastOnce()).save(captor.capture());
-        return captor.getAllValues();
-    }
-
+    /** La marca tal como se cerró como fallida: el cierre solo actualiza una fila en curso, nunca la inserta. */
     private AiExecution lastExecution() {
-        List<AiExecution> all = savedExecutions();
-        return all.get(all.size() - 1);
+        ArgumentCaptor<AiExecution> captor = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions, org.mockito.Mockito.atLeastOnce()).failIfInProgress(captor.capture());
+        return captor.getValue();
     }
 
     @Test
@@ -130,7 +129,7 @@ class StartSessionServiceTest {
         givenValidModelAnswer();
         doThrow(new DataAccessResourceFailureException("sin conexión")).when(questions).saveAll(any());
 
-        assertThatThrownBy(() -> service.start(command())).isInstanceOf(DataAccessResourceFailureException.class);
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(DatabaseUnavailableException.class);
 
         assertThat(lastExecution().errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
     }
@@ -140,9 +139,31 @@ class StartSessionServiceTest {
         givenValidModelAnswer();
         doThrow(new TransactionSystemException("commit")).when(questions).saveAll(any());
 
-        assertThatThrownBy(() -> service.start(command())).isInstanceOf(TransactionSystemException.class);
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(DatabaseUnavailableException.class);
 
         assertThat(lastExecution().errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
+    }
+
+    @Test
+    void start_shouldReportExhaustedRetries_whenSavingFailsOnTheLastAttempt() {
+        session.registerPlanningRetry(clock);
+        when(executions.hasFailedPlanning(session.id())).thenReturn(true);
+        givenValidModelAnswer();
+        doThrow(new DataAccessResourceFailureException("sin conexión")).when(questions).saveAll(any());
+
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(PlanningRetriesExhaustedException.class);
+
+        assertThat(lastExecution().errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
+    }
+
+    @Test
+    void start_shouldAnswerDatabaseUnavailableWithoutCallingTheModel_whenReservingFails() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        doThrow(new TransactionSystemException("commit")).when(transaction).execute(any());
+
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(DatabaseUnavailableException.class);
+
+        verify(model, never()).generate(any());
     }
 
     @Test
@@ -169,13 +190,8 @@ class StartSessionServiceTest {
     void start_shouldStillRethrowOriginalFailure_whenClosingTheMarkFails() {
         givenValidModelAnswer();
         doThrow(new IllegalStateException("defecto")).when(questions).saveAll(any());
-        when(executions.save(any())).thenAnswer(call -> {
-            AiExecution saved = call.getArgument(0);
-            if (saved.status() == AiExecutionStatus.FAILED) {
-                throw new DataAccessResourceFailureException("tampoco se pudo cerrar");
-            }
-            return saved;
-        });
+        when(executions.failIfInProgress(any()))
+                .thenThrow(new DataAccessResourceFailureException("tampoco se pudo cerrar"));
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(IllegalStateException.class)
                 .hasMessage("defecto");

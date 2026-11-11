@@ -131,7 +131,9 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.PLANNING_RETRIES_EXHAUSTED,
                     new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Preparación no disponible")),
             Map.entry(ErrorCode.PROFILE_SNAPSHOT_INVALID,
-                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")));
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")),
+            Map.entry(ErrorCode.DATABASE_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {

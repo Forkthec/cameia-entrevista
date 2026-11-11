@@ -483,7 +483,7 @@ class SessionLifecycleEndToEndTest {
     }
 
     @Test
-    @DisplayName("Si un fallo imprevisto de la base interrumpe el guardado, todo se revierte y la marca queda FALLIDA")
+    @DisplayName("Si un fallo de la base interrumpe el guardado, todo se revierte y la marca queda FALLIDA")
     void start_shouldRollBackWhenPersistenceFails() {
         String previous = configure(UID_A, PROFILE_A);
         model.enqueue(() -> plan(VALID_PLAN));
@@ -501,9 +501,9 @@ class SessionLifecycleEndToEndTest {
         ResponseEntity<String> response = start(UID_A, next);
         jdbc.execute("DROP TRIGGER trg_fallo_pregunta ON microentrevista.pregunta");
 
-        // Un error de SQL que ninguna regla prevé es el único caso del servicio que responde el genérico.
-        assertThat(response.getStatusCode().value()).isEqualTo(500);
-        assertThat(code(response)).isEqualTo("INTERNAL_ERROR");
+        // Un error de SQL al guardar el plan es un fallo previsible de la base: responde su código, no el genérico.
+        assertThat(response.getStatusCode().value()).isEqualTo(503);
+        assertThat(code(response)).isEqualTo("DATABASE_UNAVAILABLE");
         assertThat(statusOf(previous)).isEqualTo("EN_CURSO");
         assertThat(statusOf(next)).isEqualTo("CONFIGURADA");
         assertThat(executions(next, "FALLIDA")).isEqualTo(1);
@@ -515,7 +515,7 @@ class SessionLifecycleEndToEndTest {
     @DisplayName("Una marca vigente de otra petición da 409 sin llamar a la IA; una caducada se cierra y se planifica")
     void start_shouldRespectLiveMarkAndCloseStaleOne() {
         String id = configure(UID_A, PROFILE_A);
-        insertMark(id, NOW.minusSeconds(5));
+        insertMark(id, NOW.minusSeconds(30));
 
         ResponseEntity<String> live = start(UID_A, id);
 
@@ -524,7 +524,7 @@ class SessionLifecycleEndToEndTest {
         assertThat(model.calls()).isZero();
 
         jdbc.update("DELETE FROM microentrevista.ejecucion_ia");
-        insertMark(id, NOW.minusSeconds(120));
+        insertMark(id, NOW.minusSeconds(36));
         model.enqueue(() -> plan(VALID_PLAN));
 
         ResponseEntity<String> stale = start(UID_A, id);
