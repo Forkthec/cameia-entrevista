@@ -217,7 +217,7 @@ class InterviewSessionController {
     @Operation(summary = "Iniciar la entrevista",
             description = "Pide a la IA las cinco preguntas de la sesión configurada, las valida y, si todo es correcto,"
                     + " las guarda, crea el turno de la primera pregunta, abandona la entrevista que la persona tuviera"
-                    + " en curso y pasa esta a EN_CURSO. Es síncrono: tarda hasta el tiempo máximo del modelo (9,5 s)."
+                    + " en curso y pasa esta a EN_CURSO. Es síncrono: tarda hasta el tiempo máximo del modelo (20 s)."
                     + " Si la sesión ya estaba EN_CURSO responde 200 con su estado, sin llamar a la IA. Si la IA falla,"
                     + " la sesión sigue CONFIGURADA y se puede repetir la llamada, hasta tres intentos en total."
                     + " Ignora el cuerpo y la cabecera Idempotency-Key.")

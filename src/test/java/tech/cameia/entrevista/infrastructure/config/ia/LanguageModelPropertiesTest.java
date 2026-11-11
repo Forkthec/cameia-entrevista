@@ -204,7 +204,7 @@ class LanguageModelPropertiesTest {
     }
 
     @Test
-    @DisplayName("Los valores por defecto de application.properties son los medidos: minimal y 9,5 s")
+    @DisplayName("Los valores por defecto de application.properties son los medidos: minimal y 20 s")
     void defaults_shouldMatchSpikeConfiguration() {
         new ApplicationContextRunner()
                 .withUserConfiguration(PropertiesOnly.class)
@@ -214,7 +214,7 @@ class LanguageModelPropertiesTest {
                     assertThat(started).hasNotFailed();
                     LanguageModelProperties properties = started.getBean(LanguageModelProperties.class);
                     assertThat(properties.thinkingLevel()).isEqualTo(GoogleGenAiThinkingLevel.MINIMAL);
-                    assertThat(properties.timeout()).isEqualTo(Duration.ofMillis(9500));
+                    assertThat(properties.timeout()).isEqualTo(Duration.ofMillis(20000));
                     assertThat(properties.temperature()).isEqualTo(1.0);
                 });
     }

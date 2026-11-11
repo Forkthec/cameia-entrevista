@@ -48,7 +48,7 @@ public class PlanningPromptBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(PlanningPromptBuilder.class);
 
-    private static final String BASE_VERSION = "planificacion.v5";
+    private static final String BASE_VERSION = "planificacion.v6";
 
     private static final Pattern PLACEHOLDER = Pattern.compile("\\{\\{(\\w+)}}");
 
@@ -59,7 +59,7 @@ public class PlanningPromptBuilder {
 
     static {
         TONE_VERSIONS.put(Tone.PROFESSIONAL_NEUTRAL, 1);
-        TONE_VERSIONS.put(Tone.WARM, 2);
+        TONE_VERSIONS.put(Tone.WARM, 3);
         TONE_VERSIONS.put(Tone.STRICT, 2);
     }
 

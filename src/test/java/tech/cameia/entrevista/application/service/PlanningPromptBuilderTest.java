@@ -69,8 +69,8 @@ class PlanningPromptBuilderTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"PROFESSIONAL_NEUTRAL,planificacion.v5+PROFESIONAL_NEUTRO.v1,Tono PROFESIONAL_NEUTRO:",
-            "WARM,planificacion.v5+CALIDO.v2,Tono CALIDO:", "STRICT,planificacion.v5+ESTRICTO.v2,Tono ESTRICTO:"})
+    @CsvSource({"PROFESSIONAL_NEUTRAL,planificacion.v6+PROFESIONAL_NEUTRO.v1,Tono PROFESIONAL_NEUTRO:",
+            "WARM,planificacion.v6+CALIDO.v3,Tono CALIDO:", "STRICT,planificacion.v6+ESTRICTO.v2,Tono ESTRICTO:"})
     void build_shouldUseToneBlockAndVersion(Tone tone, String version, String toneStart) {
         PlanningPrompt result = builder.build(basic(null, tone, InterviewLanguage.SPANISH_COLOMBIA));
         assertThat(result.version()).isEqualTo(version);

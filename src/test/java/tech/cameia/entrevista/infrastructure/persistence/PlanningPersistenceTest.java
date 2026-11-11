@@ -52,7 +52,7 @@ class PlanningPersistenceTest extends AbstractPersistenceTest {
 
     private AiExecution claim(UUID sessionId, int attempt) {
         return executions.save(AiExecution.planningStarted(sessionId, attempt, "gemini-3.5-flash-lite",
-                "planificacion.v5+CALIDO.v2", "gemini", CLOCK));
+                "planificacion.v6+CALIDO.v3", "gemini", CLOCK));
     }
 
     private InterviewQuestion question(UUID sessionId, UUID executionId, int position, String text) {
@@ -107,7 +107,7 @@ class PlanningPersistenceTest extends AbstractPersistenceTest {
         AiExecution done = executions.save(claim(sessionId, 1).succeeded(1200, 210,
                 CLOCK));
 
-        assertThat(done.promptVersion()).isEqualTo("planificacion.v5+CALIDO.v2");
+        assertThat(done.promptVersion()).isEqualTo("planificacion.v6+CALIDO.v3");
         assertThat(done.inputTokens()).isEqualTo(1200L);
         assertThat(done.finishedAt()).isEqualTo(CLOCK.instant());
         assertThat(executions.hasFailedPlanning(sessionId)).isFalse();
