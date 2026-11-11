@@ -47,7 +47,7 @@ Tres operaciones sobre la sesión del usuario autenticado:
 | H-13 | El spike fija 500 caracteres y la columna `pregunta.texto_original` es `VARCHAR(1000)` con `CHECK` hasta 1000: el estándar pide que el esquema repita el límite validado | Cambio sin alternativa | Migración `V7` (§10) |
 | H-14 | El spike recomienda «validar el plan al recibirlo y reintentar una vez». Eso son hasta 2 llamadas por `start` (19 s en el peor caso) y contradice «un `start` = una llamada» (§12 API4), el tope de 3 llamadas por sesión (REQ-PLN-07, CA-4.5.19) y el alcance de CM-303 (reintentos automáticos) | Decisión de Paula, cerrada: A (10-nov) | D-212-6 |
 | H-18 | Un perfil sin experiencia laboral es válido (HU-2.4: la experiencia es opcional y la formación académica obligatoria), pero el prompt del spike (`planificacion.v3`) pide en la posición 3 «una experiencia pasada concreta» y no manda apoyarse en la formación; ningún criterio de HU-4.5 cubre el caso. El banco de 153 llamadas no incluyó un perfil sin experiencia (los dos perfiles ficticios tenían 3 y 2 años) | Decisión de Paula, cerrada: A (10-nov) | REQ-PLN-22, CA-4.5.23, D-212-11 |
-| H-15 | El prompt medido pone el contexto y la oferta como texto corrido, sin delimitadores. Delimitarlos es un cambio al prompt que el spike no midió | Decisión de Paula, cerrada: B (10-nov); `planificacion.v4` medido y aceptado (10-nov); hoy el prompt es `planificacion.v6` | D-212-7, §16 |
+| H-15 | El prompt medido pone el contexto y la oferta como texto corrido, sin delimitadores. Delimitarlos es un cambio al prompt que el spike no midió | Decisión de Paula, cerrada: B (10-nov); la delimitación se midió y se aceptó el 10-nov; el prompt vigente es `planificacion.v6` | D-212-7, §16 |
 | H-16 | El spike no midió perfiles grandes: el tope de entrada del prompt no existe en su informe | **Cerrado:** medido y aceptado por Paula (10-nov): 32.000 caracteres | §16, §9 |
 | H-17 | El informe advierte que el nivel gratuito de Gemini puede usar los contenidos para mejorar productos de Google y recomienda el nivel de pago antes de producción por los datos de personas | Decisión de producto (no es de esta tarea) | §14 |
 | H-6 | CM-216 no distingue «sesión sin preguntas» de «sin turno»; `GET state` de CM-212 debe devolver la pregunta pendiente que CM-216 usa | Coordinación | §14 |
@@ -211,7 +211,7 @@ Rol objetivo: se resuelve su nombre con `RoleCatalog` desde la réplica local; s
 | Estado | otro usuario | 404 | ver §5 |
 | Concurrencia | dos `start` simultáneos | uno 200, otro 409; una sola llamada a la IA | ver §5 |
 | Concurrencia | `start` y `DELETE` simultáneos | uno gana; el otro 409 o 404; sin preguntas huérfanas (cascada) | `SessionLifecycleEndToEndTest.startAndDelete_shouldNeverLeaveHalfState` |
-| Falla a medias | falla al guardar tras una IA correcta | la transacción se revierte: sesión `CONFIGURADA`, la anterior intacta; 503 `DATABASE_UNAVAILABLE` si la base cae | `…start_shouldRollbackEverything_whenPersistenceFails` |
+| Falla a medias | falla al guardar tras una IA correcta | la transacción se revierte: sesión `CONFIGURADA`, la anterior intacta; 503 `DATABASE_UNAVAILABLE` ante cualquier error de acceso a datos o de transacción al reservar o guardar (en el tercer intento, 503 `PLANNING_RETRIES_EXHAUSTED`); la marca se cierra solo si sigue en curso | `…start_shouldRollbackEverything_whenPersistenceFails` |
 | Falla a medias | el proceso muere durante la llamada | la marca de planificación (D-212-1) caduca; nuevo pedido se trata como intento fallido | `SessionLifecycleEndToEndTest.start_shouldRespectLiveMarkAndCloseStaleOne` |
 | Dependencia | IA lenta (> `cameia.llm.timeout`) | 503 `LLM_UNAVAILABLE` | prueba con servidor simulado lento |
 | Dependencia | IA devuelve 429 | 503 `LLM_LIMIT_REACHED` | ídem |
@@ -268,13 +268,13 @@ Códigos nuevos al final de `ErrorCode` y en `docs/errores.md`: `SESSION_NOT_FOU
 
 | Atributo | Métrica | Límite | Cómo | Prueba | Resultado |
 |---|---|---|---|---|---|
-| AC-0001 IA-01 | 100 % de salidas con procedencia y esquema | 100 % | `ejecucion_ia` con `modelo`, `version_prompt`; plan validado | `SessionLifecycleEndToEndTest.start_shouldPlanFiveQuestionsAndOpenTurnOne` | PASA: 1350 pruebas, 0 fallos (`clean verify`, 10-nov-2026) |
+| AC-0001 IA-01 | 100 % de salidas con procedencia y esquema | 100 % | `ejecucion_ia` con `modelo`, `version_prompt`; plan validado | `SessionLifecycleEndToEndTest.start_shouldPlanFiveQuestionsAndOpenTurnOne` | PASA: 1354 pruebas, 0 fallos (`clean verify`, 10-nov-2026) |
 | AC-0002 DES-0x | tiempo de `start` (la parte de la IA) | ≤ 20 s por petición. Medición final de 180 llamadas con `v5`: mediana 4,0 s, p95 9,1 s, p99 12,9 s, máximo 15,6 s; el 4,4 % superó 9,5 s, por eso Paula subió el límite de 9,5 s a 20 s (10-nov-2026). Con `v6`, sobre 72 llamadas, mediana 2,0 a 2,6 s y máximo 10,3 s. Con D-212-6 A, `start` hace una sola petición. Cloud Run admite 300 s por petición y el Gateway espera 120 s | una llamada, transacciones cortas, `cameia.llm.timeout` = 20 s | `LanguageModelPropertiesTest` + medición en el entorno (V-NN) | PARCIAL: banco de 252 llamadas con `v5` y `v6` (ninguna sobre 20 s); medición en el entorno desplegado PENDIENTE (Paula/DevOps) |
-| AC-0001 IA-01 (versión) | cada `ejecucion_ia` guarda la versión del prompt | 100 % | `version_prompt` = `planificacion.v6+<TONO>.v<N>` (inferencia: nombre del archivo del prompt y del bloque de tono usados; p. ej. `planificacion.v6+CALIDO.v3`, ≤ 80) | `SessionLifecycleEndToEndTest.start_shouldPlanFiveQuestionsAndOpenTurnOne` | PASA: 1350 pruebas, 0 fallos |
+| AC-0001 IA-01 (versión) | cada `ejecucion_ia` guarda la versión del prompt | 100 % | `version_prompt` = `planificacion.v6+<TONO>.v<N>` (inferencia: nombre del archivo del prompt y del bloque de tono usados; p. ej. `planificacion.v6+CALIDO.v3`, ≤ 80) | `SessionLifecycleEndToEndTest.start_shouldPlanFiveQuestionsAndOpenTurnOne` | PASA: 1354 pruebas, 0 fallos |
 | AC-0003 SEG-01/04 | ASVS N1; cero datos sensibles en logs | 100 % / 0 | §12 | revisión + `SessionLifecycleEndToEndTest.start_shouldNeverLogProfileOfferOrQuestionText` | PASA: prueba automática que captura el log de un inicio feliz, un plan inválido, una caída del modelo y un 404 y no halla texto de perfil, oferta ni preguntas |
 | AC-0004 FIA-01 | estado final coherente ante fallos | 100 % | transacción única; reintentos acotados | pruebas de falla a medias | PASA: pruebas de falla a medias y de marca vigente o caducada |
-| AC-0005 MAN | cobertura ≥ 90 % líneas y ramas | 90 % | JaCoCo | `jacoco.csv` | PASA: ≥ 90 % de líneas y de ramas en cada clase nueva o modificada (`target/site/jacoco/jacoco.csv`) |
-| AC-0006 INT | errores con `code` y mensaje | 100 % | §11 | `ErrorCodeDocumentationTest` | PASA: `ErrorCodeDocumentationTest` en verde; Newman 76 peticiones, 320 aserciones, 0 fallos |
+| AC-0005 MAN | cobertura ≥ 90 % líneas y ramas | 90 % | JaCoCo | `jacoco.csv` | PASA: sobre las 50 clases de producción nuevas o modificadas, 99,5 % de líneas (951 de 956) y 96,8 % de ramas (306 de 316), medido el 10-nov-2026 con `jacoco.csv`; sin cubrir: 5 líneas y 10 ramas (`HistoryItemResponse`, `AiExecutionRepositoryAdapter`, `BusinessExceptionHandler`, `GeminiLanguageModelAdapter`, `StartSessionService`, `PlanningPromptBuilder`, `PlanOutputReader`) |
+| AC-0006 INT | errores con `code` y mensaje | 100 % | §11 | `ErrorCodeDocumentationTest` | PASA: `ErrorCodeDocumentationTest` en verde; Newman 76 peticiones, 320 aserciones, 0 fallos contra la aplicación levantada con el simulador de Gemini (10-nov-2026): 503 `LLM_UNAVAILABLE`, 422 `LLM_INVALID_OUTPUT`, 409 `PLANNING_RETRIES_EXHAUSTED` y 429 `LLM_LIMIT_REACHED` salen con su código y ninguna ruta llegó a `INTERNAL_ERROR` |
 
 ## 14. Integración con otras CM
 
@@ -321,7 +321,7 @@ Fuente: `docs/spikes/CM-347-planificacion-y-tonos/` de `origin/develop` (PR #45,
 
 | # | Asunto | Opciones y consecuencias | Recomendación | Estado |
 |---|---|---|---|---|
-| D-212-1 | Cómo impedir dos inicios simultáneos sin usar la IA dos veces | **A:** fila `ejecucion_ia` `EN_CURSO` como marca + índice único parcial + caducidad de 45 s (migración nueva, patrón igual al de CM-216) · **B:** candado de base abierto durante la llamada (usa 1 de las 2 conexiones hasta 30 s: con dos pedidos se agota el grupo) · **C:** no bloquear: ambos llaman a la IA y gana el primero en guardar (el segundo gasta una llamada; incumple «sin usar la IA» de CA-4.5.12) | **A** | **Cerrada: A (Paula, 7-nov-2026).** Marca en `ejecucion_ia` con índice único y caducidad de 45 s; migración `V6` |
+| D-212-1 | Cómo impedir dos inicios simultáneos sin usar la IA dos veces | **A:** fila `ejecucion_ia` `EN_CURSO` como marca + índice único parcial + caducidad de `cameia.llm.timeout` + 15 s, 35 s con el tiempo de 20 s (migración nueva, patrón igual al de CM-216) · **B:** candado de base abierto durante la llamada (usa 1 de las 2 conexiones hasta 30 s: con dos pedidos se agota el grupo) · **C:** no bloquear: ambos llaman a la IA y gana el primero en guardar (el segundo gasta una llamada; incumple «sin usar la IA» de CA-4.5.12) | **A** | **Cerrada: A (Paula, 7-nov-2026).** Marca en `ejecucion_ia` con índice único y caducidad de tiempo máximo del modelo + 15 s (35 s); migración `V6` |
 | D-212-2 | Qué hace `start` cuando la sesión está `CONFIGURADA` pero con la marca de planificación vigente | **A:** 409 `SESSION_CONFLICT` (criterio) · **B:** esperar | **A** | Aplicada (criterio) |
 | D-212-3 | `GET state` y `DELETE` en esta tarea | **A (criterio, notas técnicas de HU-4.5; Frontend los espera de CM-212 según su mensaje del 4-nov):** van en CM-212 · **B:** partirlos a otra tarea de Jira (la crearía Paula) | **A** | **Cerrada: A (Paula, 7-nov-2026).** `GET state` y `DELETE` van en CM-212 |
 | D-212-4 | Si no se puede resolver el nombre del rol | **A:** usar el nombre guardado al crear la sesión · **B:** 503 | **A** | **Cerrada: A (Paula, 7-nov-2026).** Se usa el nombre guardado al crear la sesión |
@@ -343,7 +343,7 @@ Reintentos automáticos (CM-303), registrar respuestas (CM-216), evaluación, vo
 
 ## 20. Línea base verde
 
-`./mvnw.cmd clean verify` sobre `origin/develop` (`b8fd986`) antes de empezar; las suites con Docker se omiten si no hay Docker y se anota.
+`./mvnw.cmd clean verify` sobre `origin/develop` (`b8fd986`) antes de empezar; las suites con Docker se omiten si no hay Docker y se anota. Verificación final de la rama el 10-nov-2026: `./mvnw.cmd -B -ntp clean verify` con 1354 pruebas, 0 fallos, 0 errores y 1 omitida (la prueba viva de Gemini), BUILD SUCCESS en 5 min 9 s, después de aplicar las correcciones de la revisión independiente.
 
 ## 21. Puerta de listo
 

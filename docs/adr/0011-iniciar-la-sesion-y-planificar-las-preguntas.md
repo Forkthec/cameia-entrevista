@@ -26,7 +26,7 @@ Aceptada. Decisiones de Backend ratificadas por Paula Andrea Muñoz Delgado, 7 y
 ## Consecuencias
 
 - Dos inicios simultáneos nunca gastan dos llamadas: uno responde 200 y el otro 409.
-- Un error de SQL que ninguna regla prevé durante el cierre responde el `500` genérico; la pérdida de conexión se traduce a `503 DATABASE_UNAVAILABLE`. En ambos casos la sesión sigue `CONFIGURADA`, la anterior en curso y la marca cerrada como fallida.
+- Un error de acceso a datos o de transacción al reservar o al guardar el plan (conexión perdida, bloqueo, tiempo agotado, restricción, disparador) responde `503 DATABASE_UNAVAILABLE`; si era el tercer intento, `503 PLANNING_RETRIES_EXHAUSTED`. La sesión sigue `CONFIGURADA`, la anterior en curso y la marca cerrada como fallida. La marca se cierra con una actualización condicionada a que siga en curso: si la persona reconfiguró o canceló mientras la IA respondía, la fila ya no existe y no se vuelve a crear.
 - Una petición puede superar los 20 s (en 252 llamadas medidas el máximo fue 15,6 s) y responder `LLM_UNAVAILABLE`; es un riesgo aceptado y la persona puede reintentar.
 - Frontend recibe cuatro códigos nuevos: `SESSION_NOT_FOUND` (404), `LLM_INVALID_OUTPUT`, `PLANNING_RETRIES_EXHAUSTED` y `PROFILE_SNAPSHOT_INVALID` (503).
 - Reconfigurar la sesión (`POST /sessions`) mientras la IA prepara las preguntas responde `409 SESSION_CONFLICT` y no toca la marca: reconfigurar la borraría y dejaría pasar un segundo inicio. Si aun así la configuración cambió durante la llamada (por ejemplo, la marca caducó), el cierre compara la configuración con la que armó el prompt y responde `409 SESSION_CONFLICT` sin guardar nada.
@@ -38,7 +38,7 @@ Aceptada. Decisiones de Backend ratificadas por Paula Andrea Muñoz Delgado, 7 y
 
 - Candado de base abierto durante la llamada: con dos conexiones, dos pedidos agotan el grupo.
 - No bloquear y dejar ganar al primero en guardar: el segundo gastaría una llamada a la IA.
-- Reintentar automáticamente dentro de `start` un plan inválido: hasta seis llamadas por sesión, 19 s en el peor caso, y rompe el tope de tres.
+- Reintentar automáticamente dentro de `start` un plan inválido: hasta seis llamadas por sesión, 120 s en el peor caso con el tiempo de 20 s, y rompe el tope de tres.
 - Usar el prompt `v3` sin delimitar los datos: no impide que un texto hostil sesgue las preguntas.
 - Permitir preguntas repetidas en un plan: se rechazan como salida inválida.
 - Responder 403 a una sesión ajena: revelaría que existe.
