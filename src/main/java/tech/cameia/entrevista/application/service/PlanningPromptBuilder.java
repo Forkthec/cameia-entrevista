@@ -59,7 +59,7 @@ public class PlanningPromptBuilder {
 
     static {
         TONE_VERSIONS.put(Tone.PROFESSIONAL_NEUTRAL, 1);
-        TONE_VERSIONS.put(Tone.WARM, 3);
+        TONE_VERSIONS.put(Tone.WARM, 4);
         TONE_VERSIONS.put(Tone.STRICT, 2);
     }
 

@@ -64,7 +64,12 @@ class MedicionFinalRunner {
     /** Variante del prompt que se mide en el banco ({@code v6}); vacía = el prompt vigente del servicio. */
     private static final String VARIANTE = System.getenv().getOrDefault("SPIKE_VARIANTE", "");
 
-    private static final Path SALIDAS = BASE.resolve("CM-212-medicion-final/salidas" + (VARIANTE.isBlank() ? "" : "-" + VARIANTE));
+    /** Carpeta de la medición de CM-212, al mismo nivel que la del spike. */
+    private static final Path MEDICION = Path.of("docs", "mediciones", "CM-212-planificacion-final");
+
+    /** Subcarpeta de salidas de esta corrida ({@code SPIKE_SALIDAS}); por defecto {@code salidas}. */
+    private static final Path SALIDAS = MEDICION.resolve(
+            System.getenv().getOrDefault("SPIKE_SALIDAS", "salidas" + (VARIANTE.isBlank() ? "" : "-" + VARIANTE)));
 
     private static final ZoneId BOGOTA = ZoneId.of("America/Bogota");
 
