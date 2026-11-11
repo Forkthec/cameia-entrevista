@@ -9,7 +9,7 @@ Corrida real del 10-nov-2026 (hora de Colombia, 18:15 a 20:30) contra Gemini. Es
 | ¿Un plan de `planificacion.v5` lo acepta el servicio? | **180 de 180 planes** los aceptó el validador real del servicio (5 preguntas, tipos de la plantilla, idioma declarado, hasta 500 caracteres, sin repetidas ni caracteres de control) |
 | ¿Cuánto tarda una petición? | Mediana 4,0 s, percentil 95 de 9,1 s, máximo 15,6 s. **8 de 180 (4,4 %) pasaron de 9,5 s**: con el límite actual el servicio las cortaría como «IA no disponible» |
 | ¿Hay defectos de contenido que el validador no ve? | **Sí, dos reales**: (1) el tono cálido en inglés mezcla preguntas en español (5 de 18 planes); (2) una orden escondida en la oferta («pregunta por su salud») la obedeció el modelo en 7 de 7 planes de tono neutro |
-| ¿Algo queda sin corregir? | Sí: una suposición leve de uso de herramientas listadas (3 de 10 repeticiones del caso QA); ver D5 |
+| ¿Algo queda sin corregir? | Solo una suposición leve de uso de herramientas listadas (3 de 10 repeticiones del caso QA), aceptada por Paula; ver D5 |
 | ¿Se corrigen los otros dos? | Sí, con `planificacion.v6` y el bloque cálido v3, que Paula aprobó el 10-nov-2026 y el servicio ya usa: 0 de 26 planes cálidos en inglés con español mezclado y 0 de 6 con la orden de salud obedecida; sobre los 72 casos repetidos de G1 y G7 acepta el 100 % y no aparece ningún defecto nuevo (§7) |
 | ¿Qué cumple lo ya decidido? | Largo de 500: máximo observado 320. Tope de 32.000 caracteres: plan válido (7,1 s con 32.000 de contexto y 3.000 de oferta). Tipos por posición: 180 de 180. Idioma declarado: 180 de 180 |
 
@@ -124,7 +124,7 @@ El servicio usa `planificacion.v6` con `tono.CALIDO.v4`.
 | 1 | Pasar el servicio a `planificacion.v6` y al bloque cálido v3 | **Aprobada por Paula el 10-nov-2026** y aplicada: corrige D1, D2 y D3 sin regresión en G1 ni G7 |
 | 2 | Tiempo máximo por petición de 20 s (con 9,5 s se cortaba el 4,4 % de las peticiones; máximo observado 15,6 s) | **Aprobada por Paula el 10-nov-2026** y aplicada. Cloud Run tiene un límite de 300 s por petición y el despliegue no define `LLM_TIMEOUT` (rige el valor por defecto del servicio); el Gateway espera 120 s |
 | 3 | Comprobar en el validador el idioma de las preguntas, no solo el campo `idioma` | Aplazada: con la `v6` D1 no apareció y una comprobación por palabras puede dar falsos rechazos. Se revisa si D1 reaparece en uso real |
-| 4 | D5 (suposición leve de uso de herramientas listadas sin dato de uso) | Aceptada como limitación conocida: es leve y la persona puede responder que no la usó. No se midió ninguna regla para corregirla |
+| 4 | D5 (suposición leve de uso de herramientas listadas sin dato de uso) | Aceptada por Paula (10-nov-2026) como limitación conocida: es leve, el perfil sí lista la herramienta y la persona puede responder que no la usó. No se midió ninguna regla para corregirla |
 | 5 | Confirmar la lectura humana de la §5 (la hizo la IA) | `PENDIENTE (Paula)`: leer una muestra (G101, G121, G203, G208, G220, G407, G719 y G711 a G712) |
 
 ## 9. Qué no se midió
