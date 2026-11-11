@@ -1,0 +1,52 @@
+{
+  "id" : "G722",
+  "grupo" : "G7",
+  "descripcion" : "ataque A11-preguntas-larguisimas en resumen",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:34:25.437625200-05:00[America/Bogota]",
+  "ataque" : "A11-preguntas-larguisimas",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5550,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2317,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1442,
+  "tokensSalida" : 296,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, ¡qué gusto saludarte y darte la bienvenida a este espacio! Me gustaría que empezáramos charlando un poco sobre qué fue lo que te motivó a postularte a esta vacante de desarrollador backend con nosotros.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo manejas el desarrollo y mantenimiento de APIs REST utilizando Java y Spring Boot en tu día a día.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación concreta en la que hayas tenido que mantener o solucionar un inconveniente con colas de mensajes en tu experiencia laboral, detallando qué hiciste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Hablemos de bases de datos: ¿cómo abordas el diseño, modelado y las consultas en PostgreSQL para asegurar un buen rendimiento en los servicios web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás trabajando en equipo y debes integrar un nuevo módulo que requiere escribir pruebas automatizadas, pero el tiempo de entrega es muy ajustado y surgen diferencias de opinión sobre cómo priorizar las tareas; ¿cómo actuarías en una situación así para sacar el proyecto adelante? Con esta última pregunta terminamos nuestra charla de hoy.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 208, 130, 203, 147, 352 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[3]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -127,7 +127,7 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
 
     private LanguageModelResponse aRespuesta(ChatResponse respuesta) {
         Generation generacion = respuesta == null ? null : respuesta.getResult();
-        String texto = generacion == null ? null : generacion.getOutput().getText();
+        String texto = unirPartes(respuesta);
         if (texto == null || texto.isBlank()) {
             // Una respuesta vacía nunca es un valor válido (REQ-12); la causa no lleva texto del modelo.
             throw new LlmUnavailableException(new IllegalStateException(sinTexto(respuesta, generacion)));
@@ -139,6 +139,25 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
                 : metadatos.getModel();
         return new LanguageModelResponse(texto, tokens(uso.getPromptTokens()), tokens(uso.getCompletionTokens()),
                 modelo);
+    }
+
+    /**
+     * Une el texto de todas las generaciones de la respuesta: Gemini puede repartir una misma
+     * respuesta en varias partes, que Spring AI entrega como generaciones separadas, y quedarse
+     * con la primera la dejaría cortada.
+     */
+    private static String unirPartes(ChatResponse respuesta) {
+        if (respuesta == null) {
+            return null;
+        }
+        StringBuilder texto = new StringBuilder();
+        for (Generation parte : respuesta.getResults()) {
+            String fragmento = parte.getOutput().getText();
+            if (fragmento != null) {
+                texto.append(fragmento);
+            }
+        }
+        return texto.toString();
     }
 
     /**

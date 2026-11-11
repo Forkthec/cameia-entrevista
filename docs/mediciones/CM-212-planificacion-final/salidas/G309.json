@@ -1,0 +1,51 @@
+{
+  "id" : "G309",
+  "grupo" : "G3",
+  "descripcion" : "solo resumen (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:11:45.658265100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4295,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1754,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1124,
+  "tokensSalida" : 270,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy; me gustaría que me contaras qué te motivó a postularte a este rol de Desarrollador Backend y qué esperas aportar a nuestro equipo.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo manejas la gestión de transacciones y el rendimiento de las consultas utilizando Spring Boot y PostgreSQL en tus desarrollos.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en la que hayas tenido que resolver un problema complejo en tus proyectos o actividades; dime cuál era el reto, qué hiciste exactamente y qué resultado obtuviste.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo sueles estructurar y documentar las APIs RESTful para asegurar que sean fáciles de consumir y mantener a lo largo del tiempo?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando nuestra charla, imagina que estás en medio del despliegue de una nueva funcionalidad en producción y de repente se presenta una caída crítica del servicio; cuéntame cómo actuarías en ese momento para solucionar el inconveniente.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 179, 158, 194, 131, 245 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

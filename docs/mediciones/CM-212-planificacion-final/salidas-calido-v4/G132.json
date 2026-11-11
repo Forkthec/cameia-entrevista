@@ -1,0 +1,51 @@
+{
+  "id" : "G132",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, con oferta, QA",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T21:31:02.957122-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5710,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 7377,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1471,
+  "tokensSalida" : 218,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome, it is great to meet you today; could you tell me a little bit about yourself and what draws you to this QA Analyst role with Andina Ficticia?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically structure and write your Selenium automated regression test scripts to ensure they remain maintainable over time?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share an example of a time when you discovered a tricky defect while designing test cases and walked us through how you documented and reported it in Jira?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your approach to maintaining test case traceability so that every requirement is covered properly?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"To wrap things up, what would you do if you found a critical defect right before a scheduled release and the development team suggested deploying anyway? This is our final question.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 150, 134, 165, 106, 181 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

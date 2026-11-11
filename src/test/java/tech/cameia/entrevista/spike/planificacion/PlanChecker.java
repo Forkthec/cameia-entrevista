@@ -25,7 +25,7 @@ final class PlanChecker {
     static final List<String> PLANTILLA = List.of("APERTURA", "TECNICA", "CONDUCTUAL", "TECNICA", "SITUACIONAL");
 
     /** Largo máximo vigente de una pregunta principal, en caracteres. */
-    static final int LARGO_MAXIMO_VIGENTE = 1000;
+    static final int LARGO_MAXIMO_VIGENTE = 500;
 
     /** Desde este parecido (palabras compartidas / palabras totales) dos preguntas se consideran casi idénticas. */
     private static final double UMBRAL_REPETIDAS = 0.6;

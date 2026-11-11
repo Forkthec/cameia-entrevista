@@ -1,0 +1,51 @@
+{
+  "id" : "G208",
+  "grupo" : "G2",
+  "descripcion" : "perfil Agente de Atención al Cliente (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:31:37.741780600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5443,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8785,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1415,
+  "tokensSalida" : 197,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome, it is great to meet you today; could you share what motivated you to apply for this Customer Support Agent position?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically apply active listening techniques using phone and live chat communication channels?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time during your volunteer work at the community library when you had to deal with a visitor complaint.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What steps do you follow in a ticketing system to ensure a customer inquiry is fully resolved and documented?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you receive a message from an upset visitor who is frustrated with a service delay, and this is our final question of the interview; how would you respond to them?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 125, 104, 119, 109, 171 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 2 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

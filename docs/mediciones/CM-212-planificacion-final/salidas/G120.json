@@ -1,0 +1,51 @@
+{
+  "id" : "G120",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:01:50.343306200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4827,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5300,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1260,
+  "tokensSalida" : 287,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué alegría saludarte; me gustaría que me contaras un poco sobre ti y qué te motivó a postularte como desarrollador frontend en Pixel Norte.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Teniendo en cuenta que en tu portafolio trabajaste con HTML y CSS, me gustaría que me explicaras cómo aseguras que tus páginas web cumplan con las pautas de accesibilidad para todos los usuarios.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Durante tu paso por el Instituto Técnico Ficticio del Sur, ¿podrías compartirme alguna situación en la que hayas tenido que organizar tus tareas para entregar un proyecto web a tiempo, qué acción tomaste y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Para el desarrollo de componentes con React y TypeScript que exige la empresa, cuéntame cómo abordarías el consumo de una API REST y el manejo de los tipos de datos en la interfaz.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir terminando, imagínate que estás construyendo una interfaz y te das cuenta de que falta una prueba de componente clave antes de entregar; ¿cómo actuarías en esa situación para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 146, 195, 228, 180, 194 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

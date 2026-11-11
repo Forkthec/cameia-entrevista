@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
+import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,7 +44,11 @@ class ColumnLengthConsistencyTest {
 		return Stream.of(
 				Arguments.of("sesion", "firebase_uid", 128),
 				Arguments.of("sesion", "oferta_laboral", 3000),
-				Arguments.of("pregunta", "texto_original", 1000),
+				Arguments.of("pregunta", "texto_original", InterviewQuestion.MAX_TEXT_LENGTH),
+				Arguments.of("ejecucion_ia", "modelo", AiExecution.MAX_MODEL),
+				Arguments.of("ejecucion_ia", "version_prompt", AiExecution.MAX_PROMPT_VERSION),
+				Arguments.of("ejecucion_ia", "error_codigo", AiExecution.MAX_ERROR_CODE),
+				Arguments.of("ejecucion_ia", "proveedor", AiExecution.MAX_PROVIDER),
 				Arguments.of("intento_respuesta", "respuesta_texto", 4000),
 				Arguments.of("intento_respuesta", "pregunta_mostrada", 1000),
 				Arguments.of("intento_respuesta", "idioma_detectado", 10),

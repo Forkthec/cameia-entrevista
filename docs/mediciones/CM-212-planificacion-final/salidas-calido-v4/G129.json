@@ -1,0 +1,51 @@
+{
+  "id" : "G129",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, sin oferta, DATOS",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:30:30.866007-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5571,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5443,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1463,
+  "tokensSalida" : 211,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, it is great to meet you, so could you tell me a little bit about what draws you to this Data Analyst role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically approach writing complex SQL queries to extract and aggregate sales data from multiple tables?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you walk me through a time when you had to clean and prepare a messy dataset before performing your analysis?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your preferred process for designing KPI dashboards in Python to ensure stakeholders can easily track their metrics?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"As this is our final question, what would you do if a stakeholder asks you to update a sales dashboard with new metrics by the end of the day, but you notice discrepancies in the underlying data?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 138, 115, 115, 124, 195 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

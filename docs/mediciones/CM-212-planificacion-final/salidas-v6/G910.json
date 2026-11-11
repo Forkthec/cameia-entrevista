@@ -1,0 +1,51 @@
+{
+  "id" : "G910",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G208)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:39:58.281556100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5060,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8214,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1312,
+  "tokensSalida" : 252,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hello and welcome, I am really glad you are here today; I would love it if you could tell me a little bit about yourself and what made you interested in applying for this Customer Support Agent role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through the key ticket management principles and CRM software navigation techniques you learned during your Customer Service Course.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation from your time volunteering at the community library where you had to help a visitor, detailing what you did and how it turned out?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I would love for you to explain how you apply active listening and de-escalation techniques when dealing with difficult inquiries.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you receive a message from an upset library visitor who is frustrated because they cannot find the information they need, and as this is our final question, I would love to know how you would handle that exact moment to help them out.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 199, 165, 168, 130, 242 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

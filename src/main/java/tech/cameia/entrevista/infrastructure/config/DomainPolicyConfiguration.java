@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import tech.cameia.entrevista.domain.policy.PersonalizationCatalog;
+import tech.cameia.entrevista.domain.policy.PlanValidator;
+import tech.cameia.entrevista.domain.policy.PlanningRetryPolicy;
 import tech.cameia.entrevista.domain.policy.SessionConfigurationPolicy;
 import tech.cameia.entrevista.domain.port.RoleCatalog;
 
@@ -23,6 +25,26 @@ class DomainPolicyConfiguration {
     @Bean
     PersonalizationCatalog personalizationCatalog() {
         return new PersonalizationCatalog();
+    }
+
+    /**
+     * Crea el validador del plan de preguntas que devuelve el modelo, que no guarda estado.
+     *
+     * @return el validador del plan de preguntas
+     */
+    @Bean
+    PlanValidator planValidator() {
+        return new PlanValidator();
+    }
+
+    /**
+     * Crea la política de intentos de planificación de una sesión (el inicial y dos reintentos).
+     *
+     * @return la política de reintentos de la planificación
+     */
+    @Bean
+    PlanningRetryPolicy planningRetryPolicy() {
+        return new PlanningRetryPolicy();
     }
 
     /**

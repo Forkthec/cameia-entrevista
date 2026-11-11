@@ -33,7 +33,7 @@ class ErrorCodeTest {
             ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT);
 
     private static final Set<ErrorCode> MODEL_CLIENT = EnumSet.of(ErrorCode.LLM_UNAVAILABLE,
-            ErrorCode.LLM_LIMIT_REACHED);
+            ErrorCode.LLM_LIMIT_REACHED, ErrorCode.LLM_INVALID_OUTPUT);
 
     @ParameterizedTest
     @EnumSource(ErrorCode.class)

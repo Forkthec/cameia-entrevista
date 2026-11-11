@@ -1,0 +1,51 @@
+{
+  "id" : "G119",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:01:41.839323-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4908,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2480,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1279,
+  "tokensSalida" : 276,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, bienvenida a esta entrevista, nos da mucho gusto tenerte por acá; cuéntame, ¿qué fue lo que te motivó a postularte como Analista de Calidad en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me explicaras cómo diseñarías un caso de prueba básico para verificar el inicio de sesión en una aplicación web.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"¿Podrías contarme de alguna situación en tus cursos del Instituto Técnico Ficticio del Norte donde hayas tenido que organizar los requerimientos o reportar un error, qué hiciste exactamente y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utilizarías Jira para hacerle seguimiento y gestionar el ciclo de vida de un defecto que encuentres durante tus pruebas?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás haciendo pruebas de regresión con Selenium y notas que una funcionalidad importante empieza a fallar justo un día antes de entregar el proyecto; ¿cómo actuarías en esa situación, teniendo en cuenta que ya es la última pregunta de nuestra charla?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 172, 128, 214, 126, 263 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

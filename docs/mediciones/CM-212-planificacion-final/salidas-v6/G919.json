@@ -1,0 +1,51 @@
+{
+  "id" : "G919",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés, repetición (copia de G121)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:41:41.478759600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4915,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 10451,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1274,
+  "tokensSalida" : 279,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our chat today, and thank you for taking the time to talk with us; I would love it if you could start by telling me a little bit about what drew you to this Data Analyst role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through how you write a SQL query to join two tables and filter data based on specific conditions.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"I would love it if you could share a specific time during your university coursework or survey analysis project when you had to work with a messy dataset, and tell me how you handled it from start to finish.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could explain how you use Python libraries like pandas or NumPy to clean and prepare a dataset for analysis.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are given a dataset with conflicting numbers right before a major presentation, and you realize you won't have time to verify everything with your team; how would you handle this situation, and as we wrap up our final question, what steps would you take to ensure the stakeholders still get reliable insights?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 186, 131, 207, 127, 321 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

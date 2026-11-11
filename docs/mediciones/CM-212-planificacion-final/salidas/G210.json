@@ -1,0 +1,51 @@
+{
+  "id" : "G210",
+  "grupo" : "G2",
+  "descripcion" : "perfil Especialista en Marketing Digital (en)",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:09:03.786552400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4445,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2459,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1156,
+  "tokensSalida" : 246,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your background in Social Communication and your academic training at Fictitious Coast University, what exact metric or quantifiable result from your graduation project or university activities demonstrates your readiness for this Digital Marketing Specialist role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding Google Analytics, cite an exact metric or a specific conversion rate you tracked and analyzed to measure the performance of a digital campaign.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation during your undergraduate studies at Fictitious Coast University where you used social media to promote a university project; cite the exact number of followers or engagement percentage you achieved.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Using Canva, specify an exact visual asset design framework or template metric you implemented to increase audience retention by a measurable percentage.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a digital marketing campaign under your management experiences a sudden drop in click-through rate; what exact analytics tool and what specific performance threshold would you use to measure the failure and justify your corrective action?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 277, 153, 229, 153, 246 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G804",
+  "grupo" : "G8",
+  "descripcion" : "SIN1 neutro español sin oferta",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 4,
+  "inicio" : "2026-11-10T19:25:52.002096600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4117,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2491,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1095,
+  "tokensSalida" : 232,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse como desarrolladora backend y qué la motivó a postularse para este rol?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructuró las consultas y la conexión a la base de datos utilizando Java y PostgreSQL en su proyecto de grado?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la Universidad Ficticia del Valle donde haya tenido que resolver un problema complejo en equipo durante un proyecto académico; explique la tarea, su acción y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera utiliza Git para gestionar las ramas y resolver conflictos de código cuando trabaja en equipo?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se encuentra desarrollando una API y nota que una consulta a la base de datos con PostgreSQL está tomando demasiado tiempo en responder, ¿cómo procedería para identificar y solucionar el inconveniente antes de llevarlo a producción?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 105, 117, 206, 109, 235 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

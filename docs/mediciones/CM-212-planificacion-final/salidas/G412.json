@@ -1,0 +1,51 @@
+{
+  "id" : "G412",
+  "grupo" : "G4",
+  "descripcion" : "oferta en portugués",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:14:18.906410600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4950,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2261,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1299,
+  "tokensSalida" : 249,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy; me gustaría que me contaras qué te motivó a postularte para este rol de desarrollador backend con nosotros.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la creación y el mantenimiento de servicios web y APIs REST utilizando Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en tu trabajo actual en Empresa Ficticia Andina donde hayas tenido que mantener colas de mensajes, detallando qué hiciste y qué resultado obtuviste.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera optimizas las consultas y la gestión de datos cuando trabajas con bases de datos en PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando nuestra charla, imagínate que estás integrando las filas de mensajes con RabbitMQ que pide la oferta de Río Digital y notas que los mensajes se empiezan a acumular sin procesarse, ¿cómo actuarías para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 156, 97, 180, 110, 229 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[3]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

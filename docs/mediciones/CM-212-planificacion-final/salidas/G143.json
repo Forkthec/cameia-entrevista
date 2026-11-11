@@ -1,0 +1,62 @@
+{
+  "id" : "G143",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:05:50.869550200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4934,
+  "fallosDelProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 3428,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  }, {
+    "intento" : 2,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 1870,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  } ],
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1541,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1294,
+  "tokensSalida" : 291,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Para iniciar, ¿qué lo motiva a postularse a esta vacante y qué resultado cuantificable de su trayectoria reciente como analista de calidad espera replicar exactamente en nuestra empresa?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Respecto al uso de Selenium para automatización, detalle con qué estrategia específica implementó los scripts en su experiencia actual y cite un ejemplo concreto de una métrica de cobertura que haya medido.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en su cargo actual en Software Ficticio S.A.S. donde haya gestionado un desacuerdo con el equipo de desarrollo sobre un defecto reportado; detalle exactamente qué acción tomó y qué porcentaje de efectividad obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"En cuanto a la trazabilidad de requisitos que solicita la oferta, indique exactamente qué herramienta o tablero específico utiliza en Jira y cite una cifra exacta de casos de prueba asociados a dichos requisitos.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que un día antes del lanzamiento a producción se detecta un fallo crítico no reproducible; describa exactamente qué decisión tomaría, qué herramienta emplearía para registrarlo y qué indicador medirá para autorizar el pase.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 186, 206, 237, 212, 231 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

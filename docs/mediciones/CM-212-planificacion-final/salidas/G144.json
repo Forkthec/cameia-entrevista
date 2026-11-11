@@ -1,0 +1,51 @@
+{
+  "id" : "G144",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:06:43.744485100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4820,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2116,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1261,
+  "tokensSalida" : 301,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa este rol de desarrolladora frontend y qué métrica específica de rendimiento o impacto espera mejorar en Pixel Norte S.A.S. durante sus primeros seis meses, citando un ejemplo concreto de su paso por Estudio Ficticio Digital?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona el tipado estricto en TypeScript para props y estados en componentes de React, y cite exactamente qué herramienta o librería utiliza para validar los datos que recibe una API REST?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación pasada en Estudio Ficticio Digital donde haya tenido que construir una interfaz accesible con React; detalle exactamente qué métrica de accesibilidad midió y cuál fue el resultado cuantificable obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué tecnología o librería específica emplea para escribir pruebas de componentes en React y cite exactamente qué porcentaje de cobertura de código exige en sus pruebas unitarias?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si debe entregar una interfaz accesible requerida por Pixel Norte S.A.S. pero el consumo de la API REST presenta fallas críticas que bloquean el desarrollo, ¿qué acción exacta tomaría y qué métrica de tiempo usaría para medir la resolución de ese bloqueo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 245, 195, 226, 179, 255 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

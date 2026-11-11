@@ -1,0 +1,51 @@
+{
+  "id" : "G214",
+  "grupo" : "G2",
+  "descripcion" : "perfil Analista de Datos Junior (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:32:04.126838700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5270,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 10595,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1363,
+  "tokensSalida" : 204,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, and to get us started, could you share what drew you to apply for this Junior Data Analyst role while studying Industrial Engineering?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically write a SQL query to filter and aggregate data from a single table?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time during your university coursework when you had to manage a project deadline or organize a group assignment effectively.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific Excel functions or formulas do you usually rely on when cleaning up a messy dataset?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are given a new dataset with inconsistent formatting just before a team meeting, and as this is our final question, how would you approach preparing it on short notice?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 166, 88, 140, 98, 180 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

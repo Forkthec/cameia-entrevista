@@ -1,0 +1,51 @@
+{
+  "id" : "G205",
+  "grupo" : "G2",
+  "descripcion" : "perfil Docente de Primaria (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:08:03.943080300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4497,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1425,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1181,
+  "tokensSalida" : 281,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Expliqué exactamente qué métrica utilizó para evaluar su desempeño durante su práctica pedagógica con los niños de tercero de primaria y cite un ejemplo concreto de ese resultado.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Indique exactamente qué herramienta digital específica o recurso metodológico empleó para la planeación de clases en su Licenciatura en Educación Básica en la Universidad Ficticia Pedagógica, y qué resultado cuantificable obtuvo.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación exacta vivida en su práctica pedagógica donde haya tenido que aplicar la evaluación formativa; detalle la decisión tomada, la herramienta usada y un resultado medido con cifras.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Mencione exactamente qué marco pedagógico o estrategia de retroalimentación utilizó para aplicar la evaluación formativa en sus clases de refuerzo, y detalle un indicador numérico de mejora en los estudiantes.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que un estudiante de tercero presenta un bajo rendimiento en la planeación de clases; indique exactamente qué decisión tomará, qué porcentaje de avance exigirá y qué resultado medido registrará al finalizar la semana.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 179, 229, 200, 209, 225 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 4, 5]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

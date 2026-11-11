@@ -1,0 +1,51 @@
+{
+  "id" : "G134",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, sin experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:04:13.531337-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4496,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 13677,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1179,
+  "tokensSalida" : 290,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse específicamente como Analista de Datos y qué métrica o indicador clave de rendimiento planea mejorar en sus primeros noventa días en el cargo? Cite un ejemplo concreto de su motivación.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Durante el uso de SQL para consultar bases de datos, ¿qué consulta específica o función de agregación implementó y qué volumen exacto de registros procesó para obtener un resultado medible?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación vivida en sus estudios de Estadística en la Universidad Ficticia del Centro donde enfrentó un problema analítico complejo; detalle la tarea, la acción exacta que tomó y cite el resultado numérico obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Al utilizar Python para el análisis de encuestas, ¿qué librería empleó exactamente, qué método de limpieza de datos aplicó y qué porcentaje de valores nulos eliminó o corrigió?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si un stakeholder le solicita un reporte urgente en Excel pero usted detecta inconsistencias graves en los datos originales, ¿qué acción concreta tomaría y qué métrica usaría para evaluar el impacto de demorar la entrega?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 219, 189, 228, 176, 221 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

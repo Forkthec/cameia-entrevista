@@ -1,0 +1,51 @@
+{
+  "id" : "G204",
+  "grupo" : "G2",
+  "descripcion" : "perfil Auxiliar de Enfermería (en)",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:07:54.687475100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4407,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3232,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1144,
+  "tokensSalida" : 252,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"State your exact GPA or academic standing percentage from your Nursing Assistant Technician program at Fictitious Health Institute, and cite a specific metric regarding your attendance rate during that training.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding the measurement of vital signs, state the exact standard numerical ranges for adult blood pressure and heart rate that you mastered, and name the specific diagnostic equipment model you used during your clinical training.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation during your clinical training at the health center where you applied first aid; detail the exact number of steps you took and the measurable outcome of your action.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Focusing on patient hygiene and mobility assistance, name the specific transfer device or technique you utilized and provide the exact weight limit capacity associated with it.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you detect an abnormal vital sign reading in a patient; state the exact time frame in minutes within which you must report this to the supervisor and cite the specific documentation tool you will update.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 211, 231, 194, 176, 211 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

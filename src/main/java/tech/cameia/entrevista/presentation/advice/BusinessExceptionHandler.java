@@ -53,6 +53,7 @@ import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.IdentityRequiredException;
 import tech.cameia.entrevista.domain.exception.InvalidRequestException;
+import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.RequestPayloadTooLargeException;
@@ -125,7 +126,14 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.REQUEST_PAYLOAD_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Datos demasiado grandes")),
             Map.entry(ErrorCode.PROFILE_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Perfil no encontrado")),
             Map.entry(ErrorCode.PROFILE_SYNC_PENDING, new Definition(HttpStatus.CONFLICT, "Perfil en actualización")),
-            Map.entry(ErrorCode.IDEMPOTENCY_KEY_CONFLICT, new Definition(HttpStatus.CONFLICT, "Solicitud distinta")));
+            Map.entry(ErrorCode.IDEMPOTENCY_KEY_CONFLICT, new Definition(HttpStatus.CONFLICT, "Solicitud distinta")),
+            Map.entry(ErrorCode.SESSION_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Entrevista no encontrada")),
+            Map.entry(ErrorCode.PLANNING_RETRIES_EXHAUSTED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Preparación no disponible")),
+            Map.entry(ErrorCode.PROFILE_SNAPSHOT_INVALID,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")),
+            Map.entry(ErrorCode.DATABASE_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
@@ -186,6 +194,21 @@ class BusinessExceptionHandler {
     ProblemDetail modelLimitReached(LlmLimitReachedException error) {
         return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
                 "Límite de uso del modelo de lenguaje agotado", error);
+    }
+
+    /**
+     * El modelo respondió con un plan que no cumple el formato exigido.
+     *
+     * <p>Se registra en {@code ERROR} con la regla incumplida (nunca texto del modelo) y la respuesta
+     * solo dice que puede reintentar.</p>
+     *
+     * @param error excepción con la regla incumplida
+     * @return {@code 503 Service Unavailable} con el código {@code LLM_INVALID_OUTPUT}
+     */
+    @ExceptionHandler(LlmInvalidOutputException.class)
+    ProblemDetail modelInvalidOutput(LlmInvalidOutputException error) {
+        return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
+                "Plan de preguntas inválido: " + error.getReason(), error);
     }
 
     /**

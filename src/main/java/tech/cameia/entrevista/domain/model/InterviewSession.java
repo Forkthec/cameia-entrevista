@@ -126,6 +126,20 @@ public final class InterviewSession {
     }
 
     /**
+     * Cuenta un reintento manual de la planificación de las preguntas.
+     *
+     * @param clock reloj que da la fecha
+     * @throws SessionTransitionNotAllowedException si la sesión ya no está configurada
+     */
+    public void registerPlanningRetry(Clock clock) {
+        if (status != SessionStatus.CONFIGURED) {
+            throw new SessionTransitionNotAllowedException();
+        }
+        planningRetries++;
+        updatedAt = clock.instant();
+    }
+
+    /**
      * Comprueba que la sesión se puede borrar: solo la que sigue configurada.
      *
      * @throws SessionTransitionNotAllowedException si la sesión ya empezó o terminó

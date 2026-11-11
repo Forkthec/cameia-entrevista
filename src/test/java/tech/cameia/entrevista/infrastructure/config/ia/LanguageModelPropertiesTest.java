@@ -203,6 +203,22 @@ class LanguageModelPropertiesTest {
         return String.join("\n", texts);
     }
 
+    @Test
+    @DisplayName("Los valores por defecto de application.properties son los medidos: minimal y 20 s")
+    void defaults_shouldMatchSpikeConfiguration() {
+        new ApplicationContextRunner()
+                .withUserConfiguration(PropertiesOnly.class)
+                .withInitializer(new org.springframework.boot.test.context.ConfigDataApplicationContextInitializer())
+                .withPropertyValues("GOOGLE_GENAI_API_KEY=clave-falsa-de-prueba", "LLM_MODEL=modelo-de-prueba")
+                .run(started -> {
+                    assertThat(started).hasNotFailed();
+                    LanguageModelProperties properties = started.getBean(LanguageModelProperties.class);
+                    assertThat(properties.thinkingLevel()).isEqualTo(GoogleGenAiThinkingLevel.MINIMAL);
+                    assertThat(properties.timeout()).isEqualTo(Duration.ofMillis(20000));
+                    assertThat(properties.temperature()).isEqualTo(1.0);
+                });
+    }
+
     /** Contexto mínimo que solo enlaza y valida las propiedades del modelo. */
     @Configuration(proxyBeanMethods = false)
     @EnableConfigurationProperties(LanguageModelProperties.class)

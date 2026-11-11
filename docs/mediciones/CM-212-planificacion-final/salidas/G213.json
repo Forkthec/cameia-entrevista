@@ -1,0 +1,51 @@
+{
+  "id" : "G213",
+  "grupo" : "G2",
+  "descripcion" : "perfil Analista de Datos Junior (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:09:30.996375100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4020,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1743,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1066,
+  "tokensSalida" : 221,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa postularse como Analista de Datos Junior y cómo se relaciona este objetivo con sus estudios actuales en Ingeniería Industrial?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza las funciones avanzadas de Excel para consolidar y organizar conjuntos de datos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de una situación en un proyecto académico donde haya tenido que analizar información cuantitativa para resolver un problema, describiendo la tarea, su acción y el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera emplea las consultas SQL para extraer información específica desde una base de datos relacional?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si recibe un conjunto de datos en Excel con múltiples inconsistencias y necesita presentar un reporte preliminar a su supervisor en pocas horas, ¿cómo procedería para asegurar la calidad de la información a entregar?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 147, 94, 182, 111, 216 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

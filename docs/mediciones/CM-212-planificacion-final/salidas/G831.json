@@ -1,0 +1,51 @@
+{
+  "id" : "G831",
+  "grupo" : "G8",
+  "descripcion" : "QA sin experiencia (el caso flojo S03), neutro, español",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:32:17.045860100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4120,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 6984,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1097,
+  "tokensSalida" : 220,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse como Analista de Calidad y qué la motivó a enfocar su carrera en las pruebas de software tras terminar su tecnología?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo aplicaría el uso de Selenium para automatizar una prueba básica en un proyecto de software?\"},{\"posicion\":3,\"tipo\":\"CONDUCTual\",\"texto\":\"Cuénteme sobre alguna situación en sus cursos académicos donde haya tenido que diseñar casos de prueba para una funcionalidad específica; ¿cómo lo hizo y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera utiliza Jira para registrar y hacer seguimiento a los defectos encontrados durante el ciclo de pruebas?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que está realizando pruebas en una aplicación y encuentra un error crítico justo el día antes de la entrega a producción, ¿cómo actuaría en esa situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 151, 97, 176, 118, 162 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

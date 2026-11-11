@@ -1,0 +1,51 @@
+{
+  "id" : "G147",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, en, con oferta, FRONTEND",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:07:08.888992900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4764,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1312,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1230,
+  "tokensSalida" : 235,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"State your exact years of experience and cite a specific measurable result you achieved in your current role at Fictitious Digital Studio.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding React, specify exactly what hook or built-in mechanism you used to optimize component rendering and cite a concrete metric showing the performance improvement.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation at Fictitious Digital Studio where you had to build an accessible interface; state the exact accessibility standard you followed and cite a concrete compliance metric achieved.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding TypeScript, specify exactly what strict configuration flag or advanced type feature you implemented and cite a concrete codebase error reduction metric resulting from it.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose North Pixel Inc. requires you to consume a slow REST API while maintaining a responsive UI; state the exact state management tool or caching strategy you would implement and cite a measurable target time for the interface response.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 138, 169, 206, 180, 239 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

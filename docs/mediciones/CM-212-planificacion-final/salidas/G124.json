@@ -1,0 +1,51 @@
+{
+  "id" : "G124",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, en, con oferta, QA",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:02:33.299319700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4815,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1753,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1239,
+  "tokensSalida" : 231,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to the interview, it is great to meet you; I would love for you to tell me what sparked your interest in applying for this QA Analyst role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How would you approach designing test cases for a new feature using the knowledge you gained in your Software Development Technology studies?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time during your coursework when you had to find and document software defects using Jira; what was the situation, what did you do, and what was the result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Could you explain how you would use Selenium to automate a basic regression test as requested by Andina Ficticia S.A.S.?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are designing a test plan for a tight deadline and notice that some requirements are missing from traceability, so how would you handle this situation before testing begins?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 147, 141, 172, 120, 185 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

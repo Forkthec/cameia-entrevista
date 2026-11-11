@@ -30,6 +30,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import tech.cameia.entrevista.application.command.CreateSessionCommand;
 import tech.cameia.entrevista.application.service.CreateSessionResult;
 import tech.cameia.entrevista.application.service.CreateSessionService;
+import tech.cameia.entrevista.application.service.DeleteSessionService;
+import tech.cameia.entrevista.application.service.GetSessionStateService;
+import tech.cameia.entrevista.application.service.StartSessionService;
 import tech.cameia.entrevista.application.service.OngoingSession;
 import tech.cameia.entrevista.domain.exception.IdempotencyKeyConflictException;
 import tech.cameia.entrevista.domain.exception.ProfileNotFoundException;
@@ -61,7 +64,8 @@ class CreateSessionControllerTest {
     private final SessionConfigurationPolicy policy = new SessionConfigurationPolicy(new PersonalizationCatalog(),
             roleId -> roleId.equals(ROLE));
     private final MockMvc mockMvc = MockMvcBuilders
-            .standaloneSetup(new InterviewSessionController(service))
+            .standaloneSetup(new InterviewSessionController(service, mock(StartSessionService.class),
+                    mock(GetSessionStateService.class), mock(DeleteSessionService.class)))
             .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 

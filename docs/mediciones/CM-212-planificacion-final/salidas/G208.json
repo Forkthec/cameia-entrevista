@@ -1,0 +1,51 @@
+{
+  "id" : "G208",
+  "grupo" : "G2",
+  "descripcion" : "perfil Agente de Atención al Cliente (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:08:34.293647800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4673,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1907,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1221,
+  "tokensSalida" : 266,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview, and thank you for being here today; I would love to start by hearing what initially motivated you to apply for the Customer Support Agent role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Considering standard ticketing systems and email communication channels used in support, how would you prioritize incoming inquiries when multiple customers reach out at the exact same time?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Thinking about your time volunteering at the community library or during your high school activities, could you tell me about a time when you had to help someone who was confused or upset, starting with what happened, the task you faced, the action you took, and how it turned out?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"When handling complaint handling procedures and de-escalation techniques, what specific steps do you take when a customer is unhappy with a service?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our final question for today, and I would like you to imagine that a customer contacts you demanding an immediate solution for a technical problem that you cannot fix right away; how would you handle this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 169, 190, 281, 148, 223 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 2,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 1
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

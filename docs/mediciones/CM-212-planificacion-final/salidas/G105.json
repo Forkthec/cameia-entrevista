@@ -1,0 +1,51 @@
+{
+  "id" : "G105",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, en, sin oferta, DATOS",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T18:58:26.795150600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4011,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 6941,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1063,
+  "tokensSalida" : 191,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your background in statistics and what motivated you to apply for this Data Analyst role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How would you use a SQL query with a JOIN clause to combine data from two different tables for an analysis?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time during your coursework or in your survey analysis project when you had to clean and prepare a dataset using Python.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What functions or features in Excel do you typically use when summarizing and presenting numerical data to others?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you discover a significant inconsistency in a dataset just hours before you need to present your findings; how would you handle this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 115, 107, 131, 114, 151 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

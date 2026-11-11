@@ -1,0 +1,51 @@
+{
+  "id" : "G505",
+  "grupo" : "G5",
+  "descripcion" : "tildes descompuestas y otros alfabetos (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:15:34.846048300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4715,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3790,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1260,
+  "tokensSalida" : 316,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa postularse al cargo de Desarrollador Backend en este momento de su trayectoria, y qué resultado cuantificable o hito específico espera lograr en sus primeros seis meses?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"En su experiencia manteniendo APIs REST, cite un ejemplo concreto de una optimización de rendimiento realizada en Java con Spring Boot; indique exactamente qué métrica mejoró y cuál fue la reducción porcentual de la latencia.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en su paso por Empresa Ficticia Andina donde se presentó un fallo crítico en las colas de mensajes; detalle exactamente qué herramienta utilizó, qué decisión técnica tomó y qué resultado medido obtuvo en el tiempo de recuperación.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Al diseñar bases de datos relacionales con PostgreSQL, mencione una herramienta específica de monitoreo o análisis que haya implementado y cite un ejemplo exacto de una consulta que optimizó, indicando el tiempo de ejecución antes y después.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que se detecta una pérdida de mensajes en una cola durante un pico de tráfico en producción; detalle exactamente qué pasos seguiría para aislar la falla, qué métrica revisaría primero y cite el criterio cuantitativo exacto para declarar el incidente como resuelto.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 190, 225, 253, 241, 272 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G130",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:27:27.376251700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5108,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5061,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1325,
+  "tokensSalida" : 245,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, I'm glad to meet you, so I'd love it if you could tell me what inspired you to apply for this Backend Developer role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could explain how you typically handle database transactions and query optimization when working with PostgreSQL.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific time when you had to troubleshoot and fix an issue in a REST API while working at Fictitious Andean Company, detailing the situation, the task you faced, the action you took, and the result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could walk me through how you set up dependency injection and structure a new application using Spring Boot.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you notice a sudden spike in latency on one of your message queues in production, so how would you approach investigating and resolving that issue as our next to last question today?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 149, 132, 217, 127, 190 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

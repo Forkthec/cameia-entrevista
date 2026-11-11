@@ -1,0 +1,51 @@
+{
+  "id" : "G907",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G131)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:39:24.719289200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5250,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5821,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1347,
+  "tokensSalida" : 227,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome and thank you for being here today, so I'd love to know what made you want to apply for this Frontend Developer role with us.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could tell me how you ensure that the React components you build are fully accessible to all users.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation from your experience building interfaces where you had to collaborate closely with team members to overcome a technical hurdle, and what you did to achieve a positive result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd love for you to walk me through how you typically approach consuming REST APIs within a TypeScript environment.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working against a tight deadline and notice that some of your component tests are failing just before a release, so how would you handle that situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 143, 118, 211, 115, 168 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}
