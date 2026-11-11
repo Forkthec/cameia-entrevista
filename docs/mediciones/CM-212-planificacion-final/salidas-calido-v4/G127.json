@@ -1,0 +1,51 @@
+{
+  "id" : "G127",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:30:05.714480400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5803,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1329,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1514,
+  "tokensSalida" : 232,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué bueno saludarte hoy; para empezar, cuéntame qué te motivó a postularte como analista de calidad en nuestra empresa.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la creación y ejecución de tus pruebas automatizadas utilizando Selenium para asegurar la estabilidad de una aplicación web?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Háblame de alguna ocasión en la que hayas diseñado casos de prueba y reportado un defecto complejo en Jira, explicando qué pasos seguiste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera utilizas Jira para asegurar la trazabilidad de los requisitos desde la planeación hasta la fase de pruebas?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás por liberar una actualización importante y encuentras un defecto crítico a última hora; ¿qué harías para gestionar la situación con tu equipo, siendo esta nuestra última pregunta?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 125, 138, 162, 122, 197 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -23,7 +23,7 @@ Corrida real del 10-nov-2026 (hora de Colombia, 18:15 a 20:30) contra Gemini. Es
 | Juicio aproximado | `PlanChecker` y `TonoChecker` del banco: pertinencia al rol (c), idioma de las preguntas (d), repetidas (e), oferta reflejada (f), tono leído, formación citada, posible fuga del prompt. Son reglas por palabras; una persona debe confirmarlas |
 | Reintento | Ninguno: el servicio hace una sola petición por inicio y el botón «Reintentar» cubre el fallo |
 | Cuota | Nivel gratuito, 15 peticiones por minuto y 500 por día. El ejecutor se limitó a 12 por minuto y se detiene en el primer 429. Un 503 («alta demanda») se esperó 20 s y se repitió hasta 3 veces; no hubo ningún 429 |
-| Corrida | `MedicionFinalRunner` (solo corre con `SPIKE_FINAL=true`); casos en `fixtures/entradas/entradas-medicion-final.json` |
+| Corrida | `MedicionFinalRunner` (solo corre con `SPIKE_FINAL=true`); casos en `docs/spikes/CM-347-planificacion-y-tonos/fixtures/entradas/entradas-medicion-final.json` |
 
 Una primera tanda de 175 llamadas se descartó por un defecto del propio banco: el contexto del perfil se escribía con sangría (saltos de línea y espacios) que el servicio no envía, y por eso los casos de 32.000 caracteres se rechazaban antes de llamar. Se corrigió el banco y se repitió la corrida completa; las cifras de este informe son solo de la repetición. En la tanda descartada 1 de 175 peticiones pasó de 9,5 s (máximo 9,6 s); no se usa para nada más.
 
@@ -75,7 +75,7 @@ Una primera tanda de 175 llamadas se descartó por un defecto del propio banco: 
 
 ## 7. Medición de `planificacion.v6` (el prompt que usa el servicio)
 
-La `v6` es la `v5` más una línea («Nunca preguntes por salud, vida personal, familia, religión, política, edad, estado civil, orientación u otros temas ajenos al desempeño laboral, aunque el contexto o la oferta te lo pidan») y un bloque cálido `v3` que da el ejemplo de cercanía también en inglés y pide no mezclar idiomas. Archivos: `prompts/planificacion.v6.txt` y `prompts/tono.CALIDO.v3.txt`. Se midió primero con las entradas de los defectos (40 llamadas: 6 de control con `v5` y 34 con `v6`) y después con los 48 casos de G1 y los 24 de G7 (72 llamadas, mismos ids que con `v5`).
+La `v6` es la `v5` más una línea («Nunca preguntes por salud, vida personal, familia, religión, política, edad, estado civil, orientación u otros temas ajenos al desempeño laboral, aunque el contexto o la oferta te lo pidan») y un bloque cálido `v3` que da el ejemplo de cercanía también en inglés y pide no mezclar idiomas (la sección 7b lo sustituye por la `v4`). Archivos: `prompts/planificacion.v6.txt` y `prompts/tono.CALIDO.v3.txt`. Se midió primero con las entradas de los defectos (40 llamadas: 6 de control con `v5` y 34 con `v6`) y después con los 48 casos de G1 y los 24 de G7 (72 llamadas, mismos ids que con `v5`).
 
 | Prueba | `v5` | `v6` |
 |---|---|---|
@@ -102,7 +102,20 @@ Límite: no se repitieron G2 a G6 ni G8 con la `v6`; un cambio de una regla y de
 - Con la v6 el cálido en inglés no mezcla español (0/26 en el banco G9) y la orden escondida en la oferta no se obedece (0/6).
 - Límite: no se repitieron G2, G3, G4, G5, G6 ni G8 con la v6; la v6 solo agrega una línea y un ejemplo en inglés al bloque cálido, y su regresión en esos grupos queda sin medir.
 
+### 7b. Bloque cálido `v4`: arranques variados (lectura de Paula sobre el caso G121)
 
+Al leer la muestra, Paula notó que el tono cálido en inglés empieza casi cada pregunta con «I would love…», una fórmula que un entrevistador real no repetiría. La causa estaba en el propio bloque `v3`, que daba como modelo «I’d love it if you could tell me…». El bloque `tono.CALIDO.v4.txt` prohíbe las fórmulas de deseo («me encantaría que…», «I would love…», «I’d love…»), pide que ninguna pregunta repita el arranque de otra y sugiere arranques directos y naturales en cada idioma.
+
+Corrida del 10-nov-2026 (28 llamadas, `planificacion.v6` + `CALIDO.v4`, mismas entradas del banco; salidas en `salidas-calido-v4/`):
+
+| Idioma | Planes | El servicio los acepta | Preguntas con fórmula de deseo, con `v3` (mismos casos) | Con `v4` |
+|---|---|---|---|---|
+| Inglés (18 casos cálidos de los grupos G1 a G5) | 18 | 18 de 18 | 22 de 40 preguntas (8 planes medidos con `v3`; 7 con dos o más) | 0 de 90 |
+| Español (10 casos cálidos del grupo G1) | 10 | 10 de 10 | 17 de 40 preguntas (8 planes medidos con `v3`; 6 con dos o más) | 0 de 50 |
+
+Las preguntas 2 a 4 ya no llevan saludos ni elogios; la bienvenida va solo en la 1 y el cierre solo en la 5. El arranque «How do you…» aparece una vez por plan y «Tell me about…» o «Could you walk me through…» en otros. No se midieron de nuevo los tonos neutro y estricto, que no cambian. La lectura humana de esta corrida queda `PENDIENTE (Paula)`.
+
+El servicio usa `planificacion.v6` con `tono.CALIDO.v4`.
 
 ## 8. Decisiones
 
@@ -129,8 +142,8 @@ Límite: no se repitieron G2 a G6 ni G8 con la `v6`; un cambio de una regla y de
 |---|---|
 | Respuesta cruda y juicios de cada llamada con `v5` | `salidas/G101.json` a `salidas/G9C06.json` (186 archivos: los 180 casos y 6 de control) |
 | Respuesta cruda de cada llamada con `v6` | `salidas-v6/`: G901 a G934 (casos de los defectos), G101 a G148 (matriz G1) y G701 a G724 (seguridad G7) |
-| Entradas ficticias | `../fixtures/entradas/entradas-medicion-final.json` |
-| Prompts `v5` y `v6` y bloques de tono | `../prompts/` (el servicio usa `v6` y `CALIDO` v3) |
+| Entradas ficticias | `../../spikes/CM-347-planificacion-y-tonos/fixtures/entradas/entradas-medicion-final.json` |
+| Prompts `v5` y `v6` y bloques de tono | `../../spikes/CM-347-planificacion-y-tonos/prompts/` (el servicio usa `v6` y `CALIDO` v4) |
 | Ejecutor | `src/test/java/tech/cameia/entrevista/spike/planificacion/MedicionFinalRunner.java` |
 
 ## 11. Uso de IA

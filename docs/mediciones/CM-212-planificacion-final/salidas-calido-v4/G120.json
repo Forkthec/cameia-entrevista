@@ -1,0 +1,51 @@
+{
+  "id" : "G120",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T21:28:57.048477900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5597,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 9504,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1454,
+  "tokensSalida" : 269,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy; cuéntame qué fue lo que más te llamó la atención de esta vacante como desarrollador frontend en Pixel Norte S.A.S. y cómo te imaginas aportando al equipo.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructurarías componentes reutilizables utilizando React y TypeScript para asegurar que las interfaces sean accesibles y fáciles de mantener?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Piensa en algún proyecto o trabajo que hayas desarrollado durante tu paso por el Instituto Técnico Ficticio del Sur y cuéntame cómo resolviste un inconveniente inesperado con el diseño o la lógica de la página.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera realizas el consumo de APIs externas mediante JavaScript para pintar la información correctamente en la interfaz de usuario?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás escribiendo pruebas de componentes para una nueva funcionalidad y notas que un caso clave está fallando justo antes de entregar la tarea, así que dime, ¿cómo actuarías en ese momento?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 203, 148, 210, 139, 201 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

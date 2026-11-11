@@ -1,0 +1,51 @@
+{
+  "id" : "G128",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T21:30:13.083175200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5689,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 11745,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1481,
+  "tokensSalida" : 246,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, bienvenida a la entrevista, me alegra mucho saludarte hoy; cuéntame qué te motiva a postularte como desarrolladora frontend en Pixel Norte S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la gestión de estado y el tipado estricto al construir componentes reutilizables utilizando React y TypeScript?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame de alguna situación en la que hayas tenido que adaptar una interfaz digital en Estudio Ficticio Digital para que fuera totalmente accesible, y qué pasos seguiste para lograrlo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué estrategia usas al momento de consumir APIs REST dentro de tus aplicaciones para asegurar un manejo adecuado de los datos y de los errores?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Esta es la última pregunta: ¿qué harías si durante la entrega de un proyecto notas que un componente crítico no pasa las pruebas unitarias y el tiempo límite está muy cerca?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 151, 125, 185, 144, 173 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

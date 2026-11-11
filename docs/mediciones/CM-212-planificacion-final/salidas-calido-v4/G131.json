@@ -1,0 +1,51 @@
+{
+  "id" : "G131",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, con oferta, FRONTEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:30:49.821918100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5633,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 7096,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1450,
+  "tokensSalida" : 204,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, it is great to meet you, so could you share what first drew you to apply for this Frontend Developer position with us?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically manage component state and side effects when building user interfaces in React?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time during your work at Fictitious Digital Studio when you had to ensure a user interface was fully accessible.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Could you walk me through your approach to writing component tests for a TypeScript application?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our final question for today, so imagine you need to consume a REST API whose response format differs from what your TypeScript interfaces expect; how would you handle that situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 150, 100, 128, 96, 191 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}
