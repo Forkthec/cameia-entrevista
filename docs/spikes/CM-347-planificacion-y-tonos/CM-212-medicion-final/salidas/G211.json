@@ -1,0 +1,51 @@
+{
+  "id" : "G211",
+  "grupo" : "G2",
+  "descripcion" : "perfil Auxiliar Contable (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:09:12.260272700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4497,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2421,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1181,
+  "tokensSalida" : 265,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué aspira exactamente al cargo de auxiliar contable en esta organización y qué resultado cuantificable espera aportar en sus primeros seis meses?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Mencione el procedimiento exacto que aplica en Excel para realizar conciliaciones bancarias y cite un ejemplo concreto de cómo identifica una diferencia entre extractos y libros.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación específica vivida durante su trabajo de grado o su formación en la Universidad Ficticia del Sur donde haya aplicado conceptos de costos, indicando la decisión tomada y el resultado medido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explique con detalle una norma de contabilidad general aplicada en su carrera y cite un ejemplo concreto de cómo la registró contablemente en un ejercicio práctico.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que detecta una inconsistencia numérica relevante al consolidar los costos de una pyme; ¿qué acción exacta emprendería, a qué herramienta específica recurriría y qué métrica usaría para verificar la corrección antes del cierre?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 151, 178, 211, 164, 235 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

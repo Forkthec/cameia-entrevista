@@ -1,0 +1,51 @@
+{
+  "id" : "G835",
+  "grupo" : "G8",
+  "descripcion" : "QA sin experiencia (el caso flojo S03), neutro, español",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 5,
+  "inicio" : "2026-11-10T19:33:06.675953900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4120,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 12629,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1097,
+  "tokensSalida" : 208,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Cómo se enteró de esta práctica como Analista de Calidad y qué le motiva a iniciar su carrera en esta área?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza Selenium para realizar pruebas básicas de automatización web?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en sus cursos del Instituto Técnico Ficticio del Norte donde haya tenido que diseñar casos de prueba para una aplicación, qué acción tomó y cuál fue el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera gestiona y reporta los incidentes o errores detectados utilizando Jira?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se acerca la fecha de entrega de un desarrollo y encuentra un defecto crítico que el equipo de desarrollo considera menor, ¿cómo actuaría ante esta situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 108, 75, 194, 86, 161 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

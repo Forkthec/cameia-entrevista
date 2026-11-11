@@ -1,0 +1,51 @@
+{
+  "id" : "G108",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, en, con oferta, QA",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:24:18.119781100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4490,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3354,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1162,
+  "tokensSalida" : 191,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce your background in software development and explain what interests you about a QA Analyst role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you design and structure effective test cases using Jira for tracking requirements and defects?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a situation during your Software Development Technology studies where you had to design and execute test cases for a project, detailing the actions you took and the outcome.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your approach to writing and maintaining basic regression test scripts using Selenium?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you find a critical defect in a feature right before a scheduled release; how would you decide whether to report it and halt deployment or proceed?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 123, 102, 182, 94, 155 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

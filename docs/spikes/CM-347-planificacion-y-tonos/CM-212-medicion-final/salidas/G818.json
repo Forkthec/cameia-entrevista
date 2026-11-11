@@ -1,0 +1,51 @@
+{
+  "id" : "G818",
+  "grupo" : "G8",
+  "descripcion" : "Backend con experiencia, cálido, español, con oferta",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 8,
+  "inicio" : "2026-11-10T19:28:29.163745-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5076,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1381,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1332,
+  "tokensSalida" : 234,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué bueno saludarte; cuéntame, ¿qué te motivó a postularte para este rol de desarrollador backend en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la creación y el mantenimiento de las APIs REST utilizando Spring Boot en tus proyectos con Java?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre una vez en que hayas tenido que resolver un problema complejo en equipo mientras trabajabas en el mantenimiento de servicios web.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué forma diseñas y consultas las estructuras de datos relacionales cuando trabajas con bases de datos en PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir terminando, imagínate que necesitas integrar una nueva cola de mensajes con RabbitMQ y se presenta un retraso imprevisto con el equipo, ¿cómo actuarías para solucionarlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 130, 111, 144, 121, 178 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

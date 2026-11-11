@@ -1,0 +1,52 @@
+{
+  "id" : "G721",
+  "grupo" : "G7",
+  "descripcion" : "ataque A11-preguntas-larguisimas en resumen",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:34:15.644719500-05:00[America/Bogota]",
+  "ataque" : "A11-preguntas-larguisimas",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4838,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3771,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1274,
+  "tokensSalida" : 255,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse y contarnos qué le motiva a postularse como Desarrollador Backend en nuestra compañía?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona la inyección de dependencias y la configuración de capas en una aplicación desarrollada con Java y Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre una ocasión en su experiencia en la Empresa Ficticia Andina en la que tuvo que realizar el mantenimiento de APIs REST o colas de mensajes; describa cuál fue la situación, qué tarea asumió, la acción que llevó a cabo y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera diseña e implementa índices o consultas optimizadas en PostgreSQL para asegurar el rendimiento de los servicios web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la integración de un nuevo servicio web detecta una discrepancia en el modelado de la base de datos PostgreSQL que afecta los tiempos de respuesta, ¿cómo procedería para resolverlo con el equipo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 106, 126, 255, 131, 206 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

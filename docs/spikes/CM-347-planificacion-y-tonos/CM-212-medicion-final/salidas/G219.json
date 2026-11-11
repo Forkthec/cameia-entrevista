@@ -1,0 +1,51 @@
+{
+  "id" : "G219",
+  "grupo" : "G2",
+  "descripcion" : "perfil Coordinador de Eventos (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:10:20.555744400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4045,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1883,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1077,
+  "tokensSalida" : 212,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Cómo se alinea su formación en Trabajo Social con su interés en desempeñar el rol de Coordinador de Eventos?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué metodología utiliza para la elaboración y el control del presupuesto en la organización de un evento?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en su etapa como voluntario en la que organizó una jornada comunitaria; detalle qué tarea asumió, qué acción realizó y cuál fue el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la logística y la coordinación con proveedores externos durante la ejecución de un evento?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante una jornada comunitaria se presenta un retraso significativo por parte de un proveedor clave, ¿cómo actuaría para resolver la situación en el momento?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 109, 106, 173, 103, 161 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G138",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, sin experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:05:08.166576400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4478,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4583,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1169,
+  "tokensSalida" : 249,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"State your exact motivation for applying to this Backend Developer role and cite one specific measurable outcome you achieved in your capstone project.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Explain how you implemented Java in your capstone project, specifying exactly which version, library, or framework you used and citing the exact database query performance metric you measured.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation during your Systems Engineering studies at Fictitious Valley University where you used Git to resolve a conflict, naming the exact branching strategy and the concrete result measured in commits or merged pull requests.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Detail how you configured PostgreSQL in your capstone project, specifying the exact table schema design decision you made and the concrete metric of data integrity or execution speed you verified.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a critical backend API endpoint fails in production with a NullPointerException in Java; state the exact debugging tool you would use first and cite the exact metric you would monitor to verify the fix.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 151, 192, 248, 196, 210 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 2, 3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

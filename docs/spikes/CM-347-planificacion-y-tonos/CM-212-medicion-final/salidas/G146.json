@@ -1,0 +1,51 @@
+{
+  "id" : "G146",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:07:00.244859-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4622,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2625,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1208,
+  "tokensSalida" : 239,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Why are you applying for this Backend Developer role, and what specific metric or quantifiable result from your current work at Fictitious Andean Company demonstrates your readiness for it?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Considering your experience with Spring Boot, explain the exact configuration and mechanism you use for connection pooling in PostgreSQL, citing a specific parameter value you optimized.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you had to optimize a slow-performing REST API in your current role; state the exact response time before and after your intervention, and name the specific profiling tool you used.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding message queues, specify exactly which message broker technology you integrate with Java applications and cite one concrete trade-off you managed regarding message delivery guarantees.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a critical production service processing PostgreSQL transactions experiences a sudden latency spike under heavy load; what exact diagnostic steps and remediation metrics would you execute first?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 189, 186, 217, 193, 202 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

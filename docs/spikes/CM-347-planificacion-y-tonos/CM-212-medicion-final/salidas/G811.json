@@ -1,0 +1,51 @@
+{
+  "id" : "G811",
+  "grupo" : "G8",
+  "descripcion" : "Backend con experiencia, cálido, español, con oferta",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:27:05.191154700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5076,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4691,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1332,
+  "tokensSalida" : 265,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte hoy y darte la bienvenida a este espacio. Para empezar, me gustaría que me contaras qué te motiva a postularte como desarrollador backend en Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la creación y el mantenimiento de las APIs REST utilizando Spring Boot en tus proyectos actuales?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en la que hayas tenido que trabajar en equipo en tu experiencia en Empresa Ficticia Andina, describiendo qué tarea enfrentaste, qué acción tomaste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera diseñas y modelas bases de datos relacionales en PostgreSQL para asegurar un buen rendimiento?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás integrando una cola de mensajes con RabbitMQ y notas que los mensajes se empiezan a acumular sin procesarse adecuadamente; ¿cómo actuarías para resolver esta situación y para terminar con esta entrevista, qué pasos seguirías?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 189, 111, 203, 109, 243 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G822",
+  "grupo" : "G8",
+  "descripcion" : "Frontend sin experiencia, estricto, inglés, sin oferta",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:29:05.875732-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4477,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8341,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1161,
+  "tokensSalida" : 253,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Why do you want this Frontend Developer position, and what specific metric of your academic performance at Fictitious Southern Technical Institute demonstrates your readiness for this role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding CSS development,cite an exact CSS layout property or tool you used in your portfolio projects, specifying what measurable result you achieved on the page loading speed.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"During your studies for the Web Programming Technician program, describe a specific academic project where you used JavaScript, citing exactly what tool you used to debug your code and what measured outcome you obtained.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Focusing on HTML structure, name the exact HTML5 semantic elements you implemented in your portfolio, and state the exact percentage of accessibility improvement or validation score you achieved.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If you are tasked with building a web page using HTML, CSS, and JavaScript where design requirements conflict, what exact decision-making process will you follow, and what quantitative result will you measure to verify success?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 189, 178, 220, 195, 227 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

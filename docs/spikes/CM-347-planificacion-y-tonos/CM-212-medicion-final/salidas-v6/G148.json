@@ -1,0 +1,51 @@
+{
+  "id" : "G148",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, en, con oferta, QA",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:30:27.289945700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 5033,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4765,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1294,
+  "tokensSalida" : 251,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your background in web applications, cite the exact percentage of test coverage achieved and state what specific metric you used to measure that result.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When automating regression tests with Selenium, what exact framework architecture did you implement and what precise execution time did you measure for the test suite?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation at Fictitious Software Inc. where you reported defects in Jira; state the exact number of tickets handled and what measurable result you achieved.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding requirements traceability as requested by Andina Ficticia S.A.S., what exact tool or matrix format do you use to link test cases to requirements, and cite one concrete instance of a traceability gap you resolved.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a critical defect is found right before releasing a web application tested with Selenium, what exact criteria and specific threshold will you use to decide whether to block the deployment, and what measurable outcome will you track?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 164, 167, 176, 222, 235 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

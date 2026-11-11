@@ -1,0 +1,51 @@
+{
+  "id" : "G121",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, en, sin oferta, DATOS",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:26:17.206982900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4915,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1665,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1274,
+  "tokensSalida" : 237,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today! I would love it if you could start by sharing what excites you about stepping into a Data Analyst role and how your background in Statistics connects with it.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I would love for you to tell me how you use Python for data manipulation and cleaning tasks in your projects.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation from your coursework or academic projects where you had to analyze a complex dataset and present your findings?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I would love it if you could explain how you typically write SQL queries to filter and aggregate data from a relational database.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are given a large dataset with several missing values just before a team meeting, and you need to prepare the numbers for discussion; how would you handle this situation, and what would be your next step? That's our last question for today!\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 190, 109, 148, 129, 252 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

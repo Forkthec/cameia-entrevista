@@ -1,0 +1,51 @@
+{
+  "id" : "G411",
+  "grupo" : "G4",
+  "descripcion" : "oferta en portugués",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:14:11.498788200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4433,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1382,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1179,
+  "tokensSalida" : 230,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse y contarnos qué le motiva a postularse para este rol en Rio Digital?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la gestión de transacciones y el rendimiento de consultas al trabajar con bases de datos en PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre una situación en la que haya tenido que mantener o actualizar APIs REST en su trabajo en Empresa Ficticia Andina; ¿cuál era la tarea, qué acción tomó y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera implementa colas de mensajes con RabbitMQ para la comunicación asíncrona en una aplicación desarrollada con Java y Spring Boot?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que detecta una falla en producción relacionada con el procesamiento de mensajes en la cola; ¿cómo procedería para identificar y resolver el problema?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 88, 116, 189, 142, 158 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

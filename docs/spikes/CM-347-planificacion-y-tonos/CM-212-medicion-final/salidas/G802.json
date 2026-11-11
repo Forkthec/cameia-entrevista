@@ -1,0 +1,51 @@
+{
+  "id" : "G802",
+  "grupo" : "G8",
+  "descripcion" : "SIN1 neutro español sin oferta",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:25:28.141209600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4117,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4382,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1095,
+  "tokensSalida" : 207,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse como desarrolladora backend y qué la motivó a postularse a esta posición?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo diseñaría una consulta en PostgreSQL para optimizar el rendimiento al obtener registros de una tabla grande?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre una situación en la universidad donde haya tenido que trabajar en equipo para desarrollar un proyecto académico, cuál fue su tarea y qué resultado obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo implementa el control de versiones con Git al trabajar en equipo para evitar conflictos al fusionar código?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se encuentra desarrollando una API y descubre un error crítico en producción justo antes de salir del turno, ¿cómo actuaría para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 107, 114, 169, 113, 143 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

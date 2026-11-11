@@ -1,0 +1,51 @@
+{
+  "id" : "G131",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, con oferta, FRONTEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:27:38.481599800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5250,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1274,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1347,
+  "tokensSalida" : 211,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome! To get started, I’d love it if you could tell me what drew you to apply for this Frontend Developer role at North Pixel Inc.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I’d love for you to walk me through how you typically manage state in a React application using TypeScript.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share an example of a time when you built an accessible interface and how you approached it?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I’m curious to hear how you usually approach writing component tests to ensure code quality.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you need to integrate a new REST API that is experiencing delays, and it's almost time for the release; how would you handle this situation, as this is our final question?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 143, 107, 102, 92, 179 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

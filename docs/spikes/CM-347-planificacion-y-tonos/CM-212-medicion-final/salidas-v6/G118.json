@@ -1,0 +1,51 @@
+{
+  "id" : "G118",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:25:53.663552600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4982,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1735,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1296,
+  "tokensSalida" : 255,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¡Hola! Qué gusto saludarte hoy y darte la bienvenida a este espacio, así que me gustaría que me contaras qué te motivó a postularte como analista de datos.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo has utilizado SQL para realizar consultas y uniones de tablas en tus proyectos académicos.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en tus cursos de la universidad en la que hayas tenido que analizar un conjunto de datos complejo para un proyecto, qué hiciste exactamente y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría saber de qué manera has aplicado Python para limpiar y transformar datos en tus clases.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir terminando, imagínate que te entregan una base de datos en Excel con múltiples inconsistencias y te piden un reporte urgente para el final del día; ¿cómo actuarías para resolverlo a tiempo? Y con esto terminamos, muchas gracias por tu tiempo.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 155, 123, 196, 99, 250 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 2,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

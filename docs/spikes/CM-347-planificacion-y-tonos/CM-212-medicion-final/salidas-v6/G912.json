@@ -1,0 +1,51 @@
+{
+  "id" : "G912",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G220)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:40:26.229551-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4881,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5318,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1263,
+  "tokensSalida" : 261,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, and thank you for taking the time to chat with us; I would love it if you could start by introducing yourself and sharing what makes you excited about the Event Coordinator role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could walk me through how you use vendor management timelines and budgeting tools to keep a large community event on track.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"I’d love for you to tell me about a time during your volunteer work or your Social Work studies when you had to handle an unexpected challenge while organizing an event, what you did, and what the final outcome was.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could share your approach to utilizing registration software and crowd-flow management practices to ensure attendees have a smooth experience.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"To wrap things up, imagine that two key volunteers suddenly drop out hours before a major fundraising event is set to begin; how would you handle that situation to make sure everything still goes smoothly?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 210, 142, 215, 161, 205 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

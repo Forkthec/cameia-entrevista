@@ -1,0 +1,51 @@
+{
+  "id" : "G216",
+  "grupo" : "G2",
+  "descripcion" : "perfil Desarrollador Web (en)",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:09:55.199241500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4747,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1521,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1255,
+  "tokensSalida" : 234,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"What exact metric or specific quantifiable result demonstrated your readiness to transition from law to web development, and cite a specific example of your motivation.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Specify the exact JavaScript framework, library, or version control tool you utilized in your bootcamp, and cite a concrete metric regarding the number of components or lines of code you implemented.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific challenge during your time at Fictitious Law Firm where you drafted contracts; what exact measurable outcome or percentage of efficiency was achieved through your action?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Detail the exact CSS methodology or HTML layout technique you applied in a specific project, stating the exact tool used and the measured performance score achieved.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you face a critical bug in a JavaScript function right before deployment; what exact debugging tool will you use and what specific time metric will you establish to resolve it?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 168, 199, 190, 165, 184 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

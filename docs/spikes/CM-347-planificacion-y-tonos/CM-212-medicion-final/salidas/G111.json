@@ -1,0 +1,51 @@
+{
+  "id" : "G111",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, con experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T18:59:39.615682100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4516,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2116,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1200,
+  "tokensSalida" : 228,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse y contarnos qué le motiva a postularse como Analista de Calidad en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza Selenium para llevar a cabo la automatización de pruebas de regresión en una aplicación web?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre una situación en su experiencia en Software Ficticio S.A.S. en la que haya tenido que diseñar casos de prueba complejos, explicando qué hizo y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera gestiona y hace seguimiento a los defectos utilizando Jira dentro de su flujo de trabajo?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si descubre un defecto crítico en una funcionalidad que debe entregarse a producción ese mismo día, ¿cómo procedería para gestionar esta situación con el equipo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 110, 106, 180, 104, 161 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

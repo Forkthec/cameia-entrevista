@@ -1,0 +1,51 @@
+{
+  "id" : "G144",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:29:41.556249900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 5012,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4890,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1304,
+  "tokensSalida" : 290,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa este rol de Desarrolladora Frontend y qué resultado cuantificable de su paso por Estudio Ficticio Digital demuestra su preparación para asumir este cargo?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la gestión de estado y el tipado estricto en React utilizando TypeScript, y cite un ejemplo concreto de una interfaz accesible que haya desarrollado con estas tecnologías?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en Estudio Ficticio Digital donde haya enfrentado un desacuerdo técnico con un compañero sobre la implementación de una interfaz en React; detalle exactamente qué decisión tomó y qué métrica midió el impacto de esa acción.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué herramienta específica utiliza para escribir pruebas de componentes y cite exactamente qué porcentaje de cobertura de código alcanzó en su último desarrollo?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la integración con una API REST en Pixel Norte S.A.S. los datos devuelven un formato imprevisto que bloquea la renderización de la interfaz accesible, ¿cómo actuaría exactamente, qué tecnología emplearía para diagnosticarlo y qué resultado medido garantizaría antes de pasar a producción?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 175, 184, 245, 162, 299 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 2, 3, 5]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

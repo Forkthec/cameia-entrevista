@@ -1,0 +1,51 @@
+{
+  "id" : "G122",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:02:14.654547300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4577,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1437,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1195,
+  "tokensSalida" : 248,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hello and welcome, it is great to have you here today. Could you tell me what made you want to pursue a career as a backend developer and apply for this role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I would love for you to walk me through how you would write a basic query using PostgreSQL to retrieve specific records from a database table.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation during your studies at Fictitious Valley University where you had to work in a team to build a project, and how you handled any challenges that came up?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Could you explain how you have used Java to handle basic logic or structures in your academic projects?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working on a backend task and you notice a bug right before a deadline, but the rest of the team is offline. How would you handle this situation? As this is our last question, take all the time you need to answer.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 158, 142, 189, 103, 229 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

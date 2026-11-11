@@ -1,0 +1,51 @@
+{
+  "id" : "G104",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T18:58:17.139754-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4310,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3613,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1140,
+  "tokensSalida" : 217,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse y contarnos qué le motiva a postularse como Desarrollador Frontend en Pixel Norte S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructuraría una página web utilizando etiquetas semánticas en HTML y selectores avanzados en CSS?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"¿Puede describir una situación durante sus estudios en el Instituto Técnico Ficticio del Sur en la que haya tenido que resolver un problema técnico complejo en un proyecto?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera utiliza JavaScript para manipular el DOM y gestionar eventos de usuario en una interfaz web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que recibe un diseño de interfaz que no cumple con los criterios de accesibilidad requeridos; ¿cómo abordaría esta situación con el equipo de diseño?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 109, 105, 172, 107, 157 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

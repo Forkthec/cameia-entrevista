@@ -1,0 +1,51 @@
+{
+  "id" : "G613",
+  "grupo" : "G6",
+  "descripcion" : "perfil máximo realista del contrato (4 experiencias, 5 formaciones, 20 habilidades)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:20:20.945778200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 10651,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3932,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 2752,
+  "tokensSalida" : 200,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse brevemente y contarnos qué le motiva a postularse al rol de desarrollador backend?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo implementa la gestión de esquemas y transacciones en PostgreSQL al desarrollar servicios web?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en su experiencia pasada donde haya tenido que publicar eventos usando RabbitMQ y cómo manejó posibles fallas en la entrega.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué buenas prácticas aplica al escribir pruebas automatizadas para servicios desarrollados con Java y Spring Boot?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que un servicio backend crítico presenta fallas de rendimiento en producción; ¿cómo procedería para diagnosticar y resolver el problema?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 102, 99, 147, 115, 144 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

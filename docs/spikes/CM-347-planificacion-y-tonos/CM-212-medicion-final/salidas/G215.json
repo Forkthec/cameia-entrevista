@@ -1,0 +1,51 @@
+{
+  "id" : "G215",
+  "grupo" : "G2",
+  "descripcion" : "perfil Desarrollador Web (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:09:46.369921300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4900,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2819,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1310,
+  "tokensSalida" : 265,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y darte la bienvenida a este espacio, me gustaría que me contaras qué te motivó a dar el paso hacia el desarrollo web y cómo ha sido este camino para ti.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo manejas la manipulación del DOM y la estructuración de estilos usando HTML y CSS en tus proyectos.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre una situación en la que hayas tenido que aprender una herramienta o un concepto nuevo en poco tiempo durante tus estudios en el bootcamp, qué tarea tenías, qué acción tomaste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Quisiera saber cómo utilizas los comandos básicos de Git para el control de versiones al trabajar en equipo o en tus proyectos individuales.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando, imagínate que estás trabajando en una página web y notas que el diseño en CSS no se ve igual en diferentes pantallas; ¿qué harías para identificar y solucionar ese inconveniente?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 179, 131, 214, 140, 196 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

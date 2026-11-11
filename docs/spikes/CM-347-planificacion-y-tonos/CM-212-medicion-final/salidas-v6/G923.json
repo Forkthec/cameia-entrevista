@@ -1,0 +1,51 @@
+{
+  "id" : "G923",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés, repetición (copia de G131)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:42:34.239957800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5250,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2394,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1347,
+  "tokensSalida" : 197,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today! I'd love to hear a little bit about what first drew you to apply for this Frontend Developer role with us.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through how you typically approach building reusable components using React and TypeScript.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific time when you had to ensure a web interface was fully accessible for all users?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd love to hear how you handle consuming REST APIs within your frontend applications.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working on a new feature and realize that writing component tests might delay the upcoming release; how would you handle that situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 138, 124, 106, 86, 152 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}
