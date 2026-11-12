@@ -52,4 +52,22 @@ class LanguageModelPromptTest {
                 .contains("21 caracteres")
                 .contains("maxOutputTokens=16");
     }
+
+    @Test
+    @DisplayName("El constructor de dos argumentos deja el esquema en nulo")
+    void constructor_shouldLeaveSchemaNull_whenTwoArguments() {
+        assertThat(new LanguageModelPrompt("Responde OK.", 16).jsonSchema()).isNull();
+    }
+
+    @Test
+    @DisplayName("Un esquema en blanco se rechaza y uno con contenido se conserva sin mostrarse en toString")
+    void constructor_shouldValidateSchema() {
+        assertThatThrownBy(() -> new LanguageModelPrompt("Responde OK.", 16, "  "))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("El esquema de la respuesta no puede estar en blanco.");
+        LanguageModelPrompt prompt = new LanguageModelPrompt("Responde OK.", 16, "{\"type\":\"object\"}");
+
+        assertThat(prompt.jsonSchema()).isEqualTo("{\"type\":\"object\"}");
+        assertThat(prompt.toString()).doesNotContain("object");
+    }
 }

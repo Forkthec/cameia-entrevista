@@ -133,6 +133,33 @@ class GeminiLanguageModelAdapterTest {
     }
 
     @Test
+    @DisplayName("Con esquema en el prompt, la llamada pide JSON y envía el esquema")
+    void generate_shouldSendSchema_whenPromptHasOne() {
+        respuesta = json(200, respuestaCon("{}"));
+        String esquema = "{\"type\":\"object\",\"properties\":{\"accion\":{\"type\":\"string\"}}}";
+
+        contexto().run(arrancado -> arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Evalúa.", 16, esquema)));
+
+        assertThat(cuerpos).singleElement().asString()
+                .containsPattern("\"responseMimeType\"\s*:\s*\"application/json\"")
+                .contains("\"responseJsonSchema\"")
+                .contains("\"accion\"");
+    }
+
+    @Test
+    @DisplayName("Sin esquema, como en la planificación, la llamada no pide JSON ni envía esquema")
+    void generate_shouldNotSendSchema_forPlanning() {
+        respuesta = json(200, respuestaCon("OK"));
+
+        contexto().run(arrancado -> arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Planifica.", 16)));
+
+        assertThat(cuerpos).singleElement().asString().doesNotContain("responseMimeType")
+                .doesNotContain("responseJsonSchema");
+    }
+
+    @Test
     @DisplayName("Sin conteos de tokens y con la versión del modelo vacía, los tokens valen 0 y el modelo es el configurado")
     void generate_shouldUseZeroTokensAndConfiguredModel_whenProviderOmitsCounts() {
         respuesta = json(200, """
