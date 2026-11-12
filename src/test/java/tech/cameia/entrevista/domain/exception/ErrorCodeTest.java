@@ -30,7 +30,7 @@ class ErrorCodeTest {
             ErrorCode.MODE_NOT_ALLOWED, ErrorCode.TONE_REQUIRED, ErrorCode.TONE_INVALID_VALUE,
             ErrorCode.ANSWER_FORMAT_REQUIRED, ErrorCode.ANSWER_FORMAT_INVALID_VALUE,
             ErrorCode.SESSION_LANGUAGE_REQUIRED, ErrorCode.SESSION_LANGUAGE_INVALID_VALUE,
-            ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT);
+            ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT, ErrorCode.TURN_ID_REQUIRED, ErrorCode.AUDIO_REQUIRED);
 
     private static final Set<ErrorCode> MODEL_CLIENT = EnumSet.of(ErrorCode.LLM_UNAVAILABLE,
             ErrorCode.LLM_LIMIT_REACHED, ErrorCode.LLM_INVALID_OUTPUT);

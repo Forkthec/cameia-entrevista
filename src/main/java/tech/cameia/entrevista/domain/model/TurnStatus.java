@@ -40,7 +40,9 @@ public enum TurnStatus {
     }
 
     /**
-     * Indica si la máquina admite pasar de este estado a {@code target}.
+     * Indica si la máquina admite pasar de este estado a {@code target}. {@code PROCESSING → PENDING} y
+     * {@code RETRYING → PENDING} liberan el turno cuando la transcripción de un audio falla del todo (HU-5.13): la
+     * pregunta queda pendiente, sin respuesta, para grabar de nuevo o responder por texto.
      *
      * @param target estado al que se quiere pasar
      * @return {@code true} si la transición está permitida
@@ -48,8 +50,8 @@ public enum TurnStatus {
     public boolean canChangeTo(TurnStatus target) {
         return switch (this) {
             case PENDING -> target == PROCESSING;
-            case PROCESSING -> target == COMPLETED || target == RETRYING;
-            case RETRYING -> target == PROCESSING;
+            case PROCESSING -> target == COMPLETED || target == RETRYING || target == PENDING;
+            case RETRYING -> target == PROCESSING || target == PENDING;
             case COMPLETED -> false;
         };
     }

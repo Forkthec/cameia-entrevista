@@ -133,7 +133,16 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.PROFILE_SNAPSHOT_INVALID,
                     new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")),
             Map.entry(ErrorCode.DATABASE_UNAVAILABLE,
-                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")));
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")),
+            Map.entry(ErrorCode.TURN_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
+            Map.entry(ErrorCode.TURN_PROCESSING, new Definition(HttpStatus.CONFLICT, "Respuesta en proceso")),
+            Map.entry(ErrorCode.TURN_ALREADY_ANSWERED, new Definition(HttpStatus.CONFLICT, "Pregunta ya respondida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Transcripción no disponible")),
+            Map.entry(ErrorCode.TRANSCRIPTION_EMPTY,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Respuesta sin voz")),
+            Map.entry(ErrorCode.TRANSCRIPTION_TOO_LONG,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Respuesta demasiado larga")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {

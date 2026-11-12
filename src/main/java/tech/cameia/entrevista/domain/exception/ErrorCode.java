@@ -144,5 +144,29 @@ public enum ErrorCode {
     PLANNING_RETRIES_EXHAUSTED,
 
     /** La copia del perfil congelada en la sesión es demasiado grande, ilegible o no trae el rol de la sesión. */
-    PROFILE_SNAPSHOT_INVALID
+    PROFILE_SNAPSHOT_INVALID,
+
+    /** El turno no existe, no es de la sesión pedida o su identificador no es válido; no se distingue. */
+    TURN_NOT_FOUND,
+
+    /** Ya se está procesando una respuesta del mismo turno; el segundo envío se rechaza sin guardarlo. */
+    TURN_PROCESSING,
+
+    /** El turno ya tiene su respuesta definitiva. */
+    TURN_ALREADY_ANSWERED,
+
+    /** Falta el identificador del turno en el envío del audio. */
+    TURN_ID_REQUIRED,
+
+    /** Falta el audio de la respuesta o llegó vacío. */
+    AUDIO_REQUIRED,
+
+    /** No se pudo transcribir el audio: se agotaron los intentos o el fallo no admite reintento. */
+    TRANSCRIPTION_UNAVAILABLE,
+
+    /** La transcripción quedó vacía: no se detectó voz. */
+    TRANSCRIPTION_EMPTY,
+
+    /** La transcripción supera el largo que admite una respuesta. */
+    TRANSCRIPTION_TOO_LONG
 }

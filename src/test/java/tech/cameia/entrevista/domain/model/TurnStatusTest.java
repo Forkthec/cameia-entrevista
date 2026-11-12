@@ -17,23 +17,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 class TurnStatusTest {
 
     private static final Set<String> VALID = Set.of(
-            "PENDING>PROCESSING", "PROCESSING>COMPLETED", "PROCESSING>RETRYING", "RETRYING>PROCESSING");
+            "PENDING>PROCESSING", "PROCESSING>COMPLETED", "PROCESSING>RETRYING", "RETRYING>PROCESSING",
+            "PROCESSING>PENDING", "RETRYING>PENDING");
 
     @ParameterizedTest
     @CsvSource({
         "PENDING, PROCESSING",
         "PROCESSING, COMPLETED",
         "PROCESSING, RETRYING",
-        "RETRYING, PROCESSING"
+        "RETRYING, PROCESSING",
+        "PROCESSING, PENDING",
+        "RETRYING, PENDING"
     })
-    @DisplayName("Admite cada una de las cuatro transiciones del turno")
+    @DisplayName("Admite cada una de las seis transiciones del turno (dos liberan el turno, HU-5.13)")
     void transition_shouldBeAllowed_whenListed(TurnStatus from, TurnStatus to) {
         assertThat(from.canChangeTo(to)).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("notListed")
-    @DisplayName("Rechaza las 12 combinaciones que no están en la lista (incluye RETRYING a COMPLETED y PROCESSING a PENDING)")
+    @DisplayName("Rechaza las 10 combinaciones que no están en la lista (incluye RETRYING a COMPLETED y COMPLETED a PENDING)")
     void transition_shouldBeRejected_whenNotListed(TurnStatus from, TurnStatus to) {
         assertThat(from.canChangeTo(to)).isFalse();
     }
@@ -45,9 +48,9 @@ class TurnStatusTest {
     }
 
     @Test
-    @DisplayName("Las combinaciones rechazadas son 12 de las 16")
-    void notListed_shouldHave12Combinations() {
-        assertThat(notListed().count()).isEqualTo(12);
+    @DisplayName("Las combinaciones rechazadas son 10 de las 16")
+    void notListed_shouldHave10Combinations() {
+        assertThat(notListed().count()).isEqualTo(10);
     }
 
     @ParameterizedTest

@@ -105,6 +105,39 @@ class InterviewTurnTest {
         assertRejectedWithoutChange(TurnStatus.COMPLETED, turn -> turn.resumeProcessing(LATER_CLOCK));
     }
 
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.EnumSource(value = TurnStatus.class, names = {"PROCESSING", "RETRYING"})
+    @DisplayName("release devuelve a PENDING un turno que se procesaba o reintentaba (HU-5.13)")
+    void release_shouldMoveToPending_whenBusy(TurnStatus initial) {
+        InterviewTurn turn = inState(initial);
+
+        turn.release(LATER_CLOCK);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.PENDING);
+        assertThat(turn.updatedAt()).isEqualTo(LATER);
+    }
+
+    @Test
+    @DisplayName("release en un turno completado o pendiente lanza la excepción y no cambia nada")
+    void release_shouldThrow_whenCompletedOrPending() {
+        assertRejectedWithoutChange(TurnStatus.COMPLETED, turn -> turn.release(LATER_CLOCK));
+        assertRejectedWithoutChange(TurnStatus.PENDING, turn -> turn.release(LATER_CLOCK));
+    }
+
+    @Test
+    @DisplayName("isBusy solo es verdadero si se procesa o reintenta y la reserva no caducó")
+    void isBusy_shouldDependOnStatusAndAge() {
+        java.time.Duration maxAge = java.time.Duration.ofMinutes(3);
+        Instant soon = NOW.plusSeconds(60);
+        Instant late = NOW.plus(maxAge);
+
+        assertThat(inState(TurnStatus.PROCESSING).isBusy(soon, maxAge)).isTrue();
+        assertThat(inState(TurnStatus.RETRYING).isBusy(soon, maxAge)).isTrue();
+        assertThat(inState(TurnStatus.PROCESSING).isBusy(late, maxAge)).isFalse();
+        assertThat(inState(TurnStatus.PENDING).isBusy(soon, maxAge)).isFalse();
+        assertThat(inState(TurnStatus.COMPLETED).isBusy(soon, maxAge)).isFalse();
+    }
+
     private static void assertRejectedWithoutChange(TurnStatus initial, Consumer<InterviewTurn> action) {
         InterviewTurn turn = inState(initial);
 

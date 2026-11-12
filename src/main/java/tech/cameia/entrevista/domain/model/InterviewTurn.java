@@ -1,6 +1,7 @@
 package tech.cameia.entrevista.domain.model;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -89,6 +90,30 @@ public final class InterviewTurn {
      */
     public void resumeProcessing(Clock clock) {
         changeTo(TurnStatus.PROCESSING, clock);
+    }
+
+    /**
+     * Libera el turno sin respuesta: {@code PROCESSING → PENDING} o {@code RETRYING → PENDING}. Se usa cuando la
+     * transcripción del audio falló del todo (HU-5.13): la pregunta sigue pendiente para responderla otra vez.
+     *
+     * @param clock reloj que da la fecha
+     * @throws TurnTransitionNotAllowedException si el turno no se está procesando ni reintentando
+     */
+    public void release(Clock clock) {
+        changeTo(TurnStatus.PENDING, clock);
+    }
+
+    /**
+     * Indica si el turno está ocupado procesando una respuesta y la reserva sigue vigente. Una reserva más vieja
+     * que {@code maxAge} es de un proceso que murió sin liberarla.
+     *
+     * @param now instante actual
+     * @param maxAge tiempo máximo que puede durar el procesamiento de una respuesta
+     * @return {@code true} si está en {@code PROCESSING} o {@code RETRYING} desde hace menos de {@code maxAge}
+     */
+    public boolean isBusy(Instant now, Duration maxAge) {
+        return (status == TurnStatus.PROCESSING || status == TurnStatus.RETRYING)
+                && updatedAt.plus(maxAge).isAfter(now);
     }
 
     private void changeTo(TurnStatus target, Clock clock) {
