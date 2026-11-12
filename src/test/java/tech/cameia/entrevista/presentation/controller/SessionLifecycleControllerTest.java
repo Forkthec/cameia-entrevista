@@ -50,7 +50,8 @@ class SessionLifecycleControllerTest {
 
     private static SessionState inProgress() {
         return new SessionState(SESSION, SessionStatus.IN_PROGRESS, AnswerMode.AUDIO, 1,
-                new SessionState.PendingQuestion(TURN, 1, "Cuéntame quién eres"));
+                new SessionState.PendingQuestion(TURN, 1, "Cuéntame quién eres",
+                        tech.cameia.entrevista.domain.model.TurnStatus.PENDING, 0));
     }
 
     @Test
