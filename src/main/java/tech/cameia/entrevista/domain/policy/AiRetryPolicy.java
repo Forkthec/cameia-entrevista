@@ -1,5 +1,6 @@
 package tech.cameia.entrevista.domain.policy;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +52,18 @@ public final class AiRetryPolicy {
 
     private static boolean limited(List<Attempt> done, AiProvider provider) {
         return done.stream().anyMatch(attempt -> attempt.provider() == provider && attempt.limitReached());
+    }
+
+    /**
+     * Tiempo máximo que puede durar un ciclo completo: los tres intentos, cada uno hasta su tope, más las dos
+     * esperas entre ellos.
+     *
+     * @param attemptTimeout tope de un intento
+     * @param firstWait espera entre el primer y el segundo intento
+     * @param secondWait espera entre el segundo y el tercer intento
+     * @return la duración total del peor ciclo
+     */
+    public static Duration cycleBudget(Duration attemptTimeout, Duration firstWait, Duration secondWait) {
+        return attemptTimeout.multipliedBy(MAX_ATTEMPTS).plus(firstWait).plus(secondWait);
     }
 }

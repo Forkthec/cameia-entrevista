@@ -285,7 +285,7 @@ class SessionLifecycleEndToEndTest {
         model.enqueue(() -> plan(VALID_PLAN));
         start(UID_A, previous);
         String id = configure(UID_A, PROFILE_A);
-        model.enqueue(() -> {
+        model.enqueueCycle(() -> {
             throw new LlmUnavailableException(new RuntimeException("caída"));
         });
 
@@ -295,7 +295,7 @@ class SessionLifecycleEndToEndTest {
         assertThat(code(response)).isEqualTo("LLM_UNAVAILABLE");
         assertThat(statusOf(id)).isEqualTo("CONFIGURADA");
         assertThat(statusOf(previous)).isEqualTo("EN_CURSO");
-        assertThat(executions(id, "FALLIDA")).isEqualTo(1);
+        assertThat(executions(id, "FALLIDA")).isEqualTo(3);
         assertThat(count("SELECT count(*) FROM microentrevista.pregunta WHERE sesion_id = ?::uuid", id)).isZero();
     }
 
@@ -303,11 +303,12 @@ class SessionLifecycleEndToEndTest {
     @DisplayName("El límite de uso del proveedor y una salida inválida responden 503 con su propio código")
     void start_shouldMapLimitAndInvalidOutput() {
         String id = configure(UID_A, PROFILE_A);
+        // El límite de uso corta el ciclo en el primer intento.
         model.enqueue(() -> {
             throw new LlmLimitReachedException(new RuntimeException("429"));
         });
         ResponseEntity<String> limit = start(UID_A, id);
-        model.enqueue(() -> {
+        model.enqueueCycle(() -> {
             throw new LlmInvalidOutputException("estructura");
         });
         ResponseEntity<String> invalid = start(UID_A, id);
@@ -326,7 +327,7 @@ class SessionLifecycleEndToEndTest {
         for (String bad : List.of("no es json", "{\"idioma\":\"es-CO\",\"preguntas\":[]}",
                 VALID_PLAN.replace("\"tipo\":\"CONDUCTUAL\"", "\"tipo\":\"TECNICA\""),
                 VALID_PLAN.replace("es-CO", "en"))) {
-            model.enqueue(() -> plan(bad));
+            model.enqueueCycle(() -> plan(bad));
             jdbc.update("UPDATE microentrevista.sesion SET reintentos_planificacion = 0 WHERE id = ?::uuid", id);
             jdbc.update("DELETE FROM microentrevista.ejecucion_ia");
 
@@ -343,7 +344,7 @@ class SessionLifecycleEndToEndTest {
     void start_shouldCountAttemptsAndExhaust() {
         String id = configure(UID_A, PROFILE_A);
         for (int i = 0; i < 3; i++) {
-            model.enqueue(() -> {
+            model.enqueueCycle(() -> {
                 throw new LlmUnavailableException(new RuntimeException("caída"));
             });
         }
@@ -358,10 +359,10 @@ class SessionLifecycleEndToEndTest {
         assertThat(code(second)).isEqualTo("LLM_UNAVAILABLE");
         assertThat(code(third)).isEqualTo("PLANNING_RETRIES_EXHAUSTED");
         assertThat(code(fourth)).isEqualTo("PLANNING_RETRIES_EXHAUSTED");
-        assertThat(callsBeforeFourth).isEqualTo(3);
-        assertThat(model.calls()).isEqualTo(3);
+        assertThat(callsBeforeFourth).isEqualTo(9);
+        assertThat(model.calls()).isEqualTo(9);
         assertThat(retriesOf(id)).isEqualTo(2);
-        assertThat(executions(id, "FALLIDA")).isEqualTo(3);
+        assertThat(executions(id, "FALLIDA")).isEqualTo(9);
         assertThat(statusOf(id)).isEqualTo("CONFIGURADA");
     }
 
@@ -436,7 +437,7 @@ class SessionLifecycleEndToEndTest {
     @DisplayName("Un reintento exitoso tras un fallo inicia la entrevista")
     void start_shouldSucceedOnRetry() {
         String id = configure(UID_A, PROFILE_A);
-        model.enqueue(() -> {
+        model.enqueueCycle(() -> {
             throw new LlmUnavailableException(new RuntimeException("caída"));
         });
         model.enqueue(() -> plan(VALID_PLAN));
@@ -446,7 +447,7 @@ class SessionLifecycleEndToEndTest {
 
         assertThat(retry.getStatusCode().value()).isEqualTo(200);
         assertThat(retriesOf(id)).isEqualTo(1);
-        assertThat(executions(id, "FALLIDA")).isEqualTo(1);
+        assertThat(executions(id, "FALLIDA")).isEqualTo(3);
         assertThat(executions(id, "EXITOSA")).isEqualTo(1);
     }
 
@@ -804,6 +805,13 @@ class SessionLifecycleEndToEndTest {
 
         synchronized void enqueue(Supplier<LanguageModelResponse> next) {
             script.addLast(next);
+        }
+
+        /** Programa un ciclo completo que falla: la misma respuesta para cada uno de los tres intentos. */
+        synchronized void enqueueCycle(Supplier<LanguageModelResponse> next) {
+            for (int attempt = 0; attempt < 3; attempt++) {
+                script.addLast(next);
+            }
         }
 
         synchronized void reset() {

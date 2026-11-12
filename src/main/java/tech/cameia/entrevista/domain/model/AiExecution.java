@@ -99,9 +99,22 @@ public record AiExecution(UUID id, UUID sessionId, AiOperation operation, UUID t
      */
     public static AiExecution evaluationStarted(UUID sessionId, UUID turnId, String model, String promptVersion,
             String provider, Clock clock) {
-        return new AiExecution(UUID.randomUUID(), sessionId, AiOperation.EVALUATE, turnId, 1, UUID.randomUUID(),
-                AiExecutionStatus.IN_PROGRESS, model, promptVersion, null, provider, null, null, clock.instant(),
-                null);
+        return evaluationStarted(new EvaluationAttempt(sessionId, turnId, 1),
+                new ExecutionSource(model, promptVersion, provider), clock);
+    }
+
+    /**
+     * Abre la marca de un intento de evaluación, el primero o uno posterior del mismo ciclo.
+     *
+     * @param attempt sesión, turno y número de intento
+     * @param source modelo, versión del prompt y proveedor del intento
+     * @param clock reloj que da la fecha de inicio
+     * @return la ejecución en curso, con identificador y clave nuevos
+     */
+    public static AiExecution evaluationStarted(EvaluationAttempt attempt, ExecutionSource source, Clock clock) {
+        return new AiExecution(UUID.randomUUID(), attempt.sessionId(), AiOperation.EVALUATE, attempt.turnId(),
+                attempt.number(), UUID.randomUUID(), AiExecutionStatus.IN_PROGRESS, source.model(),
+                source.promptVersion(), null, source.provider(), null, null, clock.instant(), null);
     }
 
     /**

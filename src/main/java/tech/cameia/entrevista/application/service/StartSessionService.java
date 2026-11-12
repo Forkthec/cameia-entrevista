@@ -16,10 +16,11 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import tech.cameia.entrevista.application.command.SessionCommand;
+import tech.cameia.entrevista.application.service.AiCallRunner.AiCall;
+import tech.cameia.entrevista.application.service.AiCallRunner.AiSuccess;
 import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
-import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
@@ -41,7 +42,6 @@ import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
-import tech.cameia.entrevista.domain.port.LanguageModelPort;
 
 /**
  * Caso de uso: iniciar la entrevista. Pide a la IA las cinco preguntas, las valida y, solo si todo está bien, las
@@ -59,7 +59,8 @@ import tech.cameia.entrevista.domain.port.LanguageModelPort;
  *       fallida en una transacción propia y la entrevista anterior no cambia.</li>
  * </ol>
  *
- * <p>Cada {@code start} hace como máximo una llamada a la IA. Los registros llevan códigos e identificadores,
+ * <p>La fase de llamada es un ciclo de hasta tres intentos ({@link AiCallRunner}): cada intento tiene su propia
+ * marca de ejecución y el cambio de intento se guarda en una sola transacción corta. Los registros llevan códigos e identificadores,
  * nunca texto del perfil, la oferta ni las preguntas.</p>
  */
 @Service
@@ -67,13 +68,11 @@ public class StartSessionService {
 
     private static final Logger log = LoggerFactory.getLogger(StartSessionService.class);
 
-    private static final String PROVIDER = "gemini";
-
     private final InterviewSessionRepository sessions;
     private final AiExecutionRepository executions;
     private final InterviewQuestionRepository questions;
     private final InterviewTurnRepository turns;
-    private final LanguageModelPort model;
+    private final AiCallRunner runner;
     private final PlanningPromptBuilder prompts;
     private final PlanOutputReader reader;
     private final PlanValidator validator;
@@ -83,19 +82,21 @@ public class StartSessionService {
     private final TransactionTemplate transaction;
     private final Clock clock;
     private final String modelName;
+    private final String fallbackModelName;
 
     @SuppressWarnings("java:S107")
     StartSessionService(InterviewSessionRepository sessions, AiExecutionRepository executions,
-            InterviewQuestionRepository questions, InterviewTurnRepository turns, LanguageModelPort model,
+            InterviewQuestionRepository questions, InterviewTurnRepository turns, AiCallRunner runner,
             PlanningPromptBuilder prompts, PlanOutputReader reader, PlanValidator validator,
             PlanningRetryPolicy retryPolicy, GetSessionStateService stateService, TransactionTemplate transaction,
             Clock clock, @Value("${cameia.llm.model}") String modelName,
+            @Value("${cameia.llm.fallback.model}") String fallbackModelName,
             @Value("${cameia.llm.timeout}") Duration llmTimeout) {
         this.sessions = sessions;
         this.executions = executions;
         this.questions = questions;
         this.turns = turns;
-        this.model = model;
+        this.runner = runner;
         this.prompts = prompts;
         this.reader = reader;
         this.validator = validator;
@@ -105,6 +106,7 @@ public class StartSessionService {
         this.transaction = transaction;
         this.clock = clock;
         this.modelName = modelName;
+        this.fallbackModelName = fallbackModelName;
     }
 
     /**
@@ -140,21 +142,25 @@ public class StartSessionService {
     }
 
     private SessionState plan(InterviewSession session, Reservation reservation, PlanningPrompt prompt) {
-        AiExecution mark = reservation.mark();
-        List<PlannedQuestion> plan;
-        LanguageModelResponse response;
+        AiSuccess<List<PlannedQuestion>> success;
         try {
-            response = model.generate(prompt.prompt(), AiProvider.PRIMARY);
-            plan = validator.validate(session.configuration().language(), reader.read(response.text()));
-        } catch (BusinessException failure) {
-            throw failPlanning(session, mark, reservation, failure.getErrorCode(), failure);
-        } catch (RuntimeException unexpected) {
-            // Una falla de la llamada que el adaptador no clasificó nunca debe terminar en el error genérico.
-            throw failPlanning(session, mark, reservation, ErrorCode.LLM_UNAVAILABLE,
-                    new LlmUnavailableException(unexpected));
+            // El esquema de salida solo viaja al respaldo: Gemini ya devuelve el plan con la forma pedida.
+            success = runner.run(new AiCall<>(prompt.prompt(),
+                    response -> validator.validate(session.configuration().language(), reader.read(response.text())),
+                    reservation.mark(), switchPlanning(session.id(), prompt.version()),
+                    provider -> provider == AiProvider.FALLBACK ? prompt.fallbackSchema() : null));
+        } catch (AiCycleFailedException exhausted) {
+            if (exhausted.cause() instanceof SessionConflictException conflict) {
+                // La marca ya no existe (la persona reconfiguró o canceló): no hay nada que cerrar.
+                throw conflict;
+            }
+            // Los fallos no LLM_* ya vienen envueltos como LLM_UNAVAILABLE: nunca terminan en el error genérico.
+            throw failPlanning(session, exhausted.lastMark(), reservation, exhausted.cause().getErrorCode(),
+                    exhausted.cause());
         }
+        AiExecution mark = success.mark();
         try {
-            transaction.executeWithoutResult(status -> finish(session, mark, response, plan));
+            transaction.executeWithoutResult(status -> finish(session, mark, success.response(), success.value()));
         } catch (RuntimeException failure) {
             throw failSaving(session, mark, reservation, failure);
         }
@@ -162,6 +168,30 @@ public class StartSessionService {
                 mark.attempt());
         return stateService.stateOf(GetSessionStateService.findOwned(sessions,
                 new SessionCommand(session.id(), session.owner())));
+    }
+
+    // Cambia de intento en una sola transacción: cierra la marca fallida y abre la siguiente, sin hueco entre ambas.
+    private AttemptSwitch switchPlanning(UUID sessionId, String promptVersion) {
+        return (failed, attempt, provider) -> {
+            try {
+                return transaction.execute(status -> {
+                    if (!executions.failIfInProgress(failed)) {
+                        // La marca ya no existe: la persona reconfiguró o canceló mientras se reintentaba.
+                        throw new SessionConflictException();
+                    }
+                    return executions.save(AiExecution.planningStarted(sessionId, attempt, modelOf(provider),
+                            promptVersion, provider.code(), clock));
+                });
+            } catch (DataAccessException | TransactionException failure) {
+                log.error("No se pudo cambiar de intento [code={}, sessionId={}, causa={}]",
+                        ErrorCode.DATABASE_UNAVAILABLE, sessionId, failure.getClass().getSimpleName());
+                throw new DatabaseUnavailableException(failure);
+            }
+        };
+    }
+
+    private String modelOf(AiProvider provider) {
+        return provider == AiProvider.FALLBACK ? fallbackModelName : modelName;
     }
 
     // ---- Fase 1: reserva ----
@@ -183,8 +213,8 @@ public class StartSessionService {
             session.registerPlanningRetry(clock);
             sessions.save(session);
         }
-        AiExecution mark = executions.save(AiExecution.planningStarted(sessionId, retryPolicy.attemptNumber(retries),
-                modelName, promptVersion, PROVIDER, clock));
+        AiExecution mark = executions.save(AiExecution.planningStarted(sessionId, 1,
+                modelName, promptVersion, AiProvider.PRIMARY.code(), clock));
         return new Reservation(mark, retries);
     }
 

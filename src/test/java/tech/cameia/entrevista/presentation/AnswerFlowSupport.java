@@ -284,6 +284,13 @@ abstract class AnswerFlowSupport {
             script.addLast(next);
         }
 
+        /** Programa un ciclo completo que falla: la misma respuesta para cada uno de los tres intentos. */
+        synchronized void enqueueCycle(Supplier<LanguageModelResponse> next) {
+            for (int attempt = 0; attempt < 3; attempt++) {
+                script.addLast(next);
+            }
+        }
+
         synchronized void reset() {
             script.clear();
             calls.set(0);

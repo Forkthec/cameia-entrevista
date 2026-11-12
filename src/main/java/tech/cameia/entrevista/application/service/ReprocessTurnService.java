@@ -21,11 +21,13 @@ import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
 import tech.cameia.entrevista.domain.exception.TurnNotRetryableException;
 import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
 import tech.cameia.entrevista.domain.model.TurnStatus;
+import tech.cameia.entrevista.domain.policy.AiRetryPolicy;
 import tech.cameia.entrevista.domain.policy.EvaluationStaleness;
 import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
@@ -46,7 +48,7 @@ public class ReprocessTurnService {
 
     private static final Logger log = LoggerFactory.getLogger(ReprocessTurnService.class);
 
-    private static final String PROVIDER = "gemini";
+    private static final String PROVIDER = AiProvider.PRIMARY.code();
 
     private final InterviewSessionRepository sessions;
     private final InterviewTurnRepository turns;
@@ -63,7 +65,10 @@ public class ReprocessTurnService {
     ReprocessTurnService(InterviewSessionRepository sessions, InterviewTurnRepository turns,
             InterviewQuestionRepository questions, AnswerAttemptRepository answers, AiExecutionRepository executions,
             TurnEvaluator evaluator, TransactionTemplate transaction, Clock clock,
-            @Value("${cameia.llm.model}") String modelName, @Value("${cameia.llm.timeout}") Duration llmTimeout) {
+            @Value("${cameia.llm.model}") String modelName,
+            @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait) {
         this.sessions = sessions;
         this.turns = turns;
         this.questions = questions;
@@ -73,7 +78,7 @@ public class ReprocessTurnService {
         this.transaction = transaction;
         this.clock = clock;
         this.modelName = modelName;
-        this.staleness = new EvaluationStaleness(llmTimeout);
+        this.staleness = new EvaluationStaleness(AiRetryPolicy.cycleBudget(evaluationTimeout, firstWait, secondWait));
     }
 
     /**

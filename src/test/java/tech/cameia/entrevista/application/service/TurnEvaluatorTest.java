@@ -6,11 +6,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -26,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -42,6 +48,7 @@ import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
 import tech.cameia.entrevista.domain.exception.SessionConsolidationFailedException;
 import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.AnswerMode;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
@@ -116,12 +123,14 @@ class TurnEvaluatorTest {
         when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
         when(sessions.save(any())).thenAnswer(call -> call.getArgument(0));
         when(questions.findBySession(session.id())).thenReturn(planned);
+        when(executions.failIfInProgress(any())).thenReturn(true);
         when(executions.save(any())).thenAnswer(call -> call.getArgument(0));
         when(turns.save(any())).thenAnswer(call -> call.getArgument(0));
         when(feedbacks.save(any())).thenAnswer(call -> call.getArgument(0));
-        evaluator = new TurnEvaluator(model, new EvaluationPromptBuilder(),
+        evaluator = new TurnEvaluator(new AiCallRunner(model, duration -> { }, Duration.ZERO, Duration.ZERO, clock),
+                new EvaluationPromptBuilder(),
                 new EvaluationOutputReader(JsonMapper.builder().build()), turns, questions, sessions, executions,
-                feedbacks, consolidation, transaction, clock);
+                feedbacks, consolidation, transaction, clock, "modelo", "modelo-de-respaldo");
     }
 
     private EvaluationJob job(int position) {
@@ -139,6 +148,98 @@ class TurnEvaluatorTest {
     }
 
     @Test
+    @DisplayName("Una evaluación que sale bien al primer intento conserva la marca del intento 1")
+    void evaluate_shouldKeepFirstAttemptNumberOne() {
+        modelReturns(VALID);
+        EvaluationJob job = job(1);
+
+        evaluator.evaluate(job);
+
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions).save(saved.capture());
+        assertThat(saved.getValue().attempt()).isEqualTo(1);
+        assertThat(saved.getValue().id()).isEqualTo(job.mark().id());
+        verify(executions, never()).failIfInProgress(any());
+    }
+
+    @Test
+    @DisplayName("Cambiar de intento cierra la marca fallida y abre la siguiente en una sola transacción")
+    void evaluate_shouldSwitchAttemptInOneTransaction() {
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null))
+                .thenReturn(new LanguageModelResponse(VALID, 10, 5, "modelo"));
+        EvaluationJob job = job(1);
+
+        evaluator.evaluate(job);
+
+        // Una transacción para cambiar de intento y otra para guardar el resultado.
+        verify(transaction, times(2)).execute(any());
+        InOrder order = inOrder(executions);
+        order.verify(executions).failIfInProgress(any());
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        order.verify(executions, atLeastOnce()).save(saved.capture());
+        assertThat(saved.getAllValues().get(0).attempt()).isEqualTo(2);
+        assertThat(saved.getAllValues().get(0).turnId()).isEqualTo(job.turn().id());
+    }
+
+    @Test
+    @DisplayName("Si la marca anterior ya no está en curso al cambiar de intento, el turno no se evalúa más")
+    void evaluate_shouldStop_whenMarkVanishesBetweenAttempts() {
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any())).thenReturn(false);
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+
+        verify(model, times(1)).generate(any(), any());
+        verify(feedbacks, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Si la base falla al cambiar de intento, responde base no disponible")
+    void evaluate_shouldAnswerDatabaseUnavailable_whenSwitchingAttemptFails() {
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any()))
+                .thenThrow(new org.springframework.dao.DataAccessResourceFailureException("sin conexión"));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.DatabaseUnavailableException.class);
+
+        verify(model, times(1)).generate(any(), any());
+    }
+
+    @Test
+    @DisplayName("Si la marca ya la cerró otra petición al cambiar de intento, no se toca el turno de esa otra petición")
+    void evaluate_shouldLeaveTurnAlone_whenMarkClosedByAnotherRequest() {
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any())).thenReturn(false);
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.PROCESSING);
+        verify(turns, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Si la base falla solo al cambiar de intento, la evaluación se cierra y el turno queda en reintento")
+    void evaluate_shouldCloseEvaluation_whenOnlySwitchingAttemptFails() {
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any()))
+                .thenThrow(new org.springframework.dao.DataAccessResourceFailureException("sin conexión"))
+                .thenReturn(true);
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.DatabaseUnavailableException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        assertThat(failedExecution().errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
+    }
+
+    @Test
     @DisplayName("Si la sesión cambia justo al guardar el resultado, la ejecución se cierra como fallida")
     void evaluate_shouldCloseExecution_whenSessionConflictsWhileSaving() {
         modelReturns(VALID);
@@ -153,9 +254,57 @@ class TurnEvaluatorTest {
         assertThat(failedExecution().errorCode()).isEqualTo(ErrorCode.SESSION_CONFLICT.name());
     }
 
+    @Test
+    @DisplayName("Si ni siquiera se puede cerrar la evaluación fallida, igual sube la causa original")
+    void evaluate_shouldRethrowOriginalCause_whenClosingTheFailedMarkFails() {
+        when(model.generate(any(), any())).thenThrow(new LlmLimitReachedException(null));
+        when(executions.failIfInProgress(any()))
+                .thenThrow(new org.springframework.dao.DataAccessResourceFailureException("sin conexión"));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmLimitReachedException.class);
+
+        verify(model, times(1)).generate(any(), any());
+    }
+
+    @Test
+    @DisplayName("Si los tres intentos fallan, sube la causa del último y su marca queda fallida con ese código")
+    void evaluate_shouldFailWithLastCause_whenCycleFails() {
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null))
+                .thenThrow(new LlmUnavailableException(null))
+                .thenReturn(new LanguageModelResponse("no es json", 10, 5, "modelo"));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmInvalidOutputException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        assertThat(failedExecution().attempt()).isEqualTo(3);
+        assertThat(failedExecution().errorCode()).isEqualTo("LLM_INVALID_OUTPUT");
+        verify(feedbacks, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("El tercer intento con respaldo guarda su proveedor y modelo")
+    void evaluate_shouldStoreFallbackProviderAndModel() {
+        when(model.isAvailable(AiProvider.FALLBACK)).thenReturn(true);
+        when(model.generate(any(), eq(AiProvider.PRIMARY))).thenThrow(new LlmUnavailableException(null));
+        when(model.generate(any(), eq(AiProvider.FALLBACK)))
+                .thenReturn(new LanguageModelResponse(VALID, 10, 5, "modelo"));
+        EvaluationJob job = job(1);
+
+        evaluator.evaluate(job);
+
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions, atLeastOnce()).save(saved.capture());
+        AiExecution third = saved.getAllValues().get(1);
+        assertThat(third.attempt()).isEqualTo(3);
+        assertThat(third.provider()).isEqualTo("groq");
+        assertThat(third.model()).isEqualTo("modelo-de-respaldo");
+    }
+
     private AiExecution failedExecution() {
         ArgumentCaptor<AiExecution> captor = ArgumentCaptor.forClass(AiExecution.class);
-        verify(executions).failIfInProgress(captor.capture());
+        verify(executions, atLeastOnce()).failIfInProgress(captor.capture());
         return captor.getValue();
     }
 

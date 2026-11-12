@@ -31,6 +31,7 @@ import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedExcept
 import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
 import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.IdempotencyKey;
@@ -40,6 +41,7 @@ import tech.cameia.entrevista.domain.model.InterviewTurn;
 import tech.cameia.entrevista.domain.model.TurnStatus;
 import tech.cameia.entrevista.domain.model.ValidatedAnswerRequest;
 import tech.cameia.entrevista.domain.policy.AnswerRequestPolicy;
+import tech.cameia.entrevista.domain.policy.AiRetryPolicy;
 import tech.cameia.entrevista.domain.policy.EvaluationStaleness;
 import tech.cameia.entrevista.domain.policy.PlanningClaim;
 import tech.cameia.entrevista.domain.port.AiExecutionRepository;
@@ -66,7 +68,7 @@ public class RegisterAnswerService {
     private static final Logger log = LoggerFactory.getLogger(RegisterAnswerService.class);
 
     private static final String OPERATION = "RESPONDER";
-    private static final String PROVIDER = "gemini";
+    private static final String PROVIDER = AiProvider.PRIMARY.code();
     private static final int IN_PROGRESS_STATUS = 202;
     private static final int OK_STATUS = 200;
     private static final int LLM_FAILED_STATUS = 503;
@@ -89,7 +91,7 @@ public class RegisterAnswerService {
     private final TransactionTemplate transaction;
     private final Clock clock;
     private final String modelName;
-    private final Duration llmTimeout;
+    private final Duration cycleBudget;
     private final EvaluationStaleness staleness;
 
     @SuppressWarnings("java:S107")
@@ -97,7 +99,9 @@ public class RegisterAnswerService {
             InterviewQuestionRepository questions, AnswerAttemptRepository answers, AiExecutionRepository executions,
             IdempotencyKeyRepository keys, TurnEvaluator evaluator, JsonMapper json, Waiter waiter,
             TransactionTemplate transaction, Clock clock, @Value("${cameia.llm.model}") String modelName,
-            @Value("${cameia.llm.timeout}") Duration llmTimeout) {
+            @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait) {
         this.sessions = sessions;
         this.turns = turns;
         this.questions = questions;
@@ -110,8 +114,8 @@ public class RegisterAnswerService {
         this.transaction = transaction;
         this.clock = clock;
         this.modelName = modelName;
-        this.llmTimeout = llmTimeout;
-        this.staleness = new EvaluationStaleness(llmTimeout);
+        this.cycleBudget = AiRetryPolicy.cycleBudget(evaluationTimeout, firstWait, secondWait);
+        this.staleness = new EvaluationStaleness(cycleBudget);
     }
 
     /**
@@ -262,7 +266,7 @@ public class RegisterAnswerService {
 
     // Sin transacción abierta: la primera petición sigue evaluando y esta solo mira su resultado.
     private AnswerResult awaitResult(IdempotencyKey saved, ValidatedAnswerRequest request, FirebaseUid owner) {
-        Instant deadline = saved.createdAt().plus(llmTimeout).plus(PlanningClaim.MARGIN);
+        Instant deadline = saved.createdAt().plus(cycleBudget).plus(PlanningClaim.MARGIN);
         while (true) {
             IdempotencyKey current = keys.find(owner, OPERATION, request.idempotencyKey()).orElse(saved);
             if (current.responseStatus() != IN_PROGRESS_STATUS) {

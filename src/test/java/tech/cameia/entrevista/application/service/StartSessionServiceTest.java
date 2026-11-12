@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -20,8 +21,10 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.support.TransactionCallback;
@@ -32,16 +35,19 @@ import tools.jackson.databind.json.JsonMapper;
 import tech.cameia.entrevista.application.command.SessionCommand;
 import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
+import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.model.AiExecution;
 import tech.cameia.entrevista.domain.model.AiExecutionStatus;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.AnswerMode;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.InterviewSession;
+import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.model.Modality;
 import tech.cameia.entrevista.domain.model.SessionConfiguration;
@@ -96,11 +102,12 @@ class StartSessionServiceTest {
         when(sessions.save(any())).thenAnswer(call -> call.getArgument(0));
         GetSessionStateService state = new GetSessionStateService(sessions, questions, turns,
                 mock(tech.cameia.entrevista.domain.port.AnswerAttemptRepository.class), executions, clock,
-                Duration.ofMillis(20000));
-        service = new StartSessionService(sessions, executions, questions, turns, model,
+                Duration.ofMillis(20000), Duration.ZERO, Duration.ZERO);
+        service = new StartSessionService(sessions, executions, questions, turns,
+                new AiCallRunner(model, duration -> { }, Duration.ZERO, Duration.ZERO, clock),
                 new PlanningPromptBuilder(JsonMapper.builder().build()), new PlanOutputReader(JsonMapper.builder().build()),
                 new PlanValidator(), new PlanningRetryPolicy(), state, transaction, clock, "modelo-de-prueba",
-                Duration.ofMillis(20000));
+                "modelo-de-respaldo", Duration.ofMillis(20000));
     }
 
     private SessionCommand command() {
@@ -189,6 +196,20 @@ class StartSessionServiceTest {
     }
 
     @Test
+    @DisplayName("Un error de negocio distinto de conflicto al guardar el plan cierra la marca con su código y sube igual")
+    void start_shouldKeepBusinessCodeAndCloseMark_whenSavingFailsWithOtherBusinessError() {
+        givenValidModelAnswer();
+        doThrow(new tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException())
+                .when(questions).saveAll(any());
+
+        assertThatThrownBy(() -> service.start(command()))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException.class);
+
+        assertThat(lastExecution().errorCode())
+                .isEqualTo(ErrorCode.SESSION_TRANSITION_NOT_ALLOWED.name());
+    }
+
+    @Test
     void start_shouldStillRethrowOriginalFailure_whenClosingTheMarkFails() {
         givenValidModelAnswer();
         doThrow(new IllegalStateException("defecto")).when(questions).saveAll(any());
@@ -237,6 +258,122 @@ class StartSessionServiceTest {
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(SessionConflictException.class);
 
         verify(model, never()).generate(any(), any());
+    }
+
+    @Test
+    @DisplayName("La primera marca de planificación abre el intento 1 con el proveedor y el modelo principales")
+    void start_shouldOpenFirstAttemptWithNumberOne() {
+        givenValidModelAnswer();
+
+        service.start(command());
+
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions, org.mockito.Mockito.atLeastOnce()).save(saved.capture());
+        AiExecution first = saved.getAllValues().get(0);
+        assertThat(first.attempt()).isEqualTo(1);
+        assertThat(first.provider()).isEqualTo("gemini");
+        assertThat(first.model()).isEqualTo("modelo-de-prueba");
+    }
+
+    @Test
+    @DisplayName("Cambiar de intento cierra la marca fallida y abre la siguiente en una sola transacción")
+    void start_shouldSwitchAttemptInOneTransaction() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null))
+                .thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
+
+        service.start(command());
+
+        // Una transacción para reservar y una sola para cambiar de intento.
+        verify(transaction, org.mockito.Mockito.times(2)).execute(any());
+        InOrder order = inOrder(executions);
+        order.verify(executions).save(any());
+        order.verify(executions).failIfInProgress(any());
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        order.verify(executions, org.mockito.Mockito.atLeastOnce()).save(saved.capture());
+        assertThat(saved.getAllValues().get(0).attempt()).isEqualTo(2);
+        assertThat(saved.getAllValues().get(0).status()).isEqualTo(AiExecutionStatus.IN_PROGRESS);
+    }
+
+    @Test
+    @DisplayName("Si los tres intentos fallan, sube la causa del último y su marca queda fallida con ese código")
+    void start_shouldFailWithLastCause_whenCycleFails() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null))
+                .thenThrow(new LlmUnavailableException(null))
+                .thenReturn(new LanguageModelResponse("no es json", 10, 5, "m"));
+
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(LlmInvalidOutputException.class);
+
+        assertThat(lastExecution().attempt()).isEqualTo(3);
+        assertThat(lastExecution().errorCode()).isEqualTo("LLM_INVALID_OUTPUT");
+        verify(questions, never()).saveAll(any());
+    }
+
+    @Test
+    @DisplayName("El tercer intento con respaldo guarda su proveedor y modelo, y solo él lleva el esquema de salida")
+    void start_shouldStoreFallbackProviderAndModel() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(model.isAvailable(AiProvider.FALLBACK)).thenReturn(true);
+        when(model.generate(any(), org.mockito.ArgumentMatchers.eq(AiProvider.PRIMARY)))
+                .thenThrow(new LlmUnavailableException(null));
+        when(model.generate(any(), org.mockito.ArgumentMatchers.eq(AiProvider.FALLBACK)))
+                .thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
+
+        service.start(command());
+
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions, org.mockito.Mockito.atLeastOnce()).save(saved.capture());
+        AiExecution third = saved.getAllValues().get(2);
+        assertThat(third.attempt()).isEqualTo(3);
+        assertThat(third.provider()).isEqualTo("groq");
+        assertThat(third.model()).isEqualTo("modelo-de-respaldo");
+        ArgumentCaptor<LanguageModelPrompt> prompts = ArgumentCaptor.forClass(LanguageModelPrompt.class);
+        verify(model, org.mockito.Mockito.times(3)).generate(prompts.capture(), any());
+        assertThat(prompts.getAllValues().get(0).jsonSchema()).isNull();
+        assertThat(prompts.getAllValues().get(1).jsonSchema()).isNull();
+        assertThat(prompts.getAllValues().get(2).jsonSchema()).contains("\"preguntas\"");
+    }
+
+    @Test
+    @DisplayName("Si la marca anterior ya no está en curso al cambiar de intento, responde conflicto y no sigue")
+    void start_shouldReturnConflict_whenMarkVanishesBetweenAttempts() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any())).thenReturn(false);
+
+        assertThatThrownBy(() -> service.start(command()))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+
+        verify(model, org.mockito.Mockito.times(1)).generate(any(), any());
+        verify(questions, never()).saveAll(any());
+    }
+
+    @Test
+    @DisplayName("Si la base falla al cambiar de intento, responde base no disponible y no llama otra vez a la IA")
+    void start_shouldAnswerDatabaseUnavailable_whenSwitchingAttemptFails() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any()))
+                .thenThrow(new org.springframework.dao.DataAccessResourceFailureException("sin conexión"));
+
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(DatabaseUnavailableException.class);
+
+        verify(model, org.mockito.Mockito.times(1)).generate(any(), any());
+    }
+
+    @Test
+    @DisplayName("Si la base falla solo al cambiar de intento, la marca se cierra como fallida y no queda en curso")
+    void start_shouldCloseMark_whenOnlySwitchingAttemptFails() {
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
+        when(executions.failIfInProgress(any()))
+                .thenThrow(new org.springframework.dao.DataAccessResourceFailureException("sin conexión"))
+                .thenReturn(true);
+
+        assertThatThrownBy(() -> service.start(command())).isInstanceOf(DatabaseUnavailableException.class);
+
+        assertThat(lastExecution().errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
     }
 
     private void givenValidModelAnswer() {

@@ -49,7 +49,7 @@ class GetSessionStateServiceTest {
     private final AnswerAttemptRepository answers = mock(AnswerAttemptRepository.class);
     private final AiExecutionRepository executions = mock(AiExecutionRepository.class);
     private final GetSessionStateService service = new GetSessionStateService(sessions, questions, turns, answers,
-            executions, CLOCK, Duration.ofSeconds(20));
+            executions, CLOCK, Duration.ofSeconds(20), Duration.ZERO, Duration.ZERO);
 
     private InterviewSession inProgress() {
         InterviewSession session = InterviewSession.configure(UUID.randomUUID(), OWNER, new SessionConfiguration(
@@ -169,7 +169,7 @@ class GetSessionStateServiceTest {
     void state_shouldShowRetrying_whenProcessingStale() {
         InterviewSession session = inProgress();
         InterviewTurn turn = openTurn(session, questionOne(session), TurnStatus.PROCESSING, 0);
-        Clock old = Clock.fixed(CLOCK.instant().minusSeconds(36), ZoneOffset.UTC);
+        Clock old = Clock.fixed(CLOCK.instant().minusSeconds(76), ZoneOffset.UTC);
         when(executions.findEvaluationInProgress(turn.id())).thenReturn(Optional.of(
                 AiExecution.evaluationStarted(session.id(), turn.id(), "m", "v", "g", old)));
 

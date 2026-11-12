@@ -19,6 +19,7 @@ import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.TurnStatus;
+import tech.cameia.entrevista.domain.policy.AiRetryPolicy;
 import tech.cameia.entrevista.domain.policy.EvaluationStaleness;
 import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
@@ -45,14 +46,17 @@ public class GetSessionStateService {
 
     GetSessionStateService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
             InterviewTurnRepository turns, AnswerAttemptRepository answers, AiExecutionRepository executions,
-            Clock clock, @Value("${cameia.llm.timeout}") Duration llmTimeout) {
+            Clock clock,
+            @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait) {
         this.sessions = sessions;
         this.questions = questions;
         this.turns = turns;
         this.answers = answers;
         this.executions = executions;
         this.clock = clock;
-        this.staleness = new EvaluationStaleness(llmTimeout);
+        this.staleness = new EvaluationStaleness(AiRetryPolicy.cycleBudget(evaluationTimeout, firstWait, secondWait));
     }
 
     /**
