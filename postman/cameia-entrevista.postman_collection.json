@@ -219,16 +219,16 @@
           }
         },
         {
-          "name": "Multipart de más de 10 MB POST /health",
+          "name": "Multipart de más de 12 MB POST /health",
           "event": [
             {
               "listen": "prerequest",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Cuerpo multipart de 11 MB: supera el máximo de 10 MB de la petición.",
+                  "// Cuerpo multipart de 13 MB: supera el máximo de 12 MiB de la petición (HU-5.8 lo subió desde 10 MB).",
                   "const crlf = '\\r\\n';",
-                  "pm.request.body.update({ mode: 'raw', raw: '--xx' + crlf + 'Content-Disposition: form-data; name=\"f\"' + crlf + crlf + 'a'.repeat(11 * 1024 * 1024) + crlf + '--xx--' + crlf });"
+                  "pm.request.body.update({ mode: 'raw', raw: '--xx' + crlf + 'Content-Disposition: form-data; name=\"f\"' + crlf + crlf + 'a'.repeat(13 * 1024 * 1024) + crlf + '--xx--' + crlf });"
                 ]
               }
             },
@@ -3478,6 +3478,2083 @@
                 "sessions",
                 "{{iniSessionB}}",
                 "state"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Responder por voz",
+      "description": "HU-5.8 (CM-345): POST /api/v1/interviews/sessions/{sessionId}/answers/audio con multipart turnId + audio. Necesita el broker local y el simulador de Gemini (que también transcribe). Correr Newman desde la raíz del repositorio: los audios se leen de src/test/resources/audio.",
+      "item": [
+        {
+          "name": "200 preparar catálogo de roles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('vozMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                  "// Cada corrida usa personas y un perfil nuevos para no depender de lo que dejó la anterior.",
+                  "pm.collectionVariables.set('vozUid', 'voz' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('vozOtherUid', 'otr' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('vozProfileId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{vozMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-voz\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\", \\\"roles\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombreEs\\\": \\\"Desarrollador Backend\\\", \\\"nombreEn\\\": \\\"Backend Developer\\\", \\\"estado\\\": \\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+            }
+          }
+        },
+        {
+          "name": "200 preparar perfil completo",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('vozMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{vozMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-voz\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\": \\\"{{vozUid}}\\\", \\\"contextoProfesional\\\": {\\\"id\\\": \\\"{{vozProfileId}}\\\", \\\"nombre\\\": \\\"Analista de datos\\\", \\\"estado\\\": \\\"COMPLETED\\\", \\\"fecha_archivado\\\": null, \\\"resumen\\\": \\\"Analista con tres años de experiencia en SQL y Python.\\\", \\\"experiencias\\\": [{\\\"empresa\\\": \\\"ACME\\\", \\\"cargo\\\": \\\"Analista\\\", \\\"descripcion\\\": null, \\\"inicio\\\": \\\"2022-01\\\", \\\"fin\\\": null, \\\"estadoEmpleo\\\": \\\"CURRENT\\\"}], \\\"formaciones\\\": [{\\\"institucion\\\": \\\"Universidad del Cauca\\\", \\\"titulo\\\": \\\"Ingeniería de Sistemas\\\", \\\"nivel\\\": \\\"UNDERGRADUATE\\\", \\\"inicio\\\": \\\"2017-02\\\", \\\"fin\\\": \\\"2021-12\\\", \\\"enCurso\\\": false}], \\\"habilidades\\\": [{\\\"nombre\\\": \\\"Python\\\", \\\"nivel\\\": \\\"INTERMEDIATE\\\"}]}, \\\"rolesAspirados\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombre\\\": \\\"Desarrollador Backend\\\"}], \\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            }
+          }
+        },
+        {
+          "name": "200 reiniciar el simulador de la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__reset",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión con respuesta por Audio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Forma de respuesta AUDIO', () => pm.expect(pm.response.json().configuration.answerFormat).to.eql('AUDIO'));",
+                  "pm.collectionVariables.set('vozSession', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{vozProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"AUDIO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 inicia y devuelve la pregunta 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('EN_CURSO con forma AUDIO (CA-5.8.1)', () => { pm.expect(s.status).to.eql('EN_CURSO'); pm.expect(s.answerFormat).to.eql('AUDIO'); });",
+                  "pm.collectionVariables.set('vozTurn', s.pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "401 sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('code = IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 entrevista de otra persona (CA-5.8.21)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code = SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozOtherUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 entrevista inexistente (CA-5.8.21)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code = SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{$guid}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{$guid}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 turno que no es de la sesión",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code = TURN_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('TURN_NOT_FOUND'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{$guid}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 sin la parte audio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('code = AUDIO_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('AUDIO_REQUIRED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Graba tu respuesta antes de enviarla.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "413 audio de 10 485 761 bytes (CA-5.8.13)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 413', () => pm.response.to.have.status(413));",
+                  "pm.test('code = AUDIO_TOO_LARGE', () => pm.expect(pm.response.json().code).to.eql('AUDIO_TOO_LARGE'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Tu audio no puede superar los 10 MB.\"));"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// El tamaño se revisa antes que el contenido: basta un relleno de 10 MiB + 1 byte.",
+                  "const crlf = '\\r\\n';",
+                  "const turn = pm.collectionVariables.get('vozTurn');",
+                  "pm.request.headers.upsert({ key: 'Content-Type', value: 'multipart/form-data; boundary=xx' });",
+                  "pm.request.body.update({ mode: 'raw', raw: '--xx' + crlf + 'Content-Disposition: form-data; name=\"turnId\"' + crlf + crlf + turn + crlf + '--xx' + crlf + 'Content-Disposition: form-data; name=\"audio\"; filename=\"respuesta.webm\"' + crlf + 'Content-Type: audio/webm' + crlf + crlf + 'a'.repeat(10485761) + crlf + '--xx--' + crlf });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "415 MP3 (CA-5.8.14)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('code = AUDIO_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('AUDIO_INVALID_FORMAT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Este formato de audio no es compatible. Graba de nuevo o responde por texto.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.mp3",
+                  "contentType": "audio/mpeg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "415 WAV (CA-5.8.14)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('code = AUDIO_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('AUDIO_INVALID_FORMAT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Este formato de audio no es compatible. Graba de nuevo o responde por texto.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "415 WebM con pista de video (CA-5.8.14)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('code = AUDIO_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('AUDIO_INVALID_FORMAT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Este formato de audio no es compatible. Graba de nuevo o responde por texto.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s-con-video.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "415 MP4 con pista de video (CA-5.8.14)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('code = AUDIO_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('AUDIO_INVALID_FORMAT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Este formato de audio no es compatible. Graba de nuevo o responde por texto.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s-con-video.mp4",
+                  "contentType": "audio/mp4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "415 texto que se presenta como audio/webm (CA-5.8.15)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('code = AUDIO_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('AUDIO_INVALID_FORMAT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Este formato de audio no es compatible. Graba de nuevo o responde por texto.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/no-es-audio.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 audio de 3:02 (CA-5.8.8)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('code = AUDIO_TOO_LONG', () => pm.expect(pm.response.json().code).to.eql('AUDIO_TOO_LONG'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Tu respuesta no puede durar más de 3 minutos.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/silencio-182s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 audio de 1 s",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('code = AUDIO_TOO_SHORT', () => pm.expect(pm.response.json().code).to.eql('AUDIO_TOO_SHORT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"No detectamos tu voz, intenta de nuevo.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-1s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 los rechazos anteriores no pidieron transcripción",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Solo la llamada de la planificación', () => pm.expect(pm.response.json().calls).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar transcripción no disponible",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            },
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            }
+          }
+        },
+        {
+          "name": "503 transcripción no disponible",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('code = TRANSCRIPTION_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_UNAVAILABLE'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"No pudimos transcribir tu respuesta. Graba de nuevo o responde por texto.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 la pregunta 1 sigue pendiente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Pregunta 1 de 5 con el mismo turno', () => { const s = pm.response.json(); pm.expect(s.progress.currentQuestion).to.eql(1); pm.expect(s.pendingQuestion.turnId).to.eql(pm.collectionVariables.get('vozTurn')); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar transcripción sin voz",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"no_speech\"}"
+            },
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 transcripción sin voz",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('code = TRANSCRIPTION_EMPTY', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_EMPTY'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"No detectamos tu voz, intenta de nuevo.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 responde la pregunta 1 por voz con un nombre de archivo hostil (CA-5.8.5, CA-5.8.16)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => { pm.expect(r.turn.turnId).to.eql(pm.collectionVariables.get('vozTurn')); pm.expect(r.turn.status).to.eql('COMPLETED'); });",
+                  "pm.test('Avanza a «Pregunta 2 de 5»', () => { pm.expect(r.progress).to.eql({currentQuestion: 2, totalQuestions: 5}); pm.expect(r.nextQuestion.number).to.eql(2); pm.expect(r.nextQuestion.text).to.be.a('string').and.not.empty; pm.expect(r.interviewFinished).to.eql(false); });",
+                  "pm.test('Sin la transcripción ni retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/lideré|feedback|retroalim/i));",
+                  "pm.collectionVariables.set('vozPrevTurn', pm.collectionVariables.get('vozTurn'));",
+                  "pm.collectionVariables.set('vozTurn', r.nextQuestion.turnId);",
+                  "pm.test('El nombre del archivo no aparece en la respuesta', () => pm.expect(pm.response.text()).to.not.include('respuesta final'));",
+                  "pm.collectionVariables.set('vozFirstBody', pm.response.text());"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-1"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 llamadas al simulador tras la primera respuesta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('vozCalls', pm.response.json().calls);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reenvío con la misma clave devuelve lo mismo (CA-5.8.27)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El mismo cuerpo del primer envío', () => pm.expect(pm.response.text()).to.eql(pm.collectionVariables.get('vozFirstBody')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-1"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozPrevTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 el reenvío no transcribió de nuevo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Sin llamadas nuevas al modelo', () => pm.expect(pm.response.json().calls).to.eql(Number(pm.collectionVariables.get('vozCalls'))));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 la misma clave con otro audio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('code = IDEMPOTENCY_KEY_CONFLICT', () => pm.expect(pm.response.json().code).to.eql('IDEMPOTENCY_KEY_CONFLICT'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-1"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozPrevTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 la pregunta 1 ya se respondió",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('code = TURN_TRANSITION_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('TURN_TRANSITION_NOT_ALLOWED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozPrevTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/tono-3s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 pregunta 2 con el MP4 de Safari",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => { pm.expect(r.turn.turnId).to.eql(pm.collectionVariables.get('vozTurn')); pm.expect(r.turn.status).to.eql('COMPLETED'); });",
+                  "pm.test('Avanza a «Pregunta 3 de 5»', () => { pm.expect(r.progress).to.eql({currentQuestion: 3, totalQuestions: 5}); pm.expect(r.nextQuestion.number).to.eql(3); pm.expect(r.nextQuestion.text).to.be.a('string').and.not.empty; pm.expect(r.interviewFinished).to.eql(false); });",
+                  "pm.test('Sin la transcripción ni retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/lideré|feedback|retroalim/i));",
+                  "pm.collectionVariables.set('vozPrevTurn', pm.collectionVariables.get('vozTurn'));",
+                  "pm.collectionVariables.set('vozTurn', r.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-2"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz-safari.mp4",
+                  "contentType": "audio/mp4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 pregunta 3 con 3:00 de audio (CA-5.8.7)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => { pm.expect(r.turn.turnId).to.eql(pm.collectionVariables.get('vozTurn')); pm.expect(r.turn.status).to.eql('COMPLETED'); });",
+                  "pm.test('Avanza a «Pregunta 4 de 5»', () => { pm.expect(r.progress).to.eql({currentQuestion: 4, totalQuestions: 5}); pm.expect(r.nextQuestion.number).to.eql(4); pm.expect(r.nextQuestion.text).to.be.a('string').and.not.empty; pm.expect(r.interviewFinished).to.eql(false); });",
+                  "pm.test('Sin la transcripción ni retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/lideré|feedback|retroalim/i));",
+                  "pm.collectionVariables.set('vozPrevTurn', pm.collectionVariables.get('vozTurn'));",
+                  "pm.collectionVariables.set('vozTurn', r.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-3"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/silencio-180s.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 pregunta 4",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => { pm.expect(r.turn.turnId).to.eql(pm.collectionVariables.get('vozTurn')); pm.expect(r.turn.status).to.eql('COMPLETED'); });",
+                  "pm.test('Avanza a «Pregunta 5 de 5»', () => { pm.expect(r.progress).to.eql({currentQuestion: 5, totalQuestions: 5}); pm.expect(r.nextQuestion.number).to.eql(5); pm.expect(r.nextQuestion.text).to.be.a('string').and.not.empty; pm.expect(r.interviewFinished).to.eql(false); });",
+                  "pm.test('Sin la transcripción ni retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/lideré|feedback|retroalim/i));",
+                  "pm.collectionVariables.set('vozPrevTurn', pm.collectionVariables.get('vozTurn'));",
+                  "pm.collectionVariables.set('vozTurn', r.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-4"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 pregunta 5 termina la entrevista",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => { pm.expect(r.turn.turnId).to.eql(pm.collectionVariables.get('vozTurn')); pm.expect(r.turn.status).to.eql('COMPLETED'); });",
+                  "pm.test('Entrevista terminada sin pregunta siguiente', () => { pm.expect(r.interviewFinished).to.eql(true); pm.expect(r.nextQuestion).to.eql(null); pm.expect(r.progress).to.eql({currentQuestion: 5, totalQuestions: 5}); });",
+                  "pm.test('Sin la transcripción ni retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/lideré|feedback|retroalim/i));",
+                  "pm.collectionVariables.set('vozPrevTurn', pm.collectionVariables.get('vozTurn'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "voz-{{vozSession}}-5"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 entrevista en evaluación (CA-5.8.28)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('code = SESSION_ALREADY_CLOSED', () => pm.expect(pm.response.json().code).to.eql('SESSION_ALREADY_CLOSED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Esta entrevista ya no admite esa acción.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozPrevTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 crea una sesión con respuesta por Texto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('vozTextSession', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{vozProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 inicia la entrevista por texto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Forma TEXTO', () => pm.expect(pm.response.json().answerFormat).to.eql('TEXTO'));",
+                  "pm.collectionVariables.set('vozTextTurn', pm.response.json().pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozTextSession}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozTextSession}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "422 audio en una entrevista por texto (CA-5.8.20)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('code = AUDIO_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('AUDIO_NOT_ALLOWED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Esta entrevista es por texto: escribe tu respuesta.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{vozTextTurn}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "src/test/resources/audio/voz.webm",
+                  "contentType": "audio/webm"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozTextSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozTextSession}}",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "405 no hay ruta para recuperar un audio (CA-5.8.17)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 405', () => pm.response.to.have.status(405));",
+                  "pm.test('code = METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('METHOD_NOT_ALLOWED'));",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
+                  "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "answers",
+                "audio"
               ]
             }
           }

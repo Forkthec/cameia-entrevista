@@ -57,6 +57,7 @@ import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.RequestPayloadTooLargeException;
+import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 
 /**
@@ -133,7 +134,22 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.PROFILE_SNAPSHOT_INVALID,
                     new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")),
             Map.entry(ErrorCode.DATABASE_UNAVAILABLE,
-                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")));
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")),
+            Map.entry(ErrorCode.AUDIO_REQUIRED, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Audio demasiado grande")),
+            Map.entry(ErrorCode.AUDIO_INVALID_FORMAT,
+                    new Definition(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Formato de audio no admitido")),
+            Map.entry(ErrorCode.AUDIO_TOO_LONG, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_TOO_SHORT, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_NOT_ALLOWED, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.TURN_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
+            Map.entry(ErrorCode.SESSION_ABANDONED, new Definition(HttpStatus.CONFLICT, "Entrevista abandonada")),
+            Map.entry(ErrorCode.SESSION_ALREADY_CLOSED, new Definition(HttpStatus.CONFLICT, "Entrevista cerrada")),
+            Map.entry(ErrorCode.TRANSCRIPTION_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Transcripción no disponible")),
+            Map.entry(ErrorCode.TRANSCRIPTION_EMPTY, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.TRANSCRIPTION_TOO_LONG,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
@@ -209,6 +225,24 @@ class BusinessExceptionHandler {
     ProblemDetail modelInvalidOutput(LlmInvalidOutputException error) {
         return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
                 "Plan de preguntas inválido: " + error.getReason(), error);
+    }
+
+    /**
+     * El servicio de transcripción no respondió, falló o devolvió una respuesta inutilizable.
+     *
+     * <p>Es un fallo de una dependencia: se registra en {@code ERROR} con la causa técnica (nunca el audio ni el
+     * texto) y la respuesta lleva el mensaje para grabar de nuevo.</p>
+     *
+     * @param error excepción con la causa técnica
+     * @return {@code 503 Service Unavailable} con el código {@code TRANSCRIPTION_UNAVAILABLE}
+     */
+    @ExceptionHandler(TranscriptionUnavailableException.class)
+    ProblemDetail transcriptionUnavailable(TranscriptionUnavailableException error) {
+        Definition definition = DEFINITIONS.get(error.getErrorCode());
+        ProblemDetail problem = serviceFailure(definition.status(), definition.title(), error.getErrorCode(),
+                "Transcripción no disponible", error);
+        problem.setDetail(error.getMessage());
+        return problem;
     }
 
     /**

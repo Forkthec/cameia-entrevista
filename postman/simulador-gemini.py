@@ -15,8 +15,12 @@ Escenarios de /__script:
   bad_type     plan con el tipo de la pregunta 3 distinto al de la plantilla (la salida es inválida).
   limit        el proveedor responde 429 (límite de uso).
   unavailable  el proveedor responde 503.
+  transcript   transcripción de la respuesta por voz (HU-5.8): un texto fijo en español.
+  no_speech    transcripción sin voz: el modelo responde la marca <<SIN_VOZ>>.
 
-Cualquier ruta que termine en ":generateContent" consume el siguiente escenario; con la cola vacía responde "valid".
+Cualquier ruta que termine en ":generateContent" consume el siguiente escenario. Con la cola vacía responde "valid"
+(un plan) o, si la petición trae un audio en línea (inlineData), "transcript". Los escenarios limit y unavailable
+sirven para los dos tipos de llamada.
 """
 import json
 import sys
@@ -31,6 +35,10 @@ QUESTIONS = [
     ("TECNICA", "¿Cómo validarías la calidad de un conjunto de datos nuevo?"),
     ("SITUACIONAL", "Si un informe tuyo tuviera un error en producción, ¿qué harías primero?"),
 ]
+
+TRANSCRIPT = "En mi último trabajo lideré un equipo de cuatro personas y resolví un conflicto de plazos."
+NO_SPEECH = "<<SIN_VOZ>>"
+SCENARIOS = ("valid", "bad_type", "limit", "unavailable", "transcript", "no_speech")
 
 queue = deque()
 calls = 0
@@ -84,7 +92,7 @@ class Handler(BaseHTTPRequestHandler):
             self._send(200, {"ok": True})
         elif self.path == "/__script":
             scenario = json.loads(body or "{}").get("scenario")
-            if scenario not in ("valid", "bad_type", "limit", "unavailable"):
+            if scenario not in SCENARIOS:
                 self._send(400, {"error": "escenario desconocido"})
                 return
             with lock:
@@ -93,11 +101,16 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path.endswith(":generateContent"):
             with lock:
                 calls += 1
-                scenario = queue.popleft() if queue else "valid"
+                is_audio = "inlineData" in body or "inline_data" in body
+                scenario = queue.popleft() if queue else ("transcript" if is_audio else "valid")
             if scenario == "limit":
                 self._send(429, {"error": {"code": 429, "message": "agotado", "status": "RESOURCE_EXHAUSTED"}})
             elif scenario == "unavailable":
                 self._send(503, {"error": {"code": 503, "message": "no disponible", "status": "UNAVAILABLE"}})
+            elif scenario == "transcript":
+                self._send(200, gemini_body(TRANSCRIPT))
+            elif scenario == "no_speech":
+                self._send(200, gemini_body(NO_SPEECH))
             else:
                 self._send(200, gemini_body(plan(bad_type=scenario == "bad_type")))
         else:

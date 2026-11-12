@@ -53,7 +53,7 @@ public enum ErrorCode {
     /** La petición no se pudo interpretar, por ejemplo por una ruta con codificación inválida. */
     REQUEST_PATH_INVALID_FORMAT,
 
-    /** Los datos enviados superan el tamaño que la petición admite (más de 10 MB en un multipart). */
+    /** Los datos enviados superan el tamaño que la petición admite (más de 12 MiB en un multipart). */
     REQUEST_PAYLOAD_TOO_LARGE,
 
     /** La base de datos no respondió; la persona puede reintentar. */
@@ -144,5 +144,41 @@ public enum ErrorCode {
     PLANNING_RETRIES_EXHAUSTED,
 
     /** La copia del perfil congelada en la sesión es demasiado grande, ilegible o no trae el rol de la sesión. */
-    PROFILE_SNAPSHOT_INVALID
+    PROFILE_SNAPSHOT_INVALID,
+
+    /** La respuesta por voz llegó sin audio o con un audio vacío. */
+    AUDIO_REQUIRED,
+
+    /** El audio supera los 10 MiB que admite una respuesta por voz. */
+    AUDIO_TOO_LARGE,
+
+    /** El contenido real del audio no es un formato admitido (WebM con Opus o MP4 con AAC, solo audio). */
+    AUDIO_INVALID_FORMAT,
+
+    /** El audio dura más de 3 minutos. */
+    AUDIO_TOO_LONG,
+
+    /** El audio dura menos de lo mínimo para contener la voz que exige la interfaz. */
+    AUDIO_TOO_SHORT,
+
+    /** La entrevista se configuró con respuesta por texto y no admite audio. */
+    AUDIO_NOT_ALLOWED,
+
+    /** El turno no existe, no es de la sesión o su identificador no es válido; no se distingue. */
+    TURN_NOT_FOUND,
+
+    /** La entrevista quedó abandonada y no admite respuestas. */
+    SESSION_ABANDONED,
+
+    /** La entrevista está en evaluación o finalizada y no admite respuestas. */
+    SESSION_ALREADY_CLOSED,
+
+    /** El servicio de transcripción no respondió, falló o devolvió una respuesta inutilizable. */
+    TRANSCRIPTION_UNAVAILABLE,
+
+    /** La transcripción no trae texto: no se detectó voz. */
+    TRANSCRIPTION_EMPTY,
+
+    /** La transcripción supera el largo máximo de una respuesta. */
+    TRANSCRIPTION_TOO_LONG
 }
