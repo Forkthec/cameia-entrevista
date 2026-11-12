@@ -11,6 +11,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
@@ -279,6 +280,18 @@ abstract class AnswerFlowSupport {
 
         private final Deque<Supplier<LanguageModelResponse>> script = new ArrayDeque<>();
         private final AtomicInteger calls = new AtomicInteger();
+        private final List<AiProvider> providers = new CopyOnWriteArrayList<>();
+        private volatile boolean fallbackAvailable;
+
+        /** Hace que el respaldo tenga llave (por defecto no la tiene). */
+        void fallbackAvailable(boolean available) {
+            fallbackAvailable = available;
+        }
+
+        /** Proveedores a los que se llamó, en orden. */
+        List<AiProvider> providers() {
+            return List.copyOf(providers);
+        }
 
         synchronized void enqueue(Supplier<LanguageModelResponse> next) {
             script.addLast(next);
@@ -294,6 +307,8 @@ abstract class AnswerFlowSupport {
         synchronized void reset() {
             script.clear();
             calls.set(0);
+            providers.clear();
+            fallbackAvailable = false;
         }
 
         int calls() {
@@ -302,12 +317,13 @@ abstract class AnswerFlowSupport {
 
         @Override
         public boolean isAvailable(AiProvider provider) {
-            return provider == AiProvider.PRIMARY;
+            return provider == AiProvider.PRIMARY || fallbackAvailable;
         }
 
         @Override
         public LanguageModelResponse generate(LanguageModelPrompt prompt, AiProvider provider) {
             calls.incrementAndGet();
+            providers.add(provider);
             Supplier<LanguageModelResponse> next;
             synchronized (this) {
                 next = script.pollFirst();
