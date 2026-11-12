@@ -1,21 +1,26 @@
 package tech.cameia.entrevista.infrastructure.persistence.repository;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import tech.cameia.entrevista.domain.exception.TurnTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.infrastructure.persistence.entity.AnswerAttemptEntity;
 
 /**
- * Adaptador del puerto {@link AnswerAttemptRepository} sobre Spring Data. Toda respuesta que registra es la inicial
- * y definitiva del turno; el índice {@code uq_intento_definitivo_por_turno} impide una segunda.
+ * Adaptador del puerto de respuestas sobre JPA. Traduce el índice único de la respuesta definitiva a un rechazo
+ * del turno: dos envíos simultáneos a la misma pregunta no pueden dejar dos respuestas definitivas.
  */
 @Repository
 class AnswerAttemptRepositoryAdapter implements AnswerAttemptRepository {
 
-    /** Única interacción que admite hoy el esquema. */
-    private static final String INITIAL = "INICIAL";
+    /** Índice único parcial: una sola respuesta definitiva por turno. */
+    static final String UNIQUE_DEFINITIVE = "uq_intento_definitivo_por_turno";
+
+    /** Valor de {@code tipo_interaccion} de la respuesta a una pregunta principal. */
+    static final String INITIAL = "INICIAL";
 
     private final AnswerAttemptJpaRepository jpa;
 
@@ -25,10 +30,15 @@ class AnswerAttemptRepositoryAdapter implements AnswerAttemptRepository {
 
     @Override
     @Transactional
-    public AnswerAttempt save(AnswerAttempt attempt) {
-        jpa.saveAndFlush(new AnswerAttemptEntity(attempt.id(), attempt.turnId(), INITIAL, true,
-                attempt.origin().name(), attempt.text(), attempt.shownQuestion(), attempt.detectedLanguage(),
-                attempt.createdAt()));
-        return attempt;
+    public void saveDefinitive(AnswerAttempt a) {
+        try {
+            jpa.saveAndFlush(new AnswerAttemptEntity(a.id(), a.turnId(), INITIAL, true, a.origin().code(),
+                    a.text(), a.questionShown(), a.detectedLanguage(), a.createdAt()));
+        } catch (DataIntegrityViolationException e) {
+            if (ConstraintNames.violates(e, UNIQUE_DEFINITIVE)) {
+                throw new TurnTransitionNotAllowedException();
+            }
+            throw e;
+        }
     }
 }

@@ -8,8 +8,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Fila de la tabla {@code intento_respuesta}: la respuesta de la persona a un turno. Solo se inserta; el disparador
- * {@code trg_intento_append_only} rechaza cualquier cambio posterior.
+ * Fila de la tabla {@code intento_respuesta}: la respuesta de la persona a un turno. Solo se inserta; la base
+ * rechaza cualquier cambio posterior (disparador {@code trg_intento_append_only}).
  */
 @Entity
 @Table(name = "intento_respuesta")
@@ -35,7 +35,7 @@ public class AnswerAttemptEntity {
     private String text;
 
     @Column(name = "pregunta_mostrada", nullable = false, length = 1000)
-    private String shownQuestion;
+    private String questionShown;
 
     @Column(name = "idioma_detectado", length = 10)
     private String detectedLanguage;
@@ -48,28 +48,27 @@ public class AnswerAttemptEntity {
     }
 
     /**
-     * Crea la fila con todos sus valores.
+     * Crea la fila con todas sus columnas.
      *
      * @param id identificador
-     * @param turnId turno al que responde
+     * @param turnId turno
      * @param interactionType tipo de interacción ({@code INICIAL})
      * @param definitive si es la respuesta definitiva del turno
-     * @param origin {@code TEXTO} o {@code AUDIO}
+     * @param origin origen ({@code TEXTO} o {@code AUDIO})
      * @param text texto de la respuesta
-     * @param shownQuestion pregunta tal como se mostró
-     * @param detectedLanguage idioma detectado, o {@code null}
-     * @param createdAt fecha de registro
+     * @param questionShown pregunta tal como se mostró
+     * @param detectedLanguage idioma detectado en el audio
+     * @param createdAt fecha del registro
      */
-    @SuppressWarnings("java:S107")
     public AnswerAttemptEntity(UUID id, UUID turnId, String interactionType, boolean definitive, String origin,
-            String text, String shownQuestion, String detectedLanguage, Instant createdAt) {
+            String text, String questionShown, String detectedLanguage, Instant createdAt) {
         this.id = id;
         this.turnId = turnId;
         this.interactionType = interactionType;
         this.definitive = definitive;
         this.origin = origin;
         this.text = text;
-        this.shownQuestion = shownQuestion;
+        this.questionShown = questionShown;
         this.detectedLanguage = detectedLanguage;
         this.createdAt = createdAt;
     }
@@ -79,7 +78,7 @@ public class AnswerAttemptEntity {
         return id;
     }
 
-    /** @return turno al que responde */
+    /** @return turno */
     public UUID getTurnId() {
         return turnId;
     }
@@ -94,7 +93,7 @@ public class AnswerAttemptEntity {
         return definitive;
     }
 
-    /** @return origen de la respuesta */
+    /** @return origen */
     public String getOrigin() {
         return origin;
     }
@@ -105,16 +104,16 @@ public class AnswerAttemptEntity {
     }
 
     /** @return pregunta mostrada */
-    public String getShownQuestion() {
-        return shownQuestion;
+    public String getQuestionShown() {
+        return questionShown;
     }
 
-    /** @return idioma detectado, o {@code null} */
+    /** @return idioma detectado */
     public String getDetectedLanguage() {
         return detectedLanguage;
     }
 
-    /** @return fecha de registro */
+    /** @return fecha del registro */
     public Instant getCreatedAt() {
         return createdAt;
     }

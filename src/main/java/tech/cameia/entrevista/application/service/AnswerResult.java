@@ -5,16 +5,26 @@ import java.util.UUID;
 import tech.cameia.entrevista.domain.model.TurnStatus;
 
 /**
- * Resultado de registrar una respuesta: el turno respondido, el avance y la pregunta siguiente. Nunca lleva
- * retroalimentación ni el texto de la respuesta.
+ * Resultado de registrar una respuesta: el turno respondido, el avance y la siguiente pregunta. Nunca lleva
+ * retroalimentación (Simulación).
  *
- * @param turnId turno respondido
- * @param turnStatus estado en que quedó el turno
- * @param currentQuestion número de la pregunta que sigue pendiente (o 5 si la entrevista terminó)
- * @param totalQuestions total de preguntas de la entrevista
- * @param nextQuestion la pregunta siguiente, o {@code null} si se respondió la última
- * @param interviewFinished si se respondieron todas las preguntas
+ * @param turnId turno que se respondió
+ * @param turnStatus estado en que quedó ese turno
+ * @param currentQuestion número de la pregunta que sigue; 5 si ya se respondieron todas
+ * @param totalQuestions total de preguntas de la entrevista; siempre 5
+ * @param nextQuestion pregunta que sigue, o {@code null} si se respondió la quinta
+ * @param interviewFinished {@code true} si ya se respondieron las 5 preguntas
  */
 public record AnswerResult(UUID turnId, TurnStatus turnStatus, int currentQuestion, int totalQuestions,
-        SessionState.PendingQuestion nextQuestion, boolean interviewFinished) {
+        NextQuestion nextQuestion, boolean interviewFinished) {
+
+    /**
+     * Pregunta que sigue.
+     *
+     * @param turnId turno al que se responde
+     * @param number posición de la pregunta, de 2 a 5
+     * @param text texto original de la pregunta
+     */
+    public record NextQuestion(UUID turnId, int number, String text) {
+    }
 }

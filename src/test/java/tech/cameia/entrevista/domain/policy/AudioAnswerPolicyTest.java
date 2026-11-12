@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import tech.cameia.entrevista.domain.exception.AudioInvalidFormatException;
-import tech.cameia.entrevista.domain.exception.AudioRequiredException;
 import tech.cameia.entrevista.domain.exception.AudioTooLargeException;
 import tech.cameia.entrevista.domain.exception.AudioTooLongException;
 import tech.cameia.entrevista.domain.exception.AudioTooShortException;
@@ -36,13 +35,6 @@ class AudioAnswerPolicyTest {
     void checkSize_shouldRejectOneByteOverTenMebibytes() {
         assertThatThrownBy(() -> policy.checkSize(10_485_761L)).isInstanceOf(AudioTooLargeException.class)
                 .hasMessage("Tu audio no puede superar los 10 MB.");
-    }
-
-    @Test
-    @DisplayName("Sin audio o con un audio vacío se pide grabar")
-    void checkSize_shouldRequireAudio() {
-        assertThatThrownBy(() -> policy.checkSize(null)).isInstanceOf(AudioRequiredException.class);
-        assertThatThrownBy(() -> policy.checkSize(0L)).isInstanceOf(AudioRequiredException.class);
     }
 
     @Test

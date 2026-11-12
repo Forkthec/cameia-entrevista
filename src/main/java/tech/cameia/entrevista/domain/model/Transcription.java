@@ -1,28 +1,27 @@
 package tech.cameia.entrevista.domain.model;
 
-import java.util.Objects;
-
 /**
- * Texto que el servicio de transcripción obtuvo de un audio.
+ * Lo que devolvió el servicio de transcripción para un audio: el texto tal como salió y el idioma que detectó.
  *
- * @param text texto transcrito, nunca nulo; en blanco si no se detectó voz
- * @param model modelo que transcribió
- * @param inputTokens tokens de entrada que informó el proveedor
- * @param outputTokens tokens de salida que informó el proveedor
+ * <p>El texto puede venir vacío: decidir si sirve como respuesta es de
+ * {@link tech.cameia.entrevista.domain.policy.TranscriptionPolicy}, no del proveedor.</p>
+ *
+ * @param text texto transcrito, sin recortar; nunca {@code null} (vacío si no hubo voz)
+ * @param detectedLanguage código ISO 639-1 del idioma detectado (por ejemplo {@code es} o {@code en}); puede ser
+ *        {@code null} si el proveedor no lo informa
+ * @param languageConfidence confianza de la detección, de 0.0 a 1.0; {@code null} si el proveedor no la informa
  */
-public record Transcription(String text, String model, long inputTokens, long outputTokens) {
+public record Transcription(String text, String detectedLanguage, Double languageConfidence) {
 
-    /**
-     * Valida que el texto y el modelo no falten.
-     */
+    /** Normaliza el texto ausente a vacío. */
     public Transcription {
-        Objects.requireNonNull(text, "text");
-        Objects.requireNonNull(model, "model");
+        text = text == null ? "" : text;
     }
 
-    /** @return descripción sin el texto transcrito, que no debe llegar al log */
+    /** No imprime el texto: una transcripción nunca llega a un registro. */
     @Override
     public String toString() {
-        return "Transcription[chars=" + text.length() + ", model=" + model + "]";
+        return "Transcription[length=" + text.length() + ", detectedLanguage=" + detectedLanguage
+                + ", languageConfidence=" + languageConfidence + "]";
     }
 }

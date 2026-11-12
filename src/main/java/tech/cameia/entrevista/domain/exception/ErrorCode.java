@@ -134,6 +134,27 @@ public enum ErrorCode {
     /** El encabezado de la clave anti-duplicados no cumple el formato. */
     IDEMPOTENCY_KEY_INVALID_FORMAT,
 
+    /** Falta el turno al que se responde. */
+    TURN_ID_REQUIRED,
+
+    /** El identificador del turno no tiene formato de UUID. */
+    TURN_ID_INVALID_FORMAT,
+
+    /** Falta el audio de la respuesta, o llegó vacío. */
+    AUDIO_REQUIRED,
+
+    /** El audio se transcribió vacío o solo con espacios: no se detectó voz. */
+    TRANSCRIPTION_EMPTY,
+
+    /** La transcripción supera los 4000 caracteres. */
+    TRANSCRIPTION_TOO_LONG,
+
+    /** Se detectó, con confianza suficiente, que el audio está en otro idioma que el de la entrevista. */
+    TRANSCRIPTION_LANGUAGE_MISMATCH,
+
+    /** El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido. */
+    TRANSCRIPTION_UNAVAILABLE,
+
     /** La sesión no existe, es de otra persona o su identificador no es válido; no se distingue. */
     SESSION_NOT_FOUND,
 
@@ -145,9 +166,6 @@ public enum ErrorCode {
 
     /** La copia del perfil congelada en la sesión es demasiado grande, ilegible o no trae el rol de la sesión. */
     PROFILE_SNAPSHOT_INVALID,
-
-    /** La respuesta por voz llegó sin audio o con un audio vacío. */
-    AUDIO_REQUIRED,
 
     /** El audio supera los 10 MiB que admite una respuesta por voz. */
     AUDIO_TOO_LARGE,
@@ -171,14 +189,5 @@ public enum ErrorCode {
     SESSION_ABANDONED,
 
     /** La entrevista está en evaluación o finalizada y no admite respuestas. */
-    SESSION_ALREADY_CLOSED,
-
-    /** El servicio de transcripción no respondió, falló o devolvió una respuesta inutilizable. */
-    TRANSCRIPTION_UNAVAILABLE,
-
-    /** La transcripción no trae texto: no se detectó voz. */
-    TRANSCRIPTION_EMPTY,
-
-    /** La transcripción supera el largo máximo de una respuesta. */
-    TRANSCRIPTION_TOO_LONG
+    SESSION_ALREADY_CLOSED
 }

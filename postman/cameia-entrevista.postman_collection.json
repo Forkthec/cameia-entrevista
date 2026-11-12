@@ -3982,11 +3982,11 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 422', () => pm.response.to.have.status(422));",
-                  "pm.test('code = AUDIO_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('AUDIO_REQUIRED'));",
+                  "pm.test('code = VALIDATION_FAILED con el campo audio AUDIO_REQUIRED', () => { const b = pm.response.json(); pm.expect(b.code).to.eql('VALIDATION_FAILED'); pm.expect(b.errors[0].field).to.eql('audio'); pm.expect(b.errors[0].code).to.eql('AUDIO_REQUIRED'); });",
                   "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
                   "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
                   "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
-                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Graba tu respuesta antes de enviarla.\"));"
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().errors[0].message).to.eql(\"Graba tu respuesta antes de enviarla.\"));"
                 ]
               }
             }
@@ -5317,7 +5317,7 @@
           }
         },
         {
-          "name": "409 entrevista en evaluación (CA-5.8.28)",
+          "name": "409 con las cinco preguntas respondidas (la entrevista sigue EN_CURSO, CA-5.12.6)",
           "event": [
             {
               "listen": "test",
@@ -5325,11 +5325,12 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 409', () => pm.response.to.have.status(409));",
-                  "pm.test('code = SESSION_ALREADY_CLOSED', () => pm.expect(pm.response.json().code).to.eql('SESSION_ALREADY_CLOSED'));",
+                  "// Tras la quinta respuesta la entrevista sigue EN_CURSO hasta el cierre (CA-5.12.6, HU-5.5): ya no hay turno pendiente.",
+                  "pm.test('code = TURN_TRANSITION_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('TURN_TRANSITION_NOT_ALLOWED'));",
                   "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
                   "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = pm.response.headers.get('Content-Type') || ''; pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=UTF-8'); });",
                   "pm.test('Sin trace ni exception', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });",
-                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().detail).to.eql(\"Esta entrevista ya no admite esa acción.\"));"
+                  "pm.test('Mensaje del turno', () => pm.expect(pm.response.json().detail).to.eql(\"Esta pregunta ya no admite esa acción.\"));"
                 ]
               }
             }

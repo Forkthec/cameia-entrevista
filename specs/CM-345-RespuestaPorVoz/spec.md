@@ -89,3 +89,25 @@ transcripción (CM-362), respuesta por texto (HU-5.2), registro del consumo de m
 
 - **Solapamiento con CM-349**: también implementa `…/answers/audio` y transcribe con AssemblyAI (ver `product/local-dev`). Hay que decidir un solo proveedor y una sola implementación al integrar; los conflictos previsibles están en `ErrorCode`, `BusinessExceptionHandler`, `docs/errores.md`, el controlador y `application.properties`.
 - El nivel gratuito de Gemini puede usar el contenido para mejorar productos (hallazgo H-17 de CM-212); el aviso de CA-5.8.24 dice que el servicio externo elimina el audio a los 2 días: revisar con producto qué proveedor y nivel cumplen ese texto.
+
+## 10. Integración con CM-349 y CM-362 (12-nov-2026)
+
+**Decisión humana:** la transcripción de la voz de la persona la hace **AssemblyAI**; Gemini TTS queda solo para pasar las
+preguntas a audio y no entra en CM-345, CM-349 ni CM-362. **Orden de fusión:** CM-349 → CM-345 → CM-362; esta rama
+fusionó `CM-349-transcripcion-respuesta-voz` (merge commit, sin reescribir historia).
+
+| Tema | Queda | Motivo |
+|---|---|---|
+| Endpoint, controlador y comando | Los de CM-349 (`AudioAnswerController`, `AudioAnswerCommand`); se retiran `InterviewAnswerController` y `SubmitAudioAnswerCommand` | Base de la pila |
+| Transcripción | AssemblyAI (CM-349); se retiran `GeminiTranscriptionAdapter`, `TranscriptionPort` y `cameia.transcription.model` | Decisión humana |
+| Registro de la ejecución `TRANSCRIBIR` e idioma detectado | CM-349 | CA-5.12.3 y CA-5.12.10 |
+| Formato, tamaño y duración | CM-345: por contenido real, 10 MiB (`AUDIO_TOO_LARGE`), 1,5 s a 181 s; se retiran la lista de tipos declarados y `AUDIO_FORMAT_NOT_ALLOWED` | HU-5.8 define el audio (CA-5.8.12 a CA-5.8.16); el tipo declarado no es confiable |
+| Entrevista por texto | `422 AUDIO_NOT_ALLOWED` (CM-345); se retira `ANSWER_FORMAT_NOT_ALLOWED` | Mensaje literal de CA-5.8.20 |
+| Estado de la sesión | `SESSION_ABANDONED`, `SESSION_ALREADY_CLOSED` (CM-345) y `SESSION_TRANSITION_NOT_ALLOWED` si está configurada | CA-5.8.28 |
+| Campos | `422 VALIDATION_FAILED` con `TURN_ID_REQUIRED`, `TURN_ID_INVALID_FORMAT`, `AUDIO_REQUIRED` a la vez (CM-349); un turno UUID que no es de la sesión, `404 TURN_NOT_FOUND`; uno de la sesión ya respondido, `409 TURN_TRANSITION_NOT_ALLOWED` | Un campo mal formado es validación; un turno ajeno no revela si existe |
+| Doble envío | Reserva del turno en `PROCESSING` con versión (CM-345) → `409 SESSION_CONFLICT`; ahora vive en `AnswerRegistrar` (`claim`, `release`) para que la respuesta escrita la reutilice | CA-5.8.6; CM-349 no tenía guardia |
+| Fallo de la transcripción | El turno queda `RETRYING` (CM-345); la pregunta sigue pendiente | CA-5.12.8 |
+| Tras la quinta respuesta | La sesión sigue `EN_CURSO` (CM-349) | CA-5.12.6, hasta HU-5.5; deja de aplicar D-345-6 en ese punto |
+| Multipart | 12 MiB con umbral de 13 MiB (CM-345); se retira `AUDIO_MAX_SIZE` | Para que 10 MiB + 1 reciba `AUDIO_TOO_LARGE` |
+| Orden de comprobaciones | 401 → 404 sesión → 422 campos → repetición por clave → 409 sesión → 422 forma Texto → 404/409 turno → 413 → 415 → 422 duración → 409 reserva → transcripción | Une los dos órdenes |
+| Migración `V8` | Una sola (idéntica en ambas ramas) | — |

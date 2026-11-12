@@ -4,14 +4,13 @@ import java.time.Duration;
 import java.util.Optional;
 
 import tech.cameia.entrevista.domain.exception.AudioInvalidFormatException;
-import tech.cameia.entrevista.domain.exception.AudioRequiredException;
 import tech.cameia.entrevista.domain.exception.AudioTooLargeException;
 import tech.cameia.entrevista.domain.exception.AudioTooLongException;
 import tech.cameia.entrevista.domain.exception.AudioTooShortException;
 import tech.cameia.entrevista.domain.model.AudioInspection;
 
 /**
- * Límites de una respuesta por voz (HU-5.8), en el orden en que se comprueban: presencia y tamaño (422, 413),
+ * Límites de una respuesta por voz (HU-5.8), en el orden en que se comprueban: tamaño (413),
  * formato (415) y duración (422).
  */
 public final class AudioAnswerPolicy {
@@ -32,16 +31,13 @@ public final class AudioAnswerPolicy {
     public static final Duration MIN_DURATION = Duration.ofMillis(1500);
 
     /**
-     * Comprueba que llegó un audio y que no supera el tamaño. Va antes de leer el contenido.
+     * Comprueba que el audio no supera el tamaño. Va antes de leer el contenido; que falte o venga vacío lo responde
+     * la validación de campos del caso de uso (422 {@code VALIDATION_FAILED} con {@code AUDIO_REQUIRED}).
      *
-     * @param size tamaño en bytes, o {@code null} si la petición no trae el audio
-     * @throws AudioRequiredException si falta el audio o está vacío
+     * @param size tamaño en bytes
      * @throws AudioTooLargeException si supera {@link #MAX_BYTES}
      */
-    public void checkSize(Long size) {
-        if (size == null || size == 0) {
-            throw new AudioRequiredException();
-        }
+    public void checkSize(long size) {
         if (size > MAX_BYTES) {
             throw new AudioTooLargeException();
         }

@@ -1,23 +1,35 @@
 package tech.cameia.entrevista.domain.exception;
 
 /**
- * El servicio de transcripción no respondió a tiempo, falló o devolvió una respuesta inutilizable. La pregunta sigue
- * pendiente y la persona puede grabar de nuevo o responder por texto.
+ * El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido (CA-5.12.8): no se registra
+ * la respuesta ni se avanza de pregunta y se descarta el audio.
  *
- * <p>La causa técnica viaja como {@link #getCause()} y solo llega al log, nunca con el audio ni el texto.</p>
+ * <p>Es {@code 503}: la causa está fuera del servicio y es pasajera. La causa técnica viaja como
+ * {@link #getCause()} y solo llega al log, nunca con el audio ni el texto.</p>
  */
 public class TranscriptionUnavailableException extends BusinessException {
 
-    /** Mensaje que ve la persona. */
+    /** Mensaje que ve la persona, literal de CA-5.12.8. */
     public static final String MESSAGE = "No pudimos transcribir tu respuesta. Graba de nuevo o responde por texto.";
 
+    private final String reason;
+
     /**
-     * Crea la excepción conservando la causa técnica.
+     * Crea la excepción con la razón técnica, para el log.
      *
-     * @param cause fallo del proveedor, para el log; {@code null} si la respuesta llegó pero no se puede usar
+     * @param reason razón corta y sin datos de la persona (por ejemplo {@code timeout} o {@code status=500})
+     * @param cause causa técnica; puede ser {@code null}
      */
-    public TranscriptionUnavailableException(Throwable cause) {
+    public TranscriptionUnavailableException(String reason, Throwable cause) {
         super(ErrorCode.TRANSCRIPTION_UNAVAILABLE, MESSAGE);
-        initCause(cause);
+        this.reason = reason;
+        if (cause != null) {
+            initCause(cause);
+        }
+    }
+
+    /** @return razón técnica del fallo, sin datos de la persona */
+    public String getReason() {
+        return reason;
     }
 }

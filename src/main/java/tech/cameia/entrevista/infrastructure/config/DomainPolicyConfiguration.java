@@ -5,7 +5,6 @@ import java.time.Clock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import tech.cameia.entrevista.domain.policy.AudioAnswerPolicy;
 import tech.cameia.entrevista.domain.policy.PersonalizationCatalog;
 import tech.cameia.entrevista.domain.policy.PlanValidator;
 import tech.cameia.entrevista.domain.policy.PlanningRetryPolicy;
@@ -46,16 +45,6 @@ class DomainPolicyConfiguration {
     @Bean
     PlanningRetryPolicy planningRetryPolicy() {
         return new PlanningRetryPolicy();
-    }
-
-    /**
-     * Crea la política de límites de la respuesta por voz (tamaño, formato y duración), que no guarda estado.
-     *
-     * @return la política de la respuesta por voz
-     */
-    @Bean
-    AudioAnswerPolicy audioAnswerPolicy() {
-        return new AudioAnswerPolicy();
     }
 
     /**

@@ -54,7 +54,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
-import tech.cameia.entrevista.domain.model.AudioClip;
+import tech.cameia.entrevista.domain.model.AudioAnswer;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
@@ -64,7 +64,7 @@ import tech.cameia.entrevista.domain.model.ReplicatedProfileStatus;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
-import tech.cameia.entrevista.domain.port.TranscriptionPort;
+import tech.cameia.entrevista.domain.port.SpeechTranscriptionPort;
 import tech.cameia.entrevista.support.ReplicaFixtures;
 import tech.cameia.entrevista.support.WithLanguageModelProperties;
 
@@ -298,7 +298,7 @@ class AudioAnswerEndToEndTest {
     }
 
     @Test
-    @DisplayName("Tras la quinta respuesta la entrevista queda EVALUANDO, sin pregunta siguiente")
+    @DisplayName("Tras la quinta respuesta no hay pregunta siguiente y la entrevista sigue EN_CURSO hasta el cierre (CA-5.12.6)")
     void submit_shouldFinishAfterFifthAnswer() {
         String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
         String turn = ids[1];
@@ -314,7 +314,7 @@ class AudioAnswerEndToEndTest {
         assertThat((Boolean) JsonPath.read(response.getBody(), "$.interviewFinished")).isTrue();
         assertThat((Object) JsonPath.read(response.getBody(), "$.nextQuestion")).isNull();
         assertThat((Integer) JsonPath.read(response.getBody(), "$.progress.currentQuestion")).isEqualTo(5);
-        assertThat(sessionStatus(ids[0])).isEqualTo("EVALUANDO");
+        assertThat(sessionStatus(ids[0])).isEqualTo("EN_CURSO");
         assertThat(answers()).isEqualTo(5);
     }
 
@@ -590,7 +590,7 @@ class AudioAnswerEndToEndTest {
     }
 
     @Test
-    @DisplayName("Un turno ya respondido responde 409 y uno que no es de la sesión, 404")
+    @DisplayName("Un turno ya respondido responde 409, uno que no es de la sesión 404 y uno ausente 422")
     void submit_shouldRejectAnsweredOrForeignTurn() {
         String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
         sendAudio(UID_A, ids[0], ids[1], audio("tono-3s.webm"), null);
@@ -604,12 +604,13 @@ class AudioAnswerEndToEndTest {
         assertThat(code(answered)).isEqualTo("TURN_TRANSITION_NOT_ALLOWED");
         assertThat(unknown.getStatusCode().value()).isEqualTo(404);
         assertThat(code(unknown)).isEqualTo("TURN_NOT_FOUND");
-        assertThat(missing.getStatusCode().value()).isEqualTo(404);
+        assertThat(missing.getStatusCode().value()).isEqualTo(422);
+        assertThat(code(missing)).isEqualTo("VALIDATION_FAILED");
         assertThat(transcriber.calls()).isEqualTo(1);
     }
 
     @Test
-    @DisplayName("Sin la parte audio responde 422 AUDIO_REQUIRED; sin identidad, 401")
+    @DisplayName("Sin la parte audio responde 422 VALIDATION_FAILED con el campo audio AUDIO_REQUIRED; sin identidad, 401")
     void submit_shouldRequireAudioAndIdentity() {
         String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
 
@@ -617,7 +618,8 @@ class AudioAnswerEndToEndTest {
         ResponseEntity<String> noIdentity = sendAudio(null, ids[0], ids[1], audio("tono-3s.webm"), null);
 
         assertThat(noAudio.getStatusCode().value()).isEqualTo(422);
-        assertThat(code(noAudio)).isEqualTo("AUDIO_REQUIRED");
+        assertThat(code(noAudio)).isEqualTo("VALIDATION_FAILED");
+        assertThat((String) JsonPath.read(noAudio.getBody(), "$.errors[0].code")).isEqualTo("AUDIO_REQUIRED");
         assertThat(noIdentity.getStatusCode().value()).isEqualTo(401);
         assertNothingRegistered(ids[1]);
     }
@@ -629,7 +631,7 @@ class AudioAnswerEndToEndTest {
     void submit_shouldKeepQuestionPendingWhenTranscriptionFails() {
         String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
         transcriber.enqueue(() -> {
-            throw new TranscriptionUnavailableException(new IllegalStateException("caída simulada"));
+            throw new TranscriptionUnavailableException("caída simulada", null);
         });
 
         ResponseEntity<String> failed = sendAudio(UID_A, ids[0], ids[1], audio("tono-3s.webm"), "clave-1");
@@ -709,11 +711,11 @@ class AudioAnswerEndToEndTest {
     }
 
     /** Transcriptor programado: por defecto responde {@link #TRANSCRIPT}; guarda el último audio que recibió. */
-    static class ScriptedTranscriber implements TranscriptionPort {
+    static class ScriptedTranscriber implements SpeechTranscriptionPort {
 
         private final List<Supplier<String>> script = new ArrayList<>();
         private final AtomicInteger calls = new AtomicInteger();
-        private final AtomicReference<AudioClip> last = new AtomicReference<>();
+        private final AtomicReference<AudioAnswer> last = new AtomicReference<>();
         private final AtomicReference<InterviewLanguage> language = new AtomicReference<>();
 
         synchronized void enqueue(Supplier<String> next) {
@@ -735,7 +737,7 @@ class AudioAnswerEndToEndTest {
         }
 
         String lastFormat() {
-            return last.get().format().name();
+            return "audio/mp4".equals(last.get().mediaType()) ? "MP4_AAC" : "WEBM_OPUS";
         }
 
         InterviewLanguage lastLanguage() {
@@ -743,7 +745,7 @@ class AudioAnswerEndToEndTest {
         }
 
         @Override
-        public Transcription transcribe(AudioClip clip, InterviewLanguage interviewLanguage) {
+        public Transcription transcribe(AudioAnswer clip, InterviewLanguage interviewLanguage) {
             calls.incrementAndGet();
             last.set(clip);
             language.set(interviewLanguage);
@@ -751,7 +753,18 @@ class AudioAnswerEndToEndTest {
             synchronized (this) {
                 next = script.isEmpty() ? () -> TRANSCRIPT : script.remove(0);
             }
-            return new Transcription(next.get(), "modelo-de-voz", 100, 20);
+            String language = interviewLanguage == InterviewLanguage.ENGLISH ? "en" : "es";
+            return new Transcription(next.get(), language, 0.99);
+        }
+
+        @Override
+        public String provider() {
+            return "simulado";
+        }
+
+        @Override
+        public String model() {
+            return "modelo-de-voz";
         }
     }
 

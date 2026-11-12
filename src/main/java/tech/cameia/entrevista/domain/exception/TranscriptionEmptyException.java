@@ -1,11 +1,12 @@
 package tech.cameia.entrevista.domain.exception;
 
 /**
- * La transcripción del audio no trae texto: no se detectó voz (CA-5.8.11).
+ * El audio se transcribió vacío o solo con espacios (CA-5.12.7): no se registra la respuesta, se descarta el audio
+ * y la persona puede grabar de nuevo o responder por texto la misma pregunta.
  */
 public class TranscriptionEmptyException extends BusinessException {
 
-    /** Mensaje que ve la persona. */
+    /** Mensaje que ve la persona, literal de CA-5.12.7. */
     public static final String MESSAGE = "No detectamos tu voz, intenta de nuevo.";
 
     /** Crea la excepción con su código y su mensaje fijos. */
