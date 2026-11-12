@@ -75,6 +75,23 @@ class ModelosDePruebaTest {
     }
 
     @Test
+    @org.junit.jupiter.api.DisplayName("Con esquema, el cuerpo pide json_schema estricto; sin él queda idéntico")
+    void qwen_shouldSendSchema_whenConEsquema() throws Exception {
+        QwenGroq base = new QwenGroq(LLAVE_FALSA, 1.0, "none", Duration.ofSeconds(5));
+        String esquema = "{\"type\":\"object\",\"properties\":{\"accion\":{\"type\":\"string\"}}}";
+
+        JsonNode con = MAPPER.readTree(base.conEsquema(esquema).cuerpo("hola", 10));
+
+        assertThat(con.get("response_format").get("type").asString()).isEqualTo("json_schema");
+        assertThat(con.get("response_format").get("json_schema").get("name").asString()).isEqualTo("evaluacion");
+        assertThat(con.get("response_format").get("json_schema").get("strict").asBoolean()).isTrue();
+        assertThat(con.get("response_format").get("json_schema").get("schema").get("type").asString())
+                .isEqualTo("object");
+        assertThat(MAPPER.readTree(base.cuerpo("hola", 10)).has("response_format")).isFalse();
+        assertThat(base.conEsquema(esquema).cuerpo("hola", 10)).doesNotContain(LLAVE_FALSA);
+    }
+
+    @Test
     void elAjusteSinRazonamientoAgregaElParametro() throws Exception {
         QwenGroq qwen = new QwenGroq(LLAVE_FALSA, 1.0, "none", Duration.ofSeconds(5));
         assertThat(MAPPER.readTree(qwen.cuerpo("hola", 10)).get("reasoning_effort").asString()).isEqualTo("none");

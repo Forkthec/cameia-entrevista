@@ -22,10 +22,18 @@ final class GeminiLite implements ModeloDePrueba {
 
     private final String llave;
 
+    /** Esquema JSON de la respuesta, o {@code null} si el modelo responde sin esquema. */
+    private final String esquemaJson;
+
     GeminiLite(LanguageModelPort puerto, String modelo, String llave) {
+        this(puerto, modelo, llave, null);
+    }
+
+    GeminiLite(LanguageModelPort puerto, String modelo, String llave, String esquemaJson) {
         this.puerto = puerto;
         this.modelo = modelo;
         this.llave = llave;
+        this.esquemaJson = esquemaJson;
     }
 
     @Override
@@ -41,7 +49,7 @@ final class GeminiLite implements ModeloDePrueba {
     @Override
     public Respuesta generar(String prompt, int maxTokensSalida) {
         try {
-            LanguageModelResponse r = puerto.generate(new LanguageModelPrompt(prompt, maxTokensSalida));
+            LanguageModelResponse r = puerto.generate(new LanguageModelPrompt(prompt, maxTokensSalida, esquemaJson));
             return new Respuesta(r.text(), r.inputTokens(), r.outputTokens(), r.model(), Map.of(), null);
         } catch (BusinessException fallo) {
             String causa = Secretos.enmascarar(causaRaiz(fallo), llave);
