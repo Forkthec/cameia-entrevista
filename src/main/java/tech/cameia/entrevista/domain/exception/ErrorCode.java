@@ -134,6 +134,33 @@ public enum ErrorCode {
     /** El encabezado de la clave anti-duplicados no cumple el formato. */
     IDEMPOTENCY_KEY_INVALID_FORMAT,
 
+    /** Falta el turno al que se responde. */
+    TURN_ID_REQUIRED,
+
+    /** El identificador del turno no tiene formato de UUID. */
+    TURN_ID_INVALID_FORMAT,
+
+    /** Falta el audio de la respuesta, o llegó vacío. */
+    AUDIO_REQUIRED,
+
+    /** El audio llegó en un tipo de contenido que no se admite. */
+    AUDIO_FORMAT_NOT_ALLOWED,
+
+    /** La sesión se responde en otra forma (por ejemplo, se envió audio a una entrevista por texto). */
+    ANSWER_FORMAT_NOT_ALLOWED,
+
+    /** El audio se transcribió vacío o solo con espacios: no se detectó voz. */
+    TRANSCRIPTION_EMPTY,
+
+    /** La transcripción supera los 4000 caracteres. */
+    TRANSCRIPTION_TOO_LONG,
+
+    /** Se detectó, con confianza suficiente, que el audio está en otro idioma que el de la entrevista. */
+    TRANSCRIPTION_LANGUAGE_MISMATCH,
+
+    /** El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido. */
+    TRANSCRIPTION_UNAVAILABLE,
+
     /** La sesión no existe, es de otra persona o su identificador no es válido; no se distingue. */
     SESSION_NOT_FOUND,
 
