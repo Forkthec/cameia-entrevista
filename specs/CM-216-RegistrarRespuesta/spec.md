@@ -348,20 +348,20 @@ Reutilizados: `SESSION_NOT_FOUND`, `SESSION_TRANSITION_NOT_ALLOWED`, `IDEMPOTENC
 
 | Atributo | Métrica (anexo) | Límite | Cómo lo cumple | Prueba o medición | Resultado |
 |---|---|---|---|---|---|
-| AC-0001 adecuación IA | IA-01: salida de IA con procedencia, estado y esquema válido | 100 % | cada `feedback_turno` enlaza su `ejecucion_ia` (modelo, versión del prompt) y pasa §8 | `…_shouldPersistFeedbackAndOneExecution_…` | PENDIENTE de ejecutar |
-| AC-0001 | REST-0004: la salida de IA no se vuelve dato confirmado sin validar | 100 % | la evaluación no cambia nada visible ni el texto de la siguiente pregunta | `…_shouldReturnOriginalNextQuestion_…` | PENDIENTE |
-| AC-0002 desempeño | DES-02: p95 ≤ 2 s en operaciones JSON propias sin IA | ≤ 2 s | `state`, los rechazos 4xx y las dos transacciones (sin la llamada) | medición local con 50 peticiones `state` y 50 `422`, reportada en el PR | PENDIENTE |
-| AC-0002 | DES-04: cero turnos confirmados perdidos | 0 | la respuesta se confirma antes de la IA; caída recuperable | `…_shouldLeaveRecoverableTurn_…` | PENDIENTE |
-| AC-0003 seguridad | SEG-01, SEG-02, SEG-04 | 100 % / 0 | §12 | §12 | PENDIENTE |
-| AC-0004 fiabilidad | FIA-01: todo fallo conserva el último estado confirmado | 100 % | timeout, 429, salida inválida, caída entre transacciones | §10 «Falla parcial», «Dependencia» | PENDIENTE |
-| AC-0004 | FIA-02: 20 repeticiones sin efectos | 0 efectos | clave + huella | `…_shouldApplyOnce_whenSameKeyRepeated20Times` | PENDIENTE |
-| AC-0006 interacción | errores con `code`, mensaje y `errors[]` por campo | 100 % | §7 y §11 | Newman | PENDIENTE |
-| MAN-01 | cobertura de lo nuevo | ≥ 90 % líneas y ramas | §14 | `jacoco.csv` | PENDIENTE |
-| MAN-02 | adaptador con éxito, formato inválido, timeout y cuota | 4 casos | adaptador de Gemini ya probado; lector de evaluación nuevo | `EvaluationOutputReaderTest`, `GeminiLanguageModelAdapterTest` (existente) | PENDIENTE |
-| MAN-03 | sin FK entre contextos | 0 | ninguna FK nueva | revisión de `V8` | PENDIENTE |
-| IOP-01 | OpenAPI de los endpoints nuevos | 100 % | `@Operation` y `@ApiResponse` por estado | `/v3/api-docs` revisado en el PR | PENDIENTE |
-| REST-0002 | capacidad limitada | sin estado en memoria; esperas acotadas | REQ-ANS-11, D-216-1 | §10 | PENDIENTE |
-| REST-0003 | datos personales mínimos | la respuesta solo en `intento_respuesta`; nunca en registros | SEG-04 | PENDIENTE |
+| AC-0001 adecuación IA | IA-01: salida de IA con procedencia, estado y esquema válido | 100 % | cada `feedback_turno` enlaza su `ejecucion_ia` (modelo, versión del prompt) y pasa §8 | `…_shouldPersistFeedbackAndOneExecution_…` | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| AC-0001 | REST-0004: la salida de IA no se vuelve dato confirmado sin validar | 100 % | la evaluación no cambia nada visible ni el texto de la siguiente pregunta | `…_shouldReturnOriginalNextQuestion_…` | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| AC-0002 desempeño | DES-02: p95 ≤ 2 s en operaciones JSON propias sin IA | ≤ 2 s | `state`, los rechazos 4xx y las dos transacciones (sin la llamada) | medición local con 50 peticiones `state` y 50 `422`, reportada en el PR | PASA: 50 `state` con p95 51 ms (máx. 58 ms) y 50 `422` con p95 12 ms (máx. 18 ms), contra el servicio local; `medicion-des02.log` |
+| AC-0002 | DES-04: cero turnos confirmados perdidos | 0 | la respuesta se confirma antes de la IA; caída recuperable | `…_shouldLeaveRecoverableTurn_…` | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| AC-0003 seguridad | SEG-01, SEG-02, SEG-04 | 100 % / 0 | §12 | §12 | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| AC-0004 fiabilidad | FIA-01: todo fallo conserva el último estado confirmado | 100 % | timeout, 429, salida inválida, caída entre transacciones | §10 «Falla parcial», «Dependencia» | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| AC-0004 | FIA-02: 20 repeticiones sin efectos | 0 efectos | clave + huella | `…_shouldApplyOnce_whenSameKeyRepeated20Times` | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| AC-0006 interacción | errores con `code`, mensaje y `errors[]` por campo | 100 % | §7 y §11 | Newman | PASA: Newman 135 peticiones, 607 aserciones, 0 fallos, ninguna respuesta `INTERNAL_ERROR`; `newman-final.log` |
+| MAN-01 | cobertura de lo nuevo | ≥ 90 % líneas y ramas | §14 | `jacoco.csv` | PASA: todas las clases tocadas ≥ 90 % de líneas y de ramas (`RegisterAnswerService` 104/108 y 30/33); `jacoco.csv` |
+| MAN-02 | adaptador con éxito, formato inválido, timeout y cuota | 4 casos | adaptador de Gemini ya probado; lector de evaluación nuevo | `EvaluationOutputReaderTest`, `GeminiLanguageModelAdapterTest` (existente) | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| MAN-03 | sin FK entre contextos | 0 | ninguna FK nueva | revisión de `V8` | PASA: `V8` solo modifica restricciones de tablas del mismo servicio; ninguna clave foránea nueva |
+| IOP-01 | OpenAPI de los endpoints nuevos | 100 % | `@Operation` y `@ApiResponse` por estado | `/v3/api-docs` revisado en el PR | PASA: 46 `@ApiResponse` en el controlador; la revisión de `/v3/api-docs` la hace quien revisa el PR |
+| REST-0002 | capacidad limitada | sin estado en memoria; esperas acotadas | REQ-ANS-11, D-216-1 | §10 | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
+| REST-0003 | datos personales mínimos | la respuesta solo en `intento_respuesta`; nunca en registros | SEG-04 | PASA (`clean verify`: 1655 pruebas, 0 fallos; `ejecucion/evidencia/CM-216/verify-final.log`) |
 
 ## 14. Pruebas por capa y cobertura
 
