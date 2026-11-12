@@ -72,3 +72,7 @@ Las variables de entorno están en `.env.example`. Más detalle en [CLAUDE.md](C
 ## Contribución
 
 La rama, el commit, los tipos, el título del PR y la revisión están en [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE).
