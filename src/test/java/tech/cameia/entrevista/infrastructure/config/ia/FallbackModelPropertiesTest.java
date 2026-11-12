@@ -56,7 +56,7 @@ class FallbackModelPropertiesTest {
     }
 
     @ParameterizedTest(name = "dirección [{0}]")
-    @ValueSource(strings = {"ftp://x", "http://api.groq.com", "api.groq.com"})
+    @ValueSource(strings = {"ftp://x", "http://api.groq.com", "api.groq.com", "http://localhost.evil.com"})
     @DisplayName("Una dirección que no es https ni http://localhost impide arrancar")
     void bind_shouldFail_whenBaseUrlIsNotSecure(String url) {
         context.withPropertyValues("cameia.llm.fallback.base-url=" + url)
@@ -65,7 +65,8 @@ class FallbackModelPropertiesTest {
     }
 
     @ParameterizedTest(name = "dirección [{0}]")
-    @ValueSource(strings = {"http://localhost", "http://localhost:9000", "https://api.groq.com/openai"})
+    @ValueSource(strings = {"http://localhost", "http://localhost:9000", "http://localhost/openai",
+            "https://api.groq.com/openai"})
     @DisplayName("Las direcciones https y http://localhost arrancan")
     void bind_shouldStart_whenBaseUrlIsAllowed(String url) {
         context.withPropertyValues("cameia.llm.fallback.base-url=" + url)

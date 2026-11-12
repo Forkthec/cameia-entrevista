@@ -10,9 +10,4 @@ import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
  * @param fallbackSchema esquema JSON de la salida que solo se envía al proveedor de respaldo, o {@code null}
  */
 public record PlanningPrompt(LanguageModelPrompt prompt, String version, String fallbackSchema) {
-
-    /** Prompt sin esquema de respaldo. */
-    public PlanningPrompt(LanguageModelPrompt prompt, String version) {
-        this(prompt, version, null);
-    }
 }

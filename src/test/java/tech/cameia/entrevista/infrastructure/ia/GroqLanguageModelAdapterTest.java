@@ -127,6 +127,16 @@ class GroqLanguageModelAdapterTest {
     }
 
     @Test
+    @DisplayName("Una llamada sin llave configurada es IA no disponible y no sale a la red")
+    void generate_shouldThrowUnavailable_whenNoKey() {
+        contexto("").run(arrancado -> assertThat(catchThrowable(() -> arrancado
+                .getBean(GroqLanguageModelAdapter.class)
+                .generate(new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN))))
+                .isInstanceOf(LlmUnavailableException.class));
+        assertThat(cuerpos).isEmpty();
+    }
+
+    @Test
     @DisplayName("Un 429 del proveedor es límite de uso y no se reintenta dentro del adaptador")
     void generate_shouldThrowLimit_when429() {
         respuesta = json(429, "{\"error\":{\"message\":\"rate limit\",\"type\":\"rate_limit_exceeded\"}}");
