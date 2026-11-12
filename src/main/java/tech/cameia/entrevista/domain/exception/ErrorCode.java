@@ -183,6 +183,9 @@ public enum ErrorCode {
     TURN_NOT_RETRYABLE,
 
     /** La persona ya usó todos los reintentos manuales del turno. */
-    TURN_RETRY_LIMIT_REACHED
+    TURN_RETRY_LIMIT_REACHED,
+
+    /** La evaluación de la entrevista no se pudo reunir; la sesión sigue en evaluación con sus respuestas. */
+    SESSION_CONSOLIDATION_FAILED
 
 }
