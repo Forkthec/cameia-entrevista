@@ -1,5 +1,7 @@
 package tech.cameia.entrevista.domain.port;
 
+import java.util.UUID;
+
 import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.model.TurnFeedback;
 
@@ -16,4 +18,12 @@ public interface TurnFeedbackRepository {
      * @throws TurnConflictException si el turno ya tenía retroalimentación
      */
     TurnFeedback save(TurnFeedback feedback);
+
+    /**
+     * Cuenta las retroalimentaciones de los turnos de una sesión.
+     *
+     * @param sessionId sesión consultada
+     * @return cantidad de turnos de la sesión que ya tienen retroalimentación
+     */
+    int countBySession(UUID sessionId);
 }
