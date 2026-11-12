@@ -44,7 +44,9 @@ class SessionLifecycleControllerTest {
     private final GetSessionStateService state = mock(GetSessionStateService.class);
     private final DeleteSessionService delete = mock(DeleteSessionService.class);
     private final MockMvc mockMvc = MockMvcBuilders
-            .standaloneSetup(new InterviewSessionController(mock(CreateSessionService.class), start, state, delete))
+            .standaloneSetup(new InterviewSessionController(mock(CreateSessionService.class), start, state, delete,
+                    mock(tech.cameia.entrevista.application.service.RegisterAnswerService.class),
+                    mock(tech.cameia.entrevista.application.service.ReprocessTurnService.class)))
             .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 

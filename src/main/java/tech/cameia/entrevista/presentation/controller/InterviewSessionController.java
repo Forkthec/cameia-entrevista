@@ -21,14 +21,19 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.cameia.entrevista.application.command.AnswerCommand;
 import tech.cameia.entrevista.application.command.CreateSessionCommand;
 import tech.cameia.entrevista.application.command.SessionCommand;
 import tech.cameia.entrevista.application.service.CreateSessionService;
 import tech.cameia.entrevista.application.service.DeleteSessionService;
 import tech.cameia.entrevista.application.service.GetSessionStateService;
+import tech.cameia.entrevista.application.service.RegisterAnswerService;
+import tech.cameia.entrevista.application.service.ReprocessTurnService;
 import tech.cameia.entrevista.application.service.StartSessionService;
 import tech.cameia.entrevista.domain.exception.IdentityRequiredException;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
+import tech.cameia.entrevista.presentation.dto.AnswerRequest;
+import tech.cameia.entrevista.presentation.dto.AnswerResultResponse;
 import tech.cameia.entrevista.presentation.dto.CreateSessionRequest;
 import tech.cameia.entrevista.presentation.dto.CreateSessionResponse;
 import tech.cameia.entrevista.presentation.dto.SessionStateResponse;
@@ -96,7 +101,7 @@ class InterviewSessionController {
             {"sessionId":"3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10","status":"EN_CURSO","answerFormat":"TEXTO","interviewFinished":false,
              "progress":{"currentQuestion":1,"totalQuestions":5},
              "pendingQuestion":{"turnId":"9b2e6d44-5a3c-4f0b-8e71-2c4d6f8a0b12","number":1,
-               "text":"Cuéntame brevemente quién eres y por qué te interesa este rol."},
+               "text":"Cuéntame brevemente quién eres y por qué te interesa este rol.","status":"PENDING","retriesUsed":0},
              "history":[]}""";
 
     private static final String EXAMPLE_START_NOT_FOUND = """
@@ -120,10 +125,40 @@ class InterviewSessionController {
              "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/start",
              "code":"PLANNING_RETRIES_EXHAUSTED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
+    private static final String EXAMPLE_ANSWER = """
+            {"turn":{"turnId":"9b2e6d44-5a3c-4f0b-8e71-2c4d6f8a0b12","status":"COMPLETED"},
+             "progress":{"currentQuestion":2,"totalQuestions":5},
+             "nextQuestion":{"turnId":"5d0c7a1e-3b9f-4c28-a6d4-8e1f2b3c4d5e","number":2,
+               "text":"Háblame de un conflicto con un compañero y cómo lo resolviste."},
+             "interviewFinished":false}""";
+
+    private static final String EXAMPLE_ANSWER_422 = """
+            {"title":"Datos no válidos","status":422,"detail":"Revisa los campos marcados.",
+             "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/answers",
+             "code":"VALIDATION_FAILED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35",
+             "errors":[{"field":"answerText","code":"ANSWER_TEXT_REQUIRED","message":"Ingresa tu respuesta."}]}""";
+
+    private static final String EXAMPLE_ANSWER_409 = """
+            {"title":"Entrevista abandonada","status":409,"detail":"Esta entrevista se abandonó.",
+             "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/answers",
+             "code":"SESSION_ABANDONED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
+
+    private static final String EXAMPLE_TURN_NOT_RETRYABLE = """
+            {"title":"Turno no reintentable","status":409,"detail":"Este turno no se puede reintentar ahora.",
+             "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/turns/9b2e6d44-5a3c-4f0b-8e71-2c4d6f8a0b12/reprocess",
+             "code":"TURN_NOT_RETRYABLE","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
+
+    private static final String EXAMPLE_TURN_NOT_FOUND = """
+            {"title":"Turno no encontrado","status":404,"detail":"No encontramos lo que buscabas.",
+             "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/answers",
+             "code":"TURN_NOT_FOUND","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
+
     private final CreateSessionService createSession;
     private final StartSessionService startSession;
     private final GetSessionStateService sessionState;
     private final DeleteSessionService deleteSession;
+    private final RegisterAnswerService registerAnswer;
+    private final ReprocessTurnService reprocessTurn;
 
     /**
      * Crea el controlador.
@@ -132,13 +167,18 @@ class InterviewSessionController {
      * @param startSession caso de uso que inicia la entrevista
      * @param sessionState caso de uso que consulta el estado
      * @param deleteSession caso de uso que cancela la preparación
+     * @param registerAnswer caso de uso que registra y evalúa la respuesta escrita
+     * @param reprocessTurn caso de uso que reintenta la evaluación de un turno
      */
     InterviewSessionController(CreateSessionService createSession, StartSessionService startSession,
-            GetSessionStateService sessionState, DeleteSessionService deleteSession) {
+            GetSessionStateService sessionState, DeleteSessionService deleteSession,
+            RegisterAnswerService registerAnswer, ReprocessTurnService reprocessTurn) {
         this.createSession = createSession;
         this.startSession = startSession;
         this.sessionState = sessionState;
         this.deleteSession = deleteSession;
+        this.registerAnswer = registerAnswer;
+        this.reprocessTurn = reprocessTurn;
     }
 
     /**
@@ -335,5 +375,114 @@ class InterviewSessionController {
         FirebaseUid owner = FirebaseUid.required(userId);
         deleteSession.delete(SessionCommand.of(sessionId, owner));
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Registra la respuesta escrita a la pregunta pendiente, la evalúa sin mostrar la evaluación y avanza.
+     *
+     * @param userId identidad del Gateway
+     * @param sessionId identificador de la sesión, tal como llegó en la ruta
+     * @param idempotencyKey clave de idempotencia; obligatoria
+     * @param body turno y texto de la respuesta, sin validar
+     * @return el turno completado y la pregunta siguiente
+     */
+    @Operation(summary = "Responder la pregunta pendiente con texto",
+            description = "Valida turnId, answerText y Idempotency-Key (todos los errores a la vez), guarda la respuesta"
+                    + " tal cual, la evalúa con la IA sin mostrar la evaluación y abre la pregunta siguiente. Es"
+                    + " síncrono: tarda hasta el tiempo máximo del modelo (20 s). Si la IA falla, la respuesta queda"
+                    + " guardada y el turno en RETRYING: se reintenta con POST .../turns/{turnId}/reprocess sin"
+                    + " volver a escribir. Repetir la misma Idempotency-Key con la misma respuesta devuelve el mismo"
+                    + " resultado; con otra respuesta, 409. Nunca incluye retroalimentación.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Respuesta registrada y evaluada", content = @Content(
+                    mediaType = "application/json", schema = @Schema(implementation = AnswerResultResponse.class),
+                    examples = @ExampleObject(name = "avanza", value = EXAMPLE_ANSWER))),
+            @ApiResponse(responseCode = "401", description = "Sin identidad (code IDENTITY_REQUIRED)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "sinIdentidad", value = EXAMPLE_401))),
+            @ApiResponse(responseCode = "404", description = "SESSION_NOT_FOUND (la sesión no existe o es de otra"
+                    + " persona) o TURN_NOT_FOUND (el turno no es de la sesión)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "turnoNoEncontrado", value = EXAMPLE_TURN_NOT_FOUND))),
+            @ApiResponse(responseCode = "409", description = "SESSION_ABANDONED, SESSION_ALREADY_CLOSED,"
+                    + " SESSION_TRANSITION_NOT_ALLOWED (estado de la sesión), ANSWER_ALREADY_EXISTS (el turno ya tiene"
+                    + " su respuesta), TURN_CONFLICT (la misma clave sigue procesándose) o IDEMPOTENCY_KEY_CONFLICT"
+                    + " (la clave ya se usó con otra respuesta)", content = @Content(mediaType = PROBLEM,
+                    schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "sesionAbandonada", value = EXAMPLE_ANSWER_409))),
+            @ApiResponse(responseCode = "415", description = "El Content-Type no es application/json"
+                    + " (code MEDIA_TYPE_NOT_ALLOWED)", content = @Content(mediaType = PROBLEM,
+                    schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "tipoNoAdmitido", value = EXAMPLE_415))),
+            @ApiResponse(responseCode = "422", description = "VALIDATION_FAILED con un elemento por campo en errors, o"
+                    + " REQUEST_BODY_INVALID_FORMAT si el cuerpo no es un JSON válido", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "camposInvalidos", value = EXAMPLE_ANSWER_422))),
+            @ApiResponse(responseCode = "503", description = "LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT: la"
+                    + " respuesta quedó guardada y se puede reintentar; DATABASE_UNAVAILABLE si la base no responde",
+                    content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(name = "iaNoDisponible", value = EXAMPLE_LLM))),
+            @ApiResponse(responseCode = "500", description = "Error imprevisto (code INTERNAL_ERROR)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "falloInterno", value = EXAMPLE_500)))
+    })
+    @PostMapping(path = "/{sessionId}/answers", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<AnswerResultResponse> answer(
+            @Parameter(hidden = true) @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @Parameter(description = "Identificador de la sesión (UUID)") @PathVariable String sessionId,
+            @Parameter(description = "Clave única por respuesta: de 1 a 64 caracteres A-Z a-z 0-9 . _ -. Repetirla con"
+                    + " la misma respuesta devuelve el mismo resultado; con otra, 409")
+            @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
+            @RequestBody AnswerRequest body) {
+        FirebaseUid owner = FirebaseUid.required(userId);
+        return ResponseEntity.ok(AnswerResultResponse.from(registerAnswer.register(new AnswerCommand(
+                SessionCommand.of(sessionId, owner), body.turnId(), body.answerText(), idempotencyKey))));
+    }
+
+    /**
+     * Reintenta la evaluación de una respuesta ya guardada.
+     *
+     * @param userId identidad del Gateway
+     * @param sessionId identificador de la sesión, tal como llegó en la ruta
+     * @param turnId identificador del turno, tal como llegó en la ruta
+     * @return el turno completado y la pregunta siguiente
+     */
+    @Operation(summary = "Reintentar la evaluación de un turno",
+            description = "Vuelve a evaluar la respuesta ya guardada de un turno en RETRYING, o en PROCESSING con la"
+                    + " evaluación caída, sin que la persona la escriba de nuevo. Cada uso cuenta: máximo cuatro por"
+                    + " turno. Es síncrono: tarda hasta el tiempo máximo del modelo (20 s). Ignora el cuerpo.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Evaluación completada", content = @Content(
+                    mediaType = "application/json", schema = @Schema(implementation = AnswerResultResponse.class),
+                    examples = @ExampleObject(name = "avanza", value = EXAMPLE_ANSWER))),
+            @ApiResponse(responseCode = "401", description = "Sin identidad (code IDENTITY_REQUIRED)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "sinIdentidad", value = EXAMPLE_401))),
+            @ApiResponse(responseCode = "404", description = "SESSION_NOT_FOUND o TURN_NOT_FOUND (el turno no existe, no"
+                    + " es de la sesión o el identificador no es un UUID)", content = @Content(mediaType = PROBLEM,
+                    schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "turnoNoEncontrado", value = EXAMPLE_TURN_NOT_FOUND))),
+            @ApiResponse(responseCode = "409", description = "TURN_NOT_RETRYABLE (el turno no espera un reintento),"
+                    + " TURN_RETRY_LIMIT_REACHED (ya se usaron los cuatro) o el estado de la sesión"
+                    + " (SESSION_ABANDONED, SESSION_ALREADY_CLOSED, SESSION_TRANSITION_NOT_ALLOWED)",
+                    content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(name = "noReintentable", value = EXAMPLE_TURN_NOT_RETRYABLE))),
+            @ApiResponse(responseCode = "503", description = "LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT (el"
+                    + " reintento queda contado) o DATABASE_UNAVAILABLE", content = @Content(mediaType = PROBLEM,
+                    schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "iaNoDisponible", value = EXAMPLE_LLM))),
+            @ApiResponse(responseCode = "500", description = "Error imprevisto (code INTERNAL_ERROR)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "falloInterno", value = EXAMPLE_500)))
+    })
+    @PostMapping(path = "/{sessionId}/turns/{turnId}/reprocess", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<AnswerResultResponse> reprocess(
+            @Parameter(hidden = true) @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @Parameter(description = "Identificador de la sesión (UUID)") @PathVariable String sessionId,
+            @Parameter(description = "Identificador del turno (UUID)") @PathVariable String turnId) {
+        FirebaseUid owner = FirebaseUid.required(userId);
+        return ResponseEntity.ok(AnswerResultResponse.from(
+                reprocessTurn.reprocess(SessionCommand.of(sessionId, owner), turnId)));
     }
 }
