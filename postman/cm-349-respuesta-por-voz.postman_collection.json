@@ -32,6 +32,10 @@
     {
       "key": "firebaseUid",
       "value": ""
+    },
+    {
+      "key": "email",
+      "value": ""
     }
   ],
   "item": [
@@ -1209,15 +1213,23 @@
       "description": "Tras el paso 1, asigna la sesión en inglés a tu usuario del emulador (ver README.md, «Vía Gateway»).",
       "item": [
         {
-          "name": "1) Crear usuario en el emulador y guardar idToken",
+          "name": "1a) Crear usuario en el emulador",
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('email', 'voz-' + Date.now() + '@cameia.test');"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-                  "pm.collectionVariables.set('idToken', pm.response.json().idToken);",
                   "pm.collectionVariables.set('firebaseUid', pm.response.json().localId);",
                   "console.log('firebaseUid =', pm.response.json().localId);"
                 ]
@@ -1234,7 +1246,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"email\":\"voz-{{$timestamp}}@cameia.test\",\"password\":\"Clave-Segura-123\",\"returnSecureToken\":true}"
+              "raw": "{\"email\":\"{{email}}\",\"password\":\"Clave-Segura-123\",\"returnSecureToken\":true}"
             },
             "url": {
               "raw": "{{emulatorUrl}}/identitytoolkit.googleapis.com/v1/accounts:signUp?key=fake-api-key",
@@ -1245,6 +1257,95 @@
                 "identitytoolkit.googleapis.com",
                 "v1",
                 "accounts:signUp"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "fake-api-key"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "1b) Marcar el correo como verificado (el Gateway lo exige)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer owner"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"localId\":\"{{firebaseUid}}\",\"emailVerified\":true}"
+            },
+            "url": {
+              "raw": "{{emulatorUrl}}/identitytoolkit.googleapis.com/v1/projects/demo-cameia/accounts:update",
+              "host": [
+                "{{emulatorUrl}}"
+              ],
+              "path": [
+                "identitytoolkit.googleapis.com",
+                "v1",
+                "projects",
+                "demo-cameia",
+                "accounts:update"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1c) Iniciar sesión y guardar idToken (ya con correo verificado)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('idToken', pm.response.json().idToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"{{email}}\",\"password\":\"Clave-Segura-123\",\"returnSecureToken\":true}"
+            },
+            "url": {
+              "raw": "{{emulatorUrl}}/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=fake-api-key",
+              "host": [
+                "{{emulatorUrl}}"
+              ],
+              "path": [
+                "identitytoolkit.googleapis.com",
+                "v1",
+                "accounts:signInWithPassword"
               ],
               "query": [
                 {
