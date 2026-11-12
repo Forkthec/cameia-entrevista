@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 2,
+  "ms" : 575,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 134,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Vas en la dirección correcta, pero careces de precisión técnica y detalle sobre los mecanismos subyacentes.\", \"follow_up_texto\": \"Explica cómo se implementa técnicamente el bloqueo optimista (por ejemplo, con versioning) y contrasta su manejamiento de conflictos con la serialización de las transacciones SQL. ¿En qué escenarios concretos preferirías uno sobre el otro?\", \"motivo\": \"La respuesta es demasiado general y no detalla los mecanismos ni las condiciones específicas de uso solicitadas en la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

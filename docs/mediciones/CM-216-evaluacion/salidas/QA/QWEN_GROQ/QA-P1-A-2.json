@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-A",
+  "corrida" : 2,
+  "ms" : 889,
+  "tokensEntrada" : 715,
+  "tokensSalida" : 89,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta concreta con métricas claras y motivación alineada con el rol.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato detalla su experiencia específica (herramientas, impacto cuantitativo) y su motivación, cumpliendo con los requisitos de la pregunta sin rodeos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

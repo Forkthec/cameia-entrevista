@@ -1,0 +1,13 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-C",
+  "corrida" : 1,
+  "ms" : 1110,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 119,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Has esquivado la pregunta. Debes responder directamente a la solicitud inicial antes de avanzar hacia temas técnicos.\", \"follow_up_texto\": \"Por favor, responde a la pregunta original: descríbeme brevemente tu experiencia profesional y explícame específicamente por qué te interesa este puesto de desarrollador backend.\", \"motivo\": \"El candidato se niega explícitamente a responder la pregunta buscando redirigir la conversación a un tema técnico diferente.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

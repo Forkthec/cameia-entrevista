@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 2,
+  "ms" : 483,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 73,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta correcta y concisa.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato define correctamente ambos conceptos, explica el mecanismo de versión en optimista y proporciona criterios claros de uso basados en la contención.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

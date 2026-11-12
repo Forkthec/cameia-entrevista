@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P2-A",
+  "corrida" : 3,
+  "ms" : 1028,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 117,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Definición y cronograma claros. Hubiera sido valioso mencionar el impacto en el tiempo de ciclo para justificar la Estrategia de regresión.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta distingue con precisión los objetivos (estabilidad inicial vs. conservación de funcionalidad) y los momentos de ejecución (cada despliegue vs. release/módulos compartidos), cumpliendo con el nivel de detalle deseado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

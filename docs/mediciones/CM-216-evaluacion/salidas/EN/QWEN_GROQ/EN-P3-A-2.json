@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-A",
+  "corrida" : 2,
+  "ms" : 524,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 102,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta clara y estructurada. Propone una solución basada en datos para desbloquear el desacuerdo técnico y logístico.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un conflicto técnico concreto, explica la dinámica de resolución mediante datos/métricas y detalla el resultado positivo. Cubre todos los aspectos de la pregunta behavioral con suficiente detalle.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

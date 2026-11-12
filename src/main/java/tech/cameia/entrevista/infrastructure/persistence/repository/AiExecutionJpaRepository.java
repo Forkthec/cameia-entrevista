@@ -28,6 +28,16 @@ interface AiExecutionJpaRepository extends JpaRepository<AiExecutionEntity, UUID
             String status);
 
     /**
+     * Busca la ejecución de un tipo de operación y estado de un turno.
+     *
+     * @param turnId turno
+     * @param operation operación guardada
+     * @param status estado guardado
+     * @return la ejecución, o vacío si no hay
+     */
+    Optional<AiExecutionEntity> findFirstByTurnIdAndOperationAndStatus(UUID turnId, String operation, String status);
+
+    /**
      * Indica si existe una ejecución de la sesión con la operación y el estado dados.
      *
      * @param sessionId sesión

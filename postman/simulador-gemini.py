@@ -15,8 +15,12 @@ Escenarios de /__script:
   bad_type     plan con el tipo de la pregunta 3 distinto al de la plantilla (la salida es inválida).
   limit        el proveedor responde 429 (límite de uso).
   unavailable  el proveedor responde 503.
+  eval_valid      evaluación válida (AVANZAR, COMPLETA) de una respuesta.
+  eval_follow_up  evaluación con acción FOLLOW_UP y un texto de seguimiento (el servicio lo ignora y avanza).
+  eval_invalid    evaluación con una acción fuera del esquema (la salida es inválida).
 
-Cualquier ruta que termine en ":generateContent" consume el siguiente escenario; con la cola vacía responde "valid".
+Cualquier ruta que termine en ":generateContent" consume el siguiente escenario. Con la cola vacía, una petición cuyo
+prompt trae la marca <respuesta_del_candidato> (una evaluación) responde "eval_valid" y cualquier otra responde "valid".
 """
 import json
 import sys
@@ -44,6 +48,17 @@ def plan(bad_type=False):
             kind = "TECNICA"
         items.append({"posicion": position, "tipo": kind, "texto": text})
     return json.dumps({"idioma": "es-CO", "preguntas": items}, ensure_ascii=False)
+
+
+def evaluation(scenario):
+    if scenario == "eval_follow_up":
+        action, follow_up = "FOLLOW_UP", "SEGUIMIENTO-DEL-SIMULADOR ¿Qué pasaría si la cola fallara?"
+    elif scenario == "eval_invalid":
+        action, follow_up = "OTRA_ACCION", ""
+    else:
+        action, follow_up = "AVANZAR", ""
+    return json.dumps({"accion": action, "clasificacion": "COMPLETA", "motivo": "Responde lo pedido",
+                       "follow_up_texto": follow_up, "feedback": "Buena estructura"}, ensure_ascii=False)
 
 
 def gemini_body(text):
@@ -84,7 +99,8 @@ class Handler(BaseHTTPRequestHandler):
             self._send(200, {"ok": True})
         elif self.path == "/__script":
             scenario = json.loads(body or "{}").get("scenario")
-            if scenario not in ("valid", "bad_type", "limit", "unavailable"):
+            if scenario not in ("valid", "bad_type", "limit", "unavailable", "eval_valid", "eval_follow_up",
+                                "eval_invalid"):
                 self._send(400, {"error": "escenario desconocido"})
                 return
             with lock:
@@ -93,11 +109,14 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path.endswith(":generateContent"):
             with lock:
                 calls += 1
-                scenario = queue.popleft() if queue else "valid"
+                default = "eval_valid" if "respuesta_del_candidato" in body else "valid"
+                scenario = queue.popleft() if queue else default
             if scenario == "limit":
                 self._send(429, {"error": {"code": 429, "message": "agotado", "status": "RESOURCE_EXHAUSTED"}})
             elif scenario == "unavailable":
                 self._send(503, {"error": {"code": 503, "message": "no disponible", "status": "UNAVAILABLE"}})
+            elif scenario.startswith("eval_"):
+                self._send(200, gemini_body(evaluation(scenario)))
             else:
                 self._send(200, gemini_body(plan(bad_type=scenario == "bad_type")))
         else:

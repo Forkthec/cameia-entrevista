@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-B",
+  "corrida" : 3,
+  "ms" : 822,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 188,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de los detalles técnicos y conductuales necesarios para evaluar tus habilidades de resolución de conflictos. Es excesivamente general. Dado que la dificultad se toma como 'dificil' por defecto, debe profundizarse.\", \"follow_up_texto\": \"Por favor, elige una instancia específica. ¿Cuál fue el desacuerdo técnico concreto? ¿Qué argumentos o datos presentaste tú y qué argumentos presentó tu compañero? ¿Cómo priorizaste la decisión final (por ejemplo, mediante un test, un benchmark, una revisión de código o si uno cedió al otro) y cuál fue el impacto técnico real en el producto?\", \"motivo\": \"La respuesta es vaga y generaliza en exceso, sin aportar detalles técnicos, mecanismos de resolución ni contexto conductual que permitan evaluar la capacidad del candidato.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

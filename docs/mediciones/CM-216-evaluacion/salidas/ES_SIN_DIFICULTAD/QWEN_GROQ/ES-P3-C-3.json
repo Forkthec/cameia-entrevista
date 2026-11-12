@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-C",
+  "corrida" : 3,
+  "ms" : 1055,
+  "tokensEntrada" : 659,
+  "tokensSalida" : 157,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La falta de disponibilidad de una anécdota sugiere una deficiencia en la gestión de conflictos técnicos. Debes demostrar cómo abordas las diferencias de opinión.\", \"follow_up_texto\": \"Si no recuerdas un desacuerdo formal, cuéntame una situación donde proponías una solución A y tu equipo prefería la B. ¿Qué criterios usaste para tomar la decisión final o para ceder? Necesito ver un ejemplo concreto de negociación técnica.\", \"motivo\": \"El candidato evita la pregunta afirmando que no recuerda o no tiene esas situaciones, lo cual no responde a la necesidad de ver su comportamiento ante la discrepancia técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

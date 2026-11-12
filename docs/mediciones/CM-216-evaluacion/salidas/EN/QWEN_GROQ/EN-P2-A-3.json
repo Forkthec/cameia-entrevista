@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P2-A",
+  "corrida" : 3,
+  "ms" : 485,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 115,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Diferencia clara entre aislamiento transaccional y control de concurrencia mediante versión. La decisión de uso basada en el nivel de contención es correcta.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta define correctamente ambos conceptos, explica el mecanismo técnico (bloqueo vs. verificación de versión) y justifica su uso según el nivel de contención, cumpliendo con la precisión técnica requerida para esta dificultad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

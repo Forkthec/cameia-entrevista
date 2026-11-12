@@ -9,6 +9,7 @@ import java.util.UUID;
  * @param id identificador del turno
  * @param questionId pregunta a la que pertenece
  * @param status estado actual
+ * @param manualRetries veces que la persona usó «Reintentar» en este turno
  * @param createdAt fecha de creación
  * @param updatedAt fecha de la última modificación
  * @param version versión de control de edición simultánea; {@code null} si el turno es nuevo
@@ -17,6 +18,7 @@ public record TurnSnapshot(
         UUID id,
         UUID questionId,
         TurnStatus status,
+        int manualRetries,
         Instant createdAt,
         Instant updatedAt,
         Long version) {

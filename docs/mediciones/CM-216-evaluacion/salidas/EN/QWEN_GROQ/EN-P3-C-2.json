@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-C",
+  "corrida" : 2,
+  "ms" : 1342,
+  "tokensEntrada" : 658,
+  "tokensSalida" : 137,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La afirmación de que nunca ha tenido desacuerdos técnicos es infrecuente en desarrollo de software; es más probable que minimice conflictos prácticos.\", \"follow_up_texto\": \"Piensa en una decisión técnica donde tú y otro desarrollador propusieron enfoques distintos, aunque no llegaran a una discusión acalorada. ¿Cómo llegaron a la conclusión final?\", \"motivo\": \"El candidato evade la pregunta afirmando la inexistencia de conflictos, lo cual es improbable y no demuestra competencias de resolución de problemas interpersonales.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

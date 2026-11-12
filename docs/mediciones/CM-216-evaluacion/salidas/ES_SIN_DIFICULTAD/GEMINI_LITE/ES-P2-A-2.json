@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-A",
+  "corrida" : 2,
+  "ms" : 973,
+  "tokensEntrada" : 734,
+  "tokensSalida" : 83,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica correctamente ambos conceptos, detalla el mecanismo de versionado del bloqueo optimista y justifica el caso de uso de cada uno.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y bien fundamentada.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-C",
+  "corrida" : 1,
+  "ms" : 1002,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 129,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la responsabilidad de resolver el desacuerdo técnico y descarta el defecto sin buscar un consenso.\",\n  \"follow_up_texto\": \"La resolución de discrepancias sobre el comportamiento esperado requiere análisis y alineación. ¿Qué pasos concretos darías para contrastar la especificación original con el equipo antes de cerrar o escalar el defecto?\",\n  \"feedback\": \"La respuesta inicial evita el proceso de negociación y resolución de conflictos técnicos esperado en un rol de ingeniería.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

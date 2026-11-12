@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 2,
+  "ms" : 604,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 131,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida y pragmática. La decisión de priorizar el rollback ante un despliegue reciente en viernes es adecuada para mitigar el impacto rápido, y el resto del flujo (diagnóstico, comunicación, documentación) sigue buenas prácticas de SRE.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un proceso estructurado y lógico para manejar una incidencia en producción, cubriendo diagnóstico, mitigación (rollback), comunicación y post-mortem, con un nivel de detalle apropiado para la dificultad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

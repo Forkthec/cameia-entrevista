@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-C",
+  "corrida" : 1,
+  "ms" : 1707,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 130,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La información sobre la historia del correo electrónico no responde al diseño técnico solicitado. Por favor, enfócate en la arquitectura y el mecanismo de persistencia.\", \"follow_up_texto\": \"Inténtalo de nuevo. Describe los componentes principales del sistema (colas, almacenamiento, workers) y cómo garantizas que los mensajes no se pierdan ante una caída del servidor.\", \"motivo\": \"El candidato no responde a la pregunta de diseño técnico, sino que proporciona datos históricos y personales irrelevantes para la tarea solicitada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

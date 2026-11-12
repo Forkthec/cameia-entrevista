@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-A",
+  "corrida" : 3,
+  "ms" : 783,
+  "tokensEntrada" : 774,
+  "tokensSalida" : 238,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La mención de las equivalencias válidas es demasiado generalista. Para una pregunta de dificultad difícil, se esperan los subconjuntos concretos (dominios reales, TLD, casos de borde Unicode/IDN) y una definición precisa de los requisitos de longitud o complejidad que estás asumiendo para los límites.\", \"follow_up_texto\": \"Detalla los subconjuntos de la partición de equivalencia para el campo de correo: ¿Cómo clasificas las particiones según el dominio, el tipo de TLD o caracteres especiales? Además, define explícitamente las reglas de longitud mínima y máxima que estás utilizando para justificar tus valores límite.\", \"motivo\": \"La respuesta identifica las áreas correctas (equivalencia y límites) para los tres campos, pero se queda en generalidades ('formato correcto', 'casos sin mayúscula'). Falta la especificidad técnica sobre cómo se dividen las particiones equivalentes reales, especialmente en el correo electrónico, que es el caso más complejo del ejemplo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

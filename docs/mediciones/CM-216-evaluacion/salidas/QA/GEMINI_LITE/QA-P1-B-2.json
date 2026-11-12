@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P1-B",
+  "corrida" : 2,
+  "ms" : 949,
+  "tokensEntrada" : 661,
+  "tokensSalida" : 122,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general y carece de detalles concretos sobre metodologías, herramientas o tipos de pruebas utilizadas.\",\n  \"follow_up_texto\": \"Podrías profundizar en qué tipos de pruebas has realizado (por ejemplo, unitarias, de integración, end-to-end) y qué herramientas has utilizado en tu experiencia.\",\n  \"feedback\": \"La respuesta se queda en generalidades y no aporta ejemplos concretos de tu experiencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

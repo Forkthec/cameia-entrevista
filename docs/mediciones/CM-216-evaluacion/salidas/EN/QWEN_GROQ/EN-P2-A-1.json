@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P2-A",
+  "corrida" : 1,
+  "ms" : 1261,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 100,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta es correcta, concisa y cubre los mecanismos técnicos y los criterios de uso.\", \"follow_up_texto\": \"\", \"motivo\": \"Define claramente la diferencia entre transacción (aislamiento/volumen) y locking (control de concurrencia), explica el mecanismo de versión en el pesimista/optimista y justifica su uso.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

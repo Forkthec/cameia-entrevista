@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-C",
+  "corrida" : 1,
+  "ms" : 654,
+  "tokensEntrada" : 678,
+  "tokensSalida" : 92,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"Responde a la pregunta técnica solicitada.\", \"follow_up_texto\": \"Descríbeme la arquitectura técnica para garantizar la entrega asíncrona y la persistencia de los mensajes ante reinicios del servicio.\", \"motivo\": \"El candidato no responde a la consulta técnica, sino que ofrece datos históricos y opiniones personales.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

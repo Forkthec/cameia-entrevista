@@ -23,7 +23,7 @@ class InterviewTurnTest {
 
     private static InterviewTurn inState(TurnStatus status) {
         return InterviewTurn.reconstitute(new TurnSnapshot(
-                UUID.fromString("00000000-0000-0000-0000-000000000006"), QUESTION_ID, status, NOW, NOW, 2L));
+                UUID.fromString("00000000-0000-0000-0000-000000000006"), QUESTION_ID, status, 0, NOW, NOW, 2L));
     }
 
     @Test

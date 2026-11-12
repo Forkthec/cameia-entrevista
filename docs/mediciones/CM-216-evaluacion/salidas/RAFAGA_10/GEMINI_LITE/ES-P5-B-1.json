@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-B",
+  "corrida" : 1,
+  "ms" : 1022,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 113,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es superficial y carece de un procedimiento estructurado para la resolución de incidentes en producción.\",\n  \"follow_up_texto\": \"Podrías detallar qué métricas o patrones específicos buscarías en los logs para identificar la causa raíz, y cuál sería tu criterio antes de decidir reiniciar el servicio.\",\n  \"feedback\": \"La respuesta inicial es demasiado general para un escenario de producción.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

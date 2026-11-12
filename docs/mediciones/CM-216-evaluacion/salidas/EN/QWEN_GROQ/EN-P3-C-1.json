@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-C",
+  "corrida" : 1,
+  "ms" : 745,
+  "tokensEntrada" : 658,
+  "tokensSalida" : 160,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La falta de un desacuerdo claro sugiere posible falta de iniciativa técnica o conflicto. La ausencia de recordatorios no descarta la necesidad de gestionar diferencias de opinión en el trabajo en equipo.\", \"follow_up_texto\": \"No es imprescindible recordar un conflicto específico si nunca lo hubo, pero considera una situación en la que hayas discrepado con otro compañero sobre la mejor forma de resolver un problema técnico, describir lo que hiciste y cómo terminó.\", \"motivo\": \"El candidato esquiva la pregunta al afirmar que no recuerda ninguna situación, lo cual podría interpretarse como falta de rigor o evitación del conflicto, que es común en ambientes de trabajo técnico.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

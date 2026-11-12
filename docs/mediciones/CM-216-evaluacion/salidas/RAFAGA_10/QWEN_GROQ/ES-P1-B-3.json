@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-B",
+  "corrida" : 3,
+  "ms" : 874,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 120,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Respuesta excesivamente genérica y sin detalles concretos sobre experiencia o motivaciones específicas.\", \"follow_up_texto\": \"¿Qué proyectos concretos de backend has realizado? Menciona una tecnología específica que domines y explica cómo la has aplicado para resolver un problema técnico complejo.\", \"motivo\": \"La respuesta es correcta en la dirección pero carece de concretos, ejemplos técnicos o detalles que demuestren experiencia real o motivación genuina más allá de generalidades.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

@@ -65,7 +65,9 @@ class CreateSessionControllerTest {
             roleId -> roleId.equals(ROLE));
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new InterviewSessionController(service, mock(StartSessionService.class),
-                    mock(GetSessionStateService.class), mock(DeleteSessionService.class)))
+                    mock(GetSessionStateService.class), mock(DeleteSessionService.class),
+                    mock(tech.cameia.entrevista.application.service.RegisterAnswerService.class),
+                    mock(tech.cameia.entrevista.application.service.ReprocessTurnService.class)))
             .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 

@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 3,
+  "ms" : 319,
+  "tokensEntrada" : -1,
+  "tokensSalida" : -1,
+  "texto" : "",
+  "tipoDeFallo" : "LIMITE_POR_MINUTO",
+  "causa" : "HTTP 429: Request too large for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1024. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the request's expected output) and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+  "fallos" : [ "LIMITE_POR_MINUTO", "LIMITE_POR_MINUTO" ]
+}

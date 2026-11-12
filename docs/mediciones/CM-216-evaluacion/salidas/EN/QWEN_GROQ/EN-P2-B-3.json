@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P2-B",
+  "corrida" : 3,
+  "ms" : 569,
+  "tokensEntrada" : 661,
+  "tokensSalida" : 168,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta identifica el propósito general pero carece del detalle técnico solicitado para una pregunta de alta dificultad. Debes explicar los mecanismos de aislamiento, control de concurrencia y las implicaciones del failover frente al reintentos.\", \"follow_up_texto\": \"Explíca cómo se maneja la concurrencia bajo alta carga: ¿qué sucede si dos transacciones compiten por la misma fila con cada enfoque? ¿Qué pasa si la transacción falla a mitad de camino versus si el bloqueo optimista detecta un conflicto?\", \"motivo\": \"La respuesta va en la dirección correcta pero se queda en generalidades, omitiendo los mecanismos técnicos específicos de cómo funcionan y se aplican ambos enfoques.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

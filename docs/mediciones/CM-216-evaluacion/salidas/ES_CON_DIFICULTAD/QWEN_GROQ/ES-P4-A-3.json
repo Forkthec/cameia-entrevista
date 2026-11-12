@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 3,
+  "ms" : 917,
+  "tokensEntrada" : 762,
+  "tokensSalida" : 135,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La solución propuesta es sólida. Cubre correctamente la persistencia previa al envío (patrón Outbox), la durabilidad de la cola, la confirmación explícita del consumidor, los reintentos gestionados y la idempotencia para evitar duplicados.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta aborda todos los puntos técnicos esenciales de la pregunta con precisión: usa el patrón Outbox para garantía de entrega, colas durables, reintentos con backoff y mecanismos de idempotencia.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

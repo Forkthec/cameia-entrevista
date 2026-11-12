@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-A",
+  "corrida" : 1,
+  "ms" : 1026,
+  "tokensEntrada" : 728,
+  "tokensSalida" : 85,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica claramente el desacuerdo técnico, la metodología objetiva utilizada para resolverlo y el resultado cuantificable.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena aproximación basada en datos para resolver desacuerdos técnicos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

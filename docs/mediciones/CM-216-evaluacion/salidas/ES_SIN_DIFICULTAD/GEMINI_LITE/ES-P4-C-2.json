@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-C",
+  "corrida" : 2,
+  "ms" : 998,
+  "tokensEntrada" : 666,
+  "tokensSalida" : 110,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato habla sobre la historia del correo electrónico en lugar de proponer una solución técnica.\",\n  \"follow_up_texto\": \"Por favor, céntrate en el diseño técnico del servicio asíncrono y explica cómo evitarías la pérdida de mensajes ante un reinicio del servidor.\",\n  \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-C",
+  "corrida" : 3,
+  "ms" : 1007,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 129,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato esquiva la pregunta afirmando que nunca ha tenido desacuerdos técnicos.\",\n  \"follow_up_texto\": \"Es poco común no haber tenido desacuerdos en proyectos de software. Piensa en alguna ocasión donde hayas tenido una preferencia técnica distinta a la de un colega, aunque haya sido menor. ¿Cómo lo manejaron?\",\n  \"feedback\": \"Evitar la pregunta no es una respuesta válida. Es necesario evaluar habilidades blandas y resolución de conflictos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

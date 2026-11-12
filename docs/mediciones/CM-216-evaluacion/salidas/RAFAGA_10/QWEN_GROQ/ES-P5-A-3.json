@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 3,
+  "ms" : 741,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 92,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta coherente y con buenas prácticas de gestión de incidentes.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato detalla un flujo operativo correcto: identificación del incidente, verificación de despliegues, rollback inmediato para mitigar el riesgo de fin de semana, diagnóstico posterior, corrección y comunicación.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

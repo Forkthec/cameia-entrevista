@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-A",
+  "corrida" : 3,
+  "ms" : 625,
+  "tokensEntrada" : 715,
+  "tokensSalida" : 194,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Has proporcionado un buen ejemplo concreto de automatización y su impacto en tiempo, pero la respuesta se queda corta al describir el alcance de tu experiencia y la motivación detrás de tu rol.\", \"follow_up_texto\": \"Mencionas la automatización de regresión. ¿Puedes detallar cómo escogiste los test críticos para incluir en esa suite de Newman y qué estrategia utilizaste para mantener al día los casos de prueba frente a las constantes variaciones de la lógica de negocio en una aseguradora?\", \"motivo\": \"La respuesta es relevante y contiene un ejemplo cuantificable (reducción de tiempos), pero carece de profundidad sobre el proceso de diseño de pruebas y la gestión de la complejidad del dominio, por lo que se clasifica como vaga para un posicionamiento senior o de analista de calidad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

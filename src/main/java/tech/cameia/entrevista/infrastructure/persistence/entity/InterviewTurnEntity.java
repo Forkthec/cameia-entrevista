@@ -36,6 +36,10 @@ public class InterviewTurnEntity {
     @Column(name = "estado", nullable = false, length = 20)
     private TurnStatus status;
 
+    /** Usos de «Reintentar» de la persona. */
+    @Column(name = "reintentos_manuales", nullable = false)
+    private short manualRetries;
+
     /** Fecha de creación. */
     @Column(name = "fecha_creacion", nullable = false)
     private Instant createdAt;
@@ -92,6 +96,20 @@ public class InterviewTurnEntity {
     public void setStatus(TurnStatus status) {
         this.status = status;
     }
+    /**
+     * @return usos de «Reintentar» de la persona
+     */
+    public short getManualRetries() {
+        return manualRetries;
+    }
+
+    /**
+     * @param manualRetries usos de «Reintentar» de la persona
+     */
+    public void setManualRetries(short manualRetries) {
+        this.manualRetries = manualRetries;
+    }
+
     /**
      * @return fecha de creación
      */

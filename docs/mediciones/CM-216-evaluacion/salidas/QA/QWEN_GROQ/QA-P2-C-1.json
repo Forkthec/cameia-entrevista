@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P2-C",
+  "corrida" : 1,
+  "ms" : 497,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 113,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta no aborda la parte técnica de la pregunta.\", \"follow_up_texto\": \"Por favor, define qué son las pruebas de humo y de regresión, explica sus diferencias técnicas y especifica en qué momento del ciclo de vida del software ejecutarías cada una.\", \"motivo\": \"El candidato se desvía del tema hacia anécdotas personales y metáforas, sin responder a la pregunta técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

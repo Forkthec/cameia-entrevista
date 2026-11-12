@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-B",
+  "corrida" : 1,
+  "ms" : 1227,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 126,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general, no explica los mecanismos de las transacciones ni cómo opera el control de concurrencia optimista.\",\n  \"follow_up_texto\": \"Podrías detallar cómo funciona el control de concurrencia optimista en términos de versiones o timestamps y en qué escenarios específicos elegirías aplicarlo frente a las transacciones estándar.\",\n  \"feedback\": \"La explicación carece de los detalles técnicos necesarios sobre los mecanismos de concurrencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

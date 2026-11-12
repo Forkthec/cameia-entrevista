@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P1-A",
+  "corrida" : 1,
+  "ms" : 1043,
+  "tokensEntrada" : 712,
+  "tokensSalida" : 97,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato detalla su experiencia práctica en pruebas funcionales, de API y automatización con métricas claras, respondiendo a ambos puntos de la pregunta.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena descripción de la experiencia y el impacto de la automatización en el proceso de entrega.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

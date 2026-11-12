@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-A",
+  "corrida" : 1,
+  "ms" : 437,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 92,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta acertada que prioriza la evidencia objetiva y la colaboración sobre el conflicto.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describió un flujo de trabajo lógico y estándar para resolver discrepancias de alcance, validando contra la especificación y escalando adecuadamente si el requisito es ambiguo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

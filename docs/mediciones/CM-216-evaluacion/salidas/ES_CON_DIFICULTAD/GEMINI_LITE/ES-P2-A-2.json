@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-A",
+  "corrida" : 2,
+  "ms" : 893,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 94,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica correctamente la diferencia entre transacciones, bloqueo pesimista y bloqueo optimista, incluyendo los mecanismos de control de versiones y los escenarios de uso.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y bien fundamentada sobre los mecanismos de concurrencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

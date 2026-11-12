@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-B",
+  "corrida" : 3,
+  "ms" : 977,
+  "tokensEntrada" : 663,
+  "tokensSalida" : 147,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Tu respuesta es demasiado genérica y no aporta información concreta sobre tu experiencia ni motivaciones específicas.\", \"follow_up_texto\": \"Por favor, resume brevemente tu experiencia técnica más relevante, destaca una o dos habilidades concretas que tengas como backend y explica qué aspecto específico de nuestro stack o de este papel te motiva más que a otros.\", \"motivo\": \"La respuesta encadena generalidades ('me gusta la tecnología', 'aprender') sin detalles concretos sobre experiencia técnica, dominio de backend o motivos específicos para el puesto, por lo que carece de la precisión y profundidad mínima esperada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

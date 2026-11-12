@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P1-A",
+  "corrida" : 3,
+  "ms" : 1325,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 77,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato responde con su background técnico, experiencia relevante y su motivación para el puesto de manera clara y directa.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta clara y bien estructurada.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

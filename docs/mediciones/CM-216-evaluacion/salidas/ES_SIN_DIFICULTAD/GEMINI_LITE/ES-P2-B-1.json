@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-B",
+  "corrida" : 1,
+  "ms" : 1315,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 138,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general, no explica los mecanismos internos de las transacciones ni cómo opera realmente el control de concurrencia optimista.\",\n  \"follow_up_texto\": \"Podrías detallar cómo funciona el control de concurrencia optimista a nivel de registros o versiones, y en qué escenario específico lo preferirías frente a una transacción estándar con bloqueo pesimista.\",\n  \"feedback\": \"La respuesta carece de los detalles técnicos necesarios sobre los mecanismos de concurrencia y transaccionalidad.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

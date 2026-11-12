@@ -44,6 +44,9 @@ final class QwenGroq implements ModeloDePrueba {
 
     private final Duration timeout;
 
+    /** Esquema JSON que se envía como {@code response_format}, o {@code null} para no enviarlo. */
+    private final String esquemaJson;
+
     /**
      * @param llave llave de Groq; nunca se imprime
      * @param temperatura temperatura de la llamada
@@ -51,11 +54,26 @@ final class QwenGroq implements ModeloDePrueba {
      * @param timeout espera máxima por llamada
      */
     QwenGroq(String llave, double temperatura, String reasoningEffort, Duration timeout) {
+        this(llave, temperatura, reasoningEffort, timeout, null);
+    }
+
+    private QwenGroq(String llave, double temperatura, String reasoningEffort, Duration timeout, String esquemaJson) {
         this.llave = llave;
         this.temperatura = temperatura;
         this.reasoningEffort = reasoningEffort;
         this.timeout = timeout;
+        this.esquemaJson = esquemaJson;
         this.cliente = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15)).build();
+    }
+
+    /**
+     * Devuelve una copia que pide la salida estructurada con el esquema dado ({@code json_schema} estricto).
+     *
+     * @param esquemaJson esquema JSON de la respuesta
+     * @return el cliente con el esquema
+     */
+    QwenGroq conEsquema(String esquemaJson) {
+        return new QwenGroq(llave, temperatura, reasoningEffort, timeout, esquemaJson);
     }
 
     @Override
@@ -77,6 +95,13 @@ final class QwenGroq implements ModeloDePrueba {
         raiz.put("max_completion_tokens", maxTokensSalida);
         if (reasoningEffort != null) {
             raiz.put("reasoning_effort", reasoningEffort);
+        }
+        if (esquemaJson != null) {
+            ObjectNode formato = raiz.putObject("response_format");
+            formato.put("type", "json_schema");
+            ObjectNode esquema = formato.putObject("json_schema");
+            esquema.put("name", "evaluacion").put("strict", true);
+            esquema.set("schema", MAPPER.readTree(esquemaJson));
         }
         return MAPPER.writeValueAsString(raiz);
     }

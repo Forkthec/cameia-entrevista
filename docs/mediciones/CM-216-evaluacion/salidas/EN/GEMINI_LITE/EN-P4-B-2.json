@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P4-B",
+  "corrida" : 2,
+  "ms" : 1576,
+  "tokensEntrada" : 651,
+  "tokensSalida" : 140,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona una cola y una base de datos pero carece de detalles sobre cómo interactúan para garantizar la persistencia y la entrega asíncrona.\",\n  \"follow_up_texto\": \"Podrías detallar qué componentes específicos utilizarías y cómo se maneja el estado de los mensajes en la base de datos y en la cola para asegurar que no se pierdan ante un reinicio del servidor.\",\n  \"feedback\": \"La respuesta es demasiado general. Es necesario profundizar en la arquitectura y el flujo de persistencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

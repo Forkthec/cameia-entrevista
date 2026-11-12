@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-A",
+  "corrida" : 1,
+  "ms" : 1047,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 74,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato explica correctamente ambos conceptos, diferencia el bloqueo optimista de las transacciones y justifica adecuadamente cuándo usar cada enfoque.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta correcta y bien fundamentada para una pregunta de dificultad media.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

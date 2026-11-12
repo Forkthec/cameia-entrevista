@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-A",
+  "corrida" : 2,
+  "ms" : 793,
+  "tokensEntrada" : 732,
+  "tokensSalida" : 121,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida que cubre la persistencia, el mecanismo de entrega (outbox + cola) y la idempotencia, que son los puntos clave del diseño.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta aborda los tres requisitos principales (persistencia ante reinicios, procesamiento asíncrono y atenuación de fallos) con precisión técnica y un diseño coherente utilizando el patrón Outbox y colas duraderas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

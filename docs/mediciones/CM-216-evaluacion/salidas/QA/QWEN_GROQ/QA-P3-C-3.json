@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-C",
+  "corrida" : 3,
+  "ms" : 527,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La evidencia positiva es insuficiente para evaluar tus habilidades de respuesta ante crisis.\", \"follow_up_texto\": \"¿Podrías describir una situación donde, aunque no hubiese un defecto crítico, tuviste que gestionar un riesgo significativo o retraso en una fase final? ¿Cómo lo abordaste y cuál fue el resultado?\", \"motivo\": \"El candidato evita la pregunta directa declarando que nunca le ha ocurrido, lo cual no permite evaluar su comportamiento ante esa situación específica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

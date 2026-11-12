@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-A",
+  "corrida" : 3,
+  "ms" : 944,
+  "tokensEntrada" : 760,
+  "tokensSalida" : 92,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre correctamente la persistencia, el procesamiento asíncrono, la idempotencia y la gestión de fallos.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y completa, abarcando los puntos críticos de fiabilidad en sistemas distribuidos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

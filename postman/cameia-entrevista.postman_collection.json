@@ -3483,6 +3483,2810 @@
           }
         }
       ]
+    },
+    {
+      "name": "Responder",
+      "item": [
+        {
+          "name": "200 preparar catálogo de roles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('ansMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.collectionVariables.set('ansUid', 'ans' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('ansOtherUid', 'otr' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('ansProfileId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.collectionVariables.set('ansKeyPrefix', 'a' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{ansMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-ans\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\", \\\"roles\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombreEs\\\": \\\"Desarrollador Backend\\\", \\\"nombreEn\\\": \\\"Backend Developer\\\", \\\"estado\\\": \\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 preparar perfil completo",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('ansMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{ansMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-ans\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\": \\\"{{ansUid}}\\\", \\\"contextoProfesional\\\": {\\\"id\\\": \\\"{{ansProfileId}}\\\", \\\"nombre\\\": \\\"Analista de datos\\\", \\\"estado\\\": \\\"COMPLETED\\\", \\\"fecha_archivado\\\": null, \\\"resumen\\\": \\\"Analista con tres a\\\\u00f1os de experiencia en SQL y Python.\\\", \\\"experiencias\\\": [{\\\"empresa\\\": \\\"ACME\\\", \\\"cargo\\\": \\\"Analista\\\", \\\"descripcion\\\": null, \\\"inicio\\\": \\\"2022-01\\\", \\\"fin\\\": null, \\\"estadoEmpleo\\\": \\\"CURRENT\\\"}], \\\"formaciones\\\": [{\\\"institucion\\\": \\\"Universidad del Cauca\\\", \\\"titulo\\\": \\\"Ingenier\\\\u00eda de Sistemas\\\", \\\"nivel\\\": \\\"UNDERGRADUATE\\\", \\\"inicio\\\": \\\"2017-02\\\", \\\"fin\\\": \\\"2021-12\\\", \\\"enCurso\\\": false}], \\\"habilidades\\\": [{\\\"nombre\\\": \\\"Python\\\", \\\"nivel\\\": \\\"INTERMEDIATE\\\"}]}, \\\"rolesAspirados\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombre\\\": \\\"Desarrollador Backend\\\"}], \\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reiniciar el simulador de la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__reset",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Los consumidores son asíncronos: se espera a que la copia del perfil exista.",
+                  "setTimeout(function () {}, 3000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('ansSessionA', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{ansProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la sesión y devuelve la pregunta 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Pregunta 1 con su turno', () => pm.expect(pm.response.json().pendingQuestion.turnId).to.be.a('string').and.not.empty);",
+                  "pm.collectionVariables.set('ansTurn1', pm.response.json().pendingQuestion.turnId);",
+                  "pm.collectionVariables.set('ansTurnId', pm.response.json().pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 respuesta registrada (pregunta 1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const a = pm.response.json();",
+                  "pm.test('Turno completado', () => pm.expect(a.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Solo las cuatro claves del contrato', () => pm.expect(Object.keys(a).sort()).to.eql(['interviewFinished','nextQuestion','progress','turn']));",
+                  "pm.test('Sin retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/feedback|clasificacion|motivo|star|score|Buena estructura|SEGUIMIENTO/i));",
+                  "pm.test('Avance a la pregunta 2 de 5' , () => pm.expect(a.progress).to.eql({currentQuestion: 2, totalQuestions: 5}));",
+                  "pm.test('Pregunta siguiente con turnId, número y texto', () => { pm.expect(Object.keys(a.nextQuestion).sort()).to.eql(['number','text','turnId']); pm.expect(a.nextQuestion.number).to.eql(2); pm.expect(a.nextQuestion.text).to.be.a('string').and.not.empty; });",
+                  "pm.test('La entrevista sigue', () => pm.expect(a.interviewFinished).to.eql(false));",
+                  "pm.collectionVariables.set('ansTurnId', a.nextQuestion.turnId);",
+                  "pm.collectionVariables.set('ansTurn2', pm.response.json().nextQuestion.turnId);",
+                  "pm.collectionVariables.set('ansFirstBody', pm.response.text());"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn1}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 repetición con la misma clave",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El mismo cuerpo', () => pm.expect(pm.response.text()).to.eql(pm.collectionVariables.get('ansFirstBody')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn1}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 la IA recibió dos llamadas: el plan y una evaluación",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Llamadas a la IA hasta ahora: 2', () => pm.expect(pm.response.json().calls).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 misma clave con otro texto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código IDEMPOTENCY_KEY_CONFLICT', () => pm.expect(pm.response.json().code).to.eql('IDEMPOTENCY_KEY_CONFLICT'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn1}}\",\"answerText\":\"Otra respuesta distinta\"}"
+            }
+          }
+        },
+        {
+          "name": "409 otra clave sobre un turno ya respondido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código ANSWER_ALREADY_EXISTS', () => pm.expect(pm.response.json().code).to.eql('ANSWER_ALREADY_EXISTS'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Esta pregunta ya tiene una respuesta registrada.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-otra"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn1}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "422 sin turnId, sin respuesta y sin clave: los tres campos a la vez",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Revisa los campos marcados.\"));",
+                  "pm.test('Un error por campo, en orden', () => pm.expect(pm.response.json().errors.map(e => [e.field, e.code])).to.eql([['turnId','TURN_ID_REQUIRED'],['answerText','ANSWER_TEXT_REQUIRED'],['Idempotency-Key','IDEMPOTENCY_KEY_REQUIRED']]));",
+                  "pm.test('Cada error trae su mensaje', () => pm.response.json().errors.forEach(e => pm.expect(e.message).to.be.a('string').and.not.empty));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "422 respuesta vacía",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Un error por campo, en orden', () => pm.expect(pm.response.json().errors.map(e => [e.field, e.code])).to.eql([['answerText','ANSWER_TEXT_REQUIRED']]));",
+                  "pm.test('Cada error trae su mensaje', () => pm.response.json().errors.forEach(e => pm.expect(e.message).to.be.a('string').and.not.empty));",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().errors[0].message).to.eql('Ingresa tu respuesta.'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-v"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"\"}"
+            }
+          }
+        },
+        {
+          "name": "422 respuesta de solo espacios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Un error por campo, en orden', () => pm.expect(pm.response.json().errors.map(e => [e.field, e.code])).to.eql([['answerText','ANSWER_TEXT_REQUIRED']]));",
+                  "pm.test('Cada error trae su mensaje', () => pm.response.json().errors.forEach(e => pm.expect(e.message).to.be.a('string').and.not.empty));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-e"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"    \\t  \"}"
+            }
+          }
+        },
+        {
+          "name": "422 respuesta de 4001",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('ansText4001', 'a'.repeat(4001));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Un error por campo, en orden', () => pm.expect(pm.response.json().errors.map(e => [e.field, e.code])).to.eql([['answerText','ANSWER_TEXT_TOO_LONG']]));",
+                  "pm.test('Cada error trae su mensaje', () => pm.response.json().errors.forEach(e => pm.expect(e.message).to.be.a('string').and.not.empty));",
+                  "pm.test('Mensaje del criterio', () => pm.expect(pm.response.json().errors[0].message).to.eql('Tu respuesta no puede superar los 4000 caracteres.'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-l"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"{{ansText4001}}\"}"
+            }
+          }
+        },
+        {
+          "name": "422 turnId mal escrito y clave con espacios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Un error por campo, en orden', () => pm.expect(pm.response.json().errors.map(e => [e.field, e.code])).to.eql([['turnId','TURN_ID_INVALID_FORMAT'],['Idempotency-Key','IDEMPOTENCY_KEY_INVALID_FORMAT']]));",
+                  "pm.test('Cada error trae su mensaje', () => pm.response.json().errors.forEach(e => pm.expect(e.message).to.be.a('string').and.not.empty));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "clave con espacios"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"no-es-uuid\",\"answerText\":\"hola\"}"
+            }
+          }
+        },
+        {
+          "name": "422 JSON mal formado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código REQUEST_BODY_INVALID_FORMAT', () => pm.expect(pm.response.json().code).to.eql('REQUEST_BODY_INVALID_FORMAT'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-j"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":"
+            }
+          }
+        },
+        {
+          "name": "415 Content-Type que no es JSON",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código MEDIA_TYPE_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('MEDIA_TYPE_NOT_ALLOWED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-t"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "hola"
+            }
+          }
+        },
+        {
+          "name": "401 sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-i"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "404 entrevista de otra persona",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansOtherUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-o"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "404 entrevista inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-x"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/00000000-0000-4000-8000-000000000000/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "00000000-0000-4000-8000-000000000000",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "404 identificador de entrevista mal escrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-m"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/abc/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "abc",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "404 turno que no es de la entrevista",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código TURN_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('TURN_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-n"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"00000000-0000-4000-8000-000000000000\",\"answerText\":\"hola\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programar eval_follow_up",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('eval_follow_up'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"eval_follow_up\"}"
+            }
+          }
+        },
+        {
+          "name": "200 con campos extra y seguimiento de la IA: se ignoran",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const a = pm.response.json();",
+                  "pm.test('Turno completado', () => pm.expect(a.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Solo las cuatro claves del contrato', () => pm.expect(Object.keys(a).sort()).to.eql(['interviewFinished','nextQuestion','progress','turn']));",
+                  "pm.test('Sin retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/feedback|clasificacion|motivo|star|score|Buena estructura|SEGUIMIENTO/i));",
+                  "pm.test('Avance a la pregunta 3 de 5' , () => pm.expect(a.progress).to.eql({currentQuestion: 3, totalQuestions: 5}));",
+                  "pm.test('Pregunta siguiente con turnId, número y texto', () => { pm.expect(Object.keys(a.nextQuestion).sort()).to.eql(['number','text','turnId']); pm.expect(a.nextQuestion.number).to.eql(3); pm.expect(a.nextQuestion.text).to.be.a('string').and.not.empty; });",
+                  "pm.test('La entrevista sigue', () => pm.expect(a.interviewFinished).to.eql(false));",
+                  "pm.collectionVariables.set('ansTurnId', a.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-2"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn2}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\",\"status\":\"COMPLETED\",\"owner\":\"otro\",\"feedback\":\"x\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta de 4000",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('ansText4000', 'a'.repeat(4000));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const a = pm.response.json();",
+                  "pm.test('Turno completado', () => pm.expect(a.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Solo las cuatro claves del contrato', () => pm.expect(Object.keys(a).sort()).to.eql(['interviewFinished','nextQuestion','progress','turn']));",
+                  "pm.test('Sin retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/feedback|clasificacion|motivo|star|score|Buena estructura|SEGUIMIENTO/i));",
+                  "pm.test('Avance a la pregunta 4 de 5' , () => pm.expect(a.progress).to.eql({currentQuestion: 4, totalQuestions: 5}));",
+                  "pm.test('Pregunta siguiente con turnId, número y texto', () => { pm.expect(Object.keys(a.nextQuestion).sort()).to.eql(['number','text','turnId']); pm.expect(a.nextQuestion.number).to.eql(4); pm.expect(a.nextQuestion.text).to.be.a('string').and.not.empty; });",
+                  "pm.test('La entrevista sigue', () => pm.expect(a.interviewFinished).to.eql(false));",
+                  "pm.collectionVariables.set('ansTurnId', a.nextQuestion.turnId);",
+                  "pm.collectionVariables.set('ansTurn3', '');"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-3"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurnId}}\",\"answerText\":\"{{ansText4000}}\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('unavailable'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            }
+          }
+        },
+        {
+          "name": "503 IA no disponible: la respuesta queda guardada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Ocurrió un error. Inténtalo de nuevo.\"));",
+                  "pm.collectionVariables.set('ansTurn4', JSON.parse(pm.request.body.raw).turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-4"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurnId}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 llamadas a la IA antes de repetir el 503",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('ansCallsBefore', pm.response.json().calls);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "503 repetición con la misma clave: el mismo error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-4"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn4}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 la repetición no llamó a la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Sin llamadas nuevas', () => pm.expect(pm.response.json().calls).to.eql(Number(pm.collectionVariables.get('ansCallsBefore'))));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado: la pregunta 4 espera reintento y el historial trae sus respuestas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('Turno en RETRYING sin reintentos usados', () => { pm.expect(s.pendingQuestion.status).to.eql('RETRYING'); pm.expect(s.pendingQuestion.retriesUsed).to.eql(0); });",
+                  "pm.test('Historial en orden con sus respuestas', () => pm.expect(s.history.map(h => h.number)).to.eql([1,2,3,4]));",
+                  "pm.test('Sin retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/feedback|clasificacion|motivo|Buena estructura/i));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "state"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reintentar evaluación",
+      "item": [
+        {
+          "name": "401 sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn4}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn4}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 entrevista de otra persona",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansOtherUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn4}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn4}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 turno inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código TURN_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('TURN_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/00000000-0000-4000-8000-000000000000/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "00000000-0000-4000-8000-000000000000",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 turno que no es un UUID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código TURN_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('TURN_NOT_FOUND'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/abc/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "abc",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 un turno ya completado no espera reintento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código TURN_NOT_RETRYABLE', () => pm.expect(pm.response.json().code).to.eql('TURN_NOT_RETRYABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Tu respuesta no está esperando un reintento.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn1}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar limit",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('limit'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"limit\"}"
+            }
+          }
+        },
+        {
+          "name": "503 reintentar falla: el turno sigue en reintento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_LIMIT_REACHED', () => pm.expect(pm.response.json().code).to.eql('LLM_LIMIT_REACHED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn4}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn4}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado: un reintento usado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('RETRYING con un reintento usado', () => { const p = pm.response.json().pendingQuestion; pm.expect(p.status).to.eql('RETRYING'); pm.expect(p.retriesUsed).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reintentar completa el turno y abre la pregunta 5",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const a = pm.response.json();",
+                  "pm.test('Turno completado', () => pm.expect(a.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Avance a la pregunta 5', () => pm.expect(a.progress.currentQuestion).to.eql(5));",
+                  "pm.test('Sin retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/feedback|clasificacion|motivo|Buena estructura/i));",
+                  "pm.collectionVariables.set('ansTurn5', a.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn4}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn4}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 reintentar un turno ya completado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código TURN_NOT_RETRYABLE', () => pm.expect(pm.response.json().code).to.eql('TURN_NOT_RETRYABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn4}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn4}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 5: termina la entrevista sin sexto turno",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "const a = pm.response.json();",
+                  "pm.test('Turno completado', () => pm.expect(a.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Solo las cuatro claves del contrato', () => pm.expect(Object.keys(a).sort()).to.eql(['interviewFinished','nextQuestion','progress','turn']));",
+                  "pm.test('Sin retroalimentación', () => pm.expect(pm.response.text()).to.not.match(/feedback|clasificacion|motivo|star|score|Buena estructura|SEGUIMIENTO/i));",
+                  "pm.test('Última pregunta: sin siguiente y entrevista terminada', () => { pm.expect(a.nextQuestion).to.eql(null); pm.expect(a.interviewFinished).to.eql(true); pm.expect(a.progress).to.eql({currentQuestion: 5, totalQuestions: 5}); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-5"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn5}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 estado tras recargar: entrevista terminada con las cinco respuestas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('Terminada y con cinco respuestas', () => { pm.expect(s.interviewFinished).to.eql(true); pm.expect(s.history.length).to.eql(5); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 crea la segunda entrevista",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Los consumidores son asíncronos: se espera a que la copia del perfil exista.",
+                  "setTimeout(function () {}, 3000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('ansSessionB', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{ansProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la segunda y abandona la primera",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Pregunta 1 con su turno', () => pm.expect(pm.response.json().pendingQuestion.turnId).to.be.a('string').and.not.empty);",
+                  "pm.collectionVariables.set('ansTurnB1', pm.response.json().pendingQuestion.turnId);",
+                  "pm.collectionVariables.set('ansTurnId', pm.response.json().pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('unavailable'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            }
+          }
+        },
+        {
+          "name": "503 la IA cae al responder la segunda entrevista",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-b1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurnB1}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('unavailable'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('unavailable'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('unavailable'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Escenario en cola', () => pm.expect(pm.response.json().queued).to.eql('unavailable'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\"}"
+            }
+          }
+        },
+        {
+          "name": "503 reintento 1 de 4 falla",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/turns/{{ansTurnB1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "turns",
+                "{{ansTurnB1}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "503 reintento 2 de 4 falla",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/turns/{{ansTurnB1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "turns",
+                "{{ansTurnB1}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "503 reintento 3 de 4 falla",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/turns/{{ansTurnB1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "turns",
+                "{{ansTurnB1}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "503 reintento 4 de 4 falla",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/turns/{{ansTurnB1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "turns",
+                "{{ansTurnB1}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 el quinto reintento llega al tope",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código TURN_RETRY_LIMIT_REACHED', () => pm.expect(pm.response.json().code).to.eql('TURN_RETRY_LIMIT_REACHED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No pudimos evaluar tu respuesta en este momento. Tu respuesta quedó guardada; inténtalo más tarde.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/turns/{{ansTurnB1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "turns",
+                "{{ansTurnB1}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado: cuatro reintentos usados y la respuesta guardada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('RETRYING con cuatro reintentos', () => { pm.expect(s.pendingQuestion.status).to.eql('RETRYING'); pm.expect(s.pendingQuestion.retriesUsed).to.eql(4); });",
+                  "pm.test('La respuesta quedó en el historial', () => pm.expect(s.history.length).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionB}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionB}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 responder la primera entrevista, ya abandonada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código SESSION_ABANDONED', () => pm.expect(pm.response.json().code).to.eql('SESSION_ABANDONED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));",
+                  "pm.test('Mensaje de la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Sesión abandonada: no genera evaluación.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{ansKeyPrefix}}-ab"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\":\"{{ansTurn1}}\",\"answerText\":\"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "409 reintentar en la primera entrevista abandonada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type con charset UTF-8', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('charset=utf-8'));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código SESSION_ABANDONED', () => pm.expect(pm.response.json().code).to.eql('SESSION_ABANDONED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{ansUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{ansSessionA}}/turns/{{ansTurn1}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{ansSessionA}}",
+                "turns",
+                "{{ansTurn1}}",
+                "reprocess"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }

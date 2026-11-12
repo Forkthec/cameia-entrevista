@@ -1,0 +1,311 @@
+package tech.cameia.entrevista.application.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.mockito.ArgumentCaptor;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import tools.jackson.databind.json.JsonMapper;
+
+import tech.cameia.entrevista.application.service.TurnEvaluator.EvaluationJob;
+import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
+import tech.cameia.entrevista.domain.exception.ErrorCode;
+import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
+import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
+import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
+import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
+import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AnswerMode;
+import tech.cameia.entrevista.domain.model.FirebaseUid;
+import tech.cameia.entrevista.domain.model.InterviewLanguage;
+import tech.cameia.entrevista.domain.model.InterviewQuestion;
+import tech.cameia.entrevista.domain.model.InterviewSession;
+import tech.cameia.entrevista.domain.model.InterviewTurn;
+import tech.cameia.entrevista.domain.model.LanguageModelResponse;
+import tech.cameia.entrevista.domain.model.Modality;
+import tech.cameia.entrevista.domain.model.QuestionType;
+import tech.cameia.entrevista.domain.model.SessionConfiguration;
+import tech.cameia.entrevista.domain.model.SessionStatus;
+import tech.cameia.entrevista.domain.model.Tone;
+import tech.cameia.entrevista.domain.model.TurnFeedback;
+import tech.cameia.entrevista.domain.model.TurnStatus;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
+import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
+import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
+import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
+import tech.cameia.entrevista.domain.port.LanguageModelPort;
+import tech.cameia.entrevista.domain.port.TurnFeedbackRepository;
+
+/** Evaluar una respuesta guardada: éxito, fallos de la IA, base caída y sesión que cambia mientras se evalúa. */
+class TurnEvaluatorTest {
+
+    private static final Instant NOW = Instant.parse("2026-11-12T15:00:00Z");
+    private static final FirebaseUid OWNER = new FirebaseUid("uid-a");
+    private static final String VALID = "{\"accion\":\"AVANZAR\",\"clasificacion\":\"COMPLETA\",\"motivo\":\"m\","
+            + "\"follow_up_texto\":\"\",\"feedback\":\"f\"}";
+
+    private final LanguageModelPort model = mock(LanguageModelPort.class);
+    private final InterviewTurnRepository turns = mock(InterviewTurnRepository.class);
+    private final InterviewQuestionRepository questions = mock(InterviewQuestionRepository.class);
+    private final InterviewSessionRepository sessions = mock(InterviewSessionRepository.class);
+    private final AiExecutionRepository executions = mock(AiExecutionRepository.class);
+    private final TurnFeedbackRepository feedbacks = mock(TurnFeedbackRepository.class);
+    private final TransactionTemplate transaction = mock(TransactionTemplate.class);
+    private final Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
+
+    private TurnEvaluator evaluator;
+    private InterviewSession session;
+    private List<InterviewQuestion> planned;
+    private InterviewTurn turn;
+
+    @BeforeEach
+    @SuppressWarnings("unchecked")
+    void prepare() {
+        Clock earlier = Clock.fixed(NOW.minusSeconds(3600), ZoneOffset.UTC);
+        session = InterviewSession.configure(UUID.randomUUID(), OWNER, new SessionConfiguration(UUID.randomUUID(),
+                UUID.randomUUID(), null, "{}", Modality.SIMULATION, Tone.WARM, AnswerMode.TEXT,
+                InterviewLanguage.SPANISH_COLOMBIA), earlier);
+        session.start(earlier);
+        UUID execution = UUID.randomUUID();
+        planned = new ArrayList<>();
+        for (int position = 1; position <= 5; position++) {
+            planned.add(new InterviewQuestion(UUID.randomUUID(), session.id(), position, QuestionType.TECNICA,
+                    "Pregunta " + position, execution, NOW));
+        }
+        when(transaction.execute(any())).thenAnswer(call ->
+                ((TransactionCallback<?>) call.getArgument(0)).doInTransaction(null));
+        doAnswer(call -> {
+            ((Consumer<Object>) call.getArgument(0)).accept(null);
+            return null;
+        }).when(transaction).executeWithoutResult(any());
+        when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
+        when(sessions.save(any())).thenAnswer(call -> call.getArgument(0));
+        when(questions.findBySession(session.id())).thenReturn(planned);
+        when(executions.save(any())).thenAnswer(call -> call.getArgument(0));
+        when(turns.save(any())).thenAnswer(call -> call.getArgument(0));
+        when(feedbacks.save(any())).thenAnswer(call -> call.getArgument(0));
+        evaluator = new TurnEvaluator(model, new EvaluationPromptBuilder(),
+                new EvaluationOutputReader(JsonMapper.builder().build()), turns, questions, sessions, executions,
+                feedbacks, transaction, clock);
+    }
+
+    private EvaluationJob job(int position) {
+        InterviewQuestion question = planned.get(position - 1);
+        turn = InterviewTurn.open(question.id(), clock);
+        turn.startProcessing(clock);
+        when(turns.findById(turn.id())).thenReturn(Optional.of(turn));
+        AiExecution mark = AiExecution.evaluationStarted(session.id(), turn.id(), "modelo", "evaluacion.v1",
+                "gemini", clock);
+        return new EvaluationJob(session, turn, question, "mi respuesta", mark);
+    }
+
+    private void modelReturns(String text) {
+        when(model.generate(any())).thenReturn(new LanguageModelResponse(text, 10, 5, "modelo"));
+    }
+
+    private AiExecution failedExecution() {
+        ArgumentCaptor<AiExecution> captor = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions).failIfInProgress(captor.capture());
+        return captor.getValue();
+    }
+
+    @Test
+    @DisplayName("Una evaluación válida guarda el resultado en la clave dentro de la misma transacción")
+    void evaluate_shouldRecordKeyResult_insideTheSameTransaction() {
+        modelReturns(VALID);
+        TurnEvaluator.KeyRecorder recorder = mock(TurnEvaluator.KeyRecorder.class);
+        EvaluationJob base = job(2);
+
+        AnswerResult result = evaluator.evaluate(new EvaluationJob(base.session(), base.turn(), base.question(),
+                base.answer(), base.mark(), recorder));
+
+        verify(recorder).succeeded(result);
+        verify(recorder, never()).failed(any());
+    }
+
+    @Test
+    @DisplayName("Una evaluación fallida guarda el código del fallo en la clave al dejar el turno en reintento")
+    void evaluate_shouldRecordKeyFailure_whenModelFails() {
+        when(model.generate(any())).thenThrow(new LlmUnavailableException(null));
+        TurnEvaluator.KeyRecorder recorder = mock(TurnEvaluator.KeyRecorder.class);
+        EvaluationJob base = job(2);
+
+        assertThatThrownBy(() -> evaluator.evaluate(new EvaluationJob(base.session(), base.turn(), base.question(),
+                base.answer(), base.mark(), recorder))).isInstanceOf(LlmUnavailableException.class);
+
+        verify(recorder).failed(ErrorCode.LLM_UNAVAILABLE);
+        verify(recorder, never()).succeeded(any());
+    }
+
+    @Test
+    @DisplayName("Una evaluación sin clave no guarda nada en ella")
+    void evaluate_shouldIgnoreKey_whenJobHasNoRecorder() {
+        TurnEvaluator.KeyRecorder none = TurnEvaluator.KeyRecorder.NONE;
+
+        none.succeeded(null);
+        none.failed(ErrorCode.LLM_UNAVAILABLE);
+
+        assertThat(none).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Una evaluación válida de la pregunta 2 completa el turno y abre el de la pregunta 3")
+    void evaluate_shouldCompleteAndOpenNext_whenValid() {
+        modelReturns(VALID);
+        EvaluationJob job = job(2);
+
+        AnswerResult result = evaluator.evaluate(job);
+
+        assertThat(result.turnStatus()).isEqualTo(TurnStatus.COMPLETED);
+        assertThat(result.currentQuestion()).isEqualTo(3);
+        assertThat(result.totalQuestions()).isEqualTo(5);
+        assertThat(result.interviewFinished()).isFalse();
+        assertThat(result.nextQuestion().text()).isEqualTo("Pregunta 3");
+        assertThat(result.nextQuestion().number()).isEqualTo(3);
+        assertThat(result.nextQuestion().status()).isEqualTo(TurnStatus.PENDING);
+        assertThat(turn.status()).isEqualTo(TurnStatus.COMPLETED);
+        ArgumentCaptor<TurnFeedback> feedback = ArgumentCaptor.forClass(TurnFeedback.class);
+        verify(feedbacks).save(feedback.capture());
+        assertThat(feedback.getValue().turnId()).isEqualTo(job.turn().id());
+        ArgumentCaptor<AiExecution> saved = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions).save(saved.capture());
+        assertThat(saved.getValue().status().name()).isEqualTo("SUCCEEDED");
+        assertThat(session.lastActivityAt()).isEqualTo(NOW);
+    }
+
+    @Test
+    @DisplayName("La respuesta de la pregunta 5 termina la entrevista sin abrir una sexta")
+    void evaluate_shouldFinishWithoutSixth_whenQuestionFive() {
+        modelReturns(VALID);
+
+        AnswerResult result = evaluator.evaluate(job(5));
+
+        assertThat(result.interviewFinished()).isTrue();
+        assertThat(result.nextQuestion()).isNull();
+        assertThat(result.currentQuestion()).isEqualTo(5);
+        ArgumentCaptor<InterviewTurn> saved = ArgumentCaptor.forClass(InterviewTurn.class);
+        verify(turns).save(saved.capture());
+        assertThat(saved.getAllValues()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Si el modelo no está disponible, el turno queda en reintento y la ejecución fallida")
+    void evaluate_shouldRetry_whenModelUnavailable() {
+        when(model.generate(any())).thenThrow(new LlmUnavailableException(null));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmUnavailableException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        assertThat(failedExecution().errorCode()).isEqualTo("LLM_UNAVAILABLE");
+        verify(feedbacks, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Si se agotó la cuota del modelo, el turno queda en reintento con su código")
+    void evaluate_shouldRetry_whenLimitReached() {
+        when(model.generate(any())).thenThrow(new LlmLimitReachedException(null));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmLimitReachedException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        assertThat(failedExecution().errorCode()).isEqualTo("LLM_LIMIT_REACHED");
+    }
+
+    @Test
+    @DisplayName("Si el modelo devuelve una salida inválida, el turno queda en reintento con su código")
+    void evaluate_shouldRetry_whenInvalidOutput() {
+        modelReturns("no es json");
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmInvalidOutputException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        assertThat(failedExecution().errorCode()).isEqualTo("LLM_INVALID_OUTPUT");
+    }
+
+    @Test
+    @DisplayName("Una falla no clasificada del modelo se trata como modelo no disponible")
+    void evaluate_shouldMapUnexpectedFailureToUnavailable() {
+        when(model.generate(any())).thenThrow(new IllegalStateException("raro"));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmUnavailableException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+    }
+
+    @Test
+    @DisplayName("Si la base falla al guardar, sube base no disponible y el turno sigue procesando")
+    void evaluate_shouldThrowDatabaseUnavailable_whenSaveFails() {
+        modelReturns(VALID);
+        when(feedbacks.save(any())).thenThrow(new DataAccessResourceFailureException("caída"));
+        EvaluationJob job = job(1);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(DatabaseUnavailableException.class);
+
+        assertThat(turn.status()).isEqualTo(TurnStatus.PROCESSING);
+        verify(executions, never()).failIfInProgress(any());
+    }
+
+    @Test
+    @DisplayName("Si la sesión se abandonó mientras se evaluaba, no se guarda nada y la ejecución queda fallida")
+    void evaluate_shouldRejectAndCloseExecution_whenSessionAbandonedMeanwhile() {
+        modelReturns(VALID);
+        EvaluationJob job = job(1);
+        Instant activity = session.lastActivityAt();
+        session.abandon(clock);
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(SessionAbandonedException.class);
+
+        assertThat(failedExecution().errorCode()).isEqualTo(ErrorCode.SESSION_ABANDONED.name());
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        verify(feedbacks, never()).save(any());
+        verify(sessions, never()).save(any());
+        assertThat(activity).isNotEqualTo(NOW);
+        assertThat(session.lastActivityAt()).isEqualTo(activity);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = SessionStatus.class, names = {"EVALUATING", "FINISHED"})
+    @DisplayName("Si la sesión ya se cerró mientras se evaluaba, la ejecución queda fallida con su código")
+    void evaluate_shouldRejectAndCloseExecution_whenSessionClosedMeanwhile(SessionStatus closed) {
+        modelReturns(VALID);
+        EvaluationJob job = job(1);
+        session.startEvaluation(clock);
+        if (closed == SessionStatus.FINISHED) {
+            session.finish(clock);
+        }
+
+        assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(SessionAlreadyClosedException.class);
+
+        assertThat(failedExecution().errorCode()).isEqualTo(ErrorCode.SESSION_ALREADY_CLOSED.name());
+        assertThat(turn.status()).isEqualTo(TurnStatus.RETRYING);
+        verify(feedbacks, never()).save(any());
+    }
+}

@@ -94,7 +94,9 @@ class StartSessionServiceTest {
         when(executions.save(any())).thenAnswer(call -> call.getArgument(0));
         when(executions.failIfInProgress(any())).thenReturn(true);
         when(sessions.save(any())).thenAnswer(call -> call.getArgument(0));
-        GetSessionStateService state = new GetSessionStateService(sessions, questions, turns);
+        GetSessionStateService state = new GetSessionStateService(sessions, questions, turns,
+                mock(tech.cameia.entrevista.domain.port.AnswerAttemptRepository.class), executions, clock,
+                Duration.ofMillis(20000));
         service = new StartSessionService(sessions, executions, questions, turns, model,
                 new PlanningPromptBuilder(JsonMapper.builder().build()), new PlanOutputReader(JsonMapper.builder().build()),
                 new PlanValidator(), new PlanningRetryPolicy(), state, transaction, clock, "modelo-de-prueba",

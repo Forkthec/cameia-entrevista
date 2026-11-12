@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P1-C",
+  "corrida" : 3,
+  "ms" : 917,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 107,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta sobre su experiencia y desvía la conversación hacia otro tema.\",\n  \"follow_up_texto\": \"Por favor, responde a la pregunta original sobre tu experiencia en pruebas de software y tu motivación para el rol de analista de calidad.\",\n  \"feedback\": \"Es necesario abordar las preguntas planteadas para continuar con la evaluación técnica.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -24,6 +24,7 @@ public final class InterviewTurnMapper {
         entity.setId(turn.id());
         entity.setQuestionId(turn.questionId());
         entity.setStatus(turn.status());
+        entity.setManualRetries((short) turn.manualRetries());
         entity.setCreatedAt(turn.createdAt());
         entity.setUpdatedAt(turn.updatedAt());
         entity.setVersion(turn.version());
@@ -38,6 +39,7 @@ public final class InterviewTurnMapper {
      */
     public static InterviewTurn toDomain(InterviewTurnEntity entity) {
         return InterviewTurn.reconstitute(new TurnSnapshot(entity.getId(), entity.getQuestionId(),
-                entity.getStatus(), entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion()));
+                entity.getStatus(), entity.getManualRetries(),
+                entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion()));
     }
 }

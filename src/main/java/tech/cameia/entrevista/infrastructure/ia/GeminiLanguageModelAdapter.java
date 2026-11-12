@@ -117,12 +117,16 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
     }
 
     private GoogleGenAiChatOptions opciones(LanguageModelPrompt prompt) {
-        return GoogleGenAiChatOptions.builder()
+        GoogleGenAiChatOptions.Builder opciones = GoogleGenAiChatOptions.builder()
                 .model(propiedades.model())
                 .temperature(propiedades.temperature())
                 .thinkingLevel(propiedades.thinkingLevel())
-                .maxOutputTokens(prompt.maxOutputTokens())
-                .build();
+                .maxOutputTokens(prompt.maxOutputTokens());
+        if (prompt.jsonSchema() != null) {
+            // Con esquema, Gemini devuelve JSON que lo cumple en lugar de texto libre.
+            opciones.responseMimeType("application/json").responseSchema(prompt.jsonSchema());
+        }
+        return opciones.build();
     }
 
     private LanguageModelResponse aRespuesta(ChatResponse respuesta) {

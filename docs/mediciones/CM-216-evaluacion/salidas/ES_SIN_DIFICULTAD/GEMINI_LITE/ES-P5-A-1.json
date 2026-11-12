@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 1,
+  "ms" : 979,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 77,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato detalla un proceso de respuesta a incidentes adecuado, abarcando mitigacion rapida, analisis y comunicacion.\", \"follow_up_texto\": \"\", \"feedback\": \"El enfoque estructurado es correcto para la gestion de un incidente en produccion.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P3-C",
+  "corrida" : 2,
+  "ms" : 1504,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 134,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"motivo\": \"El candidato esquiva la pregunta respondiendo con una afirmacion absoluta poco realista en lugar de relatar una situacion real.\", \"follow_up_texto\": \"Es poco probable que nunca hayas encontrado un defecto critico a ultimo momento. Piensa en algun proyecto pasado y describe como manejaste una incidencia critica de ultima hora, los pasos que seguiste y el resultado final.\", \"feedback\": \"Evita dar respuestas absolutas. En entornos de ingenieria, los imprevistos ocurren y es importante mostrar capacidad de reaccion bajo presion.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

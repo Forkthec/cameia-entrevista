@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-C",
+  "corrida" : 1,
+  "ms" : 1043,
+  "tokensEntrada" : 654,
+  "tokensSalida" : 123,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta personal y de interés por el puesto, desviando la atención hacia un tema técnico.\",\n  \"follow_up_texto\": \"Entiendo tu preferencia por los temas técnicos, pero necesito que respondas a la pregunta inicial sobre tu perfil y por qué te interesa este rol de backend.\",\n  \"feedback\": \"Es importante responder a todas las partes de la entrevista, incluso a las preguntas introductorias o motivacionales.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-A",
+  "corrida" : 3,
+  "ms" : 1394,
+  "tokensEntrada" : 752,
+  "tokensSalida" : 88,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato cubre correctamente la persistencia, el patrón transactional outbox, el manejo de reintentos y la idempotencia.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"La respuesta cubre los puntos críticos de arquitectura y tolerancia a fallos solicitados.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

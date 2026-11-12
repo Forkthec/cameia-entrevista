@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-05",
+  "corrida" : 1,
+  "ms" : 1703,
+  "tokensEntrada" : 1497,
+  "tokensSalida" : 273,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"INCOMPLETA\", \"feedback\": \"La respuesta se repite mecánicamente sin aportar contenido nuevo tras las primeras frases. Además, no hay que decir que una transacción 'mantiene el aislamiento con bloqueos' por defecto; depende del nivel de aislamiento y del motor, tras el cual se pueden usar bloqueos optimistas (versionado). Pide los detalles concretos.\", \"follow_up_texto\": \"Quita la repetición. Detalla: (1) cómo se implementa el bloqueo optimista en SQL (por ejemplo, update where version = n y revisar las filas afectadas). (2) Qué problemas causan los bloqueos pesimistas si la transacción es larga (deadlocks, timeouts). (3) Ejemplo concreto de cuándo fallaría el optimista versus cuándo fallaría el pesimista.\", \"motivo\": \"La respuesta se repite absurdamente sin aportar contenido nuevo tras las primeras frases. Además, en una pregunta de dificultad difícil se esperaba un detalle técnico más profundo sobre los mecanismos de implementación (por ejemplo, en el bloqueo optimista, el manejo de la columna version, el comportamiento de UPDATE WHERE version=X en MySQL/Postgres, o el use de enclaves en el pesimismo).\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

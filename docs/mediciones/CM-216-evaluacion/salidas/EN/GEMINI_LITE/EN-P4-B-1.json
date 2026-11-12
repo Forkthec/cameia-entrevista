@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P4-B",
+  "corrida" : 1,
+  "ms" : 1145,
+  "tokensEntrada" : 651,
+  "tokensSalida" : 136,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona el uso de una cola y base de datos, pero carece de detalles sobre la arquitectura, el manejo de estados o cómo se garantiza la persistencia y reintento ante fallos.\",\n  \"follow_up_texto\": \"Podrias detallar como interactuan la base de datos y la cola para garantizar que ningun mensaje se pierda si el servidor se reinicia abruptamente en medio del proceso?\",\n  \"feedback\": \"La respuesta es demasiado general para una pregunta de diseño de sistemas.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

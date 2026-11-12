@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 3,
+  "ms" : 628,
+  "tokensEntrada" : 739,
+  "tokensSalida" : 96,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta clara y estructurada que incluye el conflicto, la acción basada en datos y un resultado medible.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe el desacuerdo, la investigación conjunta, la solución acordada y el resultado final con métricas concretas, respondiendo directamente a todas las partes de la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 3,
+  "ms" : 1183,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 83,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato proporciona un proceso estructurado, cubriendo mitigación inicial, rollback, diagnóstico, resolución y comunicación adecuada para un incidente en producción.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta sólida y bien estructurada para una situación crítica de producción en un viernes por la tarde.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-B",
+  "corrida" : 2,
+  "ms" : 1067,
+  "tokensEntrada" : 677,
+  "tokensSalida" : 124,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general y no detalla un proceso técnico o de gestión para resolver desacuerdos sobre defectos.\",\n  \"follow_up_texto\": \"Por favor, detalla los pasos concretos que seguirías para respaldar tu postura, como revisar la especificación de requisitos, involucrar al Product Owner o aportar métricas.\",\n  \"feedback\": \"La respuesta carece de estructura y detalles sobre cómo manejar desacuerdos técnicos en un equipo.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}
