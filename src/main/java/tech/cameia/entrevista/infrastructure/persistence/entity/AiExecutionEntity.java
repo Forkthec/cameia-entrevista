@@ -8,8 +8,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Fila de la tabla {@code ejecucion_ia} para la operación {@code PLANIFICAR}. La columna {@code turno_id} no se
- * mapea: en una planificación es siempre nula, como exige la base.
+ * Fila de la tabla {@code ejecucion_ia}, de planificar o de evaluar. La columna {@code turno_id} es nula al
+ * planificar y obligatoria al evaluar, como exige la base.
  */
 @Entity
 @Table(name = "ejecucion_ia")
@@ -24,6 +24,9 @@ public class AiExecutionEntity {
 
     @Column(name = "tipo_operacion", nullable = false, length = 20)
     private String operation;
+
+    @Column(name = "turno_id")
+    private UUID turnId;
 
     @Column(name = "numero_intento", nullable = false)
     private short attempt;
@@ -68,6 +71,7 @@ public class AiExecutionEntity {
      * @param id identificador
      * @param sessionId sesión
      * @param operation operación guardada
+     * @param turnId turno que se evalúa; nulo al planificar
      * @param attempt intento de 1 a 3
      * @param idempotencyKey clave única
      * @param status estado guardado
@@ -80,12 +84,14 @@ public class AiExecutionEntity {
      * @param startedAt inicio
      * @param finishedAt cierre
      */
-    public AiExecutionEntity(UUID id, UUID sessionId, String operation, short attempt, UUID idempotencyKey,
+    public AiExecutionEntity(UUID id, UUID sessionId, String operation, UUID turnId, short attempt,
+            UUID idempotencyKey,
             String status, String model, String promptVersion, String errorCode, String provider, Long inputTokens,
             Long outputTokens, Instant startedAt, Instant finishedAt) {
         this.id = id;
         this.sessionId = sessionId;
         this.operation = operation;
+        this.turnId = turnId;
         this.attempt = attempt;
         this.idempotencyKey = idempotencyKey;
         this.status = status;
@@ -107,6 +113,16 @@ public class AiExecutionEntity {
     /** @return sesión */
     public UUID getSessionId() {
         return sessionId;
+    }
+
+    /** @return operación guardada */
+    public String getOperation() {
+        return operation;
+    }
+
+    /** @return turno que se evalúa; nulo al planificar */
+    public UUID getTurnId() {
+        return turnId;
     }
 
     /** @return intento */

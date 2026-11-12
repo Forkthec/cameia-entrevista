@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
+import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.model.AiExecution;
 import tech.cameia.entrevista.domain.model.AiExecutionStatus;
 import tech.cameia.entrevista.domain.model.AiOperation;
@@ -24,7 +25,11 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
     /** Índice único parcial: una sola planificación en curso por sesión. */
     static final String UNIQUE_PLANNING_IN_PROGRESS = "uq_ejecucion_ia_planificacion_en_curso";
 
+    /** Índice único parcial: una sola evaluación en curso por turno. */
+    static final String UNIQUE_EVALUATION_IN_PROGRESS = "uq_ejecucion_ia_evaluacion_en_curso";
+
     private static final String PLAN = "PLANIFICAR";
+    private static final String EVALUATE = "EVALUAR";
 
     private final AiExecutionJpaRepository jpa;
 
@@ -41,6 +46,9 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
             if (ConstraintNames.violates(e, UNIQUE_PLANNING_IN_PROGRESS)) {
                 throw new SessionConflictException();
             }
+            if (ConstraintNames.violates(e, UNIQUE_EVALUATION_IN_PROGRESS)) {
+                throw new TurnConflictException();
+            }
             throw e;
         }
     }
@@ -49,6 +57,13 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
     @Transactional(readOnly = true)
     public Optional<AiExecution> findPlanningInProgress(UUID sessionId) {
         return jpa.findFirstBySessionIdAndOperationAndStatus(sessionId, PLAN, AiExecutionStatus.IN_PROGRESS.code())
+                .map(AiExecutionRepositoryAdapter::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<AiExecution> findEvaluationInProgress(UUID turnId) {
+        return jpa.findFirstByTurnIdAndOperationAndStatus(turnId, EVALUATE, AiExecutionStatus.IN_PROGRESS.code())
                 .map(AiExecutionRepositoryAdapter::toDomain);
     }
 
@@ -72,13 +87,14 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
     }
 
     private static AiExecutionEntity toEntity(AiExecution e) {
-        return new AiExecutionEntity(e.id(), e.sessionId(), PLAN, (short) e.attempt(), e.idempotencyKey(),
+        return new AiExecutionEntity(e.id(), e.sessionId(), e.operation().code(), e.turnId(), (short) e.attempt(),
+                e.idempotencyKey(),
                 e.status().code(), e.model(), e.promptVersion(), e.errorCode(), e.provider(), e.inputTokens(),
                 e.outputTokens(), e.startedAt(), e.finishedAt());
     }
 
     private static AiExecution toDomain(AiExecutionEntity e) {
-        return new AiExecution(e.getId(), e.getSessionId(), AiOperation.PLAN, null, e.getAttempt(), e.getIdempotencyKey(),
+        return new AiExecution(e.getId(), e.getSessionId(), AiOperation.fromCode(e.getOperation()), e.getTurnId(), e.getAttempt(), e.getIdempotencyKey(),
                 AiExecutionStatus.fromCode(e.getStatus()), e.getModel(), e.getPromptVersion(), e.getErrorCode(),
                 e.getProvider(), e.getInputTokens(), e.getOutputTokens(), e.getStartedAt(), e.getFinishedAt());
     }

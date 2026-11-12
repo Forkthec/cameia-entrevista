@@ -29,6 +29,14 @@ public interface AiExecutionRepository {
     Optional<AiExecution> findPlanningInProgress(UUID sessionId);
 
     /**
+     * Busca la evaluación en curso de un turno; a lo sumo hay una.
+     *
+     * @param turnId identificador del turno
+     * @return la ejecución en curso, o vacío si no hay
+     */
+    Optional<AiExecution> findEvaluationInProgress(UUID turnId);
+
+    /**
      * Indica si la sesión tiene algún intento de planificación fallido.
      *
      * @param sessionId identificador de la sesión

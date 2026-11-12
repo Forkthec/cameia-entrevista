@@ -89,6 +89,11 @@ class CreateSessionServiceTest {
             }
 
             @Override
+            public Optional<AiExecution> findEvaluationInProgress(UUID turnId) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
             public boolean hasFailedPlanning(UUID sessionId) {
                 throw new UnsupportedOperationException();
             }
