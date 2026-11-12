@@ -270,11 +270,15 @@ public class RegisterAnswerService {
             }
             InterviewTurn turn = turns.findById(request.turnId()).orElseThrow(TurnNotFoundException::new);
             switch (turn.status()) {
-                case COMPLETED -> throw new AnswerAlreadyExistsException();
-                case RETRYING -> throw new LlmUnavailableException(null);
+                case COMPLETED -> {
+                    return settledOr(saved, request, owner, new AnswerAlreadyExistsException());
+                }
+                case RETRYING -> {
+                    return settledOr(saved, request, owner, new LlmUnavailableException(null));
+                }
                 case PROCESSING -> {
                     if (staleness.isStale(executions.findEvaluationInProgress(turn.id()), clock.instant())) {
-                        throw new LlmUnavailableException(null);
+                        return settledOr(saved, request, owner, new LlmUnavailableException(null));
                     }
                 }
                 default -> { }
@@ -288,6 +292,19 @@ public class RegisterAnswerService {
                 throw new TurnConflictException();
             }
         }
+    }
+
+    /**
+     * El turno y la clave se cierran en una sola transacción, pero aquí se leen por separado: si entre las dos
+     * lecturas la clave quedó cerrada, se entrega su resultado guardado en lugar del error deducido del turno.
+     */
+    private AnswerResult settledOr(IdempotencyKey saved, ValidatedAnswerRequest request, FirebaseUid owner,
+            BusinessException deduced) {
+        IdempotencyKey settled = keys.find(owner, OPERATION, request.idempotencyKey()).orElse(saved);
+        if (settled.responseStatus() == IN_PROGRESS_STATUS) {
+            throw deduced;
+        }
+        return storedResult(settled);
     }
 
     private String codeOf(IdempotencyKey saved) {
