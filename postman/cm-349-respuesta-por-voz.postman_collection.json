@@ -1,0 +1,1361 @@
+{
+  "info": {
+    "name": "CM-349 · Respuesta por voz transcrita (HU-5.12)",
+    "description": "Prueba manual de POST /api/v1/interviews/sessions/{sessionId}/answers/audio con AssemblyAI REAL.\n\nAntes de correrla: 1) docker compose up (local-dev), 2) ASSEMBLYAI_API_KEY en local-dev/.env,\n3) cargar el seed: docker exec -i cameia-dev-entrevista-db psql -U postgres -d DB-entrevista < seed/cm-349-sesion-por-voz.sql\n\nLas carpetas 1 a 3 llaman a Entrevista directo (8083) con X-User-Id, como lo hace el Gateway. Corre las carpetas\nen orden y vuelve a cargar el seed antes de repetir. La carpeta 4 pasa por el Gateway con un token del emulador.\nLos audios están en local-dev/audios (generados con la síntesis de voz de Windows).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8083"
+    },
+    {
+      "key": "gatewayUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "emulatorUrl",
+      "value": "http://localhost:9099"
+    },
+    {
+      "key": "turnId",
+      "value": ""
+    },
+    {
+      "key": "idemKey",
+      "value": ""
+    },
+    {
+      "key": "idToken",
+      "value": ""
+    },
+    {
+      "key": "firebaseUid",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Salud",
+      "item": [
+        {
+          "name": "GET /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('UP', () => pm.expect(pm.response.json().status).to.eql('UP'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Entrevista en español por voz (uid-voz-es)",
+      "item": [
+        {
+          "name": "Estado inicial: pregunta 1 pendiente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const b = pm.response.json();",
+                  "pm.test('EN_CURSO por voz', () => { pm.expect(b.status).to.eql('EN_CURSO'); pm.expect(b.answerFormat).to.eql('AUDIO'); });",
+                  "pm.collectionVariables.set('turnId', b.pendingQuestion.turnId);",
+                  "pm.test('Pregunta 1 de 5', () => pm.expect(b.progress.currentQuestion).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CA-5.12.10 · audio en inglés en entrevista en español → 422",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code TRANSCRIPTION_LANGUAGE_MISMATCH', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_LANGUAGE_MISMATCH'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Mensaje literal', () => pm.expect(pm.response.json().detail).to.eql(\"Tu entrevista es en español. Responde en español.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "description": "No registra la respuesta ni gasta intento: la misma pregunta sigue pendiente.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-en.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CA-5.12.7 · silencio → 422 TRANSCRIPTION_EMPTY",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code TRANSCRIPTION_EMPTY', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_EMPTY'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Mensaje literal', () => pm.expect(pm.response.json().detail).to.eql(\"No detectamos tu voz, intenta de nuevo.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/silencio.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sigue la pregunta 1 (rechazos no gastan intento)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const b = pm.response.json();",
+                  "pm.test('EN_CURSO por voz', () => { pm.expect(b.status).to.eql('EN_CURSO'); pm.expect(b.answerFormat).to.eql('AUDIO'); });",
+                  "pm.collectionVariables.set('turnId', b.pendingQuestion.turnId);",
+                  "pm.test('Sigue en la pregunta 1', () => pm.expect(b.progress.currentQuestion).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CA-5.12.1/5.12.2 · responder pregunta 1 en español → pregunta 2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }",
+                  "pm.test('Pregunta 2 de 5', () => { pm.expect(b.progress.currentQuestion).to.eql(2); pm.expect(b.nextQuestion.number).to.eql(2); });",
+                  "pm.test('No terminó', () => pm.expect(b.interviewFinished).to.eql(false));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Idempotencia · responder pregunta 2 con Idempotency-Key",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('idemKey', 'postman-' + Date.now());",
+                  "pm.collectionVariables.set('turnBefore', pm.collectionVariables.get('turnId'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }",
+                  "pm.collectionVariables.set('replayNext', b.nextQuestion.turnId);",
+                  "pm.test('Pregunta 3 de 5', () => pm.expect(b.progress.currentQuestion).to.eql(3));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{idemKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Idempotencia · repetir la MISMA petición → mismo 200, sin transcribir otra vez",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Misma siguiente pregunta', () => pm.expect(pm.response.json().nextQuestion.turnId).to.eql(pm.collectionVariables.get('replayNext')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{idemKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnBefore}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Responder pregunta 3 → pregunta 4",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }",
+                  "pm.test('Pregunta 4 de 5', () => pm.expect(b.progress.currentQuestion).to.eql(4));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Responder pregunta 4 → pregunta 5",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }",
+                  "pm.test('Pregunta 5 de 5', () => pm.expect(b.progress.currentQuestion).to.eql(5));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CA-5.12.6 · responder pregunta 5 → sin más preguntas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }",
+                  "pm.test('nextQuestion null', () => pm.expect(b.nextQuestion).to.eql(null));",
+                  "pm.test('interviewFinished true', () => pm.expect(b.interviewFinished).to.eql(true));",
+                  "pm.test('Progreso 5 de 5', () => pm.expect(b.progress.currentQuestion).to.eql(5));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Turno ya respondido → 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code TURN_TRANSITION_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('TURN_TRANSITION_NOT_ALLOWED'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-es"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Entrevista en inglés por voz (uid-voz-en)",
+      "item": [
+        {
+          "name": "Estado inicial",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const b = pm.response.json();",
+                  "pm.test('EN_CURSO por voz', () => { pm.expect(b.status).to.eql('EN_CURSO'); pm.expect(b.answerFormat).to.eql('AUDIO'); });",
+                  "pm.collectionVariables.set('turnId', b.pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-en"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/22222222-2222-4222-8222-222222222222/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "22222222-2222-4222-8222-222222222222",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CA-5.12.10 · audio en español en entrevista en inglés → 422",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code TRANSCRIPTION_LANGUAGE_MISMATCH', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_LANGUAGE_MISMATCH'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Mensaje literal', () => pm.expect(pm.response.json().detail).to.eql(\"Tu entrevista es en inglés. Responde en inglés.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-en"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/22222222-2222-4222-8222-222222222222/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "22222222-2222-4222-8222-222222222222",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CA-5.12.2 · responder en inglés → pregunta 2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }",
+                  "pm.test('Pregunta 2 de 5', () => pm.expect(b.progress.currentQuestion).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-voz-en"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-en.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/22222222-2222-4222-8222-222222222222/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "22222222-2222-4222-8222-222222222222",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Rechazos de la petición",
+      "item": [
+        {
+          "name": "Sin identidad → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "1a000000-0000-4000-8000-000000000001",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sesión ajena → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "otra-persona"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "1a000000-0000-4000-8000-000000000001",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/11111111-1111-4111-8111-111111111111/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "11111111-1111-4111-8111-111111111111",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Entrevista por texto → 422 ANSWER_FORMAT_NOT_ALLOWED",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code ANSWER_FORMAT_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('ANSWER_FORMAT_NOT_ALLOWED'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-texto"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "3a000000-0000-4000-8000-000000000001",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/33333333-3333-4333-8333-333333333333/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "33333333-3333-4333-8333-333333333333",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Tipo no admitido (text/plain) → 415",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 415', () => pm.response.to.have.status(415));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code AUDIO_FORMAT_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('AUDIO_FORMAT_NOT_ALLOWED'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-texto"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "3a000000-0000-4000-8000-000000000001",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "text/plain"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/33333333-3333-4333-8333-333333333333/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "33333333-3333-4333-8333-333333333333",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Faltan turnId y audio → 422 con los dos campos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 422', () => pm.response.to.have.status(422));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code VALIDATION_FAILED', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_FAILED'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Dos campos', () => pm.expect(pm.response.json().errors.map(e => e.code)).to.eql(['TURN_ID_REQUIRED', 'AUDIO_REQUIRED']));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-texto"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/33333333-3333-4333-8333-333333333333/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "33333333-3333-4333-8333-333333333333",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "turnId que no es el pendiente → 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('problem+json UTF-8', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('code TURN_TRANSITION_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('TURN_TRANSITION_NOT_ALLOWED'));",
+                  "pm.test('Trae requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "uid-texto"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "1a000000-0000-4000-8000-000000000001",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-es.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/33333333-3333-4333-8333-333333333333/answers/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "33333333-3333-4333-8333-333333333333",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Vía Gateway con el emulador de Firebase (opcional)",
+      "description": "Tras el paso 1, asigna la sesión en inglés a tu usuario del emulador (ver README.md, «Vía Gateway»).",
+      "item": [
+        {
+          "name": "1) Crear usuario en el emulador y guardar idToken",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('idToken', pm.response.json().idToken);",
+                  "pm.collectionVariables.set('firebaseUid', pm.response.json().localId);",
+                  "console.log('firebaseUid =', pm.response.json().localId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"voz-{{$timestamp}}@cameia.test\",\"password\":\"Clave-Segura-123\",\"returnSecureToken\":true}"
+            },
+            "url": {
+              "raw": "{{emulatorUrl}}/identitytoolkit.googleapis.com/v1/accounts:signUp?key=fake-api-key",
+              "host": [
+                "{{emulatorUrl}}"
+              ],
+              "path": [
+                "identitytoolkit.googleapis.com",
+                "v1",
+                "accounts:signUp"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "fake-api-key"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "2) Estado por el Gateway (tras reasignar la sesión)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const b = pm.response.json();",
+                  "pm.test('EN_CURSO por voz', () => { pm.expect(b.status).to.eql('EN_CURSO'); pm.expect(b.answerFormat).to.eql('AUDIO'); });",
+                  "pm.collectionVariables.set('turnId', b.pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{idToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gatewayUrl}}/api/v1/interviews/sessions/22222222-2222-4222-8222-222222222222/state",
+              "host": [
+                "{{gatewayUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "22222222-2222-4222-8222-222222222222",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3) Responder por voz por el Gateway",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.match(/json/));",
+                  "pm.test('Nunca trae retroalimentación', () => pm.expect(pm.response.text().toLowerCase()).to.not.include('feedback'));",
+                  "const b = pm.response.json();",
+                  "pm.test('Turno respondido COMPLETED', () => pm.expect(b.turn.status).to.eql('COMPLETED'));",
+                  "pm.test('Total 5', () => pm.expect(b.progress.totalQuestions).to.eql(5));",
+                  "if (b.nextQuestion) { pm.collectionVariables.set('turnId', b.nextQuestion.turnId); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{idToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "turnId",
+                  "value": "{{turnId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": "audios/respuesta-en.wav",
+                  "contentType": "audio/wav"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/v1/interviews/sessions/22222222-2222-4222-8222-222222222222/answers/audio",
+              "host": [
+                "{{gatewayUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "22222222-2222-4222-8222-222222222222",
+                "answers",
+                "audio"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
