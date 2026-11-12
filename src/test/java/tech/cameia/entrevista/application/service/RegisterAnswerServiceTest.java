@@ -381,6 +381,25 @@ class RegisterAnswerServiceTest {
     }
 
     @Test
+    @DisplayName("Si la primera petición termina entre la lectura de la clave y la del turno, devuelve su resultado")
+    void register_shouldReturnStoredResult_whenFirstFinishesBetweenReads() {
+        turn.startProcessing(clock);
+        store.put(KEY, key(202, "{}"));
+        String body = "{\"turnId\":\"" + turn.id() + "\",\"turnStatus\":\"COMPLETED\",\"currentQuestion\":3,"
+                + "\"totalQuestions\":5,\"nextTurnId\":\"" + UUID.randomUUID() + "\",\"nextNumber\":3,"
+                + "\"nextText\":\"Pregunta 3\",\"interviewFinished\":false}";
+        when(executions.findEvaluationInProgress(any())).thenAnswer(call -> {
+            store.put(KEY, key(200, body));
+            return Optional.empty();
+        });
+
+        AnswerResult result = service.register(command());
+
+        assertThat(result.currentQuestion()).isEqualTo(3);
+        assertThat(pauses.get()).isZero();
+    }
+
+    @Test
     @DisplayName("La misma clave con el turno en reintento responde modelo no disponible")
     void register_shouldReturn503_whenSameKeyAndTurnRetrying() {
         turn.startProcessing(clock);
