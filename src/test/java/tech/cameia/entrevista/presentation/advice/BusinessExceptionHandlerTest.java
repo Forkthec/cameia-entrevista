@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.jayway.jsonpath.JsonPath;
 
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
@@ -32,16 +34,25 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.cameia.entrevista.domain.exception.AnswerAlreadyExistsException;
+import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException;
 import tech.cameia.entrevista.domain.exception.ProfileSnapshotInvalidException;
+import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
+import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
+import tech.cameia.entrevista.domain.exception.TurnConflictException;
+import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
+import tech.cameia.entrevista.domain.exception.TurnNotRetryableException;
+import tech.cameia.entrevista.domain.exception.TurnRetryLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 
 /**
@@ -379,9 +390,53 @@ class BusinessExceptionHandlerTest {
         return JsonPath.read(result.getResponse().getContentAsString(), "$.requestId");
     }
 
+    static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> answerErrors() {
+        return java.util.stream.Stream.of(
+                org.junit.jupiter.params.provider.Arguments.of("SESSION_ABANDONED", 409, "Entrevista abandonada",
+                        SessionAbandonedException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("SESSION_ALREADY_CLOSED", 409, "Entrevista cerrada",
+                        SessionAlreadyClosedException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("TURN_NOT_FOUND", 404, "Pregunta no encontrada",
+                        TurnNotFoundException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("ANSWER_ALREADY_EXISTS", 409, "Respuesta existente",
+                        AnswerAlreadyExistsException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("TURN_CONFLICT", 409, "Cambio simultáneo",
+                        TurnConflictException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("TURN_NOT_RETRYABLE", 409, "Acción no permitida",
+                        TurnNotRetryableException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("TURN_RETRY_LIMIT_REACHED", 409, "Reintentos agotados",
+                        TurnRetryLimitReachedException.MESSAGE));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("answerErrors")
+    @DisplayName("Cada error de responder y reintentar responde su estado, título, código y mensaje")
+    void handle_shouldMapEveryAnswerCode(String code, int httpStatus, String title, String message) throws Exception {
+        mockMvc.perform(get("/error-de-respuesta/" + code).header("X-Request-Id", "abc-123"))
+                .andExpect(status().is(httpStatus))
+                .andExpect(header().string("Content-Type", containsStringIgnoringCase("application/problem+json")))
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.detail").value(message))
+                .andExpect(jsonPath("$.code").value(code))
+                .andExpect(jsonPath("$.requestId").value("abc-123"));
+    }
+
     /** Controlador que solo existe en la prueba y lanza cada una de las excepciones manejadas. */
     @RestController
     static class FailingController {
+
+        @GetMapping("/error-de-respuesta/{code}")
+        String answerError(@PathVariable String code) {
+            Map<String, Supplier<BusinessException>> errors = Map.of(
+                    "SESSION_ABANDONED", SessionAbandonedException::new,
+                    "SESSION_ALREADY_CLOSED", SessionAlreadyClosedException::new,
+                    "TURN_NOT_FOUND", TurnNotFoundException::new,
+                    "ANSWER_ALREADY_EXISTS", AnswerAlreadyExistsException::new,
+                    "TURN_CONFLICT", TurnConflictException::new,
+                    "TURN_NOT_RETRYABLE", TurnNotRetryableException::new,
+                    "TURN_RETRY_LIMIT_REACHED", TurnRetryLimitReachedException::new);
+            throw errors.get(code).get();
+        }
 
         @GetMapping("/sin-modelo")
         String withoutModel() {
