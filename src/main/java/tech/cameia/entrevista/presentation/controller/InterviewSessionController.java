@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.cameia.entrevista.application.command.AnswerCommand;
 import tech.cameia.entrevista.application.command.CreateSessionCommand;
 import tech.cameia.entrevista.application.command.SessionCommand;
+import tech.cameia.entrevista.application.service.ConsolidateSessionService;
 import tech.cameia.entrevista.application.service.CreateSessionService;
 import tech.cameia.entrevista.application.service.DeleteSessionService;
 import tech.cameia.entrevista.application.service.GetSessionStateService;
@@ -153,12 +154,23 @@ class InterviewSessionController {
              "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/answers",
              "code":"TURN_NOT_FOUND","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
 
+    private static final String EXAMPLE_CONSOLIDATION_FAILED = """
+            {"title":"Cierre pendiente","status":503,"detail":"Ocurrió un error. Inténtalo de nuevo.",
+             "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/consolidation",
+             "code":"SESSION_CONSOLIDATION_FAILED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
+
+    private static final String EXAMPLE_NOT_CLOSABLE = """
+            {"title":"Acción no permitida","status":409,"detail":"Esta entrevista ya no admite esa acción.",
+             "instance":"/api/v1/interviews/sessions/3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10/consolidation",
+             "code":"SESSION_TRANSITION_NOT_ALLOWED","requestId":"3f9c2a7e-5b1d-4e8a-9c64-2d7f0a1b8e35"}""";
+
     private final CreateSessionService createSession;
     private final StartSessionService startSession;
     private final GetSessionStateService sessionState;
     private final DeleteSessionService deleteSession;
     private final RegisterAnswerService registerAnswer;
     private final ReprocessTurnService reprocessTurn;
+    private final ConsolidateSessionService consolidateSession;
 
     /**
      * Crea el controlador.
@@ -169,16 +181,19 @@ class InterviewSessionController {
      * @param deleteSession caso de uso que cancela la preparación
      * @param registerAnswer caso de uso que registra y evalúa la respuesta escrita
      * @param reprocessTurn caso de uso que reintenta la evaluación de un turno
+     * @param consolidateSession caso de uso que cierra la sesión evaluada
      */
     InterviewSessionController(CreateSessionService createSession, StartSessionService startSession,
             GetSessionStateService sessionState, DeleteSessionService deleteSession,
-            RegisterAnswerService registerAnswer, ReprocessTurnService reprocessTurn) {
+            RegisterAnswerService registerAnswer, ReprocessTurnService reprocessTurn,
+            ConsolidateSessionService consolidateSession) {
         this.createSession = createSession;
         this.startSession = startSession;
         this.sessionState = sessionState;
         this.deleteSession = deleteSession;
         this.registerAnswer = registerAnswer;
         this.reprocessTurn = reprocessTurn;
+        this.consolidateSession = consolidateSession;
     }
 
     /**
@@ -484,5 +499,49 @@ class InterviewSessionController {
         FirebaseUid owner = FirebaseUid.required(userId);
         return ResponseEntity.ok(AnswerResultResponse.from(
                 reprocessTurn.reprocess(SessionCommand.of(sessionId, owner), turnId)));
+    }
+
+    /**
+     * Cierra una sesión cuyas cinco respuestas ya se evaluaron.
+     *
+     * @param userId identidad del Gateway
+     * @param sessionId identificador de la sesión, tal como llegó en la ruta
+     * @return el estado de la sesión finalizada
+     */
+    @Operation(summary = "Reintentar el cierre de la entrevista",
+            description = "Reúne la evaluación de una sesión en EVALUANDO y la pasa a FINALIZADA con hasta tres"
+                    + " intentos. Si la sesión ya está FINALIZADA devuelve su estado sin cambios, así que repetirlo es"
+                    + " seguro. No recibe cuerpo (se ignora) y nunca incluye retroalimentación.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Sesión FINALIZADA", content = @Content(
+                    mediaType = "application/json", schema = @Schema(implementation = SessionStateResponse.class),
+                    examples = @ExampleObject(name = "finalizada", value = EXAMPLE_STATE))),
+            @ApiResponse(responseCode = "401", description = "Sin identidad (code IDENTITY_REQUIRED)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "sinIdentidad", value = EXAMPLE_401))),
+            @ApiResponse(responseCode = "404", description = "La sesión no existe, es de otra persona o el identificador"
+                    + " no es un UUID (code SESSION_NOT_FOUND, el mismo cuerpo en los tres casos)",
+                    content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(name = "noEncontrada", value = EXAMPLE_START_NOT_FOUND))),
+            @ApiResponse(responseCode = "409", description = "La sesión está configurada, en curso o abandonada"
+                    + " (code SESSION_TRANSITION_NOT_ALLOWED)", content = @Content(mediaType = PROBLEM,
+                    schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "noCerrable", value = EXAMPLE_NOT_CLOSABLE))),
+            @ApiResponse(responseCode = "503", description = "SESSION_CONSOLIDATION_FAILED (tres intentos fallidos o"
+                    + " faltan respuestas o retroalimentación; la sesión sigue EVALUANDO y se puede repetir) o"
+                    + " DATABASE_UNAVAILABLE", content = @Content(mediaType = PROBLEM,
+                    schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "cierrePendiente", value = EXAMPLE_CONSOLIDATION_FAILED))),
+            @ApiResponse(responseCode = "500", description = "Error imprevisto (code INTERNAL_ERROR)", content = @Content(
+                    mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
+                    examples = @ExampleObject(name = "falloInterno", value = EXAMPLE_500)))
+    })
+    @PostMapping(path = "/{sessionId}/consolidation", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<SessionStateResponse> consolidate(
+            @Parameter(hidden = true) @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @Parameter(description = "Identificador de la sesión (UUID)") @PathVariable String sessionId) {
+        FirebaseUid owner = FirebaseUid.required(userId);
+        return ResponseEntity.ok(SessionStateResponse.from(
+                consolidateSession.consolidateOwned(SessionCommand.of(sessionId, owner))));
     }
 }

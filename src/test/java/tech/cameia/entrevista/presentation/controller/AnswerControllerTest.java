@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import tech.cameia.entrevista.application.command.AnswerCommand;
 import tech.cameia.entrevista.application.service.AnswerResult;
 import tech.cameia.entrevista.application.service.CreateSessionService;
+import tech.cameia.entrevista.application.service.ConsolidateSessionService;
 import tech.cameia.entrevista.application.service.DeleteSessionService;
 import tech.cameia.entrevista.application.service.GetSessionStateService;
 import tech.cameia.entrevista.application.service.RegisterAnswerService;
@@ -48,7 +49,8 @@ class AnswerControllerTest {
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new InterviewSessionController(mock(CreateSessionService.class),
                     mock(StartSessionService.class), mock(GetSessionStateService.class),
-                    mock(DeleteSessionService.class), register, reprocess))
+                    mock(DeleteSessionService.class), register, reprocess,
+                    mock(ConsolidateSessionService.class)))
             .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 
