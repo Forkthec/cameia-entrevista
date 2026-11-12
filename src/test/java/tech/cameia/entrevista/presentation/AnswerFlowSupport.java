@@ -38,6 +38,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import tools.jackson.databind.json.JsonMapper;
 
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
@@ -293,7 +294,12 @@ abstract class AnswerFlowSupport {
         }
 
         @Override
-        public LanguageModelResponse generate(LanguageModelPrompt prompt) {
+        public boolean isAvailable(AiProvider provider) {
+            return provider == AiProvider.PRIMARY;
+        }
+
+        @Override
+        public LanguageModelResponse generate(LanguageModelPrompt prompt, AiProvider provider) {
             calls.incrementAndGet();
             Supplier<LanguageModelResponse> next;
             synchronized (this) {

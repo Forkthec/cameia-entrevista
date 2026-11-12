@@ -50,6 +50,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
@@ -815,7 +816,12 @@ class SessionLifecycleEndToEndTest {
         }
 
         @Override
-        public LanguageModelResponse generate(LanguageModelPrompt prompt) {
+        public boolean isAvailable(AiProvider provider) {
+            return provider == AiProvider.PRIMARY;
+        }
+
+        @Override
+        public LanguageModelResponse generate(LanguageModelPrompt prompt, AiProvider provider) {
             calls.incrementAndGet();
             Supplier<LanguageModelResponse> next;
             synchronized (this) {

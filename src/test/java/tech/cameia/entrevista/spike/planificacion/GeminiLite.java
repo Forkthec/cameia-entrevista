@@ -4,6 +4,8 @@ import java.util.Map;
 
 import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
+import tech.cameia.entrevista.domain.model.AiOperation;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
@@ -25,15 +27,24 @@ final class GeminiLite implements ModeloDePrueba {
     /** Esquema JSON de la respuesta, o {@code null} si el modelo responde sin esquema. */
     private final String esquemaJson;
 
+    /** Operación con la que se envía el prompt: planificación sin esquema, evaluación con él. */
+    private final AiOperation operacion;
+
     GeminiLite(LanguageModelPort puerto, String modelo, String llave) {
-        this(puerto, modelo, llave, null);
+        this(puerto, modelo, llave, null, AiOperation.PLAN);
     }
 
     GeminiLite(LanguageModelPort puerto, String modelo, String llave, String esquemaJson) {
+        this(puerto, modelo, llave, esquemaJson, AiOperation.EVALUATE);
+    }
+
+    private GeminiLite(LanguageModelPort puerto, String modelo, String llave, String esquemaJson,
+            AiOperation operacion) {
         this.puerto = puerto;
         this.modelo = modelo;
         this.llave = llave;
         this.esquemaJson = esquemaJson;
+        this.operacion = operacion;
     }
 
     @Override
@@ -49,7 +60,8 @@ final class GeminiLite implements ModeloDePrueba {
     @Override
     public Respuesta generar(String prompt, int maxTokensSalida) {
         try {
-            LanguageModelResponse r = puerto.generate(new LanguageModelPrompt(prompt, maxTokensSalida, esquemaJson));
+            LanguageModelResponse r = puerto.generate(new LanguageModelPrompt(prompt, maxTokensSalida, esquemaJson, operacion),
+                    AiProvider.PRIMARY);
             return new Respuesta(r.text(), r.inputTokens(), r.outputTokens(), r.model(), Map.of(), null);
         } catch (BusinessException fallo) {
             String causa = Secretos.enmascarar(causaRaiz(fallo), llave);

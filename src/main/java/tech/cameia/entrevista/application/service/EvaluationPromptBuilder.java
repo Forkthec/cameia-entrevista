@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import tech.cameia.entrevista.domain.model.AiOperation;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 
 /**
@@ -53,7 +54,7 @@ public class EvaluationPromptBuilder {
      */
     public LanguageModelPrompt build(String question, String answer) {
         Map<String, String> values = Map.of("pregunta", question, "respuesta", neutralize(answer));
-        return new LanguageModelPrompt(replaceInOnePass(values), MAX_OUTPUT_TOKENS, schema);
+        return new LanguageModelPrompt(replaceInOnePass(values), MAX_OUTPUT_TOKENS, schema, AiOperation.EVALUATE);
     }
 
     /** Quita las marcas de la respuesta, repitiendo hasta que no quede ninguna. */

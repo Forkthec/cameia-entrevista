@@ -25,6 +25,7 @@ import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
@@ -143,7 +144,7 @@ public class StartSessionService {
         List<PlannedQuestion> plan;
         LanguageModelResponse response;
         try {
-            response = model.generate(prompt.prompt());
+            response = model.generate(prompt.prompt(), AiProvider.PRIMARY);
             plan = validator.validate(session.configuration().language(), reader.read(response.text()));
         } catch (BusinessException failure) {
             throw failPlanning(session, mark, reservation, failure.getErrorCode(), failure);

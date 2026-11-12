@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
@@ -79,7 +80,10 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
      * texto son {@link LlmUnavailableException}. La causa técnica se conserva para el log.</p>
      */
     @Override
-    public LanguageModelResponse generate(LanguageModelPrompt prompt) {
+    public LanguageModelResponse generate(LanguageModelPrompt prompt, AiProvider provider) {
+        if (provider != AiProvider.PRIMARY) {
+            throw new IllegalStateException("Respaldo no disponible");
+        }
         long inicio = System.nanoTime();
         String resultado = RESULTADO_OK;
         try {
@@ -91,6 +95,12 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
             logger.info("Llamada al modelo [resultado={}, duracionMs={}]", resultado,
                     TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - inicio));
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isAvailable(AiProvider provider) {
+        return provider == AiProvider.PRIMARY;
     }
 
     /** Hace la llamada y traduce su fallo a la excepción de negocio que corresponde. */

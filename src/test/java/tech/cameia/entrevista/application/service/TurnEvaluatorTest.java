@@ -135,7 +135,7 @@ class TurnEvaluatorTest {
     }
 
     private void modelReturns(String text) {
-        when(model.generate(any())).thenReturn(new LanguageModelResponse(text, 10, 5, "modelo"));
+        when(model.generate(any(), any())).thenReturn(new LanguageModelResponse(text, 10, 5, "modelo"));
     }
 
     @Test
@@ -176,7 +176,7 @@ class TurnEvaluatorTest {
     @Test
     @DisplayName("Una evaluación fallida guarda el código del fallo en la clave al dejar el turno en reintento")
     void evaluate_shouldRecordKeyFailure_whenModelFails() {
-        when(model.generate(any())).thenThrow(new LlmUnavailableException(null));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
         TurnEvaluator.KeyRecorder recorder = mock(TurnEvaluator.KeyRecorder.class);
         EvaluationJob base = job(2);
 
@@ -315,7 +315,7 @@ class TurnEvaluatorTest {
     @Test
     @DisplayName("Si el modelo no está disponible, el turno queda en reintento y la ejecución fallida")
     void evaluate_shouldRetry_whenModelUnavailable() {
-        when(model.generate(any())).thenThrow(new LlmUnavailableException(null));
+        when(model.generate(any(), any())).thenThrow(new LlmUnavailableException(null));
         EvaluationJob job = job(1);
 
         assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmUnavailableException.class);
@@ -328,7 +328,7 @@ class TurnEvaluatorTest {
     @Test
     @DisplayName("Si se agotó la cuota del modelo, el turno queda en reintento con su código")
     void evaluate_shouldRetry_whenLimitReached() {
-        when(model.generate(any())).thenThrow(new LlmLimitReachedException(null));
+        when(model.generate(any(), any())).thenThrow(new LlmLimitReachedException(null));
         EvaluationJob job = job(1);
 
         assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmLimitReachedException.class);
@@ -352,7 +352,7 @@ class TurnEvaluatorTest {
     @Test
     @DisplayName("Una falla no clasificada del modelo se trata como modelo no disponible")
     void evaluate_shouldMapUnexpectedFailureToUnavailable() {
-        when(model.generate(any())).thenThrow(new IllegalStateException("raro"));
+        when(model.generate(any(), any())).thenThrow(new IllegalStateException("raro"));
         EvaluationJob job = job(1);
 
         assertThatThrownBy(() -> evaluator.evaluate(job)).isInstanceOf(LlmUnavailableException.class);

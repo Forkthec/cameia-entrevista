@@ -20,6 +20,7 @@ import tech.cameia.entrevista.domain.exception.SessionConsolidationFailedExcepti
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.EvaluationResult;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
@@ -155,7 +156,7 @@ public class TurnEvaluator {
         EvaluationResult result;
         LanguageModelResponse response;
         try {
-            response = model.generate(prompts.build(job.question().originalText(), job.answer()));
+            response = model.generate(prompts.build(job.question().originalText(), job.answer()), AiProvider.PRIMARY);
             result = reader.read(response);
         } catch (BusinessException failure) {
             fail(job, failure.getErrorCode());

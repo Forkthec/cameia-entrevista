@@ -20,6 +20,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 import tech.cameia.entrevista.domain.exception.ProfileSnapshotInvalidException;
+import tech.cameia.entrevista.domain.model.AiOperation;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.SessionConfiguration;
@@ -113,7 +114,7 @@ public class PlanningPromptBuilder {
         String text = replaceInOnePass(values);
         String version = BASE_VERSION + "+" + configuration.tone().code() + ".v"
                 + TONE_VERSIONS.get(configuration.tone());
-        return new PlanningPrompt(new LanguageModelPrompt(text, MAX_OUTPUT_TOKENS), version);
+        return new PlanningPrompt(new LanguageModelPrompt(text, MAX_OUTPUT_TOKENS, AiOperation.PLAN), version);
     }
 
     private JsonNode readSnapshot(String snapshotJson) {

@@ -117,7 +117,7 @@ class StartSessionServiceTest {
     @Test
     void start_shouldTurnUnexpectedModelFailureIntoLlmUnavailable() {
         when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
-        when(model.generate(any())).thenThrow(new IllegalStateException("cliente roto"));
+        when(model.generate(any(), any())).thenThrow(new IllegalStateException("cliente roto"));
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(LlmUnavailableException.class);
 
@@ -165,7 +165,7 @@ class StartSessionServiceTest {
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(DatabaseUnavailableException.class);
 
-        verify(model, never()).generate(any());
+        verify(model, never()).generate(any(), any());
     }
 
     @Test
@@ -204,7 +204,7 @@ class StartSessionServiceTest {
         InterviewSession started = startedCopy();
         when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session), Optional.of(session),
                 Optional.of(started));
-        when(model.generate(any())).thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
+        when(model.generate(any(), any())).thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(SessionConflictException.class);
 
@@ -215,7 +215,7 @@ class StartSessionServiceTest {
     void start_shouldReturnNotFound_whenSessionDisappearsBeforeClosing() {
         when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session), Optional.of(session),
                 Optional.empty());
-        when(model.generate(any())).thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
+        when(model.generate(any(), any())).thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(SessionNotFoundException.class);
     }
@@ -226,7 +226,7 @@ class StartSessionServiceTest {
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(SessionNotFoundException.class);
 
-        verify(model, never()).generate(any());
+        verify(model, never()).generate(any(), any());
     }
 
     @Test
@@ -236,12 +236,12 @@ class StartSessionServiceTest {
 
         assertThatThrownBy(() -> service.start(command())).isInstanceOf(SessionConflictException.class);
 
-        verify(model, never()).generate(any());
+        verify(model, never()).generate(any(), any());
     }
 
     private void givenValidModelAnswer() {
         when(sessions.findByIdAndOwner(session.id(), OWNER)).thenReturn(Optional.of(session));
-        when(model.generate(any())).thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
+        when(model.generate(any(), any())).thenReturn(new LanguageModelResponse(VALID_PLAN, 10, 5, "m"));
     }
 
     private InterviewSession startedCopy() {
