@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Simulador local de la API de Gemini para las pruebas de Postman de Entrevista.
+"""Simulador local de la API de Gemini y de la API compatible con OpenAI de Groq para las pruebas de Postman.
 
 Sirve solo para correr la colección con Newman sin gastar el cupo del proveedor ni usar una llave real. El servicio se
-apunta a este simulador con la variable de entorno CAMEIA_LLM_BASE_URL (por ejemplo http://localhost:8099) y una llave
-falsa. Sin dependencias: usa solo la biblioteca estándar de Python 3.
+apunta a este simulador con las variables de entorno CAMEIA_LLM_BASE_URL y LLM_FALLBACK_BASE_URL (por ejemplo
+http://localhost:8099 las dos) y llaves falsas (GOOGLE_GENAI_API_KEY y GROQ_API_KEY). Sin dependencias: usa solo la
+biblioteca estándar de Python 3.
 
 Rutas de control (las llama la colección):
-  POST /__script   cuerpo {"scenario": "..."}  encola la respuesta de la siguiente llamada al modelo.
-  POST /__reset    vacía la cola y pone el contador en cero.
-  GET  /__calls    devuelve {"calls": N}, las llamadas a generateContent recibidas.
+  POST /__script   cuerpo {"scenario": "...", "times": N}  encola la respuesta de las siguientes N llamadas al modelo
+                   (N es opcional y vale 1). Un ciclo de tres intentos que falla consume tres entradas.
+  POST /__reset    vacía la cola y pone los contadores en cero.
+  GET  /__calls    devuelve {"calls": N, "gemini": G, "groq": Q}: las llamadas recibidas en total y por proveedor.
 
 Escenarios de /__script:
   valid        plan válido de cinco preguntas (APERTURA, TECNICA, CONDUCTUAL, TECNICA, SITUACIONAL), idioma es-CO.
@@ -18,12 +20,14 @@ Escenarios de /__script:
   eval_valid      evaluación válida (AVANZAR, COMPLETA) de una respuesta.
   eval_follow_up  evaluación con acción FOLLOW_UP y un texto de seguimiento (el servicio lo ignora y avanza).
   eval_invalid    evaluación con una acción fuera del esquema (la salida es inválida).
+  eval_slow       evaluación válida que tarda 3,3 s (más que el tiempo de 3 s de cada intento de evaluar).
 
-Cualquier ruta que termine en ":generateContent" consume el siguiente escenario. Con la cola vacía, una petición cuyo
+Cualquier ruta que termine en ":generateContent" (Gemini) o en "/chat/completions" (Groq) consume el siguiente escenario. Con la cola vacía, una petición cuyo
 prompt trae la marca <respuesta_del_candidato> (una evaluación) responde "eval_valid" y cualquier otra responde "valid".
 """
 import json
 import sys
+import time
 from collections import deque
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from threading import Lock
@@ -38,6 +42,7 @@ QUESTIONS = [
 
 queue = deque()
 calls = 0
+by_provider = {"gemini": 0, "groq": 0}
 lock = Lock()
 
 
@@ -69,6 +74,17 @@ def gemini_body(text):
     }
 
 
+def groq_body(text):
+    return {
+        "id": "simulador-groq",
+        "object": "chat.completion",
+        "created": 1,
+        "model": "simulador-groq",
+        "choices": [{"index": 0, "message": {"role": "assistant", "content": text}, "finish_reason": "stop"}],
+        "usage": {"prompt_tokens": 1200, "completion_tokens": 300, "total_tokens": 1500},
+    }
+
+
 class Handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         data = json.dumps(body, ensure_ascii=False).encode("utf-8")
@@ -85,7 +101,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/__calls":
             with lock:
-                self._send(200, {"calls": calls})
+                self._send(200, {"calls": calls, "gemini": by_provider["gemini"], "groq": by_provider["groq"]})
         else:
             self._send(404, {"error": "ruta desconocida"})
 
@@ -96,29 +112,36 @@ class Handler(BaseHTTPRequestHandler):
             with lock:
                 queue.clear()
                 calls = 0
+                by_provider["gemini"] = 0
+                by_provider["groq"] = 0
             self._send(200, {"ok": True})
         elif self.path == "/__script":
-            scenario = json.loads(body or "{}").get("scenario")
+            request = json.loads(body or "{}")
+            scenario = request.get("scenario")
+            times = request.get("times", 1)
             if scenario not in ("valid", "bad_type", "limit", "unavailable", "eval_valid", "eval_follow_up",
-                                "eval_invalid"):
-                self._send(400, {"error": "escenario desconocido"})
+                                "eval_invalid", "eval_slow") or not isinstance(times, int) or not 1 <= times <= 20:
+                self._send(400, {"error": "escenario o cantidad desconocidos"})
                 return
             with lock:
-                queue.append(scenario)
-            self._send(200, {"queued": scenario})
-        elif self.path.endswith(":generateContent"):
+                queue.extend([scenario] * times)
+            self._send(200, {"queued": scenario, "times": times})
+        elif self.path.endswith(":generateContent") or self.path.endswith("/chat/completions"):
+            groq = self.path.endswith("/chat/completions")
             with lock:
                 calls += 1
+                by_provider["groq" if groq else "gemini"] += 1
                 default = "eval_valid" if "respuesta_del_candidato" in body else "valid"
                 scenario = queue.popleft() if queue else default
+            if scenario == "eval_slow":
+                time.sleep(3.3)
             if scenario == "limit":
                 self._send(429, {"error": {"code": 429, "message": "agotado", "status": "RESOURCE_EXHAUSTED"}})
             elif scenario == "unavailable":
                 self._send(503, {"error": {"code": 503, "message": "no disponible", "status": "UNAVAILABLE"}})
-            elif scenario.startswith("eval_"):
-                self._send(200, gemini_body(evaluation(scenario)))
             else:
-                self._send(200, gemini_body(plan(bad_type=scenario == "bad_type")))
+                text = evaluation(scenario) if scenario.startswith("eval_") else plan(bad_type=scenario == "bad_type")
+                self._send(200, groq_body(text) if groq else gemini_body(text))
         else:
             self._send(404, {"error": "ruta desconocida"})
 

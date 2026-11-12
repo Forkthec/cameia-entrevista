@@ -293,7 +293,8 @@ class InterviewSessionController {
                     + " cambió: reintentar una vez)",
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
                             examples = @ExampleObject(name = "yaNoAdmiteLaAccion", value = EXAMPLE_NOT_ALLOWED))),
-            @ApiResponse(responseCode = "503", description = "LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT"
+            @ApiResponse(responseCode = "503", description = "Tras hasta 3 intentos (2 con el proveedor principal y 1 con el de"
+                    + " respaldo), el code es la causa del último: LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT"
                     + " (se muestran igual, con Reintentar y Cancelar); PLANNING_RETRIES_EXHAUSTED tras el tercer fallo"
                     + " (solo Cancelar); PROFILE_SNAPSHOT_INVALID si el perfil congelado en la sesión es demasiado grande o no"
                     + " trae el rol (no gasta intentos: la persona debe actualizar su perfil y configurar de nuevo);"
@@ -433,8 +434,9 @@ class InterviewSessionController {
                     + " REQUEST_BODY_INVALID_FORMAT si el cuerpo no es un JSON válido", content = @Content(
                     mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
                     examples = @ExampleObject(name = "camposInvalidos", value = EXAMPLE_ANSWER_422))),
-            @ApiResponse(responseCode = "503", description = "LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT: la"
-                    + " respuesta quedó guardada y se puede reintentar; DATABASE_UNAVAILABLE si la base no responde",
+            @ApiResponse(responseCode = "503", description = "Tras hasta 3 intentos (2 con el proveedor principal y 1 con el de"
+                    + " respaldo), el code es la causa del último: LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT;"
+                    + " la respuesta quedó guardada y se puede reintentar; DATABASE_UNAVAILABLE si la base no responde",
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
                             examples = @ExampleObject(name = "iaNoDisponible", value = EXAMPLE_LLM))),
             @ApiResponse(responseCode = "500", description = "Error imprevisto (code INTERNAL_ERROR)", content = @Content(
@@ -483,8 +485,9 @@ class InterviewSessionController {
                     + " (SESSION_ABANDONED, SESSION_ALREADY_CLOSED, SESSION_TRANSITION_NOT_ALLOWED)",
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
                             examples = @ExampleObject(name = "noReintentable", value = EXAMPLE_TURN_NOT_RETRYABLE))),
-            @ApiResponse(responseCode = "503", description = "LLM_UNAVAILABLE, LLM_LIMIT_REACHED o LLM_INVALID_OUTPUT (el"
-                    + " reintento queda contado) o DATABASE_UNAVAILABLE", content = @Content(mediaType = PROBLEM,
+            @ApiResponse(responseCode = "503", description = "Tras un ciclo nuevo de hasta 3 intentos (2 con el proveedor principal y 1"
+                    + " con el de respaldo), el code es la causa del último: LLM_UNAVAILABLE, LLM_LIMIT_REACHED o"
+                    + " LLM_INVALID_OUTPUT (el reintento queda contado) o DATABASE_UNAVAILABLE", content = @Content(mediaType = PROBLEM,
                     schema = @Schema(implementation = ProblemDetail.class),
                     examples = @ExampleObject(name = "iaNoDisponible", value = EXAMPLE_LLM))),
             @ApiResponse(responseCode = "500", description = "Error imprevisto (code INTERNAL_ERROR)", content = @Content(
