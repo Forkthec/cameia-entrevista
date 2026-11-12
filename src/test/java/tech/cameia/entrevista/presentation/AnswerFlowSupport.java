@@ -168,6 +168,21 @@ abstract class AnswerFlowSupport {
         return call(HttpMethod.POST, BASE + "/" + sessionId + "/turns/" + turnId + "/reprocess", uid, null, null);
     }
 
+    ResponseEntity<String> consolidate(String uid, String sessionId) {
+        return call(HttpMethod.POST, BASE + "/" + sessionId + "/consolidation", uid, null, null);
+    }
+
+    /** Responde los primeros {@code count} turnos con una evaluación válida y devuelve la última respuesta. */
+    ResponseEntity<String> answerFirst(String uid, String sessionId, int count) {
+        ResponseEntity<String> last = null;
+        for (int number = 1; number <= count; number++) {
+            model.enqueue(AnswerFlowSupport::evaluation);
+            last = answer(uid, sessionId, turnId(sessionId, number), ANSWER, "clave-" + number);
+            assertThat(status(last)).isEqualTo(200);
+        }
+        return last;
+    }
+
     ResponseEntity<String> state(String uid, String sessionId) {
         return call(HttpMethod.GET, BASE + "/" + sessionId + "/state", uid, null, null);
     }
