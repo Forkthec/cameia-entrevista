@@ -4,15 +4,17 @@ import java.time.Clock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import tech.cameia.entrevista.application.service.AiCallRunner.AiCall;
+import tech.cameia.entrevista.application.service.AiCallRunner.AiSuccess;
 import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
-import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
@@ -20,7 +22,10 @@ import tech.cameia.entrevista.domain.exception.SessionConsolidationFailedExcepti
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
+import tech.cameia.entrevista.domain.model.EvaluationAttempt;
 import tech.cameia.entrevista.domain.model.EvaluationResult;
+import tech.cameia.entrevista.domain.model.ExecutionSource;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
@@ -31,7 +36,6 @@ import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
-import tech.cameia.entrevista.domain.port.LanguageModelPort;
 import tech.cameia.entrevista.domain.port.TurnFeedbackRepository;
 
 /**
@@ -51,7 +55,7 @@ public class TurnEvaluator {
 
     private static final Logger log = LoggerFactory.getLogger(TurnEvaluator.class);
 
-    private final LanguageModelPort model;
+    private final AiCallRunner runner;
     private final EvaluationPromptBuilder prompts;
     private final EvaluationOutputReader reader;
     private final InterviewTurnRepository turns;
@@ -62,13 +66,17 @@ public class TurnEvaluator {
     private final ConsolidateSessionService consolidation;
     private final TransactionTemplate transaction;
     private final Clock clock;
+    private final String modelName;
+    private final String fallbackModelName;
 
     @SuppressWarnings("java:S107")
-    TurnEvaluator(LanguageModelPort model, EvaluationPromptBuilder prompts, EvaluationOutputReader reader,
+    TurnEvaluator(AiCallRunner runner, EvaluationPromptBuilder prompts, EvaluationOutputReader reader,
             InterviewTurnRepository turns, InterviewQuestionRepository questions, InterviewSessionRepository sessions,
             AiExecutionRepository executions, TurnFeedbackRepository feedbacks,
-            ConsolidateSessionService consolidation, TransactionTemplate transaction, Clock clock) {
-        this.model = model;
+            ConsolidateSessionService consolidation, TransactionTemplate transaction, Clock clock,
+            @Value("${cameia.llm.model}") String modelName,
+            @Value("${cameia.llm.fallback.model}") String fallbackModelName) {
+        this.runner = runner;
         this.prompts = prompts;
         this.reader = reader;
         this.turns = turns;
@@ -79,6 +87,8 @@ public class TurnEvaluator {
         this.consolidation = consolidation;
         this.transaction = transaction;
         this.clock = clock;
+        this.modelName = modelName;
+        this.fallbackModelName = fallbackModelName;
     }
 
     /**
@@ -99,6 +109,11 @@ public class TurnEvaluator {
         public EvaluationJob(InterviewSession session, InterviewTurn turn, InterviewQuestion question, String answer,
                 AiExecution mark) {
             this(session, turn, question, answer, mark, KeyRecorder.NONE);
+        }
+
+        /** El mismo trabajo con la marca del intento que terminó bien. */
+        EvaluationJob withMark(AiExecution attemptMark) {
+            return new EvaluationJob(session, turn, question, answer, attemptMark, recorder);
         }
     }
 
@@ -152,36 +167,53 @@ public class TurnEvaluator {
      *         caducidad
      */
     public AnswerResult evaluate(EvaluationJob job) {
-        EvaluationResult result;
-        LanguageModelResponse response;
+        AiSuccess<EvaluationResult> success;
         try {
-            response = model.generate(prompts.build(job.question().originalText(), job.answer()));
-            result = reader.read(response);
-        } catch (BusinessException failure) {
-            fail(job, failure.getErrorCode());
-            throw failure;
-        } catch (RuntimeException unexpected) {
-            // Una falla que el adaptador no clasificó nunca debe terminar en el error genérico.
-            fail(job, ErrorCode.LLM_UNAVAILABLE);
-            throw new LlmUnavailableException(unexpected);
+            success = runner.run(new AiCall<>(prompts.build(job.question().originalText(), job.answer()),
+                    reader::read, job.mark(), switchEvaluation(job)));
+        } catch (AiCycleFailedException exhausted) {
+            // Los fallos no LLM_* ya vienen envueltos como LLM_UNAVAILABLE: nunca terminan en el error genérico.
+            fail(job, exhausted.lastMark(), exhausted.cause().getErrorCode());
+            throw exhausted.cause();
         }
+        EvaluationJob attempted = job.withMark(success.mark());
         try {
-            Saved saved = transaction.execute(status -> save(job, result, response));
+            Saved saved = transaction.execute(status -> save(attempted, success.value(), success.response()));
             log.info("Turno evaluado [sessionId={}, turnId={}, executionId={}, resultado={}]",
-                    job.session().id(), job.turn().id(), job.mark().id(), "EXITOSA");
+                    job.session().id(), job.turn().id(), attempted.mark().id(), "EXITOSA");
             if (saved.evaluating()) {
-                consolidateAfterCommit(job);
+                consolidateAfterCommit(attempted);
             }
             return saved.result();
         } catch (SessionAbandonedException | SessionAlreadyClosedException | SessionTransitionNotAllowedException
                 | SessionConflictException closed) {
-            fail(job, closed.getErrorCode());
+            fail(attempted, attempted.mark(), closed.getErrorCode());
             log.info("Evaluación descartada: la sesión ya no está en curso [sessionId={}, turnId={}, code={}]",
                     job.session().id(), job.turn().id(), closed.getErrorCode());
             throw closed;
         } catch (DataAccessException | TransactionException failure) {
-            throw databaseUnavailable(job, failure);
+            throw databaseUnavailable(attempted, failure);
         }
+    }
+
+    // Cambia de intento en una sola transacción: cierra la marca fallida y abre la siguiente, sin hueco entre ambas.
+    private AttemptSwitch switchEvaluation(EvaluationJob job) {
+        return (failed, attempt, provider) -> {
+            try {
+                return transaction.execute(status -> {
+                    if (!executions.failIfInProgress(failed)) {
+                        throw new SessionConflictException();
+                    }
+                    String modelOfAttempt = provider == AiProvider.FALLBACK ? fallbackModelName : modelName;
+                    return executions.save(AiExecution.evaluationStarted(
+                            new EvaluationAttempt(job.session().id(), job.turn().id(), attempt),
+                            new ExecutionSource(modelOfAttempt, EvaluationPromptBuilder.VERSION, provider.code()),
+                            clock));
+                });
+            } catch (DataAccessException | TransactionException failure) {
+                throw databaseUnavailable(job, failure);
+            }
+        };
     }
 
     /** Resultado guardado y si la sesión quedó en evaluación al completarse la quinta pregunta. */
@@ -245,10 +277,13 @@ public class TurnEvaluator {
      * también cuando la sesión ya no está en curso. Si ni así se puede cerrar, la marca y el turno los recupera la
      * caducidad.
      */
-    private void fail(EvaluationJob job, ErrorCode code) {
+    private void fail(EvaluationJob job, AiExecution mark, ErrorCode code) {
         try {
             transaction.executeWithoutResult(status -> {
-                executions.failIfInProgress(job.mark().failed(code, clock));
+                if (!executions.failIfInProgress(mark.failed(code, clock))) {
+                    // Otra petición ya cerró esta ejecución y es dueña del turno: no se le quita.
+                    return;
+                }
                 job.recorder().failed(code);
                 InterviewTurn turn = turns.findById(job.turn().id()).orElseThrow(IllegalStateException::new);
                 if (turn.status() == TurnStatus.PROCESSING) {
@@ -258,10 +293,10 @@ public class TurnEvaluator {
             });
         } catch (RuntimeException closing) {
             log.error("No se pudo cerrar la evaluación fallida [sessionId={}, turnId={}, executionId={}, causa={}]",
-                    job.session().id(), job.turn().id(), job.mark().id(), closing.getClass().getSimpleName());
+                    job.session().id(), job.turn().id(), mark.id(), closing.getClass().getSimpleName());
         }
         log.info("Turno evaluado [sessionId={}, turnId={}, executionId={}, resultado={}]", job.session().id(),
-                job.turn().id(), job.mark().id(), code);
+                job.turn().id(), mark.id(), code);
     }
 
     private DatabaseUnavailableException databaseUnavailable(EvaluationJob job, RuntimeException failure) {

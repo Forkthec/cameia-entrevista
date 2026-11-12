@@ -125,12 +125,17 @@ class RegisterAnswerServiceTest {
     }
 
     private RegisterAnswerService build(IdempotencyKeyRepository keys) {
+        return build(keys, Duration.ofSeconds(20), Duration.ZERO, Duration.ZERO);
+    }
+
+    private RegisterAnswerService build(IdempotencyKeyRepository keys, Duration evaluationTimeout,
+            Duration firstWait, Duration secondWait) {
         Waiter waiter = duration -> {
             clock.advance(duration);
             onPause.accept(pauses.incrementAndGet());
         };
         return new RegisterAnswerService(sessions, turns, questions, answers, executions, keys, evaluator,
-                JsonMapper.builder().build(), waiter, transaction, clock, "modelo", Duration.ofSeconds(20));
+                JsonMapper.builder().build(), waiter, transaction, clock, "modelo", evaluationTimeout, firstWait, secondWait);
     }
 
     private InterviewSession newSession() {
@@ -367,11 +372,26 @@ class RegisterAnswerServiceTest {
     }
 
     @Test
+    @DisplayName("La misma clave espera el ciclo completo: tres intentos de 3 s, esperas de 0,5 s y 1 s y el margen")
+    void register_shouldWaitWholeCycleBudget() {
+        service = build(new InMemoryKeys(), Duration.ofSeconds(3), Duration.ofMillis(500), Duration.ofSeconds(1));
+        turn.startProcessing(clock);
+        store.put(KEY, key(202, "{}"));
+        when(executions.findEvaluationInProgress(any())).thenAnswer(call ->
+                Optional.of(AiExecution.evaluationStarted(session.id(), turn.id(), "m", "v", "g", clock)));
+
+        assertThatThrownBy(() -> service.register(command())).isInstanceOf(TurnConflictException.class);
+
+        // 3 x 3 s + 0,5 s + 1 s + 15 s de margen = 25,5 s; la espera avanza de 250 ms en 250 ms.
+        assertThat(clock.instant()).isAfterOrEqualTo(NOW.plusMillis(25_500)).isBefore(NOW.plusMillis(25_751));
+    }
+
+    @Test
     @DisplayName("La misma clave con la evaluación caída responde modelo no disponible sin esperar")
     void register_shouldReturn503_whenSameKeyAndEvaluationStale() {
         turn.startProcessing(clock);
         store.put(KEY, key(202, "{}"));
-        Clock old = Clock.fixed(NOW.minusSeconds(36), ZoneOffset.UTC);
+        Clock old = Clock.fixed(NOW.minusSeconds(76), ZoneOffset.UTC);
         when(executions.findEvaluationInProgress(any())).thenAnswer(call ->
                 Optional.of(AiExecution.evaluationStarted(session.id(), turn.id(), "m", "v", "g", old)));
 

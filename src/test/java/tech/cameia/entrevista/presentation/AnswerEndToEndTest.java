@@ -489,9 +489,17 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
             String id = startedSession(UID_A, PROFILE_A);
             String turn1 = turnId(id, 1);
             RuntimeException failure = (RuntimeException) cause[0];
-            model.enqueue(() -> {
+            // El límite de uso del proveedor corta el ciclo en el primer intento; las demás causas agotan los tres.
+            boolean limit = failure instanceof LlmLimitReachedException;
+            Runnable program = () -> {
                 throw failure;
-            });
+            };
+            for (int attempt = 0; attempt < (limit ? 1 : 3); attempt++) {
+                model.enqueue(() -> {
+                    program.run();
+                    return null;
+                });
+            }
 
             ResponseEntity<String> response = answer(UID_A, id, turn1, ANSWER, KEY);
 
@@ -501,7 +509,7 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
                     .isEqualTo("Ocurrió un error. Inténtalo de nuevo.");
             assertThat(turnStatus(turn1)).isEqualTo("RETRYING");
             assertThat(sessionStatus(id)).isEqualTo("EN_CURSO");
-            assertThat(evaluations(turn1, "FALLIDA")).isEqualTo(1);
+            assertThat(evaluations(turn1, "FALLIDA")).isEqualTo(limit ? 1 : 3);
             assertThat(jdbc.queryForObject("SELECT respuesta_texto FROM microentrevista.intento_respuesta",
                     String.class)).isEqualTo(ANSWER);
             assertThat(count("SELECT count(*) FROM microentrevista.feedback_turno")).isZero();
@@ -521,7 +529,7 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
             jdbc.execute("TRUNCATE microentrevista.sesion, microentrevista.clave_idempotencia CASCADE");
             String id = startedSession(UID_A, PROFILE_A);
             String turn1 = turnId(id, 1);
-            model.enqueue(() -> response(output));
+            model.enqueueCycle(() -> response(output));
 
             ResponseEntity<String> response = answer(UID_A, id, turn1, ANSWER, KEY);
 
@@ -536,7 +544,7 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
     void answer_shouldReplay503_whenSameKeyAfterFailure() {
         String id = startedSession(UID_A, PROFILE_A);
         String turn1 = turnId(id, 1);
-        model.enqueue(() -> {
+        model.enqueueCycle(() -> {
             throw new LlmUnavailableException(new RuntimeException("caída"));
         });
         ResponseEntity<String> first = answer(UID_A, id, turn1, ANSWER, KEY);
@@ -546,7 +554,7 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
         assertThat(status(first)).isEqualTo(503);
         assertThat(status(again)).isEqualTo(503);
         assertThat(code(again)).isEqualTo("LLM_UNAVAILABLE");
-        assertThat(model.calls()).isEqualTo(1);
-        assertThat(rows()).containsExactly(1, 1, 0, 1, 1);
+        assertThat(model.calls()).isEqualTo(3);
+        assertThat(rows()).containsExactly(1, 3, 0, 1, 1);
     }
 }

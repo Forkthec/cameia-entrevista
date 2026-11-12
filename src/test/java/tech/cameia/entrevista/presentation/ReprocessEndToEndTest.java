@@ -19,7 +19,7 @@ import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 class ReprocessEndToEndTest extends AnswerFlowSupport {
 
     private void failNext() {
-        model.enqueue(() -> {
+        model.enqueueCycle(() -> {
             throw new LlmUnavailableException(new RuntimeException("caída"));
         });
     }
@@ -51,7 +51,7 @@ class ReprocessEndToEndTest extends AnswerFlowSupport {
         assertThat(retriesUsed(turn1)).isEqualTo(1);
         assertThat(count("SELECT count(*) FROM microentrevista.intento_respuesta")).isEqualTo(1);
         assertThat(count("SELECT count(*) FROM microentrevista.feedback_turno")).isEqualTo(1);
-        assertThat(evaluations(turn1, "FALLIDA")).isEqualTo(1);
+        assertThat(evaluations(turn1, "FALLIDA")).isEqualTo(3);
         assertThat(evaluations(turn1, "EXITOSA")).isEqualTo(1);
         assertThat(model.calls()).isEqualTo(1);
     }
@@ -80,7 +80,7 @@ class ReprocessEndToEndTest extends AnswerFlowSupport {
         String id = sessionWithRetryingTurn();
         String turn1 = turnId(id, 1);
         for (int use = 1; use <= 4; use++) {
-            model.enqueue(() -> {
+            model.enqueueCycle(() -> {
                 throw new LlmInvalidOutputException("estructura");
             });
             ResponseEntity<String> failed = reprocess(UID_A, id, turn1);

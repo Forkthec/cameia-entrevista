@@ -8,6 +8,8 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import tech.cameia.entrevista.domain.model.AiOperation;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
@@ -50,7 +52,7 @@ class GeminiLanguageModelLiveTest {
                 .as("Define GOOGLE_GENAI_API_KEY con una llave real: el perfil local trae una falsa")
                 .isNotEqualTo(LLAVE_FALSA_LOCAL);
 
-        LanguageModelResponse respuesta = modelo.generate(new LanguageModelPrompt(PROMPT, TOPE_DE_TOKENS));
+        LanguageModelResponse respuesta = modelo.generate(new LanguageModelPrompt(PROMPT, TOPE_DE_TOKENS, AiOperation.PLAN), AiProvider.PRIMARY);
 
         // Sin el texto: solo lo necesario para anotar el resultado en el PR.
         System.out.println("Prueba real: " + respuesta);

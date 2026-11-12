@@ -100,7 +100,7 @@ class ReprocessTurnServiceTest {
         when(executions.save(any())).thenAnswer(call -> call.getArgument(0));
         when(turns.save(any())).thenAnswer(call -> call.getArgument(0));
         service = new ReprocessTurnService(sessions, turns, questions, answers, executions, evaluator, transaction,
-                CLOCK, "modelo", Duration.ofSeconds(20));
+                CLOCK, "modelo", Duration.ofSeconds(20), Duration.ZERO, Duration.ZERO);
         wire(turn);
     }
 
@@ -177,7 +177,7 @@ class ReprocessTurnServiceTest {
     @DisplayName("Un turno procesando con la evaluación caída se recupera: cierra la marca y evalúa")
     void reprocess_shouldRecoverStaleProcessing() {
         wire(turn(TurnStatus.PROCESSING, 0));
-        Clock old = Clock.fixed(NOW.minusSeconds(36), ZoneOffset.UTC);
+        Clock old = Clock.fixed(NOW.minusSeconds(76), ZoneOffset.UTC);
         AiExecution dead = AiExecution.evaluationStarted(session.id(), turn.id(), "m", "v", "g", old);
         when(executions.findEvaluationInProgress(turn.id())).thenReturn(Optional.of(dead));
         when(executions.failIfInProgress(any())).thenReturn(true);

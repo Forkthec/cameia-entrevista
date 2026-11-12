@@ -61,6 +61,14 @@ services:
       # Modelo de Gemini, obligatorio; y tiempo maximo de espera de cada llamada, 20000ms si se omite
       LLM_MODEL: ${LLM_MODEL:?definir LLM_MODEL en el archivo .env}
       LLM_TIMEOUT: ${LLM_TIMEOUT:-20000ms}
+      # Tiempo de cada intento al evaluar una respuesta y esperas entre intentos del ciclo
+      LLM_EVALUATION_TIMEOUT: ${LLM_EVALUATION_TIMEOUT:-3000ms}
+      LLM_RETRY_FIRST_WAIT: ${LLM_RETRY_FIRST_WAIT:-500ms}
+      LLM_RETRY_SECOND_WAIT: ${LLM_RETRY_SECOND_WAIT:-1000ms}
+      # Proveedor de respaldo (Groq): sin llave, el tercer intento usa Gemini
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      LLM_FALLBACK_MODEL: ${LLM_FALLBACK_MODEL:-qwen/qwen3.8-27b}
+      LLM_FALLBACK_BASE_URL: ${LLM_FALLBACK_BASE_URL:-https://api.groq.com/openai}
       JAVA_OPTS: ${JAVA_OPTS:-}
       API_DOCS_ENABLED: ${API_DOCS_ENABLED:-false}
       # Broker local de mensajeria (solo existe con el perfil de compose "mensajeria"). Sin el, el

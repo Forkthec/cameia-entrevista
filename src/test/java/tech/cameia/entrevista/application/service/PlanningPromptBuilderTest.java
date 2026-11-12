@@ -42,6 +42,21 @@ class PlanningPromptBuilderTest {
     }
 
     @Test
+    void build_shouldCarryTheOutputSchemaForTheFallbackOnly() {
+        PlanningPrompt result = builder.build(basic(null, Tone.WARM, InterviewLanguage.SPANISH_COLOMBIA));
+
+        // El esquema trae exactamente lo que lee el lector del plan y no viaja dentro del prompt principal.
+        var schema = JsonMapper.builder().build().readTree(result.fallbackSchema());
+        assertThat(schema.path("required")).extracting(node -> node.asString()).containsExactly("idioma", "preguntas");
+        assertThat(schema.path("additionalProperties").asBoolean(true)).isFalse();
+        var question = schema.path("properties").path("preguntas").path("items");
+        assertThat(question.path("required")).extracting(node -> node.asString())
+                .containsExactly("posicion", "tipo", "texto");
+        assertThat(question.path("additionalProperties").asBoolean(true)).isFalse();
+        assertThat(result.prompt().jsonSchema()).isNull();
+    }
+
+    @Test
     void build_shouldFillSpanishPromptWithRoleLanguageAndOffer() {
         PlanningPrompt result = builder.build(basic("Oferta de prueba", Tone.PROFESSIONAL_NEUTRAL,
                 InterviewLanguage.SPANISH_COLOMBIA));

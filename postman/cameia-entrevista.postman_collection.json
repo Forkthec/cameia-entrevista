@@ -2515,7 +2515,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
@@ -2636,7 +2636,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"bad_type\"}"
+              "raw": "{\"scenario\":\"bad_type\",\"times\":3}"
             }
           }
         },
@@ -2714,7 +2714,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"limit\"}"
+              "raw": "{\"scenario\":\"limit\",\"times\":2}"
             }
           }
         },
@@ -2768,7 +2768,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-                  "pm.test('Tres llamadas', () => pm.expect(pm.response.json().calls).to.eql(3));",
+                  "pm.test('Ocho llamadas: tres, tres y dos', () => pm.expect(pm.response.json().calls).to.eql(8));",
                   "pm.collectionVariables.set('iniCalls', pm.response.json().calls);"
                 ]
               }
@@ -3015,7 +3015,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"limit\"}"
+              "raw": "{\"scenario\":\"limit\",\"times\":2}"
             }
           }
         },
@@ -3163,7 +3163,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-                  "pm.test('Cinco llamadas en total', () => pm.expect(pm.response.json().calls).to.eql(Number(pm.collectionVariables.get('iniCalls')) + 2));"
+                  "pm.test('Tres llamadas más', () => pm.expect(pm.response.json().calls).to.eql(Number(pm.collectionVariables.get('iniCalls')) + 3));"
                 ]
               }
             }
@@ -4827,7 +4827,7 @@
           }
         },
         {
-          "name": "200 programar unavailable",
+          "name": "200 programar unavailable: la IA cae al responder",
           "event": [
             {
               "listen": "test",
@@ -4859,7 +4859,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
@@ -5324,7 +5324,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"limit\"}"
+              "raw": "{\"scenario\":\"limit\",\"times\":2}"
             }
           }
         },
@@ -5688,7 +5688,7 @@
           }
         },
         {
-          "name": "200 programar unavailable",
+          "name": "200 programar unavailable para responder la segunda entrevista",
           "event": [
             {
               "listen": "test",
@@ -5720,7 +5720,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
@@ -5779,7 +5779,7 @@
           }
         },
         {
-          "name": "200 programar unavailable",
+          "name": "200 programar unavailable para el reintento 1 de 4",
           "event": [
             {
               "listen": "test",
@@ -5811,12 +5811,12 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
         {
-          "name": "200 programar unavailable",
+          "name": "200 programar unavailable para el reintento 2 de 4",
           "event": [
             {
               "listen": "test",
@@ -5848,12 +5848,12 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
         {
-          "name": "200 programar unavailable",
+          "name": "200 programar unavailable para el reintento 3 de 4",
           "event": [
             {
               "listen": "test",
@@ -5885,12 +5885,12 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
         {
-          "name": "200 programar unavailable",
+          "name": "200 programar unavailable para el reintento 4 de 4",
           "event": [
             {
               "listen": "test",
@@ -5922,7 +5922,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\":\"unavailable\"}"
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
             }
           }
         },
@@ -7450,6 +7450,1120 @@
                 "sessions",
                 "{{cloSessionA}}",
                 "consolidation"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reintentos de la IA",
+      "item": [
+        {
+          "name": "200 preparar catálogo de roles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('rtyMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.collectionVariables.set('rtyUid', 'rty' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('rtyOtherUid', 'otr' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('rtyProfileId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.collectionVariables.set('rtyKeyPrefix', 'a' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{rtyMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rty\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\", \\\"roles\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombreEs\\\": \\\"Desarrollador Backend\\\", \\\"nombreEn\\\": \\\"Backend Developer\\\", \\\"estado\\\": \\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 preparar perfil completo",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('rtyMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{rtyMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rty\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\": \\\"{{rtyUid}}\\\", \\\"contextoProfesional\\\": {\\\"id\\\": \\\"{{rtyProfileId}}\\\", \\\"nombre\\\": \\\"Analista de datos\\\", \\\"estado\\\": \\\"COMPLETED\\\", \\\"fecha_archivado\\\": null, \\\"resumen\\\": \\\"Analista con tres a\\\\u00f1os de experiencia en SQL y Python.\\\", \\\"experiencias\\\": [{\\\"empresa\\\": \\\"ACME\\\", \\\"cargo\\\": \\\"Analista\\\", \\\"descripcion\\\": null, \\\"inicio\\\": \\\"2022-01\\\", \\\"fin\\\": null, \\\"estadoEmpleo\\\": \\\"CURRENT\\\"}], \\\"formaciones\\\": [{\\\"institucion\\\": \\\"Universidad del Cauca\\\", \\\"titulo\\\": \\\"Ingenier\\\\u00eda de Sistemas\\\", \\\"nivel\\\": \\\"UNDERGRADUATE\\\", \\\"inicio\\\": \\\"2017-02\\\", \\\"fin\\\": \\\"2021-12\\\", \\\"enCurso\\\": false}], \\\"habilidades\\\": [{\\\"nombre\\\": \\\"Python\\\", \\\"nivel\\\": \\\"INTERMEDIATE\\\"}]}, \\\"rolesAspirados\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombre\\\": \\\"Desarrollador Backend\\\"}], \\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reiniciar el simulador de la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__reset",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Los consumidores son asíncronos: se espera a que la copia del perfil exista.",
+                  "setTimeout(function () {}, 3000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('rtySessionA', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{rtyProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la sesión y devuelve la pregunta 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Pregunta 1 con su turno', () => pm.expect(pm.response.json().pendingQuestion.turnId).to.be.a('string').and.not.empty);",
+                  "pm.collectionVariables.set('rtyTurn1', pm.response.json().pendingQuestion.turnId);",
+                  "pm.collectionVariables.set('rtyTurnId', pm.response.json().pendingQuestion.turnId);",
+                  "pm.collectionVariables.set('rtyTurnId', pm.response.json().pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 el plan se pidió una sola vez a Gemini",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 1', () => pm.expect(k.gemini).to.eql(1));",
+                  "pm.test('Llamadas al respaldo: 0', () => pm.expect(k.groq).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable (1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Un fallo en cola', () => pm.expect(pm.response.json().times).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\",\"times\":1}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 1: falla el primer intento y el segundo evalúa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const a = pm.response.json();",
+                  "pm.test('Avance a la pregunta 2 de 5', () => pm.expect(a.progress).to.eql({currentQuestion: 2, totalQuestions: 5}));",
+                  "pm.collectionVariables.set('rtyTurnId', a.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{rtyKeyPrefix}}-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{rtyTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 dos llamadas a Gemini más: ninguna al respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 3', () => pm.expect(k.gemini).to.eql(3));",
+                  "pm.test('Llamadas al respaldo: 0', () => pm.expect(k.groq).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable (2)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Dos fallos en cola', () => pm.expect(pm.response.json().times).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\",\"times\":2}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 2: el tercer intento evalúa con el respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const a = pm.response.json();",
+                  "pm.test('Avance a la pregunta 3 de 5', () => pm.expect(a.progress).to.eql({currentQuestion: 3, totalQuestions: 5}));",
+                  "pm.collectionVariables.set('rtyTurnId', a.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{rtyKeyPrefix}}-2"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{rtyTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 dos llamadas a Gemini y una al respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 5', () => pm.expect(k.gemini).to.eql(5));",
+                  "pm.test('Llamadas al respaldo: 1', () => pm.expect(k.groq).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar limit (1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Un límite en cola', () => pm.expect(pm.response.json().times).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"limit\",\"times\":1}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 3: tras el 429 de Gemini evalúa el respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const a = pm.response.json();",
+                  "pm.test('Avance a la pregunta 4 de 5', () => pm.expect(a.progress).to.eql({currentQuestion: 4, totalQuestions: 5}));",
+                  "pm.collectionVariables.set('rtyTurnId', a.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{rtyKeyPrefix}}-3"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{rtyTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 una llamada a Gemini y una al respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 6', () => pm.expect(k.gemini).to.eql(6));",
+                  "pm.test('Llamadas al respaldo: 2', () => pm.expect(k.groq).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar eval_slow (1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Una evaluación lenta en cola', () => pm.expect(pm.response.json().times).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"eval_slow\",\"times\":1}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 4: el intento de 3,3 s se corta y el segundo evalúa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const a = pm.response.json();",
+                  "pm.test('Avance a la pregunta 5 de 5', () => pm.expect(a.progress).to.eql({currentQuestion: 5, totalQuestions: 5}));",
+                  "pm.collectionVariables.set('rtyTurnId', a.nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{rtyKeyPrefix}}-4"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{rtyTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 dos llamadas a Gemini más",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 8', () => pm.expect(k.gemini).to.eql(8));",
+                  "pm.test('Llamadas al respaldo: 2', () => pm.expect(k.groq).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar limit (2)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Dos límites en cola', () => pm.expect(pm.response.json().times).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"limit\",\"times\":2}"
+            }
+          }
+        },
+        {
+          "name": "503 respuesta 5: Gemini y el respaldo con 429",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_LIMIT_REACHED: la causa del último intento', () => pm.expect(pm.response.json().code).to.eql('LLM_LIMIT_REACHED'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL|clave-de-prueba/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{rtyKeyPrefix}}-5"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{rtyTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 un intento por proveedor y el ciclo termina",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 9', () => pm.expect(k.gemini).to.eql(9));",
+                  "pm.test('Llamadas al respaldo: 3', () => pm.expect(k.groq).to.eql(3));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar unavailable (3)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tres fallos en cola', () => pm.expect(pm.response.json().times).to.eql(3));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\":\"unavailable\",\"times\":3}"
+            }
+          }
+        },
+        {
+          "name": "503 reintentar: los tres intentos fallan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Content-Type problem+json', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json'));",
+                  "pm.test('Código LLM_UNAVAILABLE: la causa del último intento', () => pm.expect(pm.response.json().code).to.eql('LLM_UNAVAILABLE'));",
+                  "pm.test('Con requestId', () => pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty);",
+                  "pm.test('Sin detalle interno', () => pm.expect(pm.response.text()).to.not.match(/\"trace\"|\"exception\"|\"class\"|at tech\\.|SQL|clave-de-prueba/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/turns/{{rtyTurnId}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "turns",
+                "{{rtyTurnId}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 tres intentos más: dos con Gemini y uno con el respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 11', () => pm.expect(k.gemini).to.eql(11));",
+                  "pm.test('Llamadas al respaldo: 4', () => pm.expect(k.groq).to.eql(4));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado: la respuesta sigue guardada y el turno espera reintento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('RETRYING con un reintento usado', () => { const p = pm.response.json().pendingQuestion; pm.expect(p.status).to.eql('RETRYING'); pm.expect(p.retriesUsed).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reintentar con un ciclo nuevo completa el turno",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Turno completado', () => pm.expect(pm.response.json().turn.status).to.eql('COMPLETED'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{rtyUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{rtySessionA}}/turns/{{rtyTurnId}}/reprocess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{rtySessionA}}",
+                "turns",
+                "{{rtyTurnId}}",
+                "reprocess"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 una llamada más a Gemini",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const k = pm.response.json();",
+                  "pm.test('Llamadas a Gemini: 12', () => pm.expect(k.gemini).to.eql(12));",
+                  "pm.test('Llamadas al respaldo: 4', () => pm.expect(k.groq).to.eql(4));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
               ]
             }
           }

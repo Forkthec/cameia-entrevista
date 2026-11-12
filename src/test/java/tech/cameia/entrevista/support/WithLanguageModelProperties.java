@@ -24,6 +24,9 @@ import org.springframework.test.context.TestPropertySource;
         "cameia.llm.api-key=clave-falsa-de-prueba",
         "cameia.llm.model=modelo-de-prueba",
         "cameia.llm.timeout=20000ms",
+        "cameia.llm.evaluation-timeout=3000ms",
+        "cameia.llm.retry.first-wait=0ms",
+        "cameia.llm.retry.second-wait=0ms",
         "cameia.llm.temperature=1.0",
         "cameia.llm.thinking-level=minimal"
 })

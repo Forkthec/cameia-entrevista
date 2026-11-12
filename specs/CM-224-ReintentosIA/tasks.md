@@ -221,3 +221,21 @@ cameia.llm.fallback.base-url=${LLM_FALLBACK_BASE_URL:https://api.groq.com/openai
 ## T7 · Verificación final (sin commit)
 
 `./mvnw.cmd -B -ntp clean verify` sobre la punta (log en `ejecucion/evidencia/CM-224/verify.log` de la carpeta `Desarrollo`); cobertura ≥ 90 % líneas y ramas en `AiRetryPolicy`, `AiProvider`, `AiCallRunner`, `GroqLanguageModelAdapter`, `RoutingLanguageModelAdapter`, `GeminiLanguageModelAdapter`, `LanguageModelConfiguration`, las tres clases de propiedades y las líneas nuevas de `StartSessionService` y `TurnEvaluator`; Newman en `ejecucion/evidencia/CM-224/newman.xml`; borrador del pedido a DevOps para CM-225 (variables y llave) en `comunicaciones/`, si el documento único de DevOps aún no lo trae (revisar `comunicaciones/README.md` §índice antes).
+
+---
+
+## Resultados de ejecución (12-nov-2026, sobre la punta de CM-220 `563c64a`)
+
+| Tarjeta | Comando | Resultado |
+|---|---|---|
+| T0 | `javap` sobre `spring-ai-openai` 2.0.2 | Sin commit; el cliente real es `openai-java`, no `OpenAiApi` (ver ADR 0014, hallazgos) |
+| T1 | `AiRetryPolicyTest`, `AiProviderTest` | `BUILD SUCCESS` (commit `92a6811`) |
+| T2 | `AiCallRunnerTest`, `LanguageModelPort` y sus dobles | `BUILD SUCCESS` (commit `8e33dfc`) |
+| T3 | pruebas de los adaptadores de Gemini, Groq y de enrutamiento, y de las tres clases de propiedades | `BUILD SUCCESS` (commit `ddb636b`) |
+| T4 | 285 pruebas del conjunto de la tarjeta y `PlanningPromptBuilderTest` | `BUILD SUCCESS` (commit `521ac77`) |
+| T5 | `AiRetryEndToEndTest` (16), `AiRetryLogContentTest`, `ReprocessConcurrencyTest`, `AnswerConcurrencyTest` | `BUILD SUCCESS`, 21 pruebas, 0 fallos (commit `07843e7`) |
+| T6 | Newman contra el JAR, PostgreSQL, RabbitMQ y el simulador (Gemini y Groq) | 186 peticiones, 779 aserciones, 0 fallos (commit `8c3bc7c`); las peticiones existentes que programaban un fallo programan ahora un ciclo completo |
+| Ramas sin cubrir | pruebas de cambio de intento, sin llave del respaldo y direcciones del respaldo | `BUILD SUCCESS` (commit `45b1103`) |
+| T7 | `./mvnw.cmd -B -ntp clean verify` sobre `45b1103` | `BUILD SUCCESS`, 1822 pruebas, 0 fallos, 1 omitida; Newman de nuevo sobre esa punta: 186 peticiones, 779 aserciones, 0 fallos; ninguna ruta termina en 500; cobertura por clase y lo que queda sin cubrir con su razón en `ejecucion/evidencia/CM-224/resumen.md` |
+
+CA-5.6.13 (llamada real a Groq con el esquema estricto) queda **PENDIENTE** en el entorno real hasta que DevOps cargue la llave (CM-225).

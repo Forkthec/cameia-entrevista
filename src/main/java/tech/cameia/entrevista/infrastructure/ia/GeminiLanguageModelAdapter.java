@@ -21,11 +21,13 @@ import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
-import tech.cameia.entrevista.domain.port.LanguageModelPort;
+import tech.cameia.entrevista.domain.model.AiOperation;
+import tech.cameia.entrevista.infrastructure.config.ia.GeminiChatModels;
 import tech.cameia.entrevista.infrastructure.config.ia.LanguageModelProperties;
 
 /**
- * Implementa {@link LanguageModelPort} con el modelo de chat de Gemini que arma Spring AI.
+ * Proveedor principal de IA: llama a Gemini con el modelo de chat que arma Spring AI. El modelo se elige por la
+ * operación del prompt, porque cada operación tiene su propio tiempo de espera.
  *
  * <p>Cada llamada lleva sus opciones (modelo, temperatura, nivel de pensamiento y tope de
  * tokens), así que el adaptador no depende de la configuración por defecto de Spring AI. El
@@ -36,7 +38,7 @@ import tech.cameia.entrevista.infrastructure.config.ia.LanguageModelProperties;
  * Nunca se registran la llave, el texto enviado ni el texto recibido (D-07).</p>
  */
 @Component
-class GeminiLanguageModelAdapter implements LanguageModelPort {
+class GeminiLanguageModelAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(GeminiLanguageModelAdapter.class);
 
@@ -52,23 +54,23 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
      */
     private static final int MAX_CAUSAS = 32;
 
-    private final ChatModel chatModel;
+    private final GeminiChatModels modelos;
 
     private final LanguageModelProperties propiedades;
 
     /**
      * Crea el adaptador.
      *
-     * @param chatModel modelo de chat de Gemini de Spring AI
+     * @param modelos modelos de chat de Gemini, uno por operación
      * @param propiedades modelo, temperatura y nivel de pensamiento de cada llamada
      */
-    GeminiLanguageModelAdapter(ChatModel chatModel, LanguageModelProperties propiedades) {
-        this.chatModel = chatModel;
+    GeminiLanguageModelAdapter(GeminiChatModels modelos, LanguageModelProperties propiedades) {
+        this.modelos = modelos;
         this.propiedades = propiedades;
     }
 
     /**
-     * {@inheritDoc}
+     * Envía el prompt a Gemini y devuelve su respuesta.
      *
      * <p>El modelo de la respuesta es el que informa Gemini ({@code modelVersion}), y el
      * configurado si no lo informa. Los tokens que el proveedor no informa valen {@code 0}.</p>
@@ -77,9 +79,13 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
      * cadena de causas, es {@link LlmLimitReachedException}; cualquier otro fallo de la llamada
      * (tiempo agotado, error del proveedor, conexión cortada, cuerpo ilegible) y una respuesta sin
      * texto son {@link LlmUnavailableException}. La causa técnica se conserva para el log.</p>
+     *
+     * @param prompt texto, tope de tokens, esquema y operación
+     * @return texto de la respuesta con los tokens gastados y el modelo que respondió
+     * @throws LlmUnavailableException si el modelo no responde a tiempo, falla o responde vacío
+     * @throws LlmLimitReachedException si el proveedor rechaza la llamada por cuota agotada
      */
-    @Override
-    public LanguageModelResponse generate(LanguageModelPrompt prompt) {
+    LanguageModelResponse generate(LanguageModelPrompt prompt) {
         long inicio = System.nanoTime();
         String resultado = RESULTADO_OK;
         try {
@@ -88,7 +94,8 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
             resultado = fallo.getErrorCode().name();
             throw fallo;
         } finally {
-            logger.info("Llamada al modelo [resultado={}, duracionMs={}]", resultado,
+            logger.info("Llamada al modelo [proveedor=gemini, operacion={}, resultado={}, duracionMs={}]",
+                    prompt.operation().code(), resultado,
                     TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - inicio));
         }
     }
@@ -96,6 +103,7 @@ class GeminiLanguageModelAdapter implements LanguageModelPort {
     /** Hace la llamada y traduce su fallo a la excepción de negocio que corresponde. */
     private ChatResponse llamar(LanguageModelPrompt prompt) {
         try {
+            ChatModel chatModel = prompt.operation() == AiOperation.PLAN ? modelos.planning() : modelos.evaluation();
             return chatModel.call(new Prompt(prompt.text(), opciones(prompt)));
         } catch (RuntimeException fallo) {
             throw traducir(fallo);
