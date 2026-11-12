@@ -22,17 +22,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import tech.cameia.entrevista.application.command.SessionCommand;
 import tech.cameia.entrevista.application.service.TurnEvaluator.EvaluationJob;
+import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
+import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
 import tech.cameia.entrevista.domain.exception.TurnNotRetryableException;
 import tech.cameia.entrevista.domain.exception.TurnRetryLimitReachedException;
@@ -249,5 +252,50 @@ class ReprocessTurnServiceTest {
         reprocess();
 
         verify(sessions, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Un conflicto de turno al reservar se responde como no reintentable")
+    void reprocess_shouldMapTurnConflictToNotRetryable() {
+        when(turns.save(any())).thenThrow(new TurnConflictException());
+
+        assertThatThrownBy(this::reprocess).isInstanceOf(TurnNotRetryableException.class);
+    }
+
+    @Test
+    @DisplayName("Si la base falla al reservar el reintento responde base no disponible y no llama al modelo")
+    void reprocess_shouldThrowDatabaseUnavailable_whenReservationFails() {
+        when(turns.save(any())).thenThrow(new DataAccessResourceFailureException("caída"));
+
+        assertThatThrownBy(this::reprocess).isInstanceOf(DatabaseUnavailableException.class);
+
+        verify(evaluator, never()).evaluate(any());
+    }
+
+    @Test
+    @DisplayName("Un turno procesando sin marca de evaluación se recupera sin cerrar ninguna marca")
+    void reprocess_shouldRecover_whenProcessingWithoutMark() {
+        wire(turn(TurnStatus.PROCESSING, 0));
+
+        reprocess();
+
+        verify(executions, never()).failIfInProgress(any());
+        verify(evaluator).evaluate(any());
+    }
+
+    @Test
+    @DisplayName("Un turno que desaparece entre la lectura y la reserva responde turno no encontrado")
+    void reprocess_shouldThrowTurnNotFound_whenTurnVanishesDuringReservation() {
+        when(turns.findById(turn.id())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(this::reprocess).isInstanceOf(TurnNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("Un turno en reintento sin respuesta guardada es un fallo interno de datos")
+    void reprocess_shouldFail_whenNoStoredAnswer() {
+        when(answers.findDefinitive(any())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(this::reprocess).isInstanceOf(IllegalStateException.class);
     }
 }

@@ -476,6 +476,61 @@ class RegisterAnswerServiceTest {
         verify(evaluator, never()).evaluate(any());
     }
 
+    @Test
+    @DisplayName("Un fallo que no es del modelo ni de la sesión no guarda resultado en la clave")
+    void register_shouldNotStoreResult_whenFailureIsNeitherModelNorSession() {
+        evaluatorFails(new DatabaseUnavailableException(new RuntimeException()));
+
+        assertThatThrownBy(() -> service.register(command())).isInstanceOf(DatabaseUnavailableException.class);
+
+        assertThat(stored().responseStatus()).isEqualTo(202);
+    }
+
+    @Test
+    @DisplayName("Repetir una clave guardada con cada código de fallo repite su error")
+    void register_shouldReplayEachStoredFailureCode() {
+        String[][] cases = {
+            {"503", "LLM_LIMIT_REACHED"}, {"503", "LLM_UNAVAILABLE"}, {"409", "SESSION_ABANDONED"},
+            {"409", "SESSION_TRANSITION_NOT_ALLOWED"}};
+        Class<?>[] expected = {LlmLimitReachedException.class, LlmUnavailableException.class,
+            SessionAbandonedException.class, SessionTransitionNotAllowedException.class};
+        for (int i = 0; i < cases.length; i++) {
+            store.put(KEY, key(Integer.parseInt(cases[i][0]), "{\"code\":\"" + cases[i][1] + "\"}"));
+
+            assertThatThrownBy(() -> service.register(command())).isInstanceOf(expected[i]);
+        }
+    }
+
+    @Test
+    @DisplayName("Un turno que otra petición tomó entre la lectura y la reserva responde que ya hay respuesta")
+    void register_shouldThrowAnswerAlreadyExists_whenTurnTakenDuringReservation() {
+        InterviewTurn taken = InterviewTurn.open(question.id(), clock);
+        taken.startProcessing(clock);
+        when(turns.findById(turn.id())).thenReturn(Optional.of(taken));
+
+        assertThatThrownBy(() -> service.register(command())).isInstanceOf(AnswerAlreadyExistsException.class);
+
+        verify(answers, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Si otra petición gana la escritura del turno, responde que ya hay respuesta")
+    void register_shouldThrowAnswerAlreadyExists_whenTurnWriteLosesRace() {
+        when(turns.save(any())).thenThrow(new tech.cameia.entrevista.domain.exception.SessionConflictException());
+
+        assertThatThrownBy(() -> service.register(command())).isInstanceOf(AnswerAlreadyExistsException.class);
+
+        verify(evaluator, never()).evaluate(any());
+    }
+
+    @Test
+    @DisplayName("La misma clave en curso con el turno todavía pendiente espera hasta vencer y responde turno en conflicto")
+    void register_shouldReturnTurnConflict_whenSameKeyAndTurnStillPending() {
+        store.put(KEY, key(202, "{}"));
+
+        assertThatThrownBy(() -> service.register(command())).isInstanceOf(TurnConflictException.class);
+    }
+
     /** Claves de idempotencia en memoria: guardar con el mismo identificador reemplaza, con otro choca. */
     private class InMemoryKeys implements IdempotencyKeyRepository {
 
