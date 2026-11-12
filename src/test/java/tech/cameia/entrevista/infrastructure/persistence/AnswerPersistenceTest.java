@@ -247,6 +247,27 @@ class AnswerPersistenceTest extends AbstractPersistenceTest {
     }
 
     @Test
+    @DisplayName("countBySession cuenta solo las retroalimentaciones de los turnos de esa sesión")
+    void countBySession_shouldCountOnlyThatSession() {
+        givenSessionWithTurn();
+        UUID secondTurn = insertTurn(sessionId, 2);
+        UUID otherSession = sessions.save(newSession("uid-b")).id();
+        UUID otherTurn = insertTurn(otherSession);
+        AiExecution first = startEvaluation();
+        feedbacks.save(TurnFeedback.of(turnId, first.id(), result(), CLOCK));
+        AiExecution second = executions.save(AiExecution.evaluationStarted(sessionId, secondTurn, "modelo",
+                "evaluacion.v1", "gemini", CLOCK));
+        feedbacks.save(TurnFeedback.of(secondTurn, second.id(), result(), CLOCK));
+        AiExecution foreign = executions.save(AiExecution.evaluationStarted(otherSession, otherTurn, "modelo",
+                "evaluacion.v1", "gemini", CLOCK));
+        feedbacks.save(TurnFeedback.of(otherTurn, foreign.id(), result(), CLOCK));
+
+        assertThat(feedbacks.countBySession(sessionId)).isEqualTo(2);
+        assertThat(feedbacks.countBySession(otherSession)).isEqualTo(1);
+        assertThat(feedbacks.countBySession(UUID.randomUUID())).isZero();
+    }
+
+    @Test
     @DisplayName("findByIdAndSession ignora el turno de otra sesión")
     void findByIdAndSession_shouldIgnoreOtherSession() {
         givenSessionWithTurn();

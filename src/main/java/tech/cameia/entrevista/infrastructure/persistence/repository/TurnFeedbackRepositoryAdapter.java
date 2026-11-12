@@ -1,5 +1,7 @@
 package tech.cameia.entrevista.infrastructure.persistence.repository;
 
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,12 @@ class TurnFeedbackRepositoryAdapter implements TurnFeedbackRepository {
             }
             throw e;
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public int countBySession(UUID sessionId) {
+        return jpa.countBySession(sessionId);
     }
 
     private TurnFeedbackEntity toEntity(TurnFeedback f) {

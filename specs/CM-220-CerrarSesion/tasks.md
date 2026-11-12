@@ -178,3 +178,18 @@ OpenAPI: `@Operation(summary = "Reintenta reunir la evaluación de la entrevista
 ## T7 · Verificación final (sin commit)
 
 `./mvnw.cmd -B -ntp clean verify` sobre la punta (log en `ejecucion/evidencia/CM-220/verify.log` de la carpeta `Desarrollo`); cobertura ≥ 90 % líneas y ramas en `ConsolidateSessionService`, `ConsolidationRetryPolicy`, `InterviewSession` (método nuevo), `TurnEvaluator` (líneas nuevas), `TurnFeedbackRepositoryAdapter`, `SessionConsolidationFailedException`, `InterviewSessionController.consolidate`; Newman en `ejecucion/evidencia/CM-220/newman.xml`; medición DES-02 (spec §12) con su p95 real.
+
+---
+
+## Resultados de ejecución (12-nov-2026, sobre la punta de CM-216 `fb4e1b6`)
+
+| Tarjeta | Comando | Resultado |
+|---|---|---|
+| T1 | `-Dtest='BusinessExceptionsTest,BusinessExceptionHandlerTest,ErrorCodeTest,ErrorCodeDocumentationTest'` | `BUILD SUCCESS` (commit `970fc64`) |
+| T2 | pruebas de dominio, `ConsolidateSessionServiceTest`, `AnswerPersistenceTest`, `InterviewSchemaMigrationTest` | `BUILD SUCCESS` (commit `eaa24f8`); las pruebas de `ck_sesion_fecha_fin` se añadieron a `InterviewSchemaMigrationTest` en lugar de un `SessionClosureSchemaTest` nuevo |
+| T3 | `TurnEvaluatorTest`, `RegisterAnswerServiceTest`, `ReprocessTurnServiceTest`, `AnswerEndToEndTest` | `BUILD SUCCESS` (commit `44225a8`); `AnswerEndToEndTest` espera ahora la sesión `FINALIZADA` tras la respuesta cinco |
+| T4 | `ConsolidationControllerTest` y las pruebas de controlador adaptadas al nuevo constructor | `BUILD SUCCESS` (commit `0e3d48f`) |
+| T5 | `Closure*Test`, `ConsolidationConcurrencyTest`, `AbandonVsCloseRaceTest`, `NoFeedbackExposureTest`, `PresentationDoesNotReadFeedbackTest`, `LayeredArchitectureTest` | `BUILD SUCCESS`, 19 pruebas, 0 fallos (commit `e5d1ce3`); la falla del cierre se fuerza con un disparador de PostgreSQL que rechaza el paso a `FINALIZADA` |
+| T6 | Newman contra el JAR, PostgreSQL, RabbitMQ y el simulador | 159 peticiones, 713 aserciones, 0 fallos (commit `a42d97c`); dos peticiones de «Reintentar evaluación» pasan a esperar 409 `SESSION_ALREADY_CLOSED` |
+| Corrección | `RegisterAnswerServiceTest`, `AnswerConcurrencyTest` ×6 | Carrera preexistente de la misma clave en espera corregida (commit `2393fce`) |
+| T7 | `./mvnw.cmd -B -ntp clean verify` sobre `2393fce` | `BUILD SUCCESS`, 1710 pruebas, 0 fallos, 1 omitida; cobertura por clase, rendimiento (p95 21,6 ms y 56,1 ms) y rutas al 500 en `ejecucion/evidencia/CM-220/resumen.md` |

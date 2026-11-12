@@ -141,7 +141,9 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.TURN_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo")),
             Map.entry(ErrorCode.TURN_NOT_RETRYABLE, new Definition(HttpStatus.CONFLICT, "Acción no permitida")),
             Map.entry(ErrorCode.TURN_RETRY_LIMIT_REACHED,
-                    new Definition(HttpStatus.CONFLICT, "Reintentos agotados")));
+                    new Definition(HttpStatus.CONFLICT, "Reintentos agotados")),
+            Map.entry(ErrorCode.SESSION_CONSOLIDATION_FAILED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Cierre pendiente")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {

@@ -48,6 +48,7 @@ import tech.cameia.entrevista.domain.exception.PlanningRetriesExhaustedException
 import tech.cameia.entrevista.domain.exception.ProfileSnapshotInvalidException;
 import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
+import tech.cameia.entrevista.domain.exception.SessionConsolidationFailedException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
@@ -405,7 +406,9 @@ class BusinessExceptionHandlerTest {
                 org.junit.jupiter.params.provider.Arguments.of("TURN_NOT_RETRYABLE", 409, "Acción no permitida",
                         TurnNotRetryableException.MESSAGE),
                 org.junit.jupiter.params.provider.Arguments.of("TURN_RETRY_LIMIT_REACHED", 409, "Reintentos agotados",
-                        TurnRetryLimitReachedException.MESSAGE));
+                        TurnRetryLimitReachedException.MESSAGE),
+                org.junit.jupiter.params.provider.Arguments.of("SESSION_CONSOLIDATION_FAILED", 503, "Cierre pendiente",
+                        SessionConsolidationFailedException.MESSAGE));
     }
 
     @ParameterizedTest(name = "{0}")
@@ -434,7 +437,8 @@ class BusinessExceptionHandlerTest {
                     "ANSWER_ALREADY_EXISTS", AnswerAlreadyExistsException::new,
                     "TURN_CONFLICT", TurnConflictException::new,
                     "TURN_NOT_RETRYABLE", TurnNotRetryableException::new,
-                    "TURN_RETRY_LIMIT_REACHED", TurnRetryLimitReachedException::new);
+                    "TURN_RETRY_LIMIT_REACHED", TurnRetryLimitReachedException::new,
+                    "SESSION_CONSOLIDATION_FAILED", SessionConsolidationFailedException::new);
             throw errors.get(code).get();
         }
 

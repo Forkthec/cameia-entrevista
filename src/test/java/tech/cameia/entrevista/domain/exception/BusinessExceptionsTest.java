@@ -42,7 +42,9 @@ class BusinessExceptionsTest {
                 Arguments.of(new TurnNotRetryableException(), ErrorCode.TURN_NOT_RETRYABLE,
                         "Tu respuesta no está esperando un reintento."),
                 Arguments.of(new TurnRetryLimitReachedException(), ErrorCode.TURN_RETRY_LIMIT_REACHED,
-                        "No pudimos evaluar tu respuesta en este momento. Tu respuesta quedó guardada; inténtalo más tarde."));
+                        "No pudimos evaluar tu respuesta en este momento. Tu respuesta quedó guardada; inténtalo más tarde."),
+                Arguments.of(new SessionConsolidationFailedException(), ErrorCode.SESSION_CONSOLIDATION_FAILED,
+                        "Ocurrió un error. Inténtalo de nuevo."));
     }
 
     @ParameterizedTest

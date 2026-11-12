@@ -46,7 +46,8 @@ class SessionLifecycleControllerTest {
     private final MockMvc mockMvc = MockMvcBuilders
             .standaloneSetup(new InterviewSessionController(mock(CreateSessionService.class), start, state, delete,
                     mock(tech.cameia.entrevista.application.service.RegisterAnswerService.class),
-                    mock(tech.cameia.entrevista.application.service.ReprocessTurnService.class)))
+                    mock(tech.cameia.entrevista.application.service.ReprocessTurnService.class),
+                    mock(tech.cameia.entrevista.application.service.ConsolidateSessionService.class)))
             .setControllerAdvice(ProblemDetailTestSupport.errorHandler())
             .build();
 

@@ -117,6 +117,21 @@ public final class InterviewSession {
     }
 
     /**
+     * Pasa la entrevista a evaluación si sus cinco preguntas tienen respuesta completa.
+     *
+     * @param completedTurns turnos completos de la sesión, contando el que acaba de completarse
+     * @param clock reloj que da la fecha
+     * @return verdadero si la sesión pasó a evaluación
+     */
+    public boolean closeIfComplete(int completedTurns, Clock clock) {
+        if (status != SessionStatus.IN_PROGRESS || completedTurns < InterviewQuestion.TOTAL) {
+            return false;
+        }
+        startEvaluation(clock);
+        return true;
+    }
+
+    /**
      * Termina la sesión: {@code EVALUATING → FINISHED}, y registra la fecha de cierre.
      *
      * @param clock reloj que da la fecha
