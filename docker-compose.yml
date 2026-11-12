@@ -66,6 +66,13 @@ services:
       # Broker local de mensajeria (solo existe con el perfil de compose "mensajeria"). Sin el, el
       # consumidor reintenta conectarse y el servicio atiende HTTP igual.
       SPRING_RABBITMQ_ADDRESSES: ${SPRING_RABBITMQ_ADDRESSES:-amqp://guest:guest@entrevista-rabbitmq:5672}
+      # Servicio de Voz que transcribe el audio de las respuestas (CM-362). Por defecto apunta al Voz simulado
+      # (perfil de compose "voz-simulada"); sin el, cada audio termina en 503 TRANSCRIPTION_UNAVAILABLE tras dos
+      # intentos por conexion rechazada. VOZ_TIMEOUT es el tope de cada intento (60 s, CA-5.13.3).
+      VOZ_BASE_URL: ${VOZ_BASE_URL:-http://entrevista-voz-simulada:8080}
+      VOZ_TIMEOUT: ${VOZ_TIMEOUT:-60s}
+      VOZ_CONNECT_TIMEOUT: ${VOZ_CONNECT_TIMEOUT:-5s}
+      VOZ_RETRY_PAUSE: ${VOZ_RETRY_PAUSE:-1s}
     ports:
       # 8083 es el puerto que el gateway espera en CAMEIA_ENTREVISTA_URL
       - "${SERVER_PORT:-8083}:8080"
@@ -87,6 +94,20 @@ services:
     ports:
       - "127.0.0.1:5673:5672"
       - "127.0.0.1:15673:15672"
+    networks:
+      - cameia-entrevista
+
+  # Servicio de Voz simulado (WireMock) para probar la respuesta por voz y su reintento (CM-362) sin el servicio
+  # real. Se levanta solo bajo demanda: docker compose --profile voz-simulada up -d. El escenario lo elige el
+  # contenido del archivo de audio (ver postman/CM-362/README.md). La API de administracion queda en el 8090 del host.
+  entrevista-voz-simulada:
+    image: wiremock/wiremock:3.13.1
+    container_name: cameia-entrevista-voz-simulada
+    profiles: ["voz-simulada"]
+    volumes:
+      - ./postman/CM-362/voz-simulada:/home/wiremock:ro
+    ports:
+      - "127.0.0.1:${VOZ_SIMULADA_PORT:-8090}:8080"
     networks:
       - cameia-entrevista
 

@@ -1,0 +1,5 @@
+{
+  "priority": 1,
+  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions", "bodyPatterns": [{"contains": "CASO_RECHAZO"}]},
+  "response": {"status": 422, "jsonBody": {"detail": "Audio ilegible (simulado)"}, "headers": {"Content-Type": "application/json"}}
+}

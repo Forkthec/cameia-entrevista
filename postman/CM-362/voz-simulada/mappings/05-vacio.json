@@ -1,0 +1,5 @@
+{
+  "priority": 1,
+  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions", "bodyPatterns": [{"contains": "CASO_SIN_VOZ"}]},
+  "response": {"status": 200, "jsonBody": {"text": "", "language": "es"}, "headers": {"Content-Type": "application/json"}}
+}

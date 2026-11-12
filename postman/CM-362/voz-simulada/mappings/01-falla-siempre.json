@@ -1,0 +1,5 @@
+{
+  "priority": 1,
+  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions", "bodyPatterns": [{"contains": "CASO_FALLA_SIEMPRE"}]},
+  "response": {"status": 503, "jsonBody": {"detail": "Voz no disponible (simulado)"}, "headers": {"Content-Type": "application/json"}}
+}

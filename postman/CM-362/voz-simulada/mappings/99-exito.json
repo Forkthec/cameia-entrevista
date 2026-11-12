@@ -1,0 +1,5 @@
+{
+  "priority": 10,
+  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions"},
+  "response": {"status": 200, "jsonBody": {"text": "Respuesta transcrita de prueba", "language": "es"}, "headers": {"Content-Type": "application/json"}}
+}

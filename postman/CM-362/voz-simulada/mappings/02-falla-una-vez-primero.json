@@ -1,0 +1,8 @@
+{
+  "priority": 1,
+  "scenarioName": "falla-una-vez",
+  "requiredScenarioState": "Started",
+  "newScenarioState": "ya-fallo",
+  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions", "bodyPatterns": [{"contains": "CASO_FALLA_UNA_VEZ"}]},
+  "response": {"status": 503, "jsonBody": {"detail": "Voz no disponible (simulado, primer intento)"}, "headers": {"Content-Type": "application/json"}}
+}

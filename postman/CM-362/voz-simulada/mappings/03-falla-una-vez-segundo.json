@@ -1,0 +1,8 @@
+{
+  "priority": 1,
+  "scenarioName": "falla-una-vez",
+  "requiredScenarioState": "ya-fallo",
+  "newScenarioState": "Started",
+  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions", "bodyPatterns": [{"contains": "CASO_FALLA_UNA_VEZ"}]},
+  "response": {"status": 200, "jsonBody": {"text": "Respuesta transcrita en el segundo intento", "language": "es"}, "headers": {"Content-Type": "application/json"}}
+}
