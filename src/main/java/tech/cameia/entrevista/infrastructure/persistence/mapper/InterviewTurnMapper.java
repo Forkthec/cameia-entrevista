@@ -38,6 +38,6 @@ public final class InterviewTurnMapper {
      */
     public static InterviewTurn toDomain(InterviewTurnEntity entity) {
         return InterviewTurn.reconstitute(new TurnSnapshot(entity.getId(), entity.getQuestionId(),
-                entity.getStatus(), entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion()));
+                entity.getStatus(), 0, entity.getCreatedAt(), entity.getUpdatedAt(), entity.getVersion()));
     }
 }

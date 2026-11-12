@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.model.AiExecution;
 import tech.cameia.entrevista.domain.model.AiExecutionStatus;
+import tech.cameia.entrevista.domain.model.AiOperation;
 import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.infrastructure.persistence.entity.AiExecutionEntity;
 
@@ -77,7 +78,7 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
     }
 
     private static AiExecution toDomain(AiExecutionEntity e) {
-        return new AiExecution(e.getId(), e.getSessionId(), e.getAttempt(), e.getIdempotencyKey(),
+        return new AiExecution(e.getId(), e.getSessionId(), AiOperation.PLAN, null, e.getAttempt(), e.getIdempotencyKey(),
                 AiExecutionStatus.fromCode(e.getStatus()), e.getModel(), e.getPromptVersion(), e.getErrorCode(),
                 e.getProvider(), e.getInputTokens(), e.getOutputTokens(), e.getStartedAt(), e.getFinishedAt());
     }
