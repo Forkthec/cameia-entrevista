@@ -94,7 +94,7 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
     }
 
     @Test
-    @DisplayName("La respuesta 5 termina la entrevista sin sexto turno y la sesión sigue EN_CURSO")
+    @DisplayName("La respuesta 5 termina la entrevista sin sexto turno y la sesión queda FINALIZADA")
     void answer_shouldFinishWithoutSixthTurn_whenQuestionFive() {
         String id = startedSession(UID_A, PROFILE_A);
         ResponseEntity<String> last = null;
@@ -108,7 +108,7 @@ class AnswerEndToEndTest extends AnswerFlowSupport {
         assertThat(last.getBody()).contains("\"nextQuestion\":null");
         assertThat((Boolean) JsonPath.read(last.getBody(), "$.interviewFinished")).isTrue();
         assertThat(count("SELECT count(*) FROM microentrevista.turno")).isEqualTo(5);
-        assertThat(sessionStatus(id)).isEqualTo("EN_CURSO");
+        assertThat(sessionStatus(id)).isEqualTo("FINALIZADA");
         ResponseEntity<String> reloaded = state(UID_A, id);
         assertThat((Boolean) JsonPath.read(reloaded.getBody(), "$.interviewFinished")).isTrue();
         assertThat((Integer) JsonPath.read(reloaded.getBody(), "$.history.length()")).isEqualTo(5);

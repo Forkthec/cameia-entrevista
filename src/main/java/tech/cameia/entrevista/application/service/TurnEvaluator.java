@@ -15,6 +15,8 @@ import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
+import tech.cameia.entrevista.domain.exception.SessionConflictException;
+import tech.cameia.entrevista.domain.exception.SessionConsolidationFailedException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AiExecution;
@@ -39,8 +41,10 @@ import tech.cameia.entrevista.domain.port.TurnFeedbackRepository;
  * <p>La llamada al modelo nunca ocurre dentro de una transacción. El resultado se guarda en una sola transacción
  * corta: la ejecución exitosa, la retroalimentación, el turno completado, el turno de la pregunta siguiente y la
  * actividad de la sesión. Si la sesión dejó de estar en curso mientras el modelo respondía, no se escribe nada de la
- * evaluación y la ejecución se cierra como fallida con el código de esa causa. Los registros llevan códigos e
- * identificadores, nunca texto de la persona ni del modelo.</p>
+ * evaluación y la ejecución se cierra como fallida con el código de esa causa. Al completar la quinta pregunta, la
+ * misma transacción pasa la sesión a evaluación y, ya confirmada, se pide su consolidación; si esta falla, la respuesta
+ * sigue siendo válida y la sesión queda en evaluación hasta que la persona pida el cierre de nuevo. Los registros
+ * llevan códigos e identificadores, nunca texto de la persona ni del modelo.</p>
  */
 @Service
 public class TurnEvaluator {
@@ -55,14 +59,15 @@ public class TurnEvaluator {
     private final InterviewSessionRepository sessions;
     private final AiExecutionRepository executions;
     private final TurnFeedbackRepository feedbacks;
+    private final ConsolidateSessionService consolidation;
     private final TransactionTemplate transaction;
     private final Clock clock;
 
     @SuppressWarnings("java:S107")
     TurnEvaluator(LanguageModelPort model, EvaluationPromptBuilder prompts, EvaluationOutputReader reader,
             InterviewTurnRepository turns, InterviewQuestionRepository questions, InterviewSessionRepository sessions,
-            AiExecutionRepository executions, TurnFeedbackRepository feedbacks, TransactionTemplate transaction,
-            Clock clock) {
+            AiExecutionRepository executions, TurnFeedbackRepository feedbacks,
+            ConsolidateSessionService consolidation, TransactionTemplate transaction, Clock clock) {
         this.model = model;
         this.prompts = prompts;
         this.reader = reader;
@@ -71,6 +76,7 @@ public class TurnEvaluator {
         this.sessions = sessions;
         this.executions = executions;
         this.feedbacks = feedbacks;
+        this.consolidation = consolidation;
         this.transaction = transaction;
         this.clock = clock;
     }
@@ -160,12 +166,15 @@ public class TurnEvaluator {
             throw new LlmUnavailableException(unexpected);
         }
         try {
-            AnswerResult saved = transaction.execute(status -> save(job, result, response));
+            Saved saved = transaction.execute(status -> save(job, result, response));
             log.info("Turno evaluado [sessionId={}, turnId={}, executionId={}, resultado={}]",
                     job.session().id(), job.turn().id(), job.mark().id(), "EXITOSA");
-            return saved;
-        } catch (SessionAbandonedException | SessionAlreadyClosedException
-                | SessionTransitionNotAllowedException closed) {
+            if (saved.evaluating()) {
+                consolidateAfterCommit(job);
+            }
+            return saved.result();
+        } catch (SessionAbandonedException | SessionAlreadyClosedException | SessionTransitionNotAllowedException
+                | SessionConflictException closed) {
             fail(job, closed.getErrorCode());
             log.info("Evaluación descartada: la sesión ya no está en curso [sessionId={}, turnId={}, code={}]",
                     job.session().id(), job.turn().id(), closed.getErrorCode());
@@ -175,8 +184,22 @@ public class TurnEvaluator {
         }
     }
 
+    /** Resultado guardado y si la sesión quedó en evaluación al completarse la quinta pregunta. */
+    private record Saved(AnswerResult result, boolean evaluating) {
+    }
+
+    // Ya confirmada la evaluación: un fallo del cierre no deshace la respuesta; la sesión sigue en evaluación.
+    private void consolidateAfterCommit(EvaluationJob job) {
+        try {
+            consolidation.consolidate(job.session().id(), job.session().owner());
+        } catch (SessionConsolidationFailedException failed) {
+            // Ya registrado con su código e identificador; la persona pide el cierre de nuevo.
+            log.info("Sesión en evaluación tras la quinta respuesta [sessionId={}]", job.session().id());
+        }
+    }
+
     // Una sola transacción: o queda todo (evaluación, turno completado, turno siguiente) o no queda nada.
-    private AnswerResult save(EvaluationJob job, EvaluationResult result, LanguageModelResponse response) {
+    private Saved save(EvaluationJob job, EvaluationResult result, LanguageModelResponse response) {
         InterviewSession session = sessions.findByIdAndOwner(job.session().id(), job.session().owner())
                 .orElseThrow(SessionNotFoundException::new);
         // Antes de escribir nada: una sesión que ya no está en curso no recibe evaluaciones.
@@ -197,12 +220,24 @@ public class TurnEvaluator {
                     TurnStatus.PENDING, 0);
         }
         session.registerActivity(clock);
+        boolean evaluating = position == InterviewQuestion.TOTAL && closeIfComplete(session);
         sessions.save(session);
         boolean finished = next == null;
         AnswerResult outcome = new AnswerResult(turn.id(), TurnStatus.COMPLETED,
                 finished ? InterviewQuestion.TOTAL : position + 1, InterviewQuestion.TOTAL, next, finished);
         job.recorder().succeeded(outcome);
-        return outcome;
+        return new Saved(outcome, evaluating);
+    }
+
+    // Después de guardar la quinta respuesta, dentro de la misma transacción: pasa a evaluación si hay cinco completos.
+    private boolean closeIfComplete(InterviewSession session) {
+        int completed = turns.countCompleted(session.id());
+        boolean closed = session.closeIfComplete(completed, clock);
+        if (!closed) {
+            log.warn("Pregunta 5 completada sin cinco turnos completos [sessionId={}, turnosCompletos={}]",
+                    session.id(), completed);
+        }
+        return closed;
     }
 
     /**

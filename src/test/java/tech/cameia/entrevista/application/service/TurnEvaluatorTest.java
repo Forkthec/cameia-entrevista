@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +40,7 @@ import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
+import tech.cameia.entrevista.domain.exception.SessionConsolidationFailedException;
 import tech.cameia.entrevista.domain.model.AiExecution;
 import tech.cameia.entrevista.domain.model.AnswerMode;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
@@ -75,6 +78,8 @@ class TurnEvaluatorTest {
     private final AiExecutionRepository executions = mock(AiExecutionRepository.class);
     private final TurnFeedbackRepository feedbacks = mock(TurnFeedbackRepository.class);
     private final TransactionTemplate transaction = mock(TransactionTemplate.class);
+    private final ConsolidateSessionService consolidation = mock(ConsolidateSessionService.class);
+    private final AtomicBoolean inTransaction = new AtomicBoolean();
     private final Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
 
     private TurnEvaluator evaluator;
@@ -96,8 +101,14 @@ class TurnEvaluatorTest {
             planned.add(new InterviewQuestion(UUID.randomUUID(), session.id(), position, QuestionType.TECNICA,
                     "Pregunta " + position, execution, NOW));
         }
-        when(transaction.execute(any())).thenAnswer(call ->
-                ((TransactionCallback<?>) call.getArgument(0)).doInTransaction(null));
+        when(transaction.execute(any())).thenAnswer(call -> {
+            inTransaction.set(true);
+            try {
+                return ((TransactionCallback<?>) call.getArgument(0)).doInTransaction(null);
+            } finally {
+                inTransaction.set(false);
+            }
+        });
         doAnswer(call -> {
             ((Consumer<Object>) call.getArgument(0)).accept(null);
             return null;
@@ -110,7 +121,7 @@ class TurnEvaluatorTest {
         when(feedbacks.save(any())).thenAnswer(call -> call.getArgument(0));
         evaluator = new TurnEvaluator(model, new EvaluationPromptBuilder(),
                 new EvaluationOutputReader(JsonMapper.builder().build()), turns, questions, sessions, executions,
-                feedbacks, transaction, clock);
+                feedbacks, consolidation, transaction, clock);
     }
 
     private EvaluationJob job(int position) {
@@ -125,6 +136,21 @@ class TurnEvaluatorTest {
 
     private void modelReturns(String text) {
         when(model.generate(any())).thenReturn(new LanguageModelResponse(text, 10, 5, "modelo"));
+    }
+
+    @Test
+    @DisplayName("Si la sesión cambia justo al guardar el resultado, la ejecución se cierra como fallida")
+    void evaluate_shouldCloseExecution_whenSessionConflictsWhileSaving() {
+        modelReturns(VALID);
+        EvaluationJob job = job(1);
+        when(sessions.save(any()))
+                .thenThrow(new tech.cameia.entrevista.domain.exception.SessionConflictException());
+
+        assertThatThrownBy(() -> evaluator.evaluate(job))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+
+        // La transacción real se deshace; con los repositorios simulados basta ver que la ejecución se cerró.
+        assertThat(failedExecution().errorCode()).isEqualTo(ErrorCode.SESSION_CONFLICT.name());
     }
 
     private AiExecution failedExecution() {
@@ -210,6 +236,80 @@ class TurnEvaluatorTest {
         ArgumentCaptor<InterviewTurn> saved = ArgumentCaptor.forClass(InterviewTurn.class);
         verify(turns).save(saved.capture());
         assertThat(saved.getAllValues()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Al completar la pregunta 5 la sesión pasa a evaluación en la misma transacción")
+    void evaluate_shouldStartEvaluationInSameTransaction_whenFifthCompleted() {
+        modelReturns(VALID);
+        when(turns.countCompleted(session.id())).thenReturn(5);
+        List<Boolean> savedInsideTransaction = new ArrayList<>();
+        List<SessionStatus> savedStatus = new ArrayList<>();
+        when(sessions.save(any())).thenAnswer(call -> {
+            savedInsideTransaction.add(inTransaction.get());
+            savedStatus.add(call.<InterviewSession>getArgument(0).status());
+            return call.getArgument(0);
+        });
+
+        evaluator.evaluate(job(5));
+
+        assertThat(savedInsideTransaction).containsExactly(true);
+        assertThat(savedStatus).containsExactly(SessionStatus.EVALUATING);
+        assertThat(session.finishedAt()).isNull();
+    }
+
+    @Test
+    @DisplayName("Al completar la pregunta 5 pide la consolidación una vez, ya fuera de la transacción")
+    void evaluate_shouldConsolidateAfterCommit_whenFifthCompleted() {
+        modelReturns(VALID);
+        when(turns.countCompleted(session.id())).thenReturn(5);
+        List<Boolean> insideTransaction = new ArrayList<>();
+        doAnswer(call -> {
+            insideTransaction.add(inTransaction.get());
+            return null;
+        }).when(consolidation).consolidate(any(), any());
+
+        evaluator.evaluate(job(5));
+
+        verify(consolidation).consolidate(session.id(), OWNER);
+        assertThat(insideTransaction).containsExactly(false);
+    }
+
+    @Test
+    @DisplayName("Si la consolidación falla, la respuesta sigue siendo válida y la sesión queda evaluándose")
+    void evaluate_shouldKeepAnswer_whenConsolidationFails() {
+        modelReturns(VALID);
+        when(turns.countCompleted(session.id())).thenReturn(5);
+        doThrow(new SessionConsolidationFailedException()).when(consolidation).consolidate(any(), any());
+
+        AnswerResult result = evaluator.evaluate(job(5));
+
+        assertThat(result.interviewFinished()).isTrue();
+        assertThat(turn.status()).isEqualTo(TurnStatus.COMPLETED);
+        assertThat(session.status()).isEqualTo(SessionStatus.EVALUATING);
+    }
+
+    @Test
+    @DisplayName("Al completar la pregunta 4 la sesión sigue en curso y no se consolida")
+    void evaluate_shouldStayInProgress_whenQuestionFourCompleted() {
+        modelReturns(VALID);
+
+        evaluator.evaluate(job(4));
+
+        assertThat(session.status()).isEqualTo(SessionStatus.IN_PROGRESS);
+        verify(consolidation, never()).consolidate(any(), any());
+    }
+
+    @Test
+    @DisplayName("Con la pregunta 5 completada pero solo cuatro turnos completos, la sesión sigue en curso")
+    void evaluate_shouldStayInProgress_whenCountBelowFive() {
+        modelReturns(VALID);
+        when(turns.countCompleted(session.id())).thenReturn(4);
+
+        evaluator.evaluate(job(5));
+
+        assertThat(session.status()).isEqualTo(SessionStatus.IN_PROGRESS);
+        verify(consolidation, never()).consolidate(any(), any());
     }
 
     @Test
