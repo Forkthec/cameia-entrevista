@@ -216,7 +216,7 @@ class BusinessExceptionHandler {
     @ExceptionHandler(LlmInvalidOutputException.class)
     ProblemDetail modelInvalidOutput(LlmInvalidOutputException error) {
         return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
-                "Plan de preguntas inválido: " + error.getReason(), error);
+                "Salida del modelo de lenguaje inválida: " + error.getReason(), error);
     }
 
     /**

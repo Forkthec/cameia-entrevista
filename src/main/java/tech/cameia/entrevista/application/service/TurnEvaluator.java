@@ -83,9 +83,52 @@ public class TurnEvaluator {
      * @param question pregunta del turno
      * @param answer respuesta de la persona
      * @param mark ejecución de la IA abierta para esta evaluación
+     * @param recorder quien guarda el resultado en la clave de idempotencia, dentro de la misma transacción que
+     *        cierra la evaluación
      */
     public record EvaluationJob(InterviewSession session, InterviewTurn turn, InterviewQuestion question,
-            String answer, AiExecution mark) {
+            String answer, AiExecution mark, KeyRecorder recorder) {
+
+        /** Trabajo sin clave de idempotencia, como el de reintentar. */
+        public EvaluationJob(InterviewSession session, InterviewTurn turn, InterviewQuestion question, String answer,
+                AiExecution mark) {
+            this(session, turn, question, answer, mark, KeyRecorder.NONE);
+        }
+    }
+
+    /**
+     * Guarda el resultado de la evaluación en la clave de idempotencia de la petición. Se llama dentro de la
+     * transacción que cierra la evaluación, para que una repetición nunca vea el turno resuelto con la clave todavía
+     * en proceso.
+     */
+    public interface KeyRecorder {
+
+        /** Registrador de las evaluaciones que no tienen clave. */
+        KeyRecorder NONE = new KeyRecorder() {
+            @Override
+            public void succeeded(AnswerResult result) {
+                // Sin clave: nada que guardar.
+            }
+
+            @Override
+            public void failed(ErrorCode code) {
+                // Sin clave: nada que guardar.
+            }
+        };
+
+        /**
+         * Guarda el resultado exitoso.
+         *
+         * @param result avance que se devuelve a la persona
+         */
+        void succeeded(AnswerResult result);
+
+        /**
+         * Guarda el fallo previsto con el que termina la evaluación.
+         *
+         * @param code código del fallo
+         */
+        void failed(ErrorCode code);
     }
 
     /**
@@ -156,8 +199,10 @@ public class TurnEvaluator {
         session.registerActivity(clock);
         sessions.save(session);
         boolean finished = next == null;
-        return new AnswerResult(turn.id(), TurnStatus.COMPLETED, finished ? InterviewQuestion.TOTAL : position + 1,
-                InterviewQuestion.TOTAL, next, finished);
+        AnswerResult outcome = new AnswerResult(turn.id(), TurnStatus.COMPLETED,
+                finished ? InterviewQuestion.TOTAL : position + 1, InterviewQuestion.TOTAL, next, finished);
+        job.recorder().succeeded(outcome);
+        return outcome;
     }
 
     /**
@@ -169,6 +214,7 @@ public class TurnEvaluator {
         try {
             transaction.executeWithoutResult(status -> {
                 executions.failIfInProgress(job.mark().failed(code, clock));
+                job.recorder().failed(code);
                 InterviewTurn turn = turns.findById(job.turn().id()).orElseThrow(IllegalStateException::new);
                 if (turn.status() == TurnStatus.PROCESSING) {
                     turn.retry(clock);

@@ -134,6 +134,45 @@ class TurnEvaluatorTest {
     }
 
     @Test
+    @DisplayName("Una evaluación válida guarda el resultado en la clave dentro de la misma transacción")
+    void evaluate_shouldRecordKeyResult_insideTheSameTransaction() {
+        modelReturns(VALID);
+        TurnEvaluator.KeyRecorder recorder = mock(TurnEvaluator.KeyRecorder.class);
+        EvaluationJob base = job(2);
+
+        AnswerResult result = evaluator.evaluate(new EvaluationJob(base.session(), base.turn(), base.question(),
+                base.answer(), base.mark(), recorder));
+
+        verify(recorder).succeeded(result);
+        verify(recorder, never()).failed(any());
+    }
+
+    @Test
+    @DisplayName("Una evaluación fallida guarda el código del fallo en la clave al dejar el turno en reintento")
+    void evaluate_shouldRecordKeyFailure_whenModelFails() {
+        when(model.generate(any())).thenThrow(new LlmUnavailableException(null));
+        TurnEvaluator.KeyRecorder recorder = mock(TurnEvaluator.KeyRecorder.class);
+        EvaluationJob base = job(2);
+
+        assertThatThrownBy(() -> evaluator.evaluate(new EvaluationJob(base.session(), base.turn(), base.question(),
+                base.answer(), base.mark(), recorder))).isInstanceOf(LlmUnavailableException.class);
+
+        verify(recorder).failed(ErrorCode.LLM_UNAVAILABLE);
+        verify(recorder, never()).succeeded(any());
+    }
+
+    @Test
+    @DisplayName("Una evaluación sin clave no guarda nada en ella")
+    void evaluate_shouldIgnoreKey_whenJobHasNoRecorder() {
+        TurnEvaluator.KeyRecorder none = TurnEvaluator.KeyRecorder.NONE;
+
+        none.succeeded(null);
+        none.failed(ErrorCode.LLM_UNAVAILABLE);
+
+        assertThat(none).isNotNull();
+    }
+
+    @Test
     @DisplayName("Una evaluación válida de la pregunta 2 completa el turno y abre el de la pregunta 3")
     void evaluate_shouldCompleteAndOpenNext_whenValid() {
         modelReturns(VALID);

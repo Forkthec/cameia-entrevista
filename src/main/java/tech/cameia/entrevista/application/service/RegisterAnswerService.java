@@ -74,6 +74,7 @@ public class RegisterAnswerService {
     private static final String PENDING_BODY = "{}";
     private static final Duration POLL = Duration.ofMillis(250);
     private static final String LLM_PREFIX = "LLM_";
+    private static final String SESSION_PREFIX = "SESSION_";
 
     private final AnswerRequestPolicy policy = new AnswerRequestPolicy();
     private final InterviewSessionRepository sessions;
@@ -116,9 +117,8 @@ public class RegisterAnswerService {
     /**
      * Registra la respuesta, la evalúa y devuelve el avance de la entrevista.
      *
-     * <p>Si la evaluación termina pero la base falla al guardar la clave con su resultado, se registra el error y se
-     * devuelve igual el resultado: la respuesta y su evaluación ya quedaron guardadas, y una repetición con la misma
-     * clave la resuelve el estado del turno.</p>
+     * <p>El resultado se guarda en la clave dentro de la misma transacción que cierra la evaluación; si esa
+     * transacción falla, la clave queda en proceso y una repetición la resuelve el estado del turno.</p>
      *
      * @param command sesión, turno, texto y clave de idempotencia
      * @return el avance: el turno completado y la pregunta siguiente
@@ -167,7 +167,7 @@ public class RegisterAnswerService {
         }
         log.info("Respuesta registrada [sessionId={}, turnId={}, numero={}]", session.id(), turn.id(),
                 question.position());
-        return evaluate(reservation, request, owner);
+        return evaluate(reservation);
     }
 
     // ---- Transacción 1: reserva ----
@@ -200,40 +200,39 @@ public class RegisterAnswerService {
                 EvaluationPromptBuilder.VERSION, PROVIDER, clock));
         session.registerActivity(clock);
         sessions.save(session);
-        return new Reservation(keyId, now,
-                new EvaluationJob(session, processing, question, request.answerText(), mark));
+        return new Reservation(new EvaluationJob(session, processing, question, request.answerText(), mark,
+                keyRecorder(new IdempotencyKey(keyId, owner, OPERATION, request.idempotencyKey(),
+                        request.fingerprint(), IN_PROGRESS_STATUS, PENDING_BODY, now))), now);
     }
 
     // ---- Evaluación y cierre de la clave ----
 
-    private AnswerResult evaluate(Reservation reservation, ValidatedAnswerRequest request, FirebaseUid owner) {
-        AnswerResult result;
-        try {
-            result = evaluator.evaluate(reservation.job());
-        } catch (SessionAbandonedException | SessionAlreadyClosedException
-                | SessionTransitionNotAllowedException closed) {
-            saveKey(reservation, owner, request, SESSION_CLOSED_STATUS, errorBody(closed.getErrorCode()));
-            throw closed;
-        } catch (BusinessException failure) {
-            if (failure.getErrorCode().name().startsWith(LLM_PREFIX)) {
-                saveKey(reservation, owner, request, LLM_FAILED_STATUS, errorBody(failure.getErrorCode()));
-            }
-            throw failure;
-        }
-        saveKey(reservation, owner, request, OK_STATUS, json.writeValueAsString(StoredAnswer.of(result)));
-        return result;
+    private AnswerResult evaluate(Reservation reservation) {
+        return evaluator.evaluate(reservation.job());
     }
 
-    // Si no se puede guardar, la clave queda en 202 y su repetición la resuelve el estado del turno.
-    private void saveKey(Reservation reservation, FirebaseUid owner, ValidatedAnswerRequest request, int status,
-            String body) {
-        try {
-            keys.save(new IdempotencyKey(reservation.keyId(), owner, OPERATION, request.idempotencyKey(),
-                    request.fingerprint(), status, body, reservation.createdAt()));
-        } catch (RuntimeException failure) {
-            log.error("No se pudo guardar el resultado de la clave de idempotencia [code={}, turnId={}, causa={}]",
-                    ErrorCode.DATABASE_UNAVAILABLE, request.turnId(), failure.getClass().getSimpleName());
-        }
+    // Guarda el resultado en la clave dentro de la transacción del evaluador.
+    private TurnEvaluator.KeyRecorder keyRecorder(IdempotencyKey reserved) {
+        return new TurnEvaluator.KeyRecorder() {
+            @Override
+            public void succeeded(AnswerResult result) {
+                store(OK_STATUS, json.writeValueAsString(StoredAnswer.of(result)));
+            }
+
+            @Override
+            public void failed(ErrorCode code) {
+                if (code.name().startsWith(LLM_PREFIX)) {
+                    store(LLM_FAILED_STATUS, errorBody(code));
+                } else if (code.name().startsWith(SESSION_PREFIX)) {
+                    store(SESSION_CLOSED_STATUS, errorBody(code));
+                }
+            }
+
+            private void store(int status, String body) {
+                keys.save(new IdempotencyKey(reserved.id(), reserved.owner(), OPERATION, reserved.key(),
+                        reserved.requestFingerprint(), status, body, reserved.createdAt()));
+            }
+        };
     }
 
     private String errorBody(ErrorCode code) {
@@ -311,7 +310,7 @@ public class RegisterAnswerService {
         };
     }
 
-    private record Reservation(UUID keyId, Instant createdAt, EvaluationJob job) {
+    private record Reservation(EvaluationJob job, Instant createdAt) {
     }
 
     /** Cuerpo guardado de una respuesta exitosa: un registro plano, sin tipos polimórficos. */

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -119,7 +120,7 @@ class RegisterAnswerServiceTest {
         when(answers.save(any())).thenAnswer(call -> call.getArgument(0));
         when(executions.save(any())).thenAnswer(call -> call.getArgument(0));
         when(executions.findEvaluationInProgress(any())).thenAnswer(call -> Optional.empty());
-        when(evaluator.evaluate(any())).thenReturn(result());
+        evaluatorReturns(result());
         service = build(new InMemoryKeys());
     }
 
@@ -139,6 +140,21 @@ class RegisterAnswerServiceTest {
                 InterviewLanguage.SPANISH_COLOMBIA), earlier);
         created.start(earlier);
         return created;
+    }
+
+    // Como el evaluador real: guarda el resultado en la clave antes de devolverlo o relanzar.
+    private void evaluatorReturns(AnswerResult outcome) {
+        doAnswer(call -> {
+            call.<TurnEvaluator.EvaluationJob>getArgument(0).recorder().succeeded(outcome);
+            return outcome;
+        }).when(evaluator).evaluate(any());
+    }
+
+    private void evaluatorFails(tech.cameia.entrevista.domain.exception.BusinessException failure) {
+        doAnswer(call -> {
+            call.<TurnEvaluator.EvaluationJob>getArgument(0).recorder().failed(failure.getErrorCode());
+            throw failure;
+        }).when(evaluator).evaluate(any());
     }
 
     private AnswerResult result() {
@@ -228,13 +244,13 @@ class RegisterAnswerServiceTest {
     @Test
     @DisplayName("La respuesta queda guardada y el turno procesando antes de llamar al modelo, sin transacción abierta")
     void register_shouldCommitAnswerBeforeCallingModel() {
-        when(evaluator.evaluate(any())).thenAnswer(call -> {
+        doAnswer(call -> {
             verify(answers).save(any(AnswerAttempt.class));
             assertThat(turn.status()).isEqualTo(TurnStatus.PROCESSING);
             assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isFalse();
             assertThat(stored().responseStatus()).isEqualTo(202);
             return result();
-        });
+        }).when(evaluator).evaluate(any());
 
         service.register(command());
 
@@ -255,7 +271,7 @@ class RegisterAnswerServiceTest {
     @Test
     @DisplayName("Guarda la clave con 503 y relanza cuando el modelo falla")
     void register_shouldStoreKeyWith503AndRethrow_whenModelFails() {
-        when(evaluator.evaluate(any())).thenThrow(new LlmLimitReachedException(null));
+        evaluatorFails(new LlmLimitReachedException(null));
 
         assertThatThrownBy(() -> service.register(command())).isInstanceOf(LlmLimitReachedException.class);
 
@@ -277,7 +293,7 @@ class RegisterAnswerServiceTest {
     @Test
     @DisplayName("Repetir la petición con una clave en 503 repite el mismo error sin llamar al modelo")
     void register_shouldReplay503() {
-        when(evaluator.evaluate(any())).thenThrow(new LlmInvalidOutputException("x"));
+        evaluatorFails(new LlmInvalidOutputException("x"));
         assertThatThrownBy(() -> service.register(command())).isInstanceOf(LlmInvalidOutputException.class);
         turn.retry(clock);
 
@@ -387,7 +403,7 @@ class RegisterAnswerServiceTest {
     @Test
     @DisplayName("Si la sesión se abandona mientras se evalúa, guarda la clave con 409 y relanza")
     void register_shouldStoreKeyWith409AndRethrow_whenSessionAbandonedMeanwhile() {
-        when(evaluator.evaluate(any())).thenThrow(new SessionAbandonedException());
+        evaluatorFails(new SessionAbandonedException());
 
         assertThatThrownBy(() -> service.register(command())).isInstanceOf(SessionAbandonedException.class);
 
@@ -398,7 +414,7 @@ class RegisterAnswerServiceTest {
     @Test
     @DisplayName("Repetir una clave en 409 repite el mismo error")
     void register_shouldReplay409() {
-        when(evaluator.evaluate(any())).thenThrow(new SessionAlreadyClosedException());
+        evaluatorFails(new SessionAlreadyClosedException());
         assertThatThrownBy(() -> service.register(command())).isInstanceOf(SessionAlreadyClosedException.class);
 
         assertThatThrownBy(() -> service.register(command())).isInstanceOf(SessionAlreadyClosedException.class);
@@ -419,7 +435,7 @@ class RegisterAnswerServiceTest {
     @Test
     @DisplayName("Si la segunda transacción falla, el turno queda procesando y la clave en 202 para recuperarlo")
     void register_shouldLeaveRecoverableTurn_whenSecondTransactionFails() {
-        when(evaluator.evaluate(any())).thenThrow(new DatabaseUnavailableException(new RuntimeException()));
+        doThrow(new DatabaseUnavailableException(new RuntimeException())).when(evaluator).evaluate(any());
 
         assertThatThrownBy(() -> service.register(command())).isInstanceOf(DatabaseUnavailableException.class);
 
