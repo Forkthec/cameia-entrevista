@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P4-C",
+  "corrida" : 3,
+  "ms" : 1054,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 120,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato no responde a la pregunta sobre el diseño de casos de prueba y desvía la conversación hacia otro tema.\",\n  \"follow_up_texto\": \"Por favor, vuelve a la pregunta original. ¿Cómo aplicarías específicamente la partición de equivalencia y el análisis de valores límite para diseñar los casos de prueba de este formulario?\",\n  \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

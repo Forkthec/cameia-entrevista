@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 1,
+  "ms" : 572,
+  "tokensEntrada" : 755,
+  "tokensSalida" : 99,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Buen diseño que cubre persistencia atómica, durabilidad y manejo de errores/integridad.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta propone un mecanismo robusto y estándar (Outbox Pattern + cola duradera) que garantiza la no pérdida de mensajes mediante atomicidad y control de reintentos/idempotencia.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-A",
+  "corrida" : 2,
+  "ms" : 1210,
+  "tokensEntrada" : 760,
+  "tokensSalida" : 102,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre la persistencia, el patrón transactional outbox, la gestión de reintentos con backoff, la cola de mensajes muertos y la idempotencia.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta sólida que cubre los aspectos críticos de arquitectura, fiabilidad e idempotencia en sistemas distribuidos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

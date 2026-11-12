@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-03",
+  "corrida" : 1,
+  "ms" : 595,
+  "tokensEntrada" : 675,
+  "tokensSalida" : 158,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La respuesta no aborda el contenido técnico solicitado. Necesitas proporcionar una explicación de los mecanismos involucrados (versiones, reintentos, locks) y el contexto de uso para este tema.\", \"follow_up_texto\": \"Por favor, explica brevemente cómo funciona un bloqueo optimista (control de versiones) frente a una transacción con bloqueo pesimista, y da un ejemplo de caso de uso para cada uno en una aplicación empresarial.\", \"motivo\": \"El candidato respondió 'No sé', lo cual constituye una esquiva explícita a la pregunta técnica. No se puede avanzar sin validar el conocimiento o intentar una segunda oportunidad más guiada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

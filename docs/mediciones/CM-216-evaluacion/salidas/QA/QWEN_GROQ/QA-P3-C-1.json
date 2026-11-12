@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-C",
+  "corrida" : 1,
+  "ms" : 1397,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 185,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La falta de experiencia no justifica no responder. El objetivo es evaluar tu方法论 ante la incertidumbre y el presión, no tu historial perfecto.\", \"follow_up_texto\": \"Entiendo que escribes que nunca te ha ocurrido o que lo resolviste antes de que fuera crítico. Sin embargo, necesito que me des un ejemplo concreto donde te encontraste con un riesgo o un bug importante en una fase avanzada. ¿Cómo priorizaste las tareas, qué medidas mitigadoras tomaste y cómo comunicaste la situación al equipo o a stakeholders?\", \"motivo\": \"El candidato esquiva la pregunta asking para no responder porque afirma que nunca le ha pasado, sin ofrecer un ejemplo hipotético ni un caso cercano, lo cual evita evaluar su capacidad real de gestión de incidentes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

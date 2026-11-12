@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-A",
+  "corrida" : 2,
+  "ms" : 764,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 104,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta adecuada: prioriza la evidencia objetiva y la consulta al dueño del producto para resolver ambigüedades, evitando conflictos personales.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un proceso claro y profesional para manejar el desacuerdo, centrado en la verificación contra las especificaciones y la burocracia adecuada para resolver la ambigüedad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

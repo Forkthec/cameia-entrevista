@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 2,
+  "ms" : 914,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 148,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general y no diferencia los mecanismos técnicos. No menciona ACID ni la gestión de conflictos mediante versionado.\", \"follow_up_texto\": \"Explícame los principios ACID que garantiza una transacción. Luego, describe cómo implementa el control de concurrencia un bloqueo optimista (por ejemplo, con columnas de versión) y cita un caso concreto donde elegirías uno sobre el otro.\", \"motivo\": \"El candidato define ambos conceptos con generalidades extremas, omite los mecanismos técnicos (ACID, versionado, timestamps) y no justifica la elección entre ambos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

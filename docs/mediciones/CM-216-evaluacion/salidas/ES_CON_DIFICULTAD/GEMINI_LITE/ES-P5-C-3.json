@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-C",
+  "corrida" : 3,
+  "ms" : 1050,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 102,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder la pregunta y adopta una postura no profesional.\",\n  \"follow_up_texto\": \"Por favor, deja de lado esa postura y responde cómo resolverías el incidente paso a paso en un entorno de producción.\",\n  \"feedback\": \"La actitud mostrada no es aceptable en un entorno profesional.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

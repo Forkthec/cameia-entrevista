@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 2,
+  "ms" : 835,
+  "tokensEntrada" : 695,
+  "tokensSalida" : 90,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta es concisa y contiene la experiencia técnica y la motivación solicitadas para iniciar la entrevista.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato responde directamente a la pregunta, detallando su perfil técnico (Java/Spring), un logro concreto y su motivación específica para el rol.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

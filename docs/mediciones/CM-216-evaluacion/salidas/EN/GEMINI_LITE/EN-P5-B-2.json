@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P5-B",
+  "corrida" : 2,
+  "ms" : 1038,
+  "tokensEntrada" : 672,
+  "tokensSalida" : 125,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona acciones generales pero carece de un proceso estructurado de troubleshooting para incidentes en produccion.\",\n  \"follow_up_texto\": \"Mencionaste revisar logs y reiniciar el servicio. Detalla cómo identificas el error exacto en los logs y qué métricas o herramientas revisas antes de tomar la decisión de reiniciar.\",\n  \"feedback\": \"Es necesario un plan de mitigación y diagnóstico más estructurado y seguro para entornos de producción.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

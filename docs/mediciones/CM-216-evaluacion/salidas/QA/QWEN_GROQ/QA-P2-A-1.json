@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P2-A",
+  "corrida" : 1,
+  "ms" : 850,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 77,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Definiciones precisas y criterios de ejecución correctos.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta define claramente ambos tipos de pruebas, destaca la diferencia en cobertura vs. velocidad y asigna los momentos de ejecución adecuados.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

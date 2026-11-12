@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P2-B",
+  "corrida" : 2,
+  "ms" : 1040,
+  "tokensEntrada" : 659,
+  "tokensSalida" : 121,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general, carece de precision tecnica y no explica los objetivos especificos ni los escenarios de ejecucion de cada prueba.\",\n  \"follow_up_texto\": \"Podrias detallar los objetivos especificos de cada una y en que momento exacto del ciclo de desarrollo se ejecuta cada una?\",\n  \"feedback\": \"Tus definiciones son superficiales; debes precisar el proposito y el momento de ejecucion de cada prueba.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

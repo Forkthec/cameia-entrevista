@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P3-B",
+  "corrida" : 2,
+  "ms" : 1391,
+  "tokensEntrada" : 673,
+  "tokensSalida" : 124,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta carece de detalles técnicos concretos sobre la naturaleza del defecto, el proceso de análisis, la estrategia de mitigación y el resultado medible.\",\n  \"follow_up_texto\": \"¿Cuál era la naturaleza exacta del defecto y qué pasos específicos tomaste para diagnosticarlo y coordinar su resolución antes de la entrega?\",\n  \"feedback\": \"La respuesta es demasiado general y no describe tu rol específico ni el impacto técnico de la situación.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P4-B",
+  "corrida" : 2,
+  "ms" : 1049,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 112,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"motivo\": \"El candidato menciona los conceptos generales pero no especifica particiones de equivalencia ni valores límite concretos para cada campo.\", \"follow_up_texto\": \"Podrías detallar qué particiones de equivalencia y valores límite específicos aplicarías exactamente para el campo de la contraseña y la fecha de nacimiento?\", \"feedback\": \"La respuesta menciona los campos pero carece del rigor técnico requerido en partición de equivalencia y análisis de valores límite.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

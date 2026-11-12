@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 3,
+  "ms" : 743,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 107,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Definición y criterio de selección precisos. Responde correctamente a ambos aspectos de la pregunta.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato define correctamente ambos conceptos, explica el mecanismo de control de concurrencia (aislamiento por bloqueo vs. control de versión) y proporciona un criterio claro para elegir cuándo usar cada uno, cumpliendo con el nivel de detalle requerido.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

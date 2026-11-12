@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P1-C",
+  "corrida" : 2,
+  "ms" : 1205,
+  "tokensEntrada" : 643,
+  "tokensSalida" : 113,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se negó a responder la pregunta personal y exigió cambiar el tema.\",\n  \"follow_up_texto\": \"Entiendo tu preferencia por los temas técnicos, pero necesito que respondas brevemente sobre tu trayectoria y tu motivación para este puesto antes de continuar con la parte técnica.\",\n  \"feedback\": \"Es importante responder a todas las preguntas de la entrevista, incluidas las introductorias.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

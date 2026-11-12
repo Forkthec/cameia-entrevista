@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-C",
+  "corrida" : 3,
+  "ms" : 1292,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 124,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la responsabilidad de resolver discrepancias técnicas y descarta el defecto sin argumentar ni buscar un acuerdo con el equipo.\",\n  \"follow_up_texto\": \"¿Cómo fundamentarías técnicamente tu postura frente al equipo de desarrollo y qué pasos seguirías para llegar a un consenso sobre si el comportamiento actual es un defecto o no?\",\n  \"feedback\": \"La respuesta no aborda la gestión de desacuerdos técnicos con el equipo.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

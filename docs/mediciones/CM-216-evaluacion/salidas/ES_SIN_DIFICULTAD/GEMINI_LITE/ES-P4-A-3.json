@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-A",
+  "corrida" : 3,
+  "ms" : 23471,
+  "tokensEntrada" : 752,
+  "tokensSalida" : 86,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato aborda correctamente la persistencia mediante outbox pattern, colas durables, manejo de reintentos y idempotencia.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta correcta y bien estructurada que cubre los puntos clave de arquitectura asíncrona y tolerancia a fallos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

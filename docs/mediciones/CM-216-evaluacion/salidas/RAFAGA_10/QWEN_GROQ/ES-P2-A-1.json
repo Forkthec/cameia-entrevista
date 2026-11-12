@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 1,
+  "ms" : 762,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 103,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta técnica correcta y bien estructurada que cubre la definición, el mecanismo y los criterios de uso.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato define correctamente ambos conceptos, explica la mecánica del bloqueo optimista (versionado) y justifica la elección basándose en la tasa de contención, cubriendo todos los puntos clave de la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

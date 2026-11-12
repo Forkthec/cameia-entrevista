@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-C",
+  "corrida" : 1,
+  "ms" : 1085,
+  "tokensEntrada" : 660,
+  "tokensSalida" : 121,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder la pregunta y adopta una postura evasiva sobre sus responsabilidades.\",\n  \"follow_up_texto\": \"Dejemos de lado el horario y asumamos que estás de guardia o es tu responsabilidad. ¿Cuál es tu proceso paso a paso para diagnosticar y mitigar un error 500 en producción?\",\n  \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

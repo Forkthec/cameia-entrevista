@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P2-B",
+  "corrida" : 2,
+  "ms" : 1391,
+  "tokensEntrada" : 658,
+  "tokensSalida" : 128,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es superficial, no explica los mecanismos de control de concurrencia ni diferencia claramente el contexto de uso de ambos conceptos.\",\n  \"follow_up_texto\": \"Podrías detallar cómo funciona el mecanismo de optimistic locking a nivel técnico, por ejemplo usando una columna de versión, y en qué escenario específico preferirías transacciones ACID frente a optimistic locking?\",\n  \"feedback\": \"La respuesta carece de los detalles técnicos necesarios para una pregunta de nivel difícil.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P5-A",
+  "corrida" : 1,
+  "ms" : 868,
+  "tokensEntrada" : 734,
+  "tokensSalida" : 124,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"INCOMPLETA\", \"feedback\": \"Falta mencionar la comunicación proactiva con stakeholders o el monitoreo continuo durante el despliegue de la solución.\", \"follow_up_texto\": \"¿Cómo manejarías la comunicación con los usuarios o stakeholders si el rollback demora más de lo esperado o no resuelve el problema? Describe el proceso de actualización de estado.\", \"motivo\": \"La respuesta omite detalles clave sobre la comunicación de incidentes y el manejo de escenarios donde el rollback no es inmediato o efectivo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

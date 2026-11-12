@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 3,
+  "ms" : 761,
+  "tokensEntrada" : 755,
+  "tokensSalida" : 125,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Diseño sólido y concreto. Cobre los puntos clave: persistencia previa a la publicación (outbox/publisher), durabilidad, manejo de errores con dead-letter y idempotencia.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre los requisitos esenciales para no perder mensajes (persistencia en base de datos o cola duradera, confirmaciones, reintentos, manejo de errores e idempotencia) con suficiente detalle técnico para la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

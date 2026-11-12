@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 1,
+  "ms" : 729,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 91,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta concreta y basada en datos, valida el criterio técnico sobre el costo de oportunidad.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un conflicto técnico real, detalla el método de resolución basado en métricas y ofrece un resultado cuantificado, cumpliendo con los requisitos de la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

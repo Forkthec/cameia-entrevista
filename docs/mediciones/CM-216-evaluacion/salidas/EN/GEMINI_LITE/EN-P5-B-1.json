@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P5-B",
+  "corrida" : 1,
+  "ms" : 1309,
+  "tokensEntrada" : 672,
+  "tokensSalida" : 129,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona acciones basicas como revisar logs y reiniciar, pero carece de un procedimiento estructurado para incidentes en produccion.\",\n  \"follow_up_texto\": \"Podrias detallar los pasos especificos que seguirias para identificar la causa raiz en los logs y que precauciones tomarias antes de decidir reiniciar el servicio?\",\n  \"feedback\": \"Es necesario un enfoque mas metodico y estructurado para la resolucion de incidentes en entornos productivos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

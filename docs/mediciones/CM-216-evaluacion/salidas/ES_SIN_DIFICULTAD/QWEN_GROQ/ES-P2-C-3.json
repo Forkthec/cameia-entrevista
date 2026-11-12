@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-C",
+  "corrida" : 3,
+  "ms" : 919,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 134,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"No respondiste a la pregunta técnica. El contexto histórico de las BD y tu experiencia con GUIs no son pertinentes aquí.\", \"follow_up_texto\": \"Por favor, explícalo técnicamente: ¿cómo se diferencian una transacción ACID y un bloqueo optimista (por ejemplo, mediante versión o timestamp) y en qué situaciones de concurrencia preferirías cada enfoque?\", \"motivo\": \"El candidato no aborda la diferencia técnica solicitada, sino que habla de historia y experiencia con interfaces gráficas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

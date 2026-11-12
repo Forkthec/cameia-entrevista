@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-C",
+  "corrida" : 2,
+  "ms" : 1072,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 127,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato esquiva la pregunta afirmando que no recuerda ninguna situación y evitando dar un ejemplo.\",\n  \"follow_up_texto\": \"Es fundamental saber cómo manejas los desacuerdos técnicos. Piensa en alguna ocasión donde las opiniones diferían, aunque no haya sido una discusión fuerte, y cuéntame cómo lo resolvieron.\",\n  \"feedback\": \"Evitar la pregunta no demuestra habilidades de resolución de conflictos. Es necesario que aportes un ejemplo real.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 2,
+  "ms" : 653,
+  "tokensEntrada" : 701,
+  "tokensSalida" : 74,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta práctica y alineada con las necesidades técnicas del rol.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato presenta su experiencia relevante y motivos concretos de interés, cumpliendo con lo solicitado para una pregunta de presentación.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

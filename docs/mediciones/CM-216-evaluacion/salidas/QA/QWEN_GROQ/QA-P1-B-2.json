@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-B",
+  "corrida" : 2,
+  "ms" : 815,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 133,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de sustancia técnica. Mencionas generales sin dar ejemplos concretos de metodologías (automatización vs. manual), herramientas específicas o métricas de calidad.\", \"follow_up_texto\": \"¿Qué herramientas concretas has utilizado para automatizar pruebas? ¿Podrías dar un ejemplo específico de un error crítico que detectaste y cómo impactó el desarrollo de la función probarlo?\", \"motivo\": \"El candidato da una respuesta superficial sin detalles técnicos, herramientas específicas o ejemplos concretos de su experiencia.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

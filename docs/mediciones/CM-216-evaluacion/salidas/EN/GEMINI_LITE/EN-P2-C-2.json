@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P2-C",
+  "corrida" : 2,
+  "ms" : 1174,
+  "tokensEntrada" : 652,
+  "tokensSalida" : 110,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"motivo\": \"El candidato no responde a la pregunta técnica y habla de la historia de las bases de datos y su experiencia con interfaces.\", \"follow_up_texto\": \"Por favor, céntrate en la pregunta: ¿cuál es la diferencia entre una transacción de base de datos y el bloqueo optimista, y en qué casos usarías cada uno?\", \"feedback\": \"La respuesta no aborda los conceptos técnicos solicitados.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

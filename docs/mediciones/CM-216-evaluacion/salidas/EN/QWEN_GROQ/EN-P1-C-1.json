@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-C",
+  "corrida" : 1,
+  "ms" : 1901,
+  "tokensEntrada" : 646,
+  "tokensSalida" : 144,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Este es un screening. La pregunta evalúa tu comunicación y encaje, no tu conocimiento de Docker ni otros temas técnicos.\", \"follow_up_texto\": \"Parece que prefieres evitar esta parte del proceso. Si no puedes darme una respuesta sobre tu motivación, por qué no me cuentas directamente cuál es tu experiencia en desarrollo de backend y por qué sientes que este es el lugar correcto para ti?\", \"motivo\": \"El candidato evitó el introducción personal de forma explícita y cambió de tema a una pregunta técnica sin dar la respuesta solicitada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

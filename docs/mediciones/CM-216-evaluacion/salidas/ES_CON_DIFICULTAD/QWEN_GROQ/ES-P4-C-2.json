@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-C",
+  "corrida" : 2,
+  "ms" : 475,
+  "tokensEntrada" : 678,
+  "tokensSalida" : 116,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta no aborda la arquitectura solicitada.\", \"follow_up_texto\": \"Por favor, describe el diseño técnico del servicio de correos asíncrono. Menciona específicamente qué mecanismo de persistencia o colas utilizarías para garantizar que los mensajes no se pierdan ante un reinicio del servidor.\", \"motivo\": \"El candidato habló sobre el origen histórico de los correos electrónicos en lugar de diseñar la arquitectura técnica solicitada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

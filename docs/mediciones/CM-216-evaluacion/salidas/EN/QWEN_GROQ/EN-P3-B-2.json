@@ -1,0 +1,13 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-B",
+  "corrida" : 2,
+  "ms" : 813,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de detalles técnicos específicos y mecanismo de resolución. Necesitas explicar la desacuerdo concreto y cómo se llegó a un acuerdo basado en evidencia o pruebas.\", \"follow_up_texto\": \"¿Cuál fue el desacuerdo técnico específico y qué criterios o pruebas usaron para decidir la solución final?\", \"motivo\": \"El candidato confiesa el problema y la resolución general, pero omite los detalles técnicos, el mecanismo de discusión y el resultado concreto, quedándose en generalidades.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

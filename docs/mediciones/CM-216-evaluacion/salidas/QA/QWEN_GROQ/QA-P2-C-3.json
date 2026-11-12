@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P2-C",
+  "corrida" : 3,
+  "ms" : 526,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 119,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"Respensa fuera de tema. Enfócate en la definición técnica de ambas pruebas.\", \"follow_up_texto\": \"Vuelve al punto: define brevemente qué verifica una prueba de humo y qué verifica una prueba de regresión, e indica en qué fase del ciclo de entrega se ejecuta cada una.\", \"motivo\": \"No responde la pregunta planteada sobre las técnicas de prueba, sino que divaga sobre responsabilidad de calidad y fútbol.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-A",
+  "corrida" : 3,
+  "ms" : 969,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 88,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato aborda de forma estructurada y colaborativa la resolución del desacuerdo técnico, validando especificaciones y escalando correctamente.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta clara que demuestra buenas prácticas de comunicación y resolución de conflictos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

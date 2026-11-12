@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 3,
+  "ms" : 976,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 189,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Respuesta deficiente. No se describe un diagnóstico real, solo acciones genéricas y un reinicio ciego que puede enmascarar el problema.\", \"follow_up_texto\": \"Vas a dar la mayor importancia al reinicio. Describe el proceso de diagnóstico concreto antes de tocar la infraestructura: Qué ves en el stack trace, cómo correlacionas métricas de CPU/Red/Docker de la app, cómo reproduces el error en staging/sandbox y cómo verificas si es un bug de código o un fallo de dependencia (DB/Caché/API externa). No me digas solo 'miraría los logs', dí cómo y a qué buscas exactamente.\", \"motivo\": \"El candidato omite el proceso de análisis forense y propone un reseto inmediato sin entender la causa raíz.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

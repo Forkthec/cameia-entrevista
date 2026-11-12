@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P3-A",
+  "corrida" : 1,
+  "ms" : 1094,
+  "tokensEntrada" : 718,
+  "tokensSalida" : 95,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato responde con claridad al conflicto técnico, explica la estrategia basada en datos y detalla el resultado cuantificable de la decisión.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena estructuración del caso, aportando métricas concretas y una resolución objetiva del conflicto.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

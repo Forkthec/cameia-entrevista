@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-B",
+  "corrida" : 3,
+  "ms" : 1084,
+  "tokensEntrada" : 679,
+  "tokensSalida" : 118,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta carece de detalles concretos sobre el problema técnico, la metodología de resolución de conflictos y el resultado final.\",\n  \"follow_up_texto\": \"Podrías detallar cuál era el problema técnico específico, qué argumentos técnicos utilizaron cada uno y qué criterio usaron para tomar la decisión final.\",\n  \"feedback\": \"La respuesta es demasiado general y no permite evaluar tus habilidades de negociación ni tu criterio técnico.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

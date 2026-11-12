@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-C",
+  "corrida" : 3,
+  "ms" : 1023,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 138,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Es una entrevista técnica pero también cultural; desviar el tema no es una estrategia adecuada. Responde a la pregunta que se te hizo.\", \"follow_up_texto\": \"Entiendo que prefieres enfocarte en lo técnico, pero necesito conocer tu motivación para este rol. Explícame brevemente tu experiencia relevante y qué aspectos específicos del stack o del equipo te atraen de esta posición.\", \"motivo\": \"El candidato rehusa responder a la pregunta de introducción y sugiere cambiar al tema, lo que constituye una evasión directa.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

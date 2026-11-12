@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-C",
+  "corrida" : 3,
+  "ms" : 1168,
+  "tokensEntrada" : 663,
+  "tokensSalida" : 107,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"motivo\": \"El candidato esquiva la pregunta afirmando que no recuerda ninguna situacion de desacuerdo.\", \"follow_up_texto\": \"Comprendo. Piensa en alguna ocasión en la que las opiniones sobre un enfoque técnico divergieran, aunque no haya sido una discusión fuerte. ¿Cómo lo resolvieron?\", \"feedback\": \"Evitar la pregunta no es una respuesta válida para una situación de colaboración y resolución de conflictos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

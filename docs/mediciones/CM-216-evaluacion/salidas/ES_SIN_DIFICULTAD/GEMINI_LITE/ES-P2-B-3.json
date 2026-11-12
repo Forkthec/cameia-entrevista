@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-B",
+  "corrida" : 3,
+  "ms" : 1218,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 115,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general, no explica los mecanismos internos de las transacciones ni cómo opera el control de concurrencia optimista.\",\n  \"follow_up_texto\": \"Puedes explicar en detalle cómo funciona el mecanismo de detección de conflictos en el bloqueo optimista frente al aislamiento de una transacción tradicional?\",\n  \"feedback\": \"La respuesta carece de precisión técnica y profundidad conceptual sobre control de concurrencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

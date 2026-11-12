@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-C",
+  "corrida" : 3,
+  "ms" : 615,
+  "tokensEntrada" : 670,
+  "tokensSalida" : 132,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Necesitas responder a la pregunta técnica independientemente del contexto del viernes.\", \"follow_up_texto\": \"Reencuadra tu respuesta: asume que eres el responsable de guardia. Describe los primeros pasos concretos que realizarías para diagnosticar y mitigar el incidente en producción, incluyendo el uso de logs, métricas y la comunicación con el equipo.\", \"motivo\": \"El candidato esquiva la pregunta y declara su intención de no resolver el problema, lo cual es evasivo para el objetivo de la entrevista.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

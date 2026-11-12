@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P3-A",
+  "corrida" : 3,
+  "ms" : 1671,
+  "tokensEntrada" : 718,
+  "tokensSalida" : 77,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"La respuesta aborda el conflicto técnico con claridad, aporta datos concretos y explica la resolución y el resultado.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena estructuración de la situación, el uso de datos para resolver el desacuerdo fue efectivo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

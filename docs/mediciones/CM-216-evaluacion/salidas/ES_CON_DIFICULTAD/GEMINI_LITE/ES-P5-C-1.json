@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-C",
+  "corrida" : 1,
+  "ms" : 993,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 124,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder la pregunta y adopta una postura no profesional.\",\n  \"follow_up_texto\": \"Por favor, deja de lado esa postura y responde a la pregunta técnica: ¿Cuáles serían los pasos concretos que seguirías para diagnosticar y mitigar un error 500 en producción un viernes por la tarde?\",\n  \"feedback\": \"La actitud mostrada no es aceptable en un entorno profesional de ingeniería.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-B",
+  "corrida" : 2,
+  "ms" : 863,
+  "tokensEntrada" : 663,
+  "tokensSalida" : 127,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Respuesta demasiado genérica y carente de detalles concretos sobre tu experiencia.\", \"follow_up_texto\": \"Puedes ser más específico? Menciona alguna tecnología backend que hayas usado recientemente y describe brevemente un proyecto donde hayas tenido un impacto técnico.\", \"motivo\": \"El candidato responde a la pregunta pero solo con generalidades (\\\"me gusta la tecnología\\\", \\\"aprender\\\"), sin aportar experiencia técnica, logros ni motivos concretos por los que se ajusta al rol.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

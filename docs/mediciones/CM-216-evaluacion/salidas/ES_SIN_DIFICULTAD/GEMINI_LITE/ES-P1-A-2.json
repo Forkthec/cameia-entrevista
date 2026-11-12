@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-A",
+  "corrida" : 2,
+  "ms" : 1038,
+  "tokensEntrada" : 689,
+  "tokensSalida" : 66,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde con precision sobre su experiencia en backend y motiva claramente su interes en el puesto.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena sintesis de tu experiencia relevante y motivacion.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

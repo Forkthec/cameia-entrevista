@@ -27,4 +27,10 @@ Esperado: sin resultados.
 
 ## Qué día se corrió cada grupo
 
-PENDIENTE: se completa con las fechas y el SHA al guardar los resultados.
+Las dos tandas corrieron el 12-nov-2026 (hora de Colombia) sobre el código del commit `1e6cef6`, con `gemini-3.5-flash-lite` (pensamiento `minimal`) y `qwen/qwen3.8-27b`: 228 llamadas a cada modelo (45 por cada uno de los cuatro grupos de la tanda 1, 30 de ráfaga y 18 de bordes), con las llamadas que fallaron en el proveedor incluidas.
+
+Incidencias de la corrida:
+
+- Un primer intento con `LLM_MODEL=gemini-3.8-flash` falló al instante en las 7 primeras llamadas: ese modelo rechaza el nivel de pensamiento `minimal` (`400: Thinking level MINIMAL is not supported for this model`). Se descartaron esas 7 salidas y se repitió todo con el modelo de la spec. Dato para quien despliegue: `application.properties` fija `minimal`, así que `LLM_MODEL` debe ser un modelo que lo admita.
+- Gemini respondió 503 («high demand») en 15 llamadas, sin reintento; Qwen devolvió 429 por minuto con reintento (19 intentos) y 2 llamadas de la ráfaga quedaron sin respuesta por «request too large» al sumarse tokens.
+- El informe no cambia por sí solo el prompt, el esquema ni los tiempos.

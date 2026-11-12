@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-B",
+  "corrida" : 2,
+  "ms" : 587,
+  "tokensEntrada" : 677,
+  "tokensSalida" : 138,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta describe una sucesión de eventos sin detalles técnicos ni sobre el impacto real del defecto.\", \"follow_up_texto\": \"¿Qué defecto específico fue? ¿Cómo lo detectaste (logs, tests, revisión de código) y por qué era crítico para esa entrega? ¿Qué medidas tomaste para asegurar que no volviera a pasar?\", \"motivo\": \"La respuesta confirma que hubo una incidente, pero omite los detalles técnicos sobre la naturaleza del error, el mecanismo de detección y las acciones concretas tomadas para resolverlo o prevenirlo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

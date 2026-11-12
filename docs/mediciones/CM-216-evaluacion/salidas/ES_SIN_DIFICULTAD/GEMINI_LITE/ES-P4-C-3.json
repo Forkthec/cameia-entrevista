@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-C",
+  "corrida" : 3,
+  "ms" : 1126,
+  "tokensEntrada" : 666,
+  "tokensSalida" : 129,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato habla sobre la historia del correo electrónico y su uso personal en lugar de diseñar el servicio asíncrono solicitado.\",\n  \"follow_up_texto\": \"Por favor, enfócate en la pregunta original. ¿Cómo diseñarías la arquitectura del servicio para procesar los correos de forma asíncrona y evitar la pérdida de mensajes ante un reinicio del servidor?\",\n  \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

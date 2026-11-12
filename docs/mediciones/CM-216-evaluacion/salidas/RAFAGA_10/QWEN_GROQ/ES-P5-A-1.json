@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 1,
+  "ms" : 432,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 83,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida y práctica para el contexto descrito.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre la triage, la mitigación inmediata adecuada al contexto (rollback ante deploy reciente) y la comunicación, cumpliendo con el nivel de detalle esperado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

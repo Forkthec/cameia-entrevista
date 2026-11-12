@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-C",
+  "corrida" : 2,
+  "ms" : 1087,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 141,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta con una postura poco profesional en lugar de abordar el procedimiento de resolución de incidencias.\",\n  \"follow_up_texto\": \"Dejemos de lado el horario y céntrate en el aspecto técnico y operativo. Asumiendo que estás de guardia o eres responsable del servicio, ¿cuál es el proceso paso a paso para diagnosticar y mitigar un error 500 en producción?\",\n  \"feedback\": \"La respuesta no es profesional y elude por completo el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

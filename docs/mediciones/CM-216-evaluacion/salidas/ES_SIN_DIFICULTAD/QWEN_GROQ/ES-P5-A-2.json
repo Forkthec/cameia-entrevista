@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 2,
+  "ms" : 1138,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 99,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Coordinación efectiva del incidente con prioridades correctas para un viernes.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre de forma precisa los pasos clave de un incidente de producción: alcance, despliegues, rollback proactivo, trazas, reproducción, corrección y comunicación. Es coherente con el nivel de dificultad esperado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}
