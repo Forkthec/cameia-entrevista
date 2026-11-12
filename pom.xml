@@ -44,6 +44,12 @@
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-google-genai</artifactId>
 		</dependency>
+		<!-- Proveedor de respaldo (Qwen en Groq, API compatible con OpenAI): solo sus clases de modelo; los
+		     modelos de chat se arman a mano y la autoconfiguracion de chat queda apagada. -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-model-openai</artifactId>
+		</dependency>
 
 		<!-- Mensajería: consumidores de los eventos de Perfil (RabbitMQ con Spring AMQP). -->
 		<dependency>

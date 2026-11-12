@@ -59,8 +59,8 @@ public class AiCallRunner {
      * @param clock reloj que da la fecha de cierre de cada intento fallido
      */
     public AiCallRunner(LanguageModelPort model, Waiter waiter,
-            @Value("${cameia.llm.retry.first-wait:500ms}") Duration firstWait,
-            @Value("${cameia.llm.retry.second-wait:1000ms}") Duration secondWait, Clock clock) {
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait, Clock clock) {
         this.model = model;
         this.waiter = waiter;
         this.firstWait = firstWait;

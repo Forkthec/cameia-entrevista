@@ -24,9 +24,9 @@ import org.springframework.ai.google.genai.common.GoogleGenAiThinkingLevel;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
 import tech.cameia.entrevista.domain.model.AiOperation;
-import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
+import tech.cameia.entrevista.infrastructure.config.ia.GeminiChatModels;
 import tech.cameia.entrevista.infrastructure.config.ia.LanguageModelProperties;
 
 /**
@@ -41,8 +41,8 @@ class GeminiLanguageModelAdapterDefensesTest {
 
     private final ChatModel chatModel = mock(ChatModel.class);
 
-    private final GeminiLanguageModelAdapter adapter = new GeminiLanguageModelAdapter(chatModel,
-            new LanguageModelProperties("clave-falsa", "modelo-configurado", Duration.ofSeconds(5), 1.0,
+    private final GeminiLanguageModelAdapter adapter = new GeminiLanguageModelAdapter(new GeminiChatModels(chatModel, chatModel),
+            new LanguageModelProperties("clave-falsa", "modelo-configurado", Duration.ofSeconds(5), Duration.ofSeconds(3), 1.0,
                     GoogleGenAiThinkingLevel.MINIMAL));
 
     private static Generation parte(String texto) {
@@ -58,7 +58,7 @@ class GeminiLanguageModelAdapterDefensesTest {
     void generate_shouldThrowUnavailable_whenModelReturnsNull() {
         when(chatModel.call(any(Prompt.class))).thenReturn(null);
 
-        Throwable fallo = catchThrowable(() -> adapter.generate(PROMPT, AiProvider.PRIMARY));
+        Throwable fallo = catchThrowable(() -> adapter.generate(PROMPT));
 
         assertThat(fallo).isInstanceOf(LlmUnavailableException.class);
         assertThat(fallo.getCause()).hasMessageContaining("sin respuesta");
@@ -68,7 +68,7 @@ class GeminiLanguageModelAdapterDefensesTest {
     void generate_shouldDescribeMissingCandidates_whenResponseHasNoGenerations() {
         when(chatModel.call(any(Prompt.class))).thenReturn(respuesta("m", new DefaultUsage(5, 0)));
 
-        Throwable fallo = catchThrowable(() -> adapter.generate(PROMPT, AiProvider.PRIMARY));
+        Throwable fallo = catchThrowable(() -> adapter.generate(PROMPT));
 
         assertThat(fallo).isInstanceOf(LlmUnavailableException.class);
         assertThat(fallo.getCause()).hasMessageContaining("finishReason=sin candidatos");
@@ -79,7 +79,7 @@ class GeminiLanguageModelAdapterDefensesTest {
         when(chatModel.call(any(Prompt.class))).thenReturn(
                 respuesta("m", new DefaultUsage(5, 2), parte("Hola "), parte(null), parte("mundo")));
 
-        LanguageModelResponse resultado = adapter.generate(PROMPT, AiProvider.PRIMARY);
+        LanguageModelResponse resultado = adapter.generate(PROMPT);
 
         assertThat(resultado.text()).isEqualTo("Hola mundo");
     }
@@ -89,7 +89,7 @@ class GeminiLanguageModelAdapterDefensesTest {
         when(chatModel.call(any(Prompt.class))).thenReturn(
                 respuesta("  ", new DefaultUsage(null, null), parte("OK")));
 
-        LanguageModelResponse resultado = adapter.generate(PROMPT, AiProvider.PRIMARY);
+        LanguageModelResponse resultado = adapter.generate(PROMPT);
 
         assertThat(resultado.model()).isEqualTo("modelo-configurado");
         assertThat(resultado.inputTokens()).isZero();
@@ -101,7 +101,7 @@ class GeminiLanguageModelAdapterDefensesTest {
         when(chatModel.call(any(Prompt.class))).thenReturn(
                 respuesta(null, new DefaultUsage(3, 4), parte("OK")));
 
-        assertThat(adapter.generate(PROMPT, AiProvider.PRIMARY).model()).isEqualTo("modelo-configurado");
+        assertThat(adapter.generate(PROMPT).model()).isEqualTo("modelo-configurado");
     }
 
     @Test
@@ -110,7 +110,7 @@ class GeminiLanguageModelAdapterDefensesTest {
         when(chatModel.call(any(Prompt.class))).thenThrow(
                 new IllegalStateException("envoltorio", new RuntimeException("medio", cuota)));
 
-        assertThat(catchThrowable(() -> adapter.generate(PROMPT, AiProvider.PRIMARY))).isInstanceOf(LlmLimitReachedException.class);
+        assertThat(catchThrowable(() -> adapter.generate(PROMPT))).isInstanceOf(LlmLimitReachedException.class);
     }
 
     @Test
@@ -118,7 +118,7 @@ class GeminiLanguageModelAdapterDefensesTest {
         ApiException otro = new ApiException(500, "INTERNAL", "falla");
         when(chatModel.call(any(Prompt.class))).thenThrow(new IllegalStateException("envoltorio", otro));
 
-        assertThat(catchThrowable(() -> adapter.generate(PROMPT, AiProvider.PRIMARY))).isInstanceOf(LlmUnavailableException.class);
+        assertThat(catchThrowable(() -> adapter.generate(PROMPT))).isInstanceOf(LlmUnavailableException.class);
     }
 
     @Test
@@ -130,6 +130,6 @@ class GeminiLanguageModelAdapterDefensesTest {
         RuntimeException tope = (RuntimeException) cadena;
         when(chatModel.call(any(Prompt.class))).thenThrow(tope);
 
-        assertThat(catchThrowable(() -> adapter.generate(PROMPT, AiProvider.PRIMARY))).isInstanceOf(LlmUnavailableException.class);
+        assertThat(catchThrowable(() -> adapter.generate(PROMPT))).isInstanceOf(LlmUnavailableException.class);
     }
 }

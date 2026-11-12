@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.ai.model.google.genai.autoconfigure.chat.GoogleGenAiChatAutoConfiguration;
 import org.springframework.ai.model.tool.autoconfigure.ToolCallingAutoConfiguration;
 import org.springframework.ai.retry.autoconfigure.SpringAiRetryAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -188,7 +187,7 @@ class GeminiLanguageModelAdapterTest {
                 .generate(new LanguageModelPrompt(PROMPT_PRIVADO, 16, AiOperation.PLAN), AiProvider.PRIMARY));
 
         assertThat(salida.getOut())
-                .containsPattern("Llamada al modelo \\[resultado=ok, duracionMs=\\d+]")
+                .containsPattern("Llamada al modelo \\[proveedor=gemini, operacion=PLANIFICAR, resultado=ok, duracionMs=\\d+]")
                 .doesNotContain(PROMPT_PRIVADO)
                 .doesNotContain(RESPUESTA_PRIVADA)
                 .doesNotContain("clave-falsa-de-prueba");
@@ -212,7 +211,7 @@ class GeminiLanguageModelAdapterTest {
                 .hasStackTraceContaining(InterruptedIOException.class.getName() + ": timeout"));
 
         assertThat(rutas).hasSize(1);
-        assertThat(salida.getOut()).containsPattern("Llamada al modelo \\[resultado=LLM_UNAVAILABLE, duracionMs=\\d+]");
+        assertThat(salida.getOut()).containsPattern("Llamada al modelo \\[proveedor=gemini, operacion=PLANIFICAR, resultado=LLM_UNAVAILABLE, duracionMs=\\d+]");
     }
 
     @Test
@@ -224,7 +223,7 @@ class GeminiLanguageModelAdapterTest {
 
         assertThat(fallo()).isInstanceOf(LlmLimitReachedException.class);
         assertThat(rutas).hasSize(1);
-        assertThat(salida.getOut()).contains("Llamada al modelo [resultado=LLM_LIMIT_REACHED");
+        assertThat(salida.getOut()).contains("Llamada al modelo [proveedor=gemini, operacion=PLANIFICAR, resultado=LLM_LIMIT_REACHED");
     }
 
     @ParameterizedTest(name = "estado {0}")
@@ -319,13 +318,18 @@ class GeminiLanguageModelAdapterTest {
         return new ApplicationContextRunner()
                 .withConfiguration(AutoConfigurations.of(
                         SpringAiRetryAutoConfiguration.class,
-                        ToolCallingAutoConfiguration.class,
-                        GoogleGenAiChatAutoConfiguration.class))
+                        ToolCallingAutoConfiguration.class))
                 .withUserConfiguration(AdapterWithItsConfiguration.class)
                 .withPropertyValues(
                         "cameia.llm.api-key=clave-falsa-de-prueba",
                         "cameia.llm.model=modelo-de-prueba",
                         "cameia.llm.timeout=" + timeout,
+                        "cameia.llm.evaluation-timeout=5s",
+                        "cameia.llm.retry.first-wait=0ms",
+                        "cameia.llm.retry.second-wait=0ms",
+                        "cameia.llm.fallback.api-key=",
+                        "cameia.llm.fallback.model=modelo-de-respaldo",
+                        "cameia.llm.fallback.base-url=https://respaldo.invalido",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low",
                         "cameia.llm.base-url=http://localhost:" + servidor.getAddress().getPort());
