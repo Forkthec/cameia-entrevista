@@ -7,37 +7,39 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import tech.cameia.entrevista.application.service.AnswerResult;
 
 /**
- * Respuesta común de registrar una respuesta (escrita o por voz). Nunca trae retroalimentación.
+ * Respuesta común de registrar una respuesta (escrita o por voz): el turno respondido, el avance y la siguiente
+ * pregunta. Nunca lleva retroalimentación. Es la forma que ya consume el Cliente Web.
  *
- * @param turn turno respondido
- * @param progress avance tras responder
- * @param nextQuestion pregunta siguiente, o {@code null} si era la última
- * @param interviewFinished {@code true} si ya se respondieron las cinco
+ * @param turn turno respondido y su estado
+ * @param progress avance: la pregunta que sigue y el total
+ * @param nextQuestion pregunta que sigue, o {@code null} tras la quinta
+ * @param interviewFinished {@code true} cuando ya se respondieron las 5 preguntas
  */
-@Schema(description = "Resultado de registrar la respuesta de un turno")
+@Schema(description = "Resultado de registrar una respuesta; nunca trae retroalimentación")
 public record AnswerResponse(
         TurnResponse turn,
         ProgressResponse progress,
-        @Schema(description = "Pregunta siguiente; null si era la última", nullable = true)
+        @Schema(nullable = true, description = "Pregunta que sigue; null tras responder la quinta")
         PendingQuestionResponse nextQuestion,
-        @Schema(description = "true si ya se respondieron las cinco preguntas") boolean interviewFinished) {
+        @Schema(description = "true cuando ya se respondieron las 5 preguntas", example = "false")
+        boolean interviewFinished) {
 
     /**
      * Turno respondido.
      *
      * @param turnId identificador del turno
-     * @param status estado del turno: COMPLETED
+     * @param status estado en que quedó
      */
     @Schema(description = "Turno respondido")
     public record TurnResponse(
             @Schema(format = "uuid", example = "9b2e6d44-5a3c-4f0b-8e71-2c4d6f8a0b12") UUID turnId,
-            @Schema(example = "COMPLETED") String status) {
+            @Schema(description = "Estado del turno", example = "COMPLETED") String status) {
     }
 
     /**
-     * Traduce el resultado del caso de uso.
+     * Convierte el resultado del caso de uso.
      *
-     * @param result resultado
+     * @param result resultado de registrar la respuesta
      * @return la respuesta del contrato
      */
     public static AnswerResponse from(AnswerResult result) {

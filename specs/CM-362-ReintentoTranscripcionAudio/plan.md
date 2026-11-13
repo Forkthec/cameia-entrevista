@@ -1,34 +1,7 @@
 # CM-362 · Plan
 
-## Capas
-
-| Capa | Pieza | Qué hace |
-|---|---|---|
-| `domain.model` | `TurnStatus`, `InterviewTurn` | Transiciones `PROCESSING/RETRYING → PENDING` (`release`) e `isBusy` (reserva vigente) |
-| `domain.model` | `InterviewSession.recordActivity` | Marca la actividad al registrar una respuesta |
-| `domain.model` | `AudioClip`, `Transcription`, `TranscriptionFailure`, `AnswerAttempt` | Audio en memoria (sin `toString` del contenido), texto transcrito (sin `toString` del texto), clase de fallo y respuesta registrada |
-| `domain.policy` | `TranscriptionRetryPolicy` | Máximo 2 intentos; solo reintenta `TRANSIENT` del primero |
-| `domain.port` | `SpeechToTextPort`, `AnswerAttemptRepository` | Un intento por llamada; inserción de la respuesta |
-| `domain.exception` | `TurnNotFound`, `TurnProcessing`, `TurnAlreadyAnswered`, `TranscriptionUnavailable`, `TranscriptionEmpty`, `TranscriptionTooLong` | Con su código en `ErrorCode`, su fila en el manejador y en `docs/errores.md` |
-| `application` | `SubmitAudioAnswerService`, `SubmitAudioAnswerCommand`, `AnswerResult` | Comprobaciones → reserva (tx) → transcripción con reintento (sin tx) → registro (tx); libera el turno en cualquier fallo |
-| `infrastructure.client` | `VoiceServiceTranscriptionAdapter` | HTTP del JDK, multipart, tope total por intento, clasificación del fallo |
-| `infrastructure.config.voz` | `VoiceServiceProperties`, `VoiceServiceConfiguration` | `cameia.voz.*` validado al arrancar |
-| `infrastructure.persistence` | `AnswerAttemptEntity`, `AnswerAttemptJpaRepository`, `AnswerAttemptRepositoryAdapter` | Tabla `intento_respuesta` existente (sin migración) |
-| `presentation` | `InterviewAnswerController`, `AnswerResponse` | `POST …/answers/audio` y la respuesta común |
-
-## Configuración
-
-| Propiedad | Variable | Defecto |
-|---|---|---|
-| `cameia.voz.base-url` | `VOZ_BASE_URL` | `http://localhost:8090` |
-| `cameia.voz.timeout` | `VOZ_TIMEOUT` | `60s` |
-| `cameia.voz.connect-timeout` | `VOZ_CONNECT_TIMEOUT` | `5s` |
-| `cameia.voz.retry-pause` | `VOZ_RETRY_PAUSE` | `1s` |
-| `spring.servlet.multipart.*` | — | 10 MB, umbral 10 MB (todo en memoria) |
-
-## Pruebas
-
-- Unidad: `TranscriptionRetryPolicyTest`, `TurnStatusTest`, `InterviewTurnTest`, `SubmitAudioAnswerServiceTest` (23 casos, repositorio de turnos en memoria con versión).
-- Adaptador contra servidor HTTP simulado del JDK: `VoiceServiceTranscriptionAdapterTest` (9 casos).
-- Punta a punta con PostgreSQL real y Voz simulado: `AudioAnswerRetryEndToEndTest` (5 casos).
-- Sin migración nueva: Hibernate valida `AnswerAttemptEntity` contra `V1` en todo `@SpringBootTest`.
+1. Dominio: `TranscriptionFailure`, clase de fallo en `TranscriptionUnavailableException`, `TranscriptionRetryPolicy`, número de intento en `TranscriptionExecution`.
+2. Infraestructura: clasificación en `AssemblyAiTranscriptionAdapter`; bean de la política en `TranscriptionConfiguration`; `cameia.transcription.retry-pause` y `total-budget`.
+3. Aplicación: bucle de intentos en `SubmitAudioAnswerService` con el turno reservado.
+4. Pruebas: política, adaptador (503, conexión rechazada, tiempo, otros), caso de uso (reintento, agotado, tiempo, rechazo, doble envío durante el reintento) y punta a punta con PostgreSQL.
+5. Postman: escenario `stuck` del simulador, segundo 503 en la carpeta de CM-345 y carpeta «Reintento de la transcripción (HU-5.13)».

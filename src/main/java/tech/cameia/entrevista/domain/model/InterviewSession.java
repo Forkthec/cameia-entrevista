@@ -126,20 +126,6 @@ public final class InterviewSession {
     }
 
     /**
-     * Marca actividad de la persona en la entrevista en curso (por ejemplo, una respuesta registrada).
-     *
-     * @param clock reloj que da la fecha
-     * @throws SessionTransitionNotAllowedException si la sesión no está en curso
-     */
-    public void recordActivity(Clock clock) {
-        if (status != SessionStatus.IN_PROGRESS) {
-            throw new SessionTransitionNotAllowedException();
-        }
-        updatedAt = clock.instant();
-        lastActivityAt = updatedAt;
-    }
-
-    /**
      * Cuenta un reintento manual de la planificación de las preguntas.
      *
      * @param clock reloj que da la fecha

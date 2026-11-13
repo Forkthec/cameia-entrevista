@@ -1,7 +1,7 @@
 package tech.cameia.entrevista.domain.exception;
 
 /**
- * El turno no existe, no es de la sesión pedida o su identificador no es un UUID; no se distingue.
+ * El turno no existe, no es de la sesión o su identificador no es un UUID; no se distingue para no revelar su existencia.
  */
 public class TurnNotFoundException extends BusinessException {
 

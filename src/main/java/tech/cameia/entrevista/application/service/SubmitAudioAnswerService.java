@@ -1,96 +1,124 @@
 package tech.cameia.entrevista.application.service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HexFormat;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import tech.cameia.entrevista.application.command.SubmitAudioAnswerCommand;
-import tech.cameia.entrevista.domain.exception.BusinessException;
-import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
+import tools.jackson.databind.json.JsonMapper;
+
+import tech.cameia.entrevista.application.command.AudioAnswerCommand;
+import tech.cameia.entrevista.domain.exception.AudioNotAllowedException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
+import tech.cameia.entrevista.domain.exception.IdempotencyKeyAlreadyExistsException;
+import tech.cameia.entrevista.domain.exception.IdempotencyKeyConflictException;
 import tech.cameia.entrevista.domain.exception.InvalidRequestException;
-import tech.cameia.entrevista.domain.exception.SessionConflictException;
-import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
-import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
-import tech.cameia.entrevista.domain.exception.TranscriptionEmptyException;
-import tech.cameia.entrevista.domain.exception.TranscriptionTooLongException;
 import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
-import tech.cameia.entrevista.domain.exception.TurnAlreadyAnsweredException;
-import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
-import tech.cameia.entrevista.domain.exception.TurnProcessingException;
-import tech.cameia.entrevista.domain.model.AnswerAttempt;
-import tech.cameia.entrevista.domain.model.AudioClip;
+import tech.cameia.entrevista.domain.model.AnswerMode;
+import tech.cameia.entrevista.domain.model.AudioAnswer;
+import tech.cameia.entrevista.domain.model.AudioInspection;
 import tech.cameia.entrevista.domain.model.FieldRejection;
-import tech.cameia.entrevista.domain.model.InterviewQuestion;
+import tech.cameia.entrevista.domain.model.FirebaseUid;
+import tech.cameia.entrevista.domain.model.IdempotencyKey;
+import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
-import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.Transcription;
-import tech.cameia.entrevista.domain.model.TranscriptionFailure;
-import tech.cameia.entrevista.domain.model.TurnStatus;
+import tech.cameia.entrevista.domain.model.TranscriptionExecution;
+import tech.cameia.entrevista.domain.policy.AudioAnswerPolicy;
+import tech.cameia.entrevista.domain.policy.TranscriptionPolicy;
 import tech.cameia.entrevista.domain.policy.TranscriptionRetryPolicy;
-import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
-import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
+import tech.cameia.entrevista.domain.port.AudioInspector;
+import tech.cameia.entrevista.domain.port.IdempotencyKeyRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
-import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
-import tech.cameia.entrevista.domain.port.SpeechToTextPort;
+import tech.cameia.entrevista.domain.port.SpeechTranscriptionPort;
+import tech.cameia.entrevista.domain.port.TranscriptionExecutionRepository;
 
 /**
- * Caso de uso: responder por voz la pregunta pendiente, con el reintento automático de la transcripción (HU-5.13).
+ * Caso de uso: responder por voz la pregunta pendiente (HU-5.8 y HU-5.12). Valida el audio por su contenido real, lo
+ * transcribe con AssemblyAI en el idioma de la entrevista, valida la transcripción, la registra como respuesta igual
+ * que una escrita y avanza a la siguiente pregunta.
  *
- * <p>La llamada a Voz nunca ocurre dentro de una transacción (cada intento puede tardar hasta 60 s). Las fases son:</p>
+ * <p>Orden de las comprobaciones, todas antes de transcribir y sin guardar nada: sesión propia (404), campos (422),
+ * repetición de la misma {@code Idempotency-Key} (devuelve la respuesta guardada), estado de la sesión (409,
+ * CA-5.8.28), entrevista por texto (422, CA-5.8.20), turno pendiente (404 o 409), tamaño (413, CA-5.8.13), formato real
+ * (415, CA-5.8.14 y CA-5.8.15) y duración (422, CA-5.8.8).</p>
+ *
+ * <p>La transcripción nunca ocurre dentro de una transacción:</p>
  * <ol>
- *   <li><b>Comprobaciones</b>, en el orden del contrato: sesión propia (404), sesión en curso (409), turno de la
- *       sesión (404), turno sin respuesta y libre (409), audio presente (422).</li>
- *   <li><b>Reserva</b> (transacción corta): el turno pasa a {@code PROCESSING} con control de versión. Un segundo
- *       envío del mismo turno mientras tanto —o dos simultáneos— recibe {@code 409 TURN_PROCESSING} sin guardarse ni
- *       transcribirse (CA-5.13.8).</li>
- *   <li><b>Transcripción</b>, sin transacción: hasta dos intentos según {@link TranscriptionRetryPolicy}. Entre el
- *       primero y el reintento el turno queda en {@code RETRYING}.</li>
- *   <li><b>Registro</b> (transacción corta): una sola respuesta definitiva, el turno completado y el siguiente
- *       abierto; con la quinta, la sesión pasa a evaluación (CA-5.13.1, CA-5.13.2).</li>
+ *   <li><b>Reserva</b> (transacción corta): el turno pasa a {@code PROCESSING}; un doble envío recibe 409
+ *       {@code SESSION_CONFLICT} y no pide otra transcripción (CA-5.8.6).</li>
+ *   <li><b>Transcripción</b> (sin transacción): hasta dos intentos según {@link TranscriptionRetryPolicy} (HU-5.13):
+ *       un error transitorio del primero (503 o conexión rechazada) se reintenta sin que la persona haga nada; un
+ *       intento que agota su tiempo, o el segundo fallido, terminan la petición. Cada intento registra su ejecución
+ *       {@code TRANSCRIBIR} con su número (CA-5.12.3). Mientras tanto el turno sigue reservado, así que otro envío de
+ *       la misma pregunta recibe 409 (CA-5.13.8). Después se valida el texto (CA-5.12.7, CA-5.12.9, CA-5.12.10).</li>
+ *   <li><b>Registro</b> (transacción corta): {@link AnswerRegistrar} guarda la respuesta definitiva y abre el turno
+ *       siguiente; con clave, se guarda también la respuesta para repetirla.</li>
  * </ol>
  *
- * <p>Si la transcripción falla del todo, el turno vuelve a {@code PENDING} sin respuesta y sube
- * {@code 503 TRANSCRIPTION_UNAVAILABLE} (CA-5.13.3): la persona puede grabar de nuevo o responder por texto sobre
- * la misma pregunta (CA-5.13.5 a CA-5.13.7). El audio solo existe en memoria durante la petición (CA-5.13.4).</p>
- *
- * <p>Los registros llevan identificadores, número de intento y causa; nunca el audio ni el texto transcrito.</p>
+ * <p>Si la transcripción o el registro fallan, el turno pasa a {@code RETRYING}: la pregunta sigue pendiente y la
+ * persona puede grabar de nuevo o responder por texto. El audio solo vive en memoria y se sobrescribe al terminar la
+ * petición, con éxito o con error (CA-5.8.18, CA-5.12.4). Nunca se registran el audio ni el texto transcrito.</p>
  */
 @Service
 public class SubmitAudioAnswerService {
 
-    private static final Logger log = LoggerFactory.getLogger(SubmitAudioAnswerService.class);
+    /** Operación con la que se guarda la clave anti-duplicados. */
+    static final String OPERATION = "RESPONDER_AUDIO";
 
-    /** Margen sobre la duración máxima de una transcripción antes de dar por muerta una reserva. */
+    /** Campo del turno en el multipart. */
+    public static final String TURN_ID_FIELD = "turnId";
+
+    /** Campo del audio en el multipart. */
+    public static final String AUDIO_FIELD = "audio";
+
+    /** Campo de la clave anti-duplicados. */
+    public static final String IDEMPOTENCY_KEY_FIELD = "Idempotency-Key";
+
+    static final String TURN_ID_REQUIRED = "Falta la pregunta a la que respondes.";
+    static final String TURN_ID_INVALID = "La pregunta a la que respondes no es válida.";
+    static final String AUDIO_REQUIRED = "Graba tu respuesta antes de enviarla.";
+    static final String IDEMPOTENCY_KEY_INVALID = "Ocurrió un error. Inténtalo de nuevo.";
+
+    /** Margen sobre el tiempo de la transcripción tras el que una reserva se considera de un proceso muerto. */
     static final Duration CLAIM_MARGIN = Duration.ofSeconds(30);
 
-    private final InterviewSessionRepository sessions;
-    private final InterviewQuestionRepository questions;
-    private final InterviewTurnRepository turns;
-    private final AnswerAttemptRepository answers;
-    private final SpeechToTextPort speech;
-    private final TranscriptionRetryPolicy retryPolicy;
-    private final TransactionTemplate transaction;
-    private final Clock clock;
-    private final Duration retryPause;
-    private final Duration claimMaxAge;
-    private final Pause pause;
+    private static final int OK = 200;
+    private static final Pattern IDEMPOTENCY_KEY_FORMAT = Pattern.compile("[A-Za-z0-9._-]{1,64}");
+    private static final Logger log = LoggerFactory.getLogger(SubmitAudioAnswerService.class);
 
-    /** Espera entre intentos; separada para que las pruebas no duerman. */
+    private final InterviewSessionRepository sessions;
+    private final AnswerRegistrar registrar;
+    private final SpeechTranscriptionPort transcriber;
+    private final TranscriptionExecutionRepository executions;
+    private final IdempotencyKeyRepository keys;
+    private final TranscriptionPolicy transcriptionPolicy;
+    private final AudioAnswerPolicy audioPolicy;
+    private final AudioInspector inspector;
+    private final TransactionTemplate transaction;
+    private final JsonMapper json;
+    private final Clock clock;
+    private final TranscriptionRetryPolicy retryPolicy;
+    private final Pause pause;
+    private final Duration claimMaxAge;
+
+    /** Espera antes del reintento; separada para que las pruebas no duerman. */
     @FunctionalInterface
     interface Pause {
         /**
@@ -104,279 +132,214 @@ public class SubmitAudioAnswerService {
 
     @Autowired
     @SuppressWarnings("java:S107")
-    SubmitAudioAnswerService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
-            InterviewTurnRepository turns, AnswerAttemptRepository answers, SpeechToTextPort speech,
-            TranscriptionRetryPolicy retryPolicy, TransactionTemplate transaction, Clock clock,
-            @Value("${cameia.voz.timeout}") Duration attemptTimeout,
-            @Value("${cameia.voz.retry-pause}") Duration retryPause) {
-        this(sessions, questions, turns, answers, speech, retryPolicy, transaction, clock, attemptTimeout, retryPause,
-                duration -> Thread.sleep(duration));
+    SubmitAudioAnswerService(InterviewSessionRepository sessions, AnswerRegistrar registrar,
+            SpeechTranscriptionPort transcriber, TranscriptionExecutionRepository executions,
+            IdempotencyKeyRepository keys, TranscriptionPolicy transcriptionPolicy, AudioAnswerPolicy audioPolicy,
+            AudioInspector inspector, TransactionTemplate transaction, JsonMapper json, Clock clock,
+            TranscriptionRetryPolicy retryPolicy) {
+        this(sessions, registrar, transcriber, executions, keys, transcriptionPolicy, audioPolicy, inspector, transaction,
+                json, clock, retryPolicy, Thread::sleep);
     }
 
     @SuppressWarnings("java:S107")
-    SubmitAudioAnswerService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
-            InterviewTurnRepository turns, AnswerAttemptRepository answers, SpeechToTextPort speech,
-            TranscriptionRetryPolicy retryPolicy, TransactionTemplate transaction, Clock clock,
-            Duration attemptTimeout, Duration retryPause, Pause pause) {
+    SubmitAudioAnswerService(InterviewSessionRepository sessions, AnswerRegistrar registrar,
+            SpeechTranscriptionPort transcriber, TranscriptionExecutionRepository executions,
+            IdempotencyKeyRepository keys, TranscriptionPolicy transcriptionPolicy, AudioAnswerPolicy audioPolicy,
+            AudioInspector inspector, TransactionTemplate transaction, JsonMapper json, Clock clock,
+            TranscriptionRetryPolicy retryPolicy, Pause pause) {
         this.sessions = sessions;
-        this.questions = questions;
-        this.turns = turns;
-        this.answers = answers;
-        this.speech = speech;
-        this.retryPolicy = retryPolicy;
+        this.registrar = registrar;
+        this.transcriber = transcriber;
+        this.executions = executions;
+        this.keys = keys;
+        this.transcriptionPolicy = transcriptionPolicy;
+        this.audioPolicy = audioPolicy;
+        this.inspector = inspector;
         this.transaction = transaction;
+        this.json = json;
         this.clock = clock;
-        this.retryPause = retryPause;
-        // Una reserva más vieja que todos los intentos posibles es de un proceso que murió sin liberarla.
-        this.claimMaxAge = attemptTimeout.multipliedBy(TranscriptionRetryPolicy.MAX_ATTEMPTS).plus(retryPause)
-                .plus(CLAIM_MARGIN);
+        this.retryPolicy = retryPolicy;
         this.pause = pause;
+        // Una reserva más vieja que todos los intentos posibles es de un proceso que murió sin liberarla.
+        this.claimMaxAge = retryPolicy.maxDuration().plus(CLAIM_MARGIN);
     }
 
     /**
-     * Transcribe el audio y registra la respuesta de la pregunta pendiente.
+     * Responde por voz la pregunta pendiente.
      *
-     * @param command sesión, dueño, turno y audio
-     * @return el turno respondido, el avance y la pregunta siguiente
-     * @throws SessionNotFoundException si la sesión no existe, es ajena o el identificador no es un UUID
-     * @throws SessionTransitionNotAllowedException si la sesión no está en curso
-     * @throws TurnNotFoundException si el turno no existe, no es de la sesión o no es un UUID
-     * @throws TurnAlreadyAnsweredException si el turno ya tiene su respuesta
-     * @throws TurnProcessingException si ya se está procesando otra respuesta del mismo turno
-     * @throws InvalidRequestException si falta el turno o el audio
-     * @throws TranscriptionUnavailableException si se agotaron los intentos de transcripción
-     * @throws TranscriptionEmptyException si la transcripción quedó vacía
-     * @throws TranscriptionTooLongException si la transcripción supera los 4000 caracteres
+     * @param command sesión, dueño, turno, audio y clave
+     * @return el turno respondido, el avance y la siguiente pregunta (o {@code interviewFinished} tras la quinta)
      */
-    public AnswerResult submit(SubmitAudioAnswerCommand command) {
+    public AnswerResult submit(AudioAnswerCommand command) {
+        try {
+            return submitAndForget(command);
+        } finally {
+            // CA-5.8.18 y CA-5.12.4: el audio se descarta al terminar la petición; no queda copia en CAMEIA.
+            if (command.audio() != null) {
+                Arrays.fill(command.audio(), (byte) 0);
+            }
+        }
+    }
+
+    private AnswerResult submitAndForget(AudioAnswerCommand command) {
+        FirebaseUid owner = command.session().owner();
         InterviewSession session = GetSessionStateService.findOwned(sessions, command.session());
-        if (session.status() != SessionStatus.IN_PROGRESS) {
-            throw new SessionTransitionNotAllowedException();
+        UUID turnId = validateFields(command);
+        String key = command.idempotencyKey();
+        String fingerprint = key == null ? null : fingerprint(session.id(), turnId, command.audio());
+        Optional<AnswerResult> replay = replayIfKnown(owner, key, fingerprint);
+        if (replay.isPresent()) {
+            return replay.get();
         }
-        UUID turnId = parseTurnId(command.rawTurnId());
-        List<InterviewQuestion> plan = questions.findBySession(session.id());
-        InterviewTurn turn = turns.findById(turnId).orElseThrow(TurnNotFoundException::new);
-        InterviewQuestion question = questionOf(plan, turn).orElseThrow(TurnNotFoundException::new);
-        requireAnswerable(turn);
-        AudioClip audio = command.audio();
-        if (audio == null || audio.isEmpty()) {
-            throw new InvalidRequestException(List.of(new FieldRejection("audio", ErrorCode.AUDIO_REQUIRED,
-                    "Graba tu respuesta antes de enviarla.")));
+        AnswerRegistrar.requireAcceptsAnswers(session.status());
+        if (session.configuration().answerMode() != AnswerMode.AUDIO) {
+            throw new AudioNotAllowedException();
         }
-        Claim claim = new Claim(reserve(turnId));
+        AnswerRegistrar.Pending pending = registrar.requireAnswerable(session, turnId, claimMaxAge);
+        audioPolicy.checkSize(command.audio().length);
+        AudioInspection inspection = audioPolicy.checkContent(inspector.inspect(command.audio()));
+        AudioAnswer audio = new AudioAnswer(command.audio(), inspection.format().mimeType());
+
+        InterviewTurn claimed = transaction.execute(status -> registrar.claim(turnId, claimMaxAge));
+        InterviewLanguage language = session.configuration().language();
         Transcription transcription;
+        String text;
         try {
-            transcription = transcribe(audio, session, claim);
-            requireUsable(transcription);
-        } catch (BusinessException failure) {
-            release(claim);
-            throw failure;
-        } catch (RuntimeException unexpected) {
-            // Una falla que el adaptador no clasificó nunca debe dejar el turno ocupado ni terminar en el genérico.
-            release(claim);
-            throw new TranscriptionUnavailableException(TranscriptionFailure.REJECTED, unexpected);
-        }
-        try {
-            AnswerResult result = transaction.execute(status -> register(session, plan, question, claim,
-                    transcription));
-            log.info("Respuesta por voz registrada [sessionId={}, turnId={}, pregunta={}]", session.id(), turnId,
-                    question.position());
-            return result;
+            transcription = transcribe(session.id(), turnId, audio, language);
+            text = transcriptionPolicy.accept(transcription, language);
         } catch (RuntimeException failure) {
-            release(claim);
-            throw translate(failure);
+            registrar.release(claimed);
+            throw failure;
         }
-    }
 
-    // ---- Comprobaciones ----
-
-    private static UUID parseTurnId(String raw) {
-        if (raw == null || raw.isBlank()) {
-            throw new InvalidRequestException(List.of(new FieldRejection("turnId", ErrorCode.TURN_ID_REQUIRED,
-                    "Falta la pregunta que respondes.")));
-        }
-        // Como con la sesión: un identificador mal escrito es un turno que no existe.
-        if (raw.length() != 36) {
-            throw new TurnNotFoundException();
-        }
+        AnswerResult result;
         try {
-            return UUID.fromString(raw);
-        } catch (IllegalArgumentException notAUuid) {
-            throw new TurnNotFoundException();
-        }
-    }
-
-    private static Optional<InterviewQuestion> questionOf(List<InterviewQuestion> plan, InterviewTurn turn) {
-        return plan.stream().filter(question -> question.id().equals(turn.questionId())).findFirst();
-    }
-
-    private void requireAnswerable(InterviewTurn turn) {
-        if (turn.status() == TurnStatus.COMPLETED) {
-            throw new TurnAlreadyAnsweredException();
-        }
-        if (turn.isBusy(clock.instant(), claimMaxAge)) {
-            throw new TurnProcessingException();
-        }
-    }
-
-    private static void requireUsable(Transcription transcription) {
-        String text = transcription.text();
-        if (text.isBlank()) {
-            throw new TranscriptionEmptyException();
-        }
-        if (text.codePointCount(0, text.length()) > AnswerAttempt.MAX_TEXT_LENGTH) {
-            throw new TranscriptionTooLongException();
-        }
-    }
-
-    // ---- Reserva ----
-
-    private InterviewTurn reserve(UUID turnId) {
-        try {
-            return transaction.execute(status -> {
-                InterviewTurn turn = turns.findById(turnId).orElseThrow(TurnNotFoundException::new);
-                requireAnswerable(turn);
-                if (turn.status() != TurnStatus.PENDING) {
-                    // Reserva caducada de un proceso que murió: se libera antes de tomarla.
-                    log.warn("Reserva caducada del turno liberada [turnId={}, estado={}]", turnId, turn.status());
-                    turn.release(clock);
+            result = transaction.execute(status -> {
+                AnswerResult registered = registrar.register(session.id(), owner, claimed, pending.question(), text,
+                        AnswerMode.AUDIO, transcription.detectedLanguage());
+                if (key != null) {
+                    keys.save(new IdempotencyKey(UUID.randomUUID(), owner, OPERATION, key, fingerprint, OK,
+                            json.writeValueAsString(registered), clock.instant()));
                 }
-                turn.startProcessing(clock);
-                return turns.save(turn);
+                return registered;
             });
-        } catch (SessionConflictException concurrent) {
-            // Otra petición tomó el turno entre la lectura y la escritura.
-            throw new TurnProcessingException();
-        } catch (DataAccessException | TransactionException failure) {
-            throw new DatabaseUnavailableException(failure);
+        } catch (IdempotencyKeyAlreadyExistsException race) {
+            // Otra petición con la misma clave terminó primero: se repite su respuesta. Va fuera de la transacción
+            // revertida.
+            registrar.release(claimed);
+            return replayIfKnown(owner, key, fingerprint).orElseThrow(() -> race);
+        } catch (RuntimeException failure) {
+            registrar.release(claimed);
+            throw failure;
         }
+        log.info("Respuesta por voz registrada [sessionId={}, turnId={}, firebaseUid={}, formato={}, bytes={},"
+                + " audioMs={}, siguiente={}]", session.id(), turnId, owner.value(), inspection.format(),
+                audio.size(), inspection.duration().toMillis(),
+                result.interviewFinished() ? "-" : result.currentQuestion());
+        return result;
     }
 
-    // ---- Transcripción ----
-
-    private Transcription transcribe(AudioClip audio, InterviewSession session, Claim claim) {
-        int attempt = 1;
-        while (true) {
+    private Transcription transcribe(UUID sessionId, UUID turnId, AudioAnswer audio, InterviewLanguage language) {
+        Instant first = clock.instant();
+        for (int attempt = 1; ; attempt++) {
+            Instant started = clock.instant();
             try {
-                Transcription transcription = speech.transcribe(audio, session.configuration().language());
-                log.info("Transcripción obtenida [sessionId={}, turnId={}, intento={}]", session.id(),
-                        claim.turn.id(), attempt);
+                Transcription transcription = transcriber.transcribe(audio, language);
+                executions.save(TranscriptionExecution.succeeded(sessionId, turnId, attempt, transcriber.model(),
+                        transcriber.provider(), started, clock.instant()));
+                if (attempt > 1) {
+                    log.info("Transcripción obtenida en el reintento automático [sessionId={}, turnId={}, intento={}]",
+                            sessionId, turnId, attempt);
+                }
                 return transcription;
             } catch (TranscriptionUnavailableException failure) {
-                log.warn("Transcripción fallida [sessionId={}, turnId={}, intento={}, causa={}]", session.id(),
-                        claim.turn.id(), attempt, failure.failure());
-                if (!retryPolicy.shouldRetry(attempt, failure.failure())) {
-                    log.warn("Intentos de transcripción concluidos sin éxito [sessionId={}, turnId={}, intentos={}]",
-                            session.id(), claim.turn.id(), attempt);
+                executions.save(TranscriptionExecution.failed(sessionId, turnId, attempt, transcriber.model(),
+                        transcriber.provider(), ErrorCode.TRANSCRIPTION_UNAVAILABLE, started, clock.instant()));
+                Duration elapsed = Duration.between(first, clock.instant());
+                if (!retryPolicy.shouldRetry(attempt, failure.failure(), elapsed)) {
+                    log.warn("Transcripción sin éxito; no se reintenta [sessionId={}, turnId={}, intento={}, causa={}]",
+                            sessionId, turnId, attempt, failure.failure());
                     throw failure;
                 }
+                log.warn("Transcripción fallida por un error transitorio; se reintenta [sessionId={}, turnId={},"
+                        + " intento={}]", sessionId, turnId, attempt);
             }
-            markRetrying(claim);
             waitBeforeRetry();
-            attempt++;
-        }
-    }
-
-    private void markRetrying(Claim claim) {
-        try {
-            claim.turn = transaction.execute(status -> {
-                InterviewTurn turn = claim.turn;
-                turn.retry(clock);
-                return turns.save(turn);
-            });
-        } catch (SessionConflictException lost) {
-            // Alguien tomó el turno (solo pasa si la reserva caducó): esta petición ya no puede registrar nada.
-            throw new TurnProcessingException();
-        } catch (DataAccessException | TransactionException failure) {
-            throw new DatabaseUnavailableException(failure);
         }
     }
 
     private void waitBeforeRetry() {
         try {
-            pause.sleep(retryPause);
+            pause.sleep(retryPolicy.pause());
         } catch (InterruptedException interrupted) {
             Thread.currentThread().interrupt();
-            throw new TranscriptionUnavailableException(TranscriptionFailure.REJECTED, interrupted);
+            throw new TranscriptionUnavailableException("espera del reintento interrumpida", interrupted);
         }
     }
 
-    // ---- Registro ----
-
-    private AnswerResult register(InterviewSession requested, List<InterviewQuestion> plan, InterviewQuestion question,
-            Claim claim, Transcription transcription) {
-        InterviewSession session = sessions.findByIdAndOwner(requested.id(), requested.owner())
-                .orElseThrow(SessionNotFoundException::new);
-        if (session.status() != SessionStatus.IN_PROGRESS) {
-            // La persona abandonó o cerró la entrevista mientras se transcribía.
-            throw new SessionTransitionNotAllowedException();
+    // Todas las causas de campo salen juntas, como en la creación de la sesión.
+    private static UUID validateFields(AudioAnswerCommand command) {
+        List<FieldRejection> rejections = new ArrayList<>();
+        UUID turnId = null;
+        String raw = command.rawTurnId();
+        if (raw == null || raw.isBlank()) {
+            rejections.add(new FieldRejection(TURN_ID_FIELD, ErrorCode.TURN_ID_REQUIRED, TURN_ID_REQUIRED));
+        } else {
+            turnId = parseUuid(raw.strip());
+            if (turnId == null) {
+                rejections.add(new FieldRejection(TURN_ID_FIELD, ErrorCode.TURN_ID_INVALID_FORMAT,
+                        TURN_ID_INVALID));
+            }
         }
-        InterviewTurn turn = turns.findById(claim.turn.id()).orElseThrow(TurnNotFoundException::new);
-        if (!Objects.equals(turn.version(), claim.turn.version())) {
-            throw new SessionConflictException();
+        if (command.audio() == null || command.audio().length == 0) {
+            rejections.add(new FieldRejection(AUDIO_FIELD, ErrorCode.AUDIO_REQUIRED, AUDIO_REQUIRED));
         }
-        if (turn.status() == TurnStatus.RETRYING) {
-            turn.resumeProcessing(clock);
+        String key = command.idempotencyKey();
+        if (key != null && !IDEMPOTENCY_KEY_FORMAT.matcher(key).matches()) {
+            rejections.add(new FieldRejection(IDEMPOTENCY_KEY_FIELD, ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT,
+                    IDEMPOTENCY_KEY_INVALID));
         }
-        answers.insert(AnswerAttempt.fromAudio(turn.id(), transcription, question.originalText(), clock));
-        turn.complete(clock);
-        // claim.turn no se actualiza: si la transacción se revierte, la liberación debe ver la versión anterior.
-        InterviewTurn completed = turns.save(turn);
-        session.recordActivity(clock);
-        Optional<InterviewQuestion> next = plan.stream()
-                .filter(candidate -> candidate.position() == question.position() + 1).findFirst();
-        if (next.isPresent()) {
-            InterviewTurn opened = turns.save(InterviewTurn.open(next.get().id(), clock));
-            sessions.save(session);
-            return new AnswerResult(completed.id(), completed.status(), next.get().position(),
-                    InterviewQuestion.TOTAL, new AnswerResult.NextQuestion(opened.id(), next.get().position(),
-                            next.get().originalText()), false);
+        if (!rejections.isEmpty()) {
+            throw new InvalidRequestException(rejections);
         }
-        session.startEvaluation(clock);
-        sessions.save(session);
-        return new AnswerResult(completed.id(), completed.status(), InterviewQuestion.TOTAL, InterviewQuestion.TOTAL,
-                null, true);
+        return turnId;
     }
 
-    private static RuntimeException translate(RuntimeException failure) {
-        if (failure instanceof BusinessException) {
-            return failure;
+    private static UUID parseUuid(String raw) {
+        if (raw.length() != 36) {
+            return null;
         }
-        if (failure instanceof DataIntegrityViolationException) {
-            // El índice único de la respuesta definitiva o del turno siguiente: otra petición ya respondió.
-            return new TurnAlreadyAnsweredException();
-        }
-        if (failure instanceof DataAccessException || failure instanceof TransactionException) {
-            return new DatabaseUnavailableException(failure);
-        }
-        return failure;
-    }
-
-    // ---- Liberación ----
-
-    // En su propia transacción y solo si el turno sigue siendo el que reservó esta petición. Si ni así se puede, la
-    // reserva caduca sola (claimMaxAge) y el siguiente envío la libera.
-    private void release(Claim claim) {
         try {
-            transaction.executeWithoutResult(status -> turns.findById(claim.turn.id()).ifPresent(turn -> {
-                boolean ours = Objects.equals(turn.version(), claim.turn.version());
-                if (ours && (turn.status() == TurnStatus.PROCESSING || turn.status() == TurnStatus.RETRYING)) {
-                    turn.release(clock);
-                    turns.save(turn);
-                }
-            }));
-        } catch (RuntimeException releasing) {
-            log.error("No se pudo liberar el turno [turnId={}, causa={}]", claim.turn.id(),
-                    releasing.getClass().getSimpleName());
+            return UUID.fromString(raw);
+        } catch (IllegalArgumentException notAUuid) {
+            return null;
         }
     }
 
-    /** Turno reservado por esta petición, con la última versión que esta misma petición escribió. */
-    private static final class Claim {
-        private InterviewTurn turn;
+    private Optional<AnswerResult> replayIfKnown(FirebaseUid owner, String key, String fingerprint) {
+        if (key == null) {
+            return Optional.empty();
+        }
+        return keys.find(owner, OPERATION, key).map(saved -> {
+            if (!saved.requestFingerprint().equals(fingerprint)) {
+                throw new IdempotencyKeyConflictException();
+            }
+            return json.readValue(saved.responseBodyJson(), AnswerResult.class);
+        });
+    }
 
-        private Claim(InterviewTurn turn) {
-            this.turn = turn;
+    /**
+     * Huella de la petición: la sesión, el turno y el contenido del audio. La misma clave con otra grabación u
+     * otro turno es otra petición.
+     */
+    static String fingerprint(UUID sessionId, UUID turnId, byte[] audio) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update((sessionId + "|" + turnId + "|").getBytes(StandardCharsets.UTF_8));
+            digest.update(audio);
+            return HexFormat.of().formatHex(digest.digest());
+        } catch (NoSuchAlgorithmException impossible) {
+            throw new IllegalStateException("SHA-256 no disponible", impossible);
         }
     }
 }

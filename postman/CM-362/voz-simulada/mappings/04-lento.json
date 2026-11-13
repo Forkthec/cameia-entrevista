@@ -1,5 +1,0 @@
-{
-  "priority": 1,
-  "request": {"method": "POST", "urlPath": "/api/v1/transcriptions", "bodyPatterns": [{"contains": "CASO_LENTO"}]},
-  "response": {"status": 200, "fixedDelayMilliseconds": 65000, "jsonBody": {"text": "Llego tarde", "language": "es"}, "headers": {"Content-Type": "application/json"}}
-}

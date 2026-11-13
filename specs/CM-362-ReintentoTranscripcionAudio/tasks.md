@@ -1,12 +1,10 @@
 # CM-362 · Tareas
 
-- [x] T1 · Dominio: liberar el turno (`PROCESSING/RETRYING → PENDING`), reserva vigente, actividad de la sesión.
-- [x] T2 · Dominio: audio, transcripción, clase de fallo, respuesta registrada, política de reintento, puertos y excepciones con sus códigos.
-- [x] T3 · Infraestructura: adaptador HTTP de Voz y su configuración validada.
-- [x] T4 · Persistencia de `intento_respuesta` (sin migración).
-- [x] T5 · Caso de uso con reserva, reintento, registro y liberación.
-- [x] T6 · Endpoint `POST …/answers/audio`, respuesta común, OpenAPI y multipart en memoria.
-- [x] T7 · `docs/errores.md`, `CLAUDE.md`, ADR 0012 y bitácora.
-- [x] T8 · Pruebas de unidad, del adaptador y de punta a punta; `./mvnw.cmd clean verify` en verde.
-- [x] T9 · Compose local con un Voz simulado (WireMock) y guía de prueba en Postman.
-- [ ] T10 · Revisión humana de las decisiones D-362-1 a D-362-10.
+- [x] T1 · Fusionar `CM-345-respuesta-por-voz` (que trae CM-349) y retirar el Servicio de voz provisional.
+- [x] T2 · Clase de fallo y política de reintento.
+- [x] T3 · Clasificación en el adaptador de AssemblyAI.
+- [x] T4 · Bucle de intentos en el caso de uso con ejecución por intento.
+- [x] T5 · Pruebas de unidad, adaptador y punta a punta.
+- [x] T6 · Simulador y colección de Postman (Newman: 40/160 y 25/43 sin fallos).
+- [x] T7 · Spec, ADR 0013, bitácora 14, `docs/errores.md`, `CLAUDE.md`, `.env.example`.
+- [ ] T8 · Revisión humana de D-362-1 a D-362-6.

@@ -1,29 +1,19 @@
 package tech.cameia.entrevista.infrastructure.persistence.entity;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import tech.cameia.entrevista.domain.model.AnswerMode;
-import tech.cameia.entrevista.infrastructure.persistence.entity.converter.AnswerModeConverter;
+import java.time.Instant;
+import java.util.UUID;
 
 /**
- * Fila de la tabla {@code intento_respuesta}: la respuesta de un turno. Solo se inserta; el disparador
- * {@code trg_intento_append_only} rechaza cualquier cambio posterior.
- *
- * <p>No es el modelo de dominio: existe para hablar con JPA. El esquema lo fija {@code hibernate.default_schema}.</p>
+ * Fila de la tabla {@code intento_respuesta}: la respuesta de la persona a un turno. Solo se inserta; la base
+ * rechaza cualquier cambio posterior (disparador {@code trg_intento_append_only}).
  */
 @Entity
 @Table(name = "intento_respuesta")
 public class AnswerAttemptEntity {
-
-    /** Único valor admitido hoy en {@code tipo_interaccion}. */
-    public static final String INITIAL_INTERACTION = "INICIAL";
 
     @Id
     @Column(name = "id", nullable = false)
@@ -38,15 +28,14 @@ public class AnswerAttemptEntity {
     @Column(name = "es_definitiva", nullable = false)
     private boolean definitive;
 
-    @Convert(converter = AnswerModeConverter.class)
     @Column(name = "origen_respuesta", nullable = false, length = 10)
-    private AnswerMode origin;
+    private String origin;
 
     @Column(name = "respuesta_texto", nullable = false, length = 4000)
     private String text;
 
     @Column(name = "pregunta_mostrada", nullable = false, length = 1000)
-    private String shownQuestion;
+    private String questionShown;
 
     @Column(name = "idioma_detectado", length = 10)
     private String detectedLanguage;
@@ -59,27 +48,27 @@ public class AnswerAttemptEntity {
     }
 
     /**
-     * Crea la fila con todos sus valores.
+     * Crea la fila con todas sus columnas.
      *
      * @param id identificador
-     * @param turnId turno al que responde
-     * @param definitive si es la respuesta definitiva
-     * @param origin audio o texto
+     * @param turnId turno
+     * @param interactionType tipo de interacción ({@code INICIAL})
+     * @param definitive si es la respuesta definitiva del turno
+     * @param origin origen ({@code TEXTO} o {@code AUDIO})
      * @param text texto de la respuesta
-     * @param shownQuestion texto de la pregunta mostrada
-     * @param detectedLanguage idioma detectado, o {@code null}
-     * @param createdAt fecha de creación
+     * @param questionShown pregunta tal como se mostró
+     * @param detectedLanguage idioma detectado en el audio
+     * @param createdAt fecha del registro
      */
-    @SuppressWarnings("java:S107")
-    public AnswerAttemptEntity(UUID id, UUID turnId, boolean definitive, AnswerMode origin, String text,
-            String shownQuestion, String detectedLanguage, Instant createdAt) {
+    public AnswerAttemptEntity(UUID id, UUID turnId, String interactionType, boolean definitive, String origin,
+            String text, String questionShown, String detectedLanguage, Instant createdAt) {
         this.id = id;
         this.turnId = turnId;
-        this.interactionType = INITIAL_INTERACTION;
+        this.interactionType = interactionType;
         this.definitive = definitive;
         this.origin = origin;
         this.text = text;
-        this.shownQuestion = shownQuestion;
+        this.questionShown = questionShown;
         this.detectedLanguage = detectedLanguage;
         this.createdAt = createdAt;
     }
@@ -89,7 +78,7 @@ public class AnswerAttemptEntity {
         return id;
     }
 
-    /** @return turno al que responde */
+    /** @return turno */
     public UUID getTurnId() {
         return turnId;
     }
@@ -104,8 +93,8 @@ public class AnswerAttemptEntity {
         return definitive;
     }
 
-    /** @return audio o texto */
-    public AnswerMode getOrigin() {
+    /** @return origen */
+    public String getOrigin() {
         return origin;
     }
 
@@ -114,17 +103,17 @@ public class AnswerAttemptEntity {
         return text;
     }
 
-    /** @return texto de la pregunta mostrada */
-    public String getShownQuestion() {
-        return shownQuestion;
+    /** @return pregunta mostrada */
+    public String getQuestionShown() {
+        return questionShown;
     }
 
-    /** @return idioma detectado, o {@code null} */
+    /** @return idioma detectado */
     public String getDetectedLanguage() {
         return detectedLanguage;
     }
 
-    /** @return fecha de creación */
+    /** @return fecha del registro */
     public Instant getCreatedAt() {
         return createdAt;
     }

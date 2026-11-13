@@ -53,7 +53,7 @@ public enum ErrorCode {
     /** La petición no se pudo interpretar, por ejemplo por una ruta con codificación inválida. */
     REQUEST_PATH_INVALID_FORMAT,
 
-    /** Los datos enviados superan el tamaño que la petición admite (más de 10 MB en un multipart). */
+    /** Los datos enviados superan el tamaño que la petición admite (más de 12 MiB en un multipart). */
     REQUEST_PAYLOAD_TOO_LARGE,
 
     /** La base de datos no respondió; la persona puede reintentar. */
@@ -134,6 +134,27 @@ public enum ErrorCode {
     /** El encabezado de la clave anti-duplicados no cumple el formato. */
     IDEMPOTENCY_KEY_INVALID_FORMAT,
 
+    /** Falta el turno al que se responde. */
+    TURN_ID_REQUIRED,
+
+    /** El identificador del turno no tiene formato de UUID. */
+    TURN_ID_INVALID_FORMAT,
+
+    /** Falta el audio de la respuesta, o llegó vacío. */
+    AUDIO_REQUIRED,
+
+    /** El audio se transcribió vacío o solo con espacios: no se detectó voz. */
+    TRANSCRIPTION_EMPTY,
+
+    /** La transcripción supera los 4000 caracteres. */
+    TRANSCRIPTION_TOO_LONG,
+
+    /** Se detectó, con confianza suficiente, que el audio está en otro idioma que el de la entrevista. */
+    TRANSCRIPTION_LANGUAGE_MISMATCH,
+
+    /** El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido. */
+    TRANSCRIPTION_UNAVAILABLE,
+
     /** La sesión no existe, es de otra persona o su identificador no es válido; no se distingue. */
     SESSION_NOT_FOUND,
 
@@ -146,27 +167,27 @@ public enum ErrorCode {
     /** La copia del perfil congelada en la sesión es demasiado grande, ilegible o no trae el rol de la sesión. */
     PROFILE_SNAPSHOT_INVALID,
 
-    /** El turno no existe, no es de la sesión pedida o su identificador no es válido; no se distingue. */
+    /** El audio supera los 10 MiB que admite una respuesta por voz. */
+    AUDIO_TOO_LARGE,
+
+    /** El contenido real del audio no es un formato admitido (WebM con Opus o MP4 con AAC, solo audio). */
+    AUDIO_INVALID_FORMAT,
+
+    /** El audio dura más de 3 minutos. */
+    AUDIO_TOO_LONG,
+
+    /** El audio dura menos de lo mínimo para contener la voz que exige la interfaz. */
+    AUDIO_TOO_SHORT,
+
+    /** La entrevista se configuró con respuesta por texto y no admite audio. */
+    AUDIO_NOT_ALLOWED,
+
+    /** El turno no existe, no es de la sesión o su identificador no es válido; no se distingue. */
     TURN_NOT_FOUND,
 
-    /** Ya se está procesando una respuesta del mismo turno; el segundo envío se rechaza sin guardarlo. */
-    TURN_PROCESSING,
+    /** La entrevista quedó abandonada y no admite respuestas. */
+    SESSION_ABANDONED,
 
-    /** El turno ya tiene su respuesta definitiva. */
-    TURN_ALREADY_ANSWERED,
-
-    /** Falta el identificador del turno en el envío del audio. */
-    TURN_ID_REQUIRED,
-
-    /** Falta el audio de la respuesta o llegó vacío. */
-    AUDIO_REQUIRED,
-
-    /** No se pudo transcribir el audio: se agotaron los intentos o el fallo no admite reintento. */
-    TRANSCRIPTION_UNAVAILABLE,
-
-    /** La transcripción quedó vacía: no se detectó voz. */
-    TRANSCRIPTION_EMPTY,
-
-    /** La transcripción supera el largo que admite una respuesta. */
-    TRANSCRIPTION_TOO_LONG
+    /** La entrevista está en evaluación o finalizada y no admite respuestas. */
+    SESSION_ALREADY_CLOSED
 }

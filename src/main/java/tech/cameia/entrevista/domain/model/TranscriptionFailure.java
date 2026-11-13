@@ -1,15 +1,15 @@
 package tech.cameia.entrevista.domain.model;
 
 /**
- * Por qué falló un intento de transcripción. Decide si se reintenta (ver
+ * Por qué falló un intento de transcripción. Decide si se reintenta (HU-5.13, ver
  * {@code tech.cameia.entrevista.domain.policy.TranscriptionRetryPolicy}).
  */
 public enum TranscriptionFailure {
 
-    /** Error transitorio: Voz respondió 503 (servicio no disponible) o rechazó la conexión. Se reintenta una vez. */
+    /** Error transitorio: el proveedor respondió 503 (no disponible) o rechazó la conexión. Se reintenta una vez. */
     TRANSIENT,
-    /** El intento agotó su tiempo de espera (60 s por defecto). No se reintenta (CA-5.13.3). */
+    /** El intento agotó su tiempo de espera. No se reintenta: la persona ya esperó el máximo (CA-5.13.3). */
     TIMEOUT,
-    /** Cualquier otro fallo: Voz rechazó el audio, respondió otro error o una respuesta ilegible. No se reintenta. */
+    /** Cualquier otro fallo: el proveedor rechazó el audio, respondió otro error o algo ilegible. No se reintenta. */
     REJECTED
 }
