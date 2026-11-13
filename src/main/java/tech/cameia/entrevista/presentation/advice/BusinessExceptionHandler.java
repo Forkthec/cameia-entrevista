@@ -56,7 +56,9 @@ import tech.cameia.entrevista.domain.exception.InvalidRequestException;
 import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.exception.RequestPayloadTooLargeException;
+import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 
 /**
@@ -132,8 +134,22 @@ class BusinessExceptionHandler {
                     new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Preparación no disponible")),
             Map.entry(ErrorCode.PROFILE_SNAPSHOT_INVALID,
                     new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")),
+            Map.entry(ErrorCode.TRANSCRIPTION_EMPTY,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Transcripción no válida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_TOO_LONG,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Transcripción no válida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_LANGUAGE_MISMATCH,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Transcripción no válida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Transcripción no disponible")),
             Map.entry(ErrorCode.DATABASE_UNAVAILABLE,
                     new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")),
+            Map.entry(ErrorCode.AUDIO_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Audio demasiado grande")),
+            Map.entry(ErrorCode.AUDIO_INVALID_FORMAT,
+                    new Definition(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Formato de audio no admitido")),
+            Map.entry(ErrorCode.AUDIO_TOO_LONG, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_TOO_SHORT, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_NOT_ALLOWED, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
             Map.entry(ErrorCode.TURN_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
             Map.entry(ErrorCode.SESSION_ABANDONED, new Definition(HttpStatus.CONFLICT, "Entrevista abandonada")),
             Map.entry(ErrorCode.SESSION_ALREADY_CLOSED, new Definition(HttpStatus.CONFLICT, "Entrevista cerrada")),
@@ -219,6 +235,28 @@ class BusinessExceptionHandler {
     ProblemDetail modelInvalidOutput(LlmInvalidOutputException error) {
         return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
                 "Salida del modelo de lenguaje inválida: " + error.getReason(), error);
+    }
+
+    /**
+     * El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido (CA-5.12.8).
+     *
+     * <p>Es un fallo de una dependencia, no de la persona: se registra en {@code ERROR} con la razón técnica
+     * (nunca el audio ni el texto) y la respuesta lleva el mensaje literal del criterio, que pide grabar de nuevo o
+     * responder por texto.</p>
+     *
+     * @param error excepción con la razón técnica
+     * @return {@code 503 Service Unavailable} con el código {@code TRANSCRIPTION_UNAVAILABLE}
+     */
+    @ExceptionHandler(TranscriptionUnavailableException.class)
+    ProblemDetail transcriptionUnavailable(TranscriptionUnavailableException error) {
+        Definition definition = DEFINITIONS.get(ErrorCode.TRANSCRIPTION_UNAVAILABLE);
+        ProblemDetail problem = problem(definition.status(), definition.title(), error.getMessage(),
+                error.getErrorCode());
+        if (shouldLog()) {
+            logger.error("Transcripción no disponible: {} [code={}, requestId={}]", error.getReason(),
+                    error.getErrorCode(), problem.getProperties().get("requestId"), error);
+        }
+        return problem;
     }
 
     /**

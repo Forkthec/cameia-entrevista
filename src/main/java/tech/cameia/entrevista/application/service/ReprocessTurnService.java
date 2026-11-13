@@ -103,9 +103,10 @@ public class ReprocessTurnService {
             throw new TurnNotFoundException();
         }
         InterviewTurn turn = turns.findByIdAndSession(turnId, session.id()).orElseThrow(TurnNotFoundException::new);
+        // Sin respuesta guardada no hay nada que evaluar: es un turno pendiente o una respuesta por voz que aún se
+        // transcribe (su reserva no tiene evaluación en curso y parecería abandonada).
+        AnswerAttempt answer = answers.findDefinitive(turn.id()).orElseThrow(TurnNotRetryableException::new);
         Reservation reservation = reserve(session, turn);
-        AnswerAttempt answer = answers.findDefinitive(turn.id()).orElseThrow(
-                () -> new IllegalStateException("Turno en reintento sin respuesta guardada"));
         // La actividad de la sesión no se registra aquí: la registra TurnEvaluator al completar la evaluación.
         return evaluator.evaluate(new EvaluationJob(session, reservation.turn(), reservation.question(),
                 answer.text(), reservation.mark()));

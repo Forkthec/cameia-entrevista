@@ -296,6 +296,7 @@ class ReprocessTurnServiceTest {
     void reprocess_shouldFail_whenNoStoredAnswer() {
         when(answers.findDefinitive(any())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(this::reprocess).isInstanceOf(IllegalStateException.class);
+        // Sin respuesta guardada (p. ej. una voz que aún se transcribe) no hay nada que reintentar ni se reserva el turno.
+        assertThatThrownBy(this::reprocess).isInstanceOf(TurnNotRetryableException.class);
     }
 }

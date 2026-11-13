@@ -61,6 +61,14 @@ services:
       # Modelo de Gemini, obligatorio; y tiempo maximo de espera de cada llamada, 20000ms si se omite
       LLM_MODEL: ${LLM_MODEL:?definir LLM_MODEL en el archivo .env}
       LLM_TIMEOUT: ${LLM_TIMEOUT:-20000ms}
+      # Transcripcion de la respuesta por voz (AssemblyAI, CM-349). Sin llave el servicio arranca y cada
+      # respuesta por voz responde 503 TRANSCRIPTION_UNAVAILABLE.
+      ASSEMBLYAI_API_KEY: ${ASSEMBLYAI_API_KEY:-}
+      ASSEMBLYAI_BASE_URL: ${ASSEMBLYAI_BASE_URL:-https://api.assemblyai.com}
+      ASSEMBLYAI_SPEECH_MODELS: ${ASSEMBLYAI_SPEECH_MODELS:-universal-3-5-pro,universal-2}
+      TRANSCRIPTION_TIMEOUT: ${TRANSCRIPTION_TIMEOUT:-90s}
+      TRANSCRIPTION_LANGUAGE_CONFIDENCE_THRESHOLD: ${TRANSCRIPTION_LANGUAGE_CONFIDENCE_THRESHOLD:-0.8}
+      AUDIO_MAX_SIZE: ${AUDIO_MAX_SIZE:-10MB}
       # Tiempo de cada intento al evaluar una respuesta y esperas entre intentos del ciclo
       LLM_EVALUATION_TIMEOUT: ${LLM_EVALUATION_TIMEOUT:-3000ms}
       LLM_RETRY_FIRST_WAIT: ${LLM_RETRY_FIRST_WAIT:-500ms}

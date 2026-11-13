@@ -25,6 +25,9 @@ public record AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String te
     /** Largo máximo de la pregunta mostrada; el mismo de la columna {@code pregunta_mostrada}. */
     public static final int MAX_QUESTION_LENGTH = 1000;
 
+    /** Largo máximo del idioma detectado que admite la base. */
+    public static final int MAX_LANGUAGE_LENGTH = 10;
+
     /**
      * Valida los datos obligatorios.
      */
@@ -55,6 +58,27 @@ public record AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String te
     }
 
     /** @return descripción sin el texto de la respuesta ni de la pregunta */
+    /**
+     * Respuesta por voz ya transcrita. El idioma detectado se guarda solo si tiene de 2 a 10 caracteres, como exige
+     * la base; otro valor del proveedor se descarta en vez de romper el registro.
+     *
+     * @param turnId turno respondido
+     * @param text texto transcrito
+     * @param shownQuestion pregunta mostrada a la persona
+     * @param detectedLanguage idioma que detectó el proveedor, o null
+     * @param clock reloj que da la fecha
+     * @return la respuesta lista para guardar
+     */
+    public static AnswerAttempt spoken(UUID turnId, String text, String shownQuestion, String detectedLanguage,
+            Clock clock) {
+        String language = detectedLanguage == null ? null : detectedLanguage.strip();
+        if (language != null && (language.length() < 2 || language.length() > MAX_LANGUAGE_LENGTH)) {
+            language = null;
+        }
+        return new AnswerAttempt(UUID.randomUUID(), turnId, AnswerOrigin.AUDIO, text, shownQuestion, language,
+                clock.instant());
+    }
+
     @Override
     public String toString() {
         return "AnswerAttempt[id=" + id + ", turnId=" + turnId + ", origin=" + origin + "]";

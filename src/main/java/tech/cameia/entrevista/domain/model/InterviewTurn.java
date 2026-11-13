@@ -119,6 +119,18 @@ public final class InterviewTurn {
         updatedAt = clock.instant();
     }
 
+    /**
+     * Devuelve la pregunta a pendiente cuando falla la transcripción de la respuesta por voz, antes de guardar
+     * ninguna respuesta: {@code PROCESSING → PENDING}. La persona puede grabar de nuevo o responder por texto
+     * (CA-5.13.5, CA-5.13.6).
+     *
+     * @param clock reloj que da la fecha
+     * @throws TurnTransitionNotAllowedException si el turno no se está procesando
+     */
+    public void release(Clock clock) {
+        changeTo(TurnStatus.PENDING, clock);
+    }
+
     private void changeTo(TurnStatus target, Clock clock) {
         // Se valida antes de tocar ningún campo: una transición rechazada deja el turno igual.
         if (!status.canChangeTo(target)) {
