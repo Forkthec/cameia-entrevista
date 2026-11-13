@@ -9,5 +9,5 @@
 - [x] T7. Configuración: multipart 12 MiB, umbral 13 MiB; Postman de `/health` de 11 a 13 MB.
 - [x] T8. Postman: carpeta «Responder por voz» y simulador que transcribe; Newman 159/159.
 - [x] T9. Prueba real con Gemini (`GeminiTranscriptionLiveTest`): WebM y MP4 transcritos.
-- [x] T10. Documentación: spec, plan, ADR 0012, bitácora 11, `CLAUDE.md`, `.env.example`, `postman/README.md`.
+- [x] T10. Documentación: spec, plan, ADR 0012, bitácora 12, `CLAUDE.md`, `.env.example`, `postman/README.md`.
 - [ ] T11. Revisión humana y decisión de proveedor único con CM-349 (ver §9 de la spec).
