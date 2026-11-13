@@ -112,6 +112,12 @@ jobs:
       # 8000ms, el peor caso de los tres intentos con sus esperas es de unos 25,5 s, dentro
       # de los 120 s que espera el Gateway. Se fija igual en produccion.
       #
+      # GROQ_API_KEY: llave del proveedor de respaldo de la IA (Qwen en Groq), que se usa
+      # en el tercer intento cuando Gemini falla dos veces. Viene de un secreto gestionado,
+      # uno por ambiente, y la cuenta de ejecucion solo puede leer el de su ambiente. La
+      # cuenta de Groq tiene activada la retencion cero de datos, porque las respuestas de
+      # la entrevista son datos personales. Sin esta llave el tercer intento usa Gemini.
+      #
       # SPRING_PROFILES_ACTIVE=production: el nombre de este perfil es "production", no
       # "prod" como en cameia-gateway/cameia-cuentas (application-production.properties,
       # no application-prod.properties) -- sin esta variable,
@@ -133,7 +139,7 @@ jobs:
       # --service-account usa una identidad de ejecución propia de Entrevista, no la
       # cuenta por defecto de Compute Engine: esa cuenta también la usa Perfil, y ambas
       # compartían acceso a los secretos de la otra (contraseña de base de datos y clave
-      # del proveedor LLM) sin necesitarlo. La cuenta dedicada solo puede leer los dos
+      # del proveedor LLM) sin necesitarlo. La cuenta dedicada solo puede leer los
       # secretos que este servicio usa de verdad.
       # SPRING_DATASOURCE_HIKARI_*: la base de datos admite pocas conexiones simultáneas y
       # Spring abre 10 por instancia si no se le indica otra cosa; con varios servicios
@@ -154,7 +160,7 @@ jobs:
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
             --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1,LLM_EVALUATION_TIMEOUT=8000ms" \
-            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
+            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest,GROQ_API_KEY=groq-api-key-staging:latest"
 
       - name: URL del servicio desplegado
         run: gcloud run services describe "${{ env.SERVICE }}" --project="${{ vars.GCP_PROJECT_ID }}" --region="${{ env.REGION }}" --format="value(status.url)"
@@ -361,7 +367,7 @@ jobs:
             --subnet="$VPC_SUBNET" \
             --vpc-egress=all-traffic \
             --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1,LLM_EVALUATION_TIMEOUT=8000ms" \
-            --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest"
+            --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest,GROQ_API_KEY=groq-api-key-production:latest"
 
       - name: URL del servicio desplegado
         id: url
