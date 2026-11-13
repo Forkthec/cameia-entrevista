@@ -6463,6 +6463,545 @@
           }
         }
       ]
+    },
+    {
+      "name": "Reintento con proveedores reales (HU-5.13)",
+      "description": "HU-5.13 contra Gemini y AssemblyAI reales, sin simulador. Correr las subcarpetas en orden desde Postman (las variables real* se guardan en el entorno y pasan de una subcarpeta a otra) con el entorno local-dev.postman_environment.json y la pila de local-dev con ENTREVISTA_DIR=../.worktrees/CM-362-entrevista. Antes de las subcarpetas 2, 3 y 4 hay que cambiar local-dev/.env y recrear la entrevista con `docker compose up -d entrevista`. El caso «falla una vez y el reintento funciona» (CA-5.13.1) no se puede provocar con el proveedor real: lo cubren la carpeta con simulador y las pruebas automáticas.",
+      "item": [
+        {
+          "name": "1 · Configuración normal (llaves reales, TRANSCRIPTION_TIMEOUT=60s)",
+          "description": "ASSEMBLYAI_BASE_URL=https://api.assemblyai.com y las llaves reales de Gemini y AssemblyAI. La pregunta 1 la genera Gemini y voz.webm (voz real en español) la transcribe AssemblyAI.",
+          "item": [
+            {
+              "name": "200 preparar catálogo de roles",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.environment.set('realMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                      "// Cada corrida usa personas y un perfil nuevos para no depender de lo que dejó la anterior.",
+                      "pm.environment.set('realUid', 'real' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                      "pm.environment.set('realOtherUid', 'otr' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                      "pm.environment.set('realProfileId', pm.variables.replaceIn('{{$guid}}'));"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+                  "host": [
+                    "{{rabbitManagementUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "exchanges",
+                    "%2F",
+                    "perfil.events",
+                    "publish"
+                  ]
+                },
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{rabbitUser}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{rabbitPassword}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"properties\": {\"message_id\": \"{{realMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rei\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\", \\\"roles\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombreEs\\\": \\\"Desarrollador Backend\\\", \\\"nombreEn\\\": \\\"Backend Developer\\\", \\\"estado\\\": \\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+                }
+              }
+            },
+            {
+              "name": "200 preparar perfil completo",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.environment.set('realMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+                  "host": [
+                    "{{rabbitManagementUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "exchanges",
+                    "%2F",
+                    "perfil.events",
+                    "publish"
+                  ]
+                },
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{rabbitUser}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{rabbitPassword}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"properties\": {\"message_id\": \"{{realMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rei\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\": \\\"{{realUid}}\\\", \\\"contextoProfesional\\\": {\\\"id\\\": \\\"{{realProfileId}}\\\", \\\"nombre\\\": \\\"Analista de datos\\\", \\\"estado\\\": \\\"COMPLETED\\\", \\\"fecha_archivado\\\": null, \\\"resumen\\\": \\\"Analista con tres años de experiencia en SQL y Python.\\\", \\\"experiencias\\\": [{\\\"empresa\\\": \\\"ACME\\\", \\\"cargo\\\": \\\"Analista\\\", \\\"descripcion\\\": null, \\\"inicio\\\": \\\"2022-01\\\", \\\"fin\\\": null, \\\"estadoEmpleo\\\": \\\"CURRENT\\\"}], \\\"formaciones\\\": [{\\\"institucion\\\": \\\"Universidad del Cauca\\\", \\\"titulo\\\": \\\"Ingeniería de Sistemas\\\", \\\"nivel\\\": \\\"UNDERGRADUATE\\\", \\\"inicio\\\": \\\"2017-02\\\", \\\"fin\\\": \\\"2021-12\\\", \\\"enCurso\\\": false}], \\\"habilidades\\\": [{\\\"nombre\\\": \\\"Python\\\", \\\"nivel\\\": \\\"INTERMEDIATE\\\"}]}, \\\"rolesAspirados\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombre\\\": \\\"Desarrollador Backend\\\"}], \\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+                }
+              }
+            },
+            {
+              "name": "201 crea la sesión con respuesta por Audio",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                      "pm.test('Forma de respuesta AUDIO', () => pm.expect(pm.response.json().configuration.answerFormat).to.eql('AUDIO'));",
+                      "pm.environment.set('realSession', pm.response.json().sessionId);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"profileId\":\"{{realProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"AUDIO\",\"sessionLanguage\":\"es-CO\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "interviews",
+                    "sessions"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "200 inicia y devuelve la pregunta 1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "const s = pm.response.json();",
+                      "pm.test('EN_CURSO con forma AUDIO (CA-5.8.1)', () => { pm.expect(s.status).to.eql('EN_CURSO'); pm.expect(s.answerFormat).to.eql('AUDIO'); });",
+                      "pm.environment.set('realTurn', s.pendingQuestion.turnId);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/start",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "interviews",
+                    "sessions",
+                    "{{realSession}}",
+                    "start"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "200 AssemblyAI transcribe y registra una sola respuesta (CA-5.13.2)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "const r = pm.response.json();",
+                      "pm.test('Avanza a «Pregunta 2 de 5»', () => { pm.expect(r.turn.status).to.eql('COMPLETED'); pm.expect(r.progress).to.eql({currentQuestion: 2, totalQuestions: 5}); pm.expect(r.nextQuestion.number).to.eql(2); });",
+                      "pm.environment.set('realAnsweredTurn', pm.environment.get('realTurn'));",
+                      "pm.environment.set('realTurn', r.nextQuestion.turnId);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/answers/audio",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "turnId",
+                      "value": "{{realTurn}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "audio",
+                      "type": "file",
+                      "src": "src/test/resources/audio/voz.webm",
+                      "contentType": "audio/webm"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "409 la pregunta 1 tiene una sola respuesta (CA-5.13.7)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                      "pm.test('code = TURN_TRANSITION_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('TURN_TRANSITION_NOT_ALLOWED'));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/answers/audio",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "turnId",
+                      "value": "{{realAnsweredTurn}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "audio",
+                      "type": "file",
+                      "src": "src/test/resources/audio/voz.webm",
+                      "contentType": "audio/webm"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "200 la pregunta 2 queda pendiente",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "const s = pm.response.json();",
+                      "pm.test('Sigue la pregunta 2', () => { pm.expect(s.pendingQuestion.number).to.eql(2); pm.expect(s.pendingQuestion.turnId).to.eql(pm.environment.get('realTurn')); });"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/state"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2 · AssemblyAI inalcanzable (ASSEMBLYAI_BASE_URL=http://127.0.0.1:1)",
+          "description": "Dentro del contenedor nadie escucha en el puerto 1: la conexión se rechaza (fallo transitorio). Se reintenta una vez tras TRANSCRIPTION_RETRY_PAUSE (1 s) y el segundo intento también falla. En ejecucion_ia quedan dos filas TRANSCRIBIR FALLIDA (numero_intento 1 y 2).",
+          "item": [
+            {
+              "name": "503 se reintentó una vez y se agotaron los intentos (CA-5.13.1, CA-5.13.3, CA-5.13.4)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                      "pm.test('code = TRANSCRIPTION_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_UNAVAILABLE'));",
+                      "pm.test('Mensaje de CA-5.13.3', () => pm.expect(pm.response.json().detail).to.eql('No pudimos transcribir tu respuesta. Graba de nuevo o responde por texto.'));",
+                      "pm.test('Hubo pausa antes del reintento (≥ 1 s)', () => pm.expect(pm.response.responseTime).to.be.at.least(900));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/answers/audio",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "turnId",
+                      "value": "{{realTurn}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "audio",
+                      "type": "file",
+                      "src": "src/test/resources/audio/voz.webm",
+                      "contentType": "audio/webm"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "200 la pregunta 2 sigue pendiente con el mismo turno (CA-5.13.5)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "const s = pm.response.json();",
+                      "pm.test('Sigue la pregunta 2', () => { pm.expect(s.pendingQuestion.number).to.eql(2); pm.expect(s.pendingQuestion.turnId).to.eql(pm.environment.get('realTurn')); });"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/state"
+              }
+            }
+          ]
+        },
+        {
+          "name": "3 · Intento que agota el tiempo (URL real, TRANSCRIPTION_TIMEOUT=500ms)",
+          "description": "AssemblyAI real no alcanza a subir y transcribir el audio en 500 ms (si respondiera 200, bajar más el valor): el intento agota su tiempo y no se reintenta (CA-5.13.3). En ejecucion_ia queda una sola fila FALLIDA para este envío.",
+          "item": [
+            {
+              "name": "503 el intento agotó su tiempo y no se reintenta (CA-5.13.3)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                      "pm.test('code = TRANSCRIPTION_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('TRANSCRIPTION_UNAVAILABLE'));",
+                      "pm.test('Mensaje de CA-5.13.3', () => pm.expect(pm.response.json().detail).to.eql('No pudimos transcribir tu respuesta. Graba de nuevo o responde por texto.'));",
+                      "pm.test('Un solo intento (sin pausa ni segundo intento)', () => pm.expect(pm.response.responseTime).to.be.below(2500));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/answers/audio",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "turnId",
+                      "value": "{{realTurn}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "audio",
+                      "type": "file",
+                      "src": "src/test/resources/audio/voz.webm",
+                      "contentType": "audio/webm"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "200 la pregunta 2 sigue pendiente con el mismo turno (CA-5.13.5)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "const s = pm.response.json();",
+                      "pm.test('Sigue la pregunta 2', () => { pm.expect(s.pendingQuestion.number).to.eql(2); pm.expect(s.pendingQuestion.turnId).to.eql(pm.environment.get('realTurn')); });"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/state"
+              }
+            }
+          ]
+        },
+        {
+          "name": "4 · De vuelta a la configuración normal (TRANSCRIPTION_TIMEOUT=60s)",
+          "description": "Grabar de nuevo la misma pregunta registra una sola respuesta y avanza (CA-5.13.5, CA-5.13.7).",
+          "item": [
+            {
+              "name": "200 grabar de nuevo en la misma pregunta registra una sola respuesta (CA-5.13.5, CA-5.13.7)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                      "pm.test('Avanza a «Pregunta 3 de 5»', () => pm.expect(pm.response.json().nextQuestion.number).to.eql(3));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-User-Id",
+                    "value": "{{realUid}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/v1/interviews/sessions/{{realSession}}/answers/audio",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "turnId",
+                      "value": "{{realTurn}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "audio",
+                      "type": "file",
+                      "src": "src/test/resources/audio/voz.webm",
+                      "contentType": "audio/webm"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }
