@@ -7,7 +7,7 @@ Orden de fusión: CM-349 → **CM-345** → CM-362. Esta rama ya fusionó CM-349
 - Validación del audio de HU-5.8 sobre el endpoint de CM-349: formato por el contenido real WebM/Opus y MP4/AAC sin video (`infrastructure.media`), 10 MiB (`AUDIO_TOO_LARGE`), 1,5 s a 181 s (`AudioAnswerPolicy`), entrevista por texto (`AUDIO_NOT_ALLOWED`), estado de la sesión (`SESSION_ABANDONED`, `SESSION_ALREADY_CLOSED`).
 - Reserva del turno en `PROCESSING` con su versión antes de transcribir (`AnswerRegistrar`): un doble envío responde 409 `SESSION_CONFLICT` y pide una sola transcripción; un fallo deja el turno en `RETRYING`.
 - La transcripción la hace AssemblyAI (adaptador de CM-349); el audio no se guarda en disco, base, bucket ni log, y sus bytes se sobrescriben al terminar. Multipart de 12 MiB en memoria.
-- `V8__respuesta_por_voz.sql` (una sola, idéntica a la de CM-349). Carpeta Postman «Responder por voz» y simulador que imita Gemini y AssemblyAI.
+- `V8__respuesta_por_voz.sql` (una sola, idéntica a la de CM-349). Carpeta Postman «Responder por voz», que corre con el simulador (imita Gemini y AssemblyAI) o con los proveedores reales (`vozProveedores=real`); audio `voz-180s.webm` para la pregunta de 3:00.
 - Documentación: `specs/CM-345-RespuestaPorVoz/` (spec con §10 de la integración, plan, tasks), ADR 0012, bitácora IA 12, `docs/entregas/CM-345-como-probar.md`, `postman/README.md`.
 
 ## Criterios cubiertos (backend)
@@ -15,8 +15,8 @@ CA-5.8.5, 5.8.6, 5.8.7, 5.8.8, 5.8.12–5.8.18, 5.8.20, 5.8.21, 5.8.27, 5.8.28. 
 
 ## Validación (sobre `bc1f885`)
 - PASA: `./mvnw clean verify` (1502 pruebas, 0 fallos, 1 omitida).
-- PASA: Newman, carpeta «Responder por voz» con el simulador (39 peticiones, 159 aserciones).
-- PENDIENTE: prueba manual con una llave real de AssemblyAI; revisión humana.
+- PASA: Newman, carpeta «Responder por voz» con el simulador (39 peticiones, 159 aserciones) y en modo `vozProveedores=real` (31 peticiones, 140 aserciones; salta lo que solo el simulador provoca).
+- PENDIENTE: la corrida con llaves reales de AssemblyAI y Gemini; revisión humana.
 
 ## Atributos de calidad
 Seguridad (formato por contenido, nombre ignorado, audio no persistido ni registrado), Fiabilidad (idempotencia y doble envío probados en E2E), Compatibilidad de contrato (forma 200 común que ya consume la web).

@@ -3541,12 +3541,12 @@
               "basic": [
                 {
                   "key": "username",
-                  "value": "guest",
+                  "value": "{{rabbitUser}}",
                   "type": "string"
                 },
                 {
                   "key": "password",
-                  "value": "guest",
+                  "value": "{{rabbitPassword}}",
                   "type": "string"
                 }
               ]
@@ -3606,12 +3606,12 @@
               "basic": [
                 {
                   "key": "username",
-                  "value": "guest",
+                  "value": "{{rabbitUser}}",
                   "type": "string"
                 },
                 {
                   "key": "password",
-                  "value": "guest",
+                  "value": "{{rabbitPassword}}",
                   "type": "string"
                 }
               ]
@@ -5167,7 +5167,7 @@
                 {
                   "key": "audio",
                   "type": "file",
-                  "src": "src/test/resources/audio/silencio-180s.webm",
+                  "src": "src/test/resources/audio/voz-180s.webm",
                   "contentType": "audio/webm"
                 }
               ]
@@ -5558,6 +5558,31 @@
                 "audio"
               ]
             }
+          }
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Credenciales de la API de administración de RabbitMQ (pasos 1 y 2): guest/guest salvo que el entorno defina",
+              "// rabbitUser y rabbitPassword (en local-dev: cameia / cameia_local).",
+              "if (!pm.variables.get('rabbitUser')) pm.variables.set('rabbitUser', 'guest');",
+              "if (!pm.variables.get('rabbitPassword')) pm.variables.set('rabbitPassword', 'guest');",
+              "",
+              "// Con proveedores reales (variable vozProveedores = real) se saltan las peticiones que programan o consultan el",
+              "// simulador y las que esperan un fallo que solo el simulador provoca. Sin la variable, o con «simulado», corren todas.",
+              "if ((pm.variables.get('vozProveedores') || 'simulado') === 'real') {",
+              "  const url = pm.request.url.toString();",
+              "  const simulador = pm.variables.get('simuladorUrl');",
+              "  const soloConSimulador = ['503 transcripción no disponible', '422 transcripción sin voz'];",
+              "  if (url.includes('{{simuladorUrl}}') || (simulador && url.startsWith(simulador)) || soloConSimulador.includes(pm.info.requestName)) {",
+              "    pm.execution.skipRequest();",
+              "  }",
+              "}"
+            ]
           }
         }
       ]
