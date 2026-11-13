@@ -1,0 +1,13 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 2,
+  "ms" : 742,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 100,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Definiciones precisas y correcta aplicación de los escenarios.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta expone con claridad el mecanismo de aislamiento (bloqueo) de las transacciones y el de control de concurrencia por versión del bloqueo optimista, además de justificar adecuadamente su uso Según el nivel de contención previsto.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

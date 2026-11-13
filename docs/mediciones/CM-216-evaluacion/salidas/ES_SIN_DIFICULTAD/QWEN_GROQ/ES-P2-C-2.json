@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-C",
+  "corrida" : 2,
+  "ms" : 684,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 113,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta no aborda la pregunta técnica planteada.\", \"follow_up_texto\": \"Preguntar nuevamente: ¿Qué diferencia hay entre una transacción y un bloqueo optimista en una base de datos relacional, y cuándo usarías cada uno?\", \"motivo\": \"El candidato no respondió a la pregunta técnica solicitada, sino que desvió el tema hacia la historia de los bancos y su experiencia con interfaces gráficas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

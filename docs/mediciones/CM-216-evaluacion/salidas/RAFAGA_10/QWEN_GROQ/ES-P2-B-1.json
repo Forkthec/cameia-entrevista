@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 1,
+  "ms" : 659,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 169,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general y omite los mecanismos técnicos clave (ACID, versiones o contadores de versión) así como los criterios concretos para elegir entre aislamiento por transacción y control de concurrencia optimista.\", \"follow_up_texto\": \"Explica los mecanismos internos de ambos: cómo garantiza la transacción las propiedades ACID y cómo funciona específicamente el control de concurrencia optimista (por ejemplo, mediante columnas de versión). Además, da un ejemplo concreto de cuándo preferirías uno sobre el otro según el patrón de acceso.\", \"motivo\": \"La respuesta identifica vagas diferencias de uso pero carece de precisión técnica sobre los mecanismos de funcionamiento y no detalla los criterios de elección.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

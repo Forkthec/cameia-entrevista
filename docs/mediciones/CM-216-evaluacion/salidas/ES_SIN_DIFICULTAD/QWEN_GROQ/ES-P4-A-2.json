@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 2,
+  "ms" : 732,
+  "tokensEntrada" : 755,
+  "tokensSalida" : 115,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La arquitectura propuesta (outbox + cola durable + idempotencia) es el patrón correcto para garantizar consistencia y no pérdida de mensajes ante reinicios.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe una solución robusta que cubre la persistencia en la base de datos (outbox), la fiabilidad de la cola y la idempotencia, resolviendo completamente la problemática planteada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

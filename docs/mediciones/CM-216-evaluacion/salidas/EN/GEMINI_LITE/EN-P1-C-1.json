@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P1-C",
+  "corrida" : 1,
+  "ms" : 986,
+  "tokensEntrada" : 643,
+  "tokensSalida" : 112,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta personal y de interés por el puesto, solicitando cambiar de tema.\",\n  \"follow_up_texto\": \"Comprendo tu preferencia por los temas técnicos, pero necesito conocer brevemente tu trayectoria y qué te atrae de esta posición de backend.\",\n  \"feedback\": \"Por favor, responde a la pregunta planteada antes de pasar a los aspectos técnicos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import tech.cameia.entrevista.application.command.AudioAnswerCommand;
 import tech.cameia.entrevista.application.service.AnswerResult;
+import tech.cameia.entrevista.application.service.SessionState;
 import tech.cameia.entrevista.application.service.SubmitAudioAnswerService;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.InvalidRequestException;
@@ -53,7 +54,7 @@ class AudioAnswerControllerTest {
     @Test
     void answerByVoice_shouldReturnCommonAnswerShape_whenRegistered() throws Exception {
         when(service.submit(any())).thenReturn(new AnswerResult(TURN, TurnStatus.COMPLETED, 2, 5,
-                new AnswerResult.NextQuestion(NEXT, 2, "Pregunta 2"), false));
+                new SessionState.PendingQuestion(NEXT, 2, "Pregunta 2", TurnStatus.PENDING, 0), false));
 
         mockMvc.perform(multipart(PATH).file(AUDIO).param("turnId", TURN.toString())
                         .header("X-User-Id", "uid-a").header("Idempotency-Key", "clave-1"))

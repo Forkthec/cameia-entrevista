@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P3-C",
+  "corrida" : 1,
+  "ms" : 1226,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 125,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato esquiva la pregunta afirmando que nunca le ha ocurrido, evitando relatar una experiencia real.\",\n  \"follow_up_texto\": \"Comprendo, pero es un escenario común en la industria. Piensa en alguna situación donde la presión del tiempo haya puesto a prueba tu capacidad de gestión de errores y describe cómo actuaste.\",\n  \"feedback\": \"La respuesta es evasiva. Es necesario evaluar la capacidad de resolución de problemas bajo presión.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

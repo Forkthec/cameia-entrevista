@@ -2,162 +2,124 @@ package tech.cameia.entrevista.application.service;
 
 import java.time.Clock;
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
-
-import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
-import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
+import tech.cameia.entrevista.domain.exception.AnswerAlreadyExistsException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
-import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
+import tech.cameia.entrevista.domain.exception.TurnConflictException;
 import tech.cameia.entrevista.domain.exception.TurnNotFoundException;
-import tech.cameia.entrevista.domain.exception.TurnTransitionNotAllowedException;
+import tech.cameia.entrevista.domain.model.AiExecution;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
-import tech.cameia.entrevista.domain.model.AnswerMode;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
-import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.TurnStatus;
+import tech.cameia.entrevista.domain.policy.AiRetryPolicy;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
 
 /**
- * Registra la respuesta definitiva de la pregunta pendiente y avanza a la siguiente, sea cual sea su origen
- * (escrita o por voz): es la pieza común que pide CA-5.12.1, «procesarla igual que una respuesta escrita».
+ * Reserva y registro de la respuesta por voz sobre el flujo común de respuestas.
  *
- * <p>El ciclo de una respuesta es: {@link #requireAnswerable} (la pregunta se puede responder), {@link #claim}
- * (reserva el turno en {@code PROCESSING} con control de versión, en una transacción corta), el trabajo lento sin
- * transacción (transcribir), y {@link #register} (dentro de la transacción de quien llama) o {@link #release} si
- * algo falló. La reserva deja pasar un solo envío por turno: un doble envío recibe 409 {@code SESSION_CONFLICT}
- * (CA-5.8.6).</p>
- *
- * <p>Alcance hoy: sin evaluación por turno (HU-5.2 aún no la tiene en Backend), el turno pasa a {@code COMPLETED} al
- * registrar la respuesta. Tras la quinta respuesta la sesión sigue {@code EN_CURSO} y la respuesta informa
- * {@code interviewFinished = true}: es el comportamiento de CA-5.12.6 mientras HU-5.5 no esté disponible.</p>
+ * <p>La respuesta por voz reserva el turno ({@code PENDING → PROCESSING}) antes de transcribir, para que un segundo
+ * envío responda 409 {@code TURN_CONFLICT} (CA-5.13.8). Si la transcripción falla, el turno vuelve a
+ * {@code PENDING} sin respuesta guardada: la persona puede grabar de nuevo o responder por texto (CA-5.13.5,
+ * CA-5.13.6). Con el texto transcrito, {@link #startEvaluation} guarda la respuesta y la marca de evaluación en la
+ * misma transacción, y la evaluación, el avance y el cierre de la sesión los hace {@link TurnEvaluator}, igual que
+ * para la respuesta escrita. Los códigos coinciden con los de la respuesta escrita.
  */
 @Component
 public class AnswerRegistrar {
 
     private static final Logger log = LoggerFactory.getLogger(AnswerRegistrar.class);
+    private static final String PROVIDER = AiProvider.PRIMARY.code();
 
     private final InterviewSessionRepository sessions;
     private final InterviewQuestionRepository questions;
     private final InterviewTurnRepository turns;
-    private final AnswerAttemptRepository attempts;
+    private final AnswerAttemptRepository answers;
+    private final AiExecutionRepository executions;
     private final TransactionTemplate transaction;
     private final Clock clock;
+    private final String modelName;
+    private final Duration evaluationBudget;
 
+    @SuppressWarnings("java:S107")
     AnswerRegistrar(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
-            InterviewTurnRepository turns, AnswerAttemptRepository attempts, TransactionTemplate transaction,
-            Clock clock) {
-        this.transaction = transaction;
+            InterviewTurnRepository turns, AnswerAttemptRepository answers, AiExecutionRepository executions,
+            TransactionTemplate transaction, Clock clock, @Value("${cameia.llm.model}") String modelName,
+            @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait) {
         this.sessions = sessions;
         this.questions = questions;
         this.turns = turns;
-        this.attempts = attempts;
+        this.answers = answers;
+        this.executions = executions;
+        this.transaction = transaction;
         this.clock = clock;
+        this.modelName = modelName;
+        this.evaluationBudget = AiRetryPolicy.cycleBudget(evaluationTimeout, firstWait, secondWait);
     }
 
-    /**
-     * Pregunta pendiente de una sesión en curso: el turno abierto y su pregunta.
-     *
-     * @param turn turno abierto
-     * @param question pregunta del turno
-     */
+    /** Turno pendiente y su pregunta planificada. */
     public record Pending(InterviewTurn turn, InterviewQuestion question) {
     }
 
-    /**
-     * Comprueba que la sesión admite respuestas (CA-5.8.28).
-     *
-     * @param status estado de la sesión
-     * @throws SessionAbandonedException si la sesión se abandonó
-     * @throws SessionAlreadyClosedException si la sesión está en evaluación o finalizada
-     * @throws SessionTransitionNotAllowedException si la sesión todavía no empezó
-     */
-    public static void requireAcceptsAnswers(SessionStatus status) {
-        switch (status) {
-            case IN_PROGRESS -> {
-                // Admite respuestas.
-            }
-            case ABANDONED -> throw new SessionAbandonedException();
-            case EVALUATING, FINISHED -> throw new SessionAlreadyClosedException();
-            case CONFIGURED -> throw new SessionTransitionNotAllowedException();
-        }
+    /** Tiempo máximo del ciclo de evaluación que sigue a la transcripción. */
+    public Duration evaluationBudget() {
+        return evaluationBudget;
     }
 
     /**
-     * Comprueba que el turno pedido es el pendiente de la sesión y que nadie lo está procesando.
+     * Comprueba, sin escribir, que el turno de la sesión admite una respuesta por voz.
      *
-     * @param session sesión en curso
-     * @param turnId turno al que se quiere responder
-     * @param claimMaxAge tiempo tras el que una reserva se considera de un proceso que murió
-     * @return el turno pendiente y su pregunta
-     * @throws TurnNotFoundException si el turno no existe o no es de la sesión (no se revela si existe)
-     * @throws TurnTransitionNotAllowedException si es de la sesión pero ya se respondió o no es el pendiente
-     * @throws SessionConflictException si otro envío del mismo turno se está procesando
+     * @throws TurnNotFoundException si el turno no es de la sesión
+     * @throws AnswerAlreadyExistsException si la pregunta ya tiene respuesta guardada o no está pendiente
+     * @throws TurnConflictException si otra respuesta del turno se está procesando
      */
     public Pending requireAnswerable(InterviewSession session, UUID turnId, Duration claimMaxAge) {
-        InterviewTurn turn = turns.findById(turnId).orElseThrow(TurnNotFoundException::new);
+        InterviewTurn turn = turns.findByIdAndSession(turnId, session.id()).orElseThrow(TurnNotFoundException::new);
         InterviewQuestion question = questions.findBySession(session.id()).stream()
                 .filter(candidate -> candidate.id().equals(turn.questionId()))
                 .findFirst()
                 .orElseThrow(TurnNotFoundException::new);
-        boolean isOpen = turns.findOpenBySession(session.id()).map(open -> open.id().equals(turnId)).orElse(false);
-        if (!isOpen || turn.status() == TurnStatus.COMPLETED) {
-            throw new TurnTransitionNotAllowedException();
-        }
-        if (turn.status() == TurnStatus.PROCESSING && isLive(turn, claimMaxAge)) {
-            throw new SessionConflictException();
-        }
+        requireClaimable(turn, claimMaxAge);
         return new Pending(turn, question);
     }
 
     /**
-     * Reserva el turno ({@code PENDING} o {@code RETRYING} → {@code PROCESSING}). Debe correr en una transacción
-     * corta propia: si otra petición reservó el mismo turno entre la lectura y la escritura, la versión ya no coincide
-     * y el repositorio lanza {@link SessionConflictException}.
-     *
-     * @param turnId turno a reservar
-     * @param claimMaxAge tiempo tras el que una reserva se considera de un proceso que murió
-     * @return el turno reservado, con su versión
-     * @throws SessionConflictException si otro envío ya lo reservó
-     * @throws TurnTransitionNotAllowedException si ya se respondió
+     * Reserva el turno para transcribir: {@code PENDING → PROCESSING}. Una reserva de voz abandonada (más vieja que
+     * {@code claimMaxAge} y sin respuesta guardada) se libera y se toma de nuevo. Va dentro de una transacción.
      */
     public InterviewTurn claim(UUID turnId, Duration claimMaxAge) {
         InterviewTurn turn = turns.findById(turnId).orElseThrow(TurnNotFoundException::new);
-        switch (turn.status()) {
-            case PENDING -> turn.startProcessing(clock);
-            case RETRYING -> turn.resumeProcessing(clock);
-            case PROCESSING -> {
-                if (isLive(turn, claimMaxAge)) {
-                    throw new SessionConflictException();
-                }
-                // Reserva de un proceso que murió a mitad del trabajo: se libera y se toma de nuevo.
-                turn.retry(clock);
-                turn.resumeProcessing(clock);
-            }
-            case COMPLETED -> throw new TurnTransitionNotAllowedException();
+        requireClaimable(turn, claimMaxAge);
+        if (turn.status() == TurnStatus.PROCESSING) {
+            turn.release(clock);
         }
-        return turns.save(turn);
+        turn.startProcessing(clock);
+        try {
+            return turns.save(turn);
+        } catch (SessionConflictException lostRace) {
+            throw new TurnConflictException();
+        }
     }
 
     /**
-     * Devuelve a {@code RETRYING} un turno reservado cuyo trabajo falló: la pregunta sigue pendiente y la persona
-     * puede responder de nuevo. Corre en su propia transacción y solo toca el turno si sigue siendo la reserva de
-     * quien llama; si ni así se puede, la reserva caduca sola.
-     *
-     * @param claimed turno tal como quedó al reservarlo
+     * Devuelve a pendiente un turno reservado cuyo audio no llegó a guardarse como respuesta. En su propia
+     * transacción; si el turno ya cambió, no hace nada.
      */
     public void release(InterviewTurn claimed) {
         try {
@@ -165,58 +127,52 @@ public class AnswerRegistrar {
                     .filter(turn -> turn.status() == TurnStatus.PROCESSING
                             && Objects.equals(turn.version(), claimed.version()))
                     .ifPresent(turn -> {
-                        turn.retry(clock);
+                        turn.release(clock);
                         turns.save(turn);
                     }));
         } catch (RuntimeException releasing) {
-            log.error("No se pudo liberar el turno tras un fallo de la respuesta [turnId={}, causa={}]", claimed.id(),
-                    releasing.getClass().getSimpleName());
+            log.error("No se pudo liberar el turno tras un fallo de la respuesta por voz [turnId={}, causa={}]",
+                    claimed.id(), releasing.getClass().getSimpleName());
         }
     }
 
     /**
-     * Registra la respuesta y avanza. Vuelve a cargar la sesión y el turno dentro de la transacción de quien llama:
-     * mientras se transcribía, la sesión pudo cambiar o la reserva pudo caducar.
+     * Guarda la respuesta transcrita y la marca de evaluación del turno reservado. Va dentro de una transacción; la
+     * evaluación se hace después, fuera de ella, con {@link TurnEvaluator#evaluate}.
      *
-     * @param sessionId sesión
-     * @param owner dueño
-     * @param claimed turno reservado por quien llama
-     * @param question pregunta del turno
-     * @param text texto definitivo de la respuesta, ya validado (de 1 a 4000 caracteres)
-     * @param origin origen de la respuesta
-     * @param detectedLanguage idioma detectado en el audio; {@code null} en una respuesta escrita
-     * @return el turno respondido, el avance y la siguiente pregunta
-     * @throws SessionNotFoundException si la sesión desapareció
-     * @throws SessionConflictException si la reserva ya no es de quien llama
+     * @throws TurnConflictException si el turno ya no es la reserva de esta petición
      */
     @SuppressWarnings("java:S107")
-    public AnswerResult register(UUID sessionId, FirebaseUid owner, InterviewTurn claimed, InterviewQuestion question,
-            String text, AnswerMode origin, String detectedLanguage) {
+    public TurnEvaluator.EvaluationJob startEvaluation(UUID sessionId, FirebaseUid owner, InterviewTurn claimed,
+            InterviewQuestion question, String text, String detectedLanguage, TurnEvaluator.KeyRecorder recorder) {
         InterviewSession session = sessions.findByIdAndOwner(sessionId, owner)
                 .orElseThrow(SessionNotFoundException::new);
-        requireAcceptsAnswers(session.status());
+        session.requireAcceptsAnswers();
         InterviewTurn turn = turns.findById(claimed.id()).orElseThrow(TurnNotFoundException::new);
         if (turn.status() != TurnStatus.PROCESSING || !Objects.equals(turn.version(), claimed.version())) {
-            throw new SessionConflictException();
+            throw new TurnConflictException();
         }
-        attempts.saveDefinitive(new AnswerAttempt(UUID.randomUUID(), turn.id(), origin, text,
-                question.originalText(), detectedLanguage, clock.instant()));
-        turn.complete(clock);
-        InterviewTurn saved = turns.save(turn);
+        answers.save(AnswerAttempt.spoken(turn.id(), text, question.originalText(), detectedLanguage, clock));
+        AiExecution mark = executions.save(AiExecution.evaluationStarted(session.id(), turn.id(), modelName,
+                EvaluationPromptBuilder.VERSION, PROVIDER, clock));
+        session.registerActivity(clock);
+        sessions.save(session);
+        return new TurnEvaluator.EvaluationJob(session, turn, question, text, mark, recorder);
+    }
 
-        int answered = question.position();
-        if (answered >= InterviewQuestion.TOTAL) {
-            return new AnswerResult(saved.id(), saved.status(), InterviewQuestion.TOTAL, InterviewQuestion.TOTAL,
-                    null, true);
+    private void requireClaimable(InterviewTurn turn, Duration claimMaxAge) {
+        switch (turn.status()) {
+            case PENDING -> {
+                // Admite la respuesta.
+            }
+            case PROCESSING -> {
+                // Una reserva viva, o una con respuesta guardada (se está evaluando), no se toca.
+                if (isLive(turn, claimMaxAge) || answers.findDefinitive(turn.id()).isPresent()) {
+                    throw new TurnConflictException();
+                }
+            }
+            case COMPLETED, RETRYING -> throw new AnswerAlreadyExistsException();
         }
-        List<InterviewQuestion> planned = questions.findBySession(session.id());
-        InterviewQuestion next = planned.stream()
-                .filter(candidate -> candidate.position() == answered + 1)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Falta la pregunta " + (answered + 1)));
-        InterviewTurn nextTurn = turns.save(InterviewTurn.open(next.id(), clock));
-        return new AnswerResult(saved.id(), saved.status(), next.position(), InterviewQuestion.TOTAL,
-                new AnswerResult.NextQuestion(nextTurn.id(), next.position(), next.originalText()), false);
     }
 
     private boolean isLive(InterviewTurn turn, Duration claimMaxAge) {

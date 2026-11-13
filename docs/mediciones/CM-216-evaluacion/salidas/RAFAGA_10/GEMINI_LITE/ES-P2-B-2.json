@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-B",
+  "corrida" : 2,
+  "ms" : 1316,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 104,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"motivo\": \"La respuesta es superficial, no explica los mecanismos de control de concurrencia ni diferencia correctamente ambos conceptos.\", \"follow_up_texto\": \"Podrías explicar cómo funciona internamente el bloqueo optimista para detectar conflictos y en qué escenarios concretos elegirías usarlo frente a una transacción estándar.\", \"feedback\": \"La respuesta se queda en generalidades y no profundiza en los conceptos técnicos solicitados.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

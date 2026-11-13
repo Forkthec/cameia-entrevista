@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-A",
+  "corrida" : 1,
+  "ms" : 879,
+  "tokensEntrada" : 734,
+  "tokensSalida" : 97,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica correctamente ambos conceptos, detalla el mecanismo de versionado del bloqueo optimista y justifica los casos de uso según el nivel de contención.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta precisa y bien estructurada que cubre tanto las definiciones como los escenarios de aplicación.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

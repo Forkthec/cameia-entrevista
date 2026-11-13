@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-B",
+  "corrida" : 2,
+  "ms" : 1342,
+  "tokensEntrada" : 678,
+  "tokensSalida" : 122,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es superficial, no explica los mecanismos internos de una transacción ni el funcionamiento del control de concurrencia optimista.\",\n  \"follow_up_texto\": \"Podrías detallar cómo funcionan el control de concurrencia optimista y las transacciones a nivel de aislamiento, así como un escenario concreto de aplicación para cada uno.\",\n  \"feedback\": \"La respuesta carece de los detalles técnicos necesarios para el nivel de dificultad esperado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

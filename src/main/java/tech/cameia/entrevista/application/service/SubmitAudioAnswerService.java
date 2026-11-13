@@ -25,7 +25,6 @@ import tools.jackson.databind.json.JsonMapper;
 import tech.cameia.entrevista.application.command.AudioAnswerCommand;
 import tech.cameia.entrevista.domain.exception.AudioNotAllowedException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
-import tech.cameia.entrevista.domain.exception.IdempotencyKeyAlreadyExistsException;
 import tech.cameia.entrevista.domain.exception.IdempotencyKeyConflictException;
 import tech.cameia.entrevista.domain.exception.InvalidRequestException;
 import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
@@ -105,6 +104,7 @@ public class SubmitAudioAnswerService {
 
     private final InterviewSessionRepository sessions;
     private final AnswerRegistrar registrar;
+    private final TurnEvaluator evaluator;
     private final SpeechTranscriptionPort transcriber;
     private final TranscriptionExecutionRepository executions;
     private final IdempotencyKeyRepository keys;
@@ -133,22 +133,23 @@ public class SubmitAudioAnswerService {
     @Autowired
     @SuppressWarnings("java:S107")
     SubmitAudioAnswerService(InterviewSessionRepository sessions, AnswerRegistrar registrar,
-            SpeechTranscriptionPort transcriber, TranscriptionExecutionRepository executions,
+            TurnEvaluator evaluator, SpeechTranscriptionPort transcriber, TranscriptionExecutionRepository executions,
             IdempotencyKeyRepository keys, TranscriptionPolicy transcriptionPolicy, AudioAnswerPolicy audioPolicy,
             AudioInspector inspector, TransactionTemplate transaction, JsonMapper json, Clock clock,
             TranscriptionRetryPolicy retryPolicy) {
-        this(sessions, registrar, transcriber, executions, keys, transcriptionPolicy, audioPolicy, inspector, transaction,
+        this(sessions, registrar, evaluator, transcriber, executions, keys, transcriptionPolicy, audioPolicy, inspector, transaction,
                 json, clock, retryPolicy, Thread::sleep);
     }
 
     @SuppressWarnings("java:S107")
     SubmitAudioAnswerService(InterviewSessionRepository sessions, AnswerRegistrar registrar,
-            SpeechTranscriptionPort transcriber, TranscriptionExecutionRepository executions,
+            TurnEvaluator evaluator, SpeechTranscriptionPort transcriber, TranscriptionExecutionRepository executions,
             IdempotencyKeyRepository keys, TranscriptionPolicy transcriptionPolicy, AudioAnswerPolicy audioPolicy,
             AudioInspector inspector, TransactionTemplate transaction, JsonMapper json, Clock clock,
             TranscriptionRetryPolicy retryPolicy, Pause pause) {
         this.sessions = sessions;
         this.registrar = registrar;
+        this.evaluator = evaluator;
         this.transcriber = transcriber;
         this.executions = executions;
         this.keys = keys;
@@ -160,8 +161,9 @@ public class SubmitAudioAnswerService {
         this.clock = clock;
         this.retryPolicy = retryPolicy;
         this.pause = pause;
-        // Una reserva más vieja que todos los intentos posibles es de un proceso que murió sin liberarla.
-        this.claimMaxAge = retryPolicy.maxDuration().plus(CLAIM_MARGIN);
+        // Una reserva más vieja que todos los intentos posibles y la evaluación es de un proceso que murió sin
+        // liberarla.
+        this.claimMaxAge = retryPolicy.maxDuration().plus(registrar.evaluationBudget()).plus(CLAIM_MARGIN);
     }
 
     /**
@@ -191,7 +193,7 @@ public class SubmitAudioAnswerService {
         if (replay.isPresent()) {
             return replay.get();
         }
-        AnswerRegistrar.requireAcceptsAnswers(session.status());
+        session.requireAcceptsAnswers();
         if (session.configuration().answerMode() != AnswerMode.AUDIO) {
             throw new AudioNotAllowedException();
         }
@@ -212,31 +214,41 @@ public class SubmitAudioAnswerService {
             throw failure;
         }
 
-        AnswerResult result;
+        TurnEvaluator.EvaluationJob job;
         try {
-            result = transaction.execute(status -> {
-                AnswerResult registered = registrar.register(session.id(), owner, claimed, pending.question(), text,
-                        AnswerMode.AUDIO, transcription.detectedLanguage());
-                if (key != null) {
-                    keys.save(new IdempotencyKey(UUID.randomUUID(), owner, OPERATION, key, fingerprint, OK,
-                            json.writeValueAsString(registered), clock.instant()));
-                }
-                return registered;
-            });
-        } catch (IdempotencyKeyAlreadyExistsException race) {
-            // Otra petición con la misma clave terminó primero: se repite su respuesta. Va fuera de la transacción
-            // revertida.
-            registrar.release(claimed);
-            return replayIfKnown(owner, key, fingerprint).orElseThrow(() -> race);
+            job = transaction.execute(status -> registrar.startEvaluation(session.id(), owner, claimed,
+                    pending.question(), text, transcription.detectedLanguage(), keyRecorder(owner, key, fingerprint)));
         } catch (RuntimeException failure) {
             registrar.release(claimed);
             throw failure;
         }
+        // La respuesta ya está guardada: si la evaluación falla, el turno queda en RETRYING y se reintenta con
+        // POST .../turns/{turnId}/reprocess, como la respuesta escrita.
+        AnswerResult result = evaluator.evaluate(job);
         log.info("Respuesta por voz registrada [sessionId={}, turnId={}, firebaseUid={}, formato={}, bytes={},"
                 + " audioMs={}, siguiente={}]", session.id(), turnId, owner.value(), inspection.format(),
                 audio.size(), inspection.duration().toMillis(),
                 result.interviewFinished() ? "-" : result.currentQuestion());
         return result;
+    }
+
+    // La clave se guarda con la respuesta en la transacción del evaluador; una evaluación fallida no la guarda.
+    private TurnEvaluator.KeyRecorder keyRecorder(FirebaseUid owner, String key, String fingerprint) {
+        if (key == null) {
+            return TurnEvaluator.KeyRecorder.NONE;
+        }
+        return new TurnEvaluator.KeyRecorder() {
+            @Override
+            public void succeeded(AnswerResult result) {
+                keys.save(new IdempotencyKey(UUID.randomUUID(), owner, OPERATION, key, fingerprint, OK,
+                        json.writeValueAsString(result), clock.instant()));
+            }
+
+            @Override
+            public void failed(ErrorCode code) {
+                // Sin respuesta que repetir: un reenvío con la clave encuentra el turno en reintento.
+            }
+        };
     }
 
     private Transcription transcribe(UUID sessionId, UUID turnId, AudioAnswer audio, InterviewLanguage language) {

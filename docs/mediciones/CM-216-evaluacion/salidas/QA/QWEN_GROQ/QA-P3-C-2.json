@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-C",
+  "corrida" : 2,
+  "ms" : 800,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 128,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La pregunta es conductual y busca una experiencia real. Escapar de ella impide evaluar tus habilidades de resolución de problemas bajo presión.\", \"follow_up_texto\": \"Es posible que no recuerdes un incidente tan drástico, pero seguro has enfrentado problemas críticos. ¿Puedes describirme la situación más urgente o tensa que manejaste cerca de una entrega?\", \"motivo\": \"El candidato esquiva la pregunta directamente sin ofrecer ninguna experiencia relevante, lo cual clasifica como evasivo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

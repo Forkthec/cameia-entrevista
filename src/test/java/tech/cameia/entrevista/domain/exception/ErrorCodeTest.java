@@ -31,7 +31,8 @@ class ErrorCodeTest {
             ErrorCode.ANSWER_FORMAT_REQUIRED, ErrorCode.ANSWER_FORMAT_INVALID_VALUE,
             ErrorCode.SESSION_LANGUAGE_REQUIRED, ErrorCode.SESSION_LANGUAGE_INVALID_VALUE,
             ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT, ErrorCode.TURN_ID_REQUIRED, ErrorCode.TURN_ID_INVALID_FORMAT,
-            ErrorCode.AUDIO_REQUIRED);
+            ErrorCode.AUDIO_REQUIRED, ErrorCode.ANSWER_TEXT_REQUIRED, ErrorCode.ANSWER_TEXT_TOO_LONG, ErrorCode.ANSWER_TEXT_INVALID_CHARACTERS,
+            ErrorCode.IDEMPOTENCY_KEY_REQUIRED);
 
     private static final Set<ErrorCode> MODEL_CLIENT = EnumSet.of(ErrorCode.LLM_UNAVAILABLE,
             ErrorCode.LLM_LIMIT_REACHED, ErrorCode.LLM_INVALID_OUTPUT);

@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-03",
+  "corrida" : 3,
+  "ms" : 510,
+  "tokensEntrada" : 675,
+  "tokensSalida" : 117,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"No omitas la respuesta. Explica el mecanismo técnico o indúcteme qué no domina.\", \"follow_up_texto\": \"Define técnicamente un bloqueo optimista (por ejemplo, con versioning) frente a una transacción con aislamiento. ¿Cuándo es preferible uno sobre otro en términos de concurrencia y rendimiento?\", \"motivo\": \"El candidato no proporcionó ninguna respuesta técnica, sino que simplemente dijo 'No sé'.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

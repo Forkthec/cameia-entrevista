@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 1,
+  "ms" : 549,
+  "tokensEntrada" : 756,
+  "tokensSalida" : 110,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida que prioriza correctamente la mitigación (rollback) antes que la investigación en un contexto de alto riesgo (viernes).\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe una secuencia lógica y estándar para gestión de incidentes: identificar alcance, mitigar riesgo revertiendo cambios recientes, diagnosticar con trazas, corregir y comunicar. Cubre todos los pasos esenciales con precisión.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P5-B",
+  "corrida" : 3,
+  "ms" : 966,
+  "tokensEntrada" : 672,
+  "tokensSalida" : 119,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona acciones básicas pero carece de un proceso estructurado de mitigación, análisis de causa raíz y comunicación en un entorno de producción.\",\n  \"follow_up_texto\": \"Podrías detallar qué métricas o logs revisarías primero y cuál es el protocolo que seguirías para evaluar el impacto antes de decidir reiniciar el servicio.\",\n  \"feedback\": \"La respuesta inicial es demasiado general para un incidente en producción.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

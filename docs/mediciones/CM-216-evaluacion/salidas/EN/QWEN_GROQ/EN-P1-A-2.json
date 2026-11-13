@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-A",
+  "corrida" : 2,
+  "ms" : 668,
+  "tokensEntrada" : 686,
+  "tokensSalida" : 130,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y carece de métricas o detalles técnicos específicos sobre tu experiencia y motivación.\", \"follow_up_texto\": \"Describe un servicio Spring específico que hayas desarrollado. ¿Cómo optimizaste las consultas lentas? ¿Qué resultados medibles obtuviste y qué patrones de microservicios has aplicado?\", \"motivo\": \"El candidato responde la pregunta pero a un nivel muy general, sin proporcionar detalles técnicos concretos, ejemplos específicos ni datos de impacto que demuestren profundidad técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

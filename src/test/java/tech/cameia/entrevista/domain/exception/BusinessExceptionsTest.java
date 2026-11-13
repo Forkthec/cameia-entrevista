@@ -29,7 +29,22 @@ class BusinessExceptionsTest {
                 Arguments.of(new RequestPathInvalidException(), ErrorCode.REQUEST_PATH_INVALID_FORMAT,
                         "La petición no es válida."),
                 Arguments.of(new DatabaseUnavailableException(new IllegalStateException("x")),
-                        ErrorCode.DATABASE_UNAVAILABLE, "Ocurrió un error. Inténtalo de nuevo."));
+                        ErrorCode.DATABASE_UNAVAILABLE, "Ocurrió un error. Inténtalo de nuevo."),
+                Arguments.of(new SessionAbandonedException(), ErrorCode.SESSION_ABANDONED,
+                        "Sesión abandonada: no genera evaluación."),
+                Arguments.of(new SessionAlreadyClosedException(), ErrorCode.SESSION_ALREADY_CLOSED,
+                        "Esta entrevista ya no admite esa acción."),
+                Arguments.of(new TurnNotFoundException(), ErrorCode.TURN_NOT_FOUND, "No encontramos lo que buscabas."),
+                Arguments.of(new AnswerAlreadyExistsException(), ErrorCode.ANSWER_ALREADY_EXISTS,
+                        "Esta pregunta ya tiene una respuesta registrada."),
+                Arguments.of(new TurnConflictException(), ErrorCode.TURN_CONFLICT,
+                        "Tu respuesta se está procesando. Espera un momento."),
+                Arguments.of(new TurnNotRetryableException(), ErrorCode.TURN_NOT_RETRYABLE,
+                        "Tu respuesta no está esperando un reintento."),
+                Arguments.of(new TurnRetryLimitReachedException(), ErrorCode.TURN_RETRY_LIMIT_REACHED,
+                        "No pudimos evaluar tu respuesta en este momento. Tu respuesta quedó guardada; inténtalo más tarde."),
+                Arguments.of(new SessionConsolidationFailedException(), ErrorCode.SESSION_CONSOLIDATION_FAILED,
+                        "Ocurrió un error. Inténtalo de nuevo."));
     }
 
     @ParameterizedTest

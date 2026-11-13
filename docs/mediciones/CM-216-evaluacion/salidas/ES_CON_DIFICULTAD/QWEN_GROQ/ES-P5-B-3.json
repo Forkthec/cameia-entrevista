@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 3,
+  "ms" : 564,
+  "tokensEntrada" : 687,
+  "tokensSalida" : 153,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es una enumeración genérica que omite el diagnóstico concreto y el orden lógico de actuación ante una incidencia de producción.\", \"follow_up_texto\": \"Describe el flujo exacto que sigues: qué herramientas observas primero (métricas, traces, logs estructurados), cómo aislas si es un problema de aplicación o infraestructura, y qué criterio usas para decidir si un reinicio es adecuado o si necesitas desplegar un rollback o un patch.\", \"motivo\": \"El candidato menciona acciones básicas pero carece de cualquier detalle técnico, mecanismo de diagnóstico o secuencia lógica específica que justifique las decisiones.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

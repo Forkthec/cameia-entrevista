@@ -28,4 +28,32 @@ interface InterviewTurnJpaRepository extends JpaRepository<InterviewTurnEntity, 
              ORDER BY p.orden LIMIT 1
             """, nativeQuery = true)
     Optional<InterviewTurnEntity> findOpenBySession(@Param("sessionId") UUID sessionId);
+
+    /**
+     * Busca un turno por su identificador solo si su pregunta es de la sesión.
+     *
+     * @param turnId identificador del turno
+     * @param sessionId identificador de la sesión
+     * @return el turno, o vacío si no existe o es de otra sesión
+     */
+    @Query(value = """
+            SELECT t.* FROM microentrevista.turno t
+              JOIN microentrevista.pregunta p ON p.id = t.pregunta_id
+             WHERE t.id = :turnId AND p.sesion_id = :sessionId
+            """, nativeQuery = true)
+    Optional<InterviewTurnEntity> findByIdAndSession(@Param("turnId") UUID turnId,
+            @Param("sessionId") UUID sessionId);
+
+    /**
+     * Cuenta los turnos completados de una sesión.
+     *
+     * @param sessionId identificador de la sesión
+     * @return cantidad de turnos completados
+     */
+    @Query(value = """
+            SELECT count(*) FROM microentrevista.turno t
+              JOIN microentrevista.pregunta p ON p.id = t.pregunta_id
+             WHERE p.sesion_id = :sessionId AND t.estado = 'COMPLETED'
+            """, nativeQuery = true)
+    int countCompleted(@Param("sessionId") UUID sessionId);
 }

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-B",
+  "corrida" : 3,
+  "ms" : 1628,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 159,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general para el nivel solicitado. Falta detallar el mecanismo de persistencia, el flujo de consumo y cómo se garantiza la durabilidad ante reinicios.\", \"follow_up_texto\": \"Describe el flujo completo: ¿dónde persistes el estado del email antes de encolarlo?, ¿cómo manejas la confirmación de entrega (ACK) para evitar duplicados o pérdidas si el worker muere?, y ¿qué tecnología de cola usarías para asegurar durabilidad?\", \"motivo\": \"Ir en la dirección correcta (cola + persistencia) pero sin detalles técnicos sobre el mecanismo de durabilidad, manejo de fallos o evita de mensajes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

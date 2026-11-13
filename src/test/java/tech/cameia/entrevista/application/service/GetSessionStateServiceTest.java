@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -14,7 +15,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import tech.cameia.entrevista.application.command.SessionCommand;
+import tech.cameia.entrevista.domain.model.AiExecution;
 import tech.cameia.entrevista.domain.model.AnswerMode;
+import tech.cameia.entrevista.domain.model.AnsweredQuestion;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
@@ -26,7 +29,11 @@ import tech.cameia.entrevista.domain.model.SessionConfiguration;
 import tech.cameia.entrevista.domain.model.SessionSnapshot;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.Tone;
+import tech.cameia.entrevista.domain.model.TurnSnapshot;
+import tech.cameia.entrevista.domain.model.TurnStatus;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
+import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
 
@@ -39,7 +46,10 @@ class GetSessionStateServiceTest {
     private final InterviewSessionRepository sessions = mock(InterviewSessionRepository.class);
     private final InterviewQuestionRepository questions = mock(InterviewQuestionRepository.class);
     private final InterviewTurnRepository turns = mock(InterviewTurnRepository.class);
-    private final GetSessionStateService service = new GetSessionStateService(sessions, questions, turns);
+    private final AnswerAttemptRepository answers = mock(AnswerAttemptRepository.class);
+    private final AiExecutionRepository executions = mock(AiExecutionRepository.class);
+    private final GetSessionStateService service = new GetSessionStateService(sessions, questions, turns, answers,
+            executions, CLOCK, Duration.ofSeconds(20), Duration.ZERO, Duration.ZERO);
 
     private InterviewSession inProgress() {
         InterviewSession session = InterviewSession.configure(UUID.randomUUID(), OWNER, new SessionConfiguration(
@@ -124,5 +134,99 @@ class GetSessionStateServiceTest {
         when(turns.findOpenBySession(session.id())).thenReturn(Optional.empty());
 
         assertThat(service.state(new SessionCommand(session.id(), OWNER)).sessionId()).isEqualTo(session.id());
+    }
+
+    private InterviewQuestion questionOne(InterviewSession session) {
+        InterviewQuestion one = new InterviewQuestion(UUID.randomUUID(), session.id(), 1, QuestionType.TECNICA,
+                "Uno", UUID.randomUUID(), CLOCK.instant());
+        when(questions.findBySession(session.id())).thenReturn(List.of(one));
+        return one;
+    }
+
+    private InterviewTurn openTurn(InterviewSession session, InterviewQuestion question, TurnStatus status,
+            int retries) {
+        InterviewTurn turn = InterviewTurn.reconstitute(new TurnSnapshot(UUID.randomUUID(), question.id(), status,
+                retries, CLOCK.instant(), CLOCK.instant(), 0L));
+        when(turns.findOpenBySession(session.id())).thenReturn(Optional.of(turn));
+        return turn;
+    }
+
+    @Test
+    void state_shouldMarkFinished_whenInProgressWithFiveCompletedTurns() {
+        InterviewSession session = inProgress();
+        when(questions.findBySession(session.id())).thenReturn(List.of());
+        when(turns.findOpenBySession(session.id())).thenReturn(Optional.empty());
+        when(turns.countCompleted(session.id())).thenReturn(5);
+
+        SessionState state = service.stateOf(session);
+
+        assertThat(state.currentQuestion()).isEqualTo(5);
+        assertThat(state.pending()).isNull();
+        assertThat(state.interviewFinished()).isTrue();
+    }
+
+    @Test
+    void state_shouldShowRetrying_whenProcessingStale() {
+        InterviewSession session = inProgress();
+        InterviewTurn turn = openTurn(session, questionOne(session), TurnStatus.PROCESSING, 0);
+        Clock old = Clock.fixed(CLOCK.instant().minusSeconds(76), ZoneOffset.UTC);
+        when(executions.findEvaluationInProgress(turn.id())).thenReturn(Optional.of(
+                AiExecution.evaluationStarted(session.id(), turn.id(), "m", "v", "g", old)));
+
+        assertThat(service.stateOf(session).pending().status()).isEqualTo(TurnStatus.RETRYING);
+    }
+
+    @Test
+    void state_shouldShowRetrying_whenProcessingWithoutLiveExecution() {
+        InterviewSession session = inProgress();
+        InterviewTurn turn = openTurn(session, questionOne(session), TurnStatus.PROCESSING, 0);
+        when(executions.findEvaluationInProgress(turn.id())).thenReturn(Optional.empty());
+
+        assertThat(service.stateOf(session).pending().status()).isEqualTo(TurnStatus.RETRYING);
+    }
+
+    @Test
+    void state_shouldShowProcessing_whenLive() {
+        InterviewSession session = inProgress();
+        InterviewTurn turn = openTurn(session, questionOne(session), TurnStatus.PROCESSING, 0);
+        when(executions.findEvaluationInProgress(turn.id())).thenReturn(Optional.of(
+                AiExecution.evaluationStarted(session.id(), turn.id(), "m", "v", "g", CLOCK)));
+
+        assertThat(service.stateOf(session).pending().status()).isEqualTo(TurnStatus.PROCESSING);
+    }
+
+    @Test
+    void state_shouldShowRetriesUsed() {
+        InterviewSession session = inProgress();
+        openTurn(session, questionOne(session), TurnStatus.RETRYING, 3);
+
+        SessionState.PendingQuestion pending = service.stateOf(session).pending();
+
+        assertThat(pending.retriesUsed()).isEqualTo(3);
+        assertThat(pending.status()).isEqualTo(TurnStatus.RETRYING);
+    }
+
+    @Test
+    void state_shouldListHistory() {
+        InterviewSession session = inProgress();
+        openTurn(session, questionOne(session), TurnStatus.PENDING, 0);
+        for (int count : new int[] {0, 1, 4, 5}) {
+            List<AnsweredQuestion> history = new java.util.ArrayList<>();
+            for (int number = 1; number <= count; number++) {
+                history.add(new AnsweredQuestion(number, "P" + number, "R" + number));
+            }
+            when(answers.historyOf(session.id())).thenReturn(history);
+
+            assertThat(service.stateOf(session).history()).isEqualTo(history);
+        }
+    }
+
+    @Test
+    void state_shouldHaveEmptyHistory_whenConfigured() {
+        InterviewSession configured = InterviewSession.configure(UUID.randomUUID(), OWNER,
+                inProgress().configuration(), CLOCK);
+
+        assertThat(service.stateOf(configured).history()).isEmpty();
+        org.mockito.Mockito.verifyNoInteractions(answers);
     }
 }

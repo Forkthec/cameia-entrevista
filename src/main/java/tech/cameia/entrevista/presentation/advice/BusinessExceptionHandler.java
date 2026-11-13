@@ -152,7 +152,14 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.AUDIO_NOT_ALLOWED, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
             Map.entry(ErrorCode.TURN_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
             Map.entry(ErrorCode.SESSION_ABANDONED, new Definition(HttpStatus.CONFLICT, "Entrevista abandonada")),
-            Map.entry(ErrorCode.SESSION_ALREADY_CLOSED, new Definition(HttpStatus.CONFLICT, "Entrevista cerrada")));
+            Map.entry(ErrorCode.SESSION_ALREADY_CLOSED, new Definition(HttpStatus.CONFLICT, "Entrevista cerrada")),
+            Map.entry(ErrorCode.ANSWER_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Respuesta existente")),
+            Map.entry(ErrorCode.TURN_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo")),
+            Map.entry(ErrorCode.TURN_NOT_RETRYABLE, new Definition(HttpStatus.CONFLICT, "Acción no permitida")),
+            Map.entry(ErrorCode.TURN_RETRY_LIMIT_REACHED,
+                    new Definition(HttpStatus.CONFLICT, "Reintentos agotados")),
+            Map.entry(ErrorCode.SESSION_CONSOLIDATION_FAILED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Cierre pendiente")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
@@ -227,7 +234,7 @@ class BusinessExceptionHandler {
     @ExceptionHandler(LlmInvalidOutputException.class)
     ProblemDetail modelInvalidOutput(LlmInvalidOutputException error) {
         return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
-                "Plan de preguntas inválido: " + error.getReason(), error);
+                "Salida del modelo de lenguaje inválida: " + error.getReason(), error);
     }
 
     /**

@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-05",
+  "corrida" : 1,
+  "ms" : 1201,
+  "tokensEntrada" : 1482,
+  "tokensSalida" : 91,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica correctamente los conceptos de transacciones, bloqueo optimista y cuándo usar cada uno, a pesar de la repetición en el texto.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y detallada sobre el control de concurrencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

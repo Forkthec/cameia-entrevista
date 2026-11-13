@@ -53,13 +53,4 @@ public final class PlanningRetryPolicy {
         return retriesAfterRequest >= MAX_MANUAL_RETRIES;
     }
 
-    /**
-     * Número de intento que se registra en la ejecución de la IA.
-     *
-     * @param retriesAfterRequest contador guardado para este pedido
-     * @return el intento, de 1 a 3
-     */
-    public int attemptNumber(int retriesAfterRequest) {
-        return retriesAfterRequest + 1;
-    }
 }

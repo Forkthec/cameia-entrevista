@@ -44,6 +44,9 @@ import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.model.ProfileReplica;
 import tech.cameia.entrevista.domain.model.ReplicatedProfileStatus;
 import tech.cameia.entrevista.domain.model.Transcription;
+import tech.cameia.entrevista.domain.model.AiOperation;
+import tech.cameia.entrevista.domain.model.AiProvider;
+import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
 import tech.cameia.entrevista.domain.port.SpeechTranscriptionPort;
@@ -202,7 +205,7 @@ class VoiceAnswerEndToEndTest {
                  WHERE sesion_id = ? AND tipo_operacion = 'TRANSCRIBIR' AND estado = 'EXITOSA' AND numero_intento = 1
                 """, sessionId)).isEqualTo(5);
         assertThat(jdbc.queryForObject("SELECT estado FROM microentrevista.sesion WHERE id = ?", String.class,
-                UUID.fromString(sessionId))).isEqualTo("EN_CURSO");
+                UUID.fromString(sessionId))).isEqualTo("FINALIZADA");
     }
 
     @Test
@@ -321,7 +324,18 @@ class VoiceAnswerEndToEndTest {
         @Bean
         @Primary
         LanguageModelPort fixedPlanModel() {
-            return prompt -> new LanguageModelResponse(PLAN, 100, 200, "modelo-de-prueba");
+            return new LanguageModelPort() {
+                @Override
+                public LanguageModelResponse generate(LanguageModelPrompt prompt, AiProvider provider) {
+                    return new LanguageModelResponse(prompt.operation() == AiOperation.PLAN ? PLAN
+                            : "{\"accion\":\"AVANZAR\",\"clasificacion\":\"COMPLETA\",\"motivo\":\"Responde lo pedido\",\"follow_up_texto\":\"\",\"feedback\":\"Buena estructura\"}", 100, 200, "modelo-de-prueba");
+                }
+
+                @Override
+                public boolean isAvailable(AiProvider provider) {
+                    return provider == AiProvider.PRIMARY;
+                }
+            };
         }
     }
 }

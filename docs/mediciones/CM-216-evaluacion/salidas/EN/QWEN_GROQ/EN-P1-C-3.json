@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-C",
+  "corrida" : 3,
+  "ms" : 480,
+  "tokensEntrada" : 646,
+  "tokensSalida" : 98,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Avoid shifting the burden; a structured self-introduction is a core part of this interview.\", \"follow_up_texto\": \"Please answer the original question: introduce yourself and explain why you are interested in this backend developer position.\", \"motivo\": \"El candidato se niega a responder la pregunta inicial y evita el tema personal que se solicitó explícitamente.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -48,7 +48,7 @@ public enum TurnStatus {
     public boolean canChangeTo(TurnStatus target) {
         return switch (this) {
             case PENDING -> target == PROCESSING;
-            case PROCESSING -> target == COMPLETED || target == RETRYING;
+            case PROCESSING -> target == COMPLETED || target == RETRYING || target == PENDING;
             case RETRYING -> target == PROCESSING;
             case COMPLETED -> false;
         };

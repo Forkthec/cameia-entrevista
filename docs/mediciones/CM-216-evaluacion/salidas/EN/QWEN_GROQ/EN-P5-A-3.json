@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P5-A",
+  "corrida" : 3,
+  "ms" : 985,
+  "tokensEntrada" : 734,
+  "tokensSalida" : 105,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida: aplica bien el criterio 'roll back first' para un viernes, cubre diagnóstico, reproducción y comunicación.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre claramente la priorización (rollback ante despliegue reciente un viernes), la investigación basada en trazas, la reproducción y la comunicación, cumpliendo con el nivel de detalle esperado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 1,
+  "ms" : 679,
+  "tokensEntrada" : 762,
+  "tokensSalida" : 137,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"El diseño es sólido y cubre los puntos críticos: persistencia transaccional (Outbox Pattern), durabilidad de la cola, confirmaciones asincrónicas del consumidor y manejo de idempotencia para evitar duplicados. Es una respuesta correcta y bien fundamentada para el nivel solicitado.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta aborda todos los aspectos esenciales de la pregunta: persistencia, resiliencia ante reinicios, reintentos y garantía de envío único, con precisión técnica y sin omisiones relevantes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

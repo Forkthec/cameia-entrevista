@@ -320,6 +320,27 @@ class InterviewSchemaMigrationTest {
 	}
 
 	@Test
+	@DisplayName("Una sesión finalizada exige fecha de fin")
+	void session_shouldRejectFinalizedWithoutEndDate() {
+		assertConstraint(() -> insertSession("uid-a", "FINALIZADA", null), "ck_sesion_fecha_fin");
+	}
+
+	@Test
+	@DisplayName("Una sesión evaluándose no puede tener fecha de fin")
+	void session_shouldRejectEvaluatingWithEndDate() {
+		assertConstraint(() -> insertSession("uid-a", "EVALUANDO", Instant.now()), "ck_sesion_fecha_fin");
+	}
+
+	@Test
+	@DisplayName("Una sesión evaluándose sin fecha de fin y una finalizada con ella se guardan")
+	void session_shouldAcceptEvaluatingAndFinalizedWithValidEndDate() {
+		assertThatCode(() -> {
+			insertSession("uid-a", "EVALUANDO", null);
+			insertSession("uid-b", "FINALIZADA", Instant.now());
+		}).doesNotThrowAnyException();
+	}
+
+	@Test
 	@DisplayName("La oferta laboral acepta 3000 caracteres")
 	void session_shouldAcceptOffer3000() {
 		Map<String, Object> row = sessionRow("uid-a", "CONFIGURADA", null);

@@ -182,12 +182,40 @@ public enum ErrorCode {
     /** La entrevista se configuró con respuesta por texto y no admite audio. */
     AUDIO_NOT_ALLOWED,
 
-    /** El turno no existe, no es de la sesión o su identificador no es válido; no se distingue. */
-    TURN_NOT_FOUND,
-
     /** La entrevista quedó abandonada y no admite respuestas. */
     SESSION_ABANDONED,
 
     /** La entrevista está en evaluación o finalizada y no admite respuestas. */
-    SESSION_ALREADY_CLOSED
+    SESSION_ALREADY_CLOSED,
+
+    /** El turno no existe, no es de la sesión o su identificador no es válido; no se distingue. */
+    TURN_NOT_FOUND,
+
+    /** Falta la respuesta escrita, o llegó vacía o solo con espacios. */
+    ANSWER_TEXT_REQUIRED,
+
+    /** La respuesta escrita supera los 4000 caracteres. */
+    ANSWER_TEXT_TOO_LONG,
+
+    /** La respuesta escrita contiene el carácter nulo o un carácter Unicode incompleto. */
+    ANSWER_TEXT_INVALID_CHARACTERS,
+
+    /** Falta el encabezado de la clave anti-duplicados. */
+    IDEMPOTENCY_KEY_REQUIRED,
+
+    /** La pregunta ya tiene una respuesta registrada o ya no está pendiente. */
+    ANSWER_ALREADY_EXISTS,
+
+    /** La respuesta de ese turno se está procesando o cambió al mismo tiempo. */
+    TURN_CONFLICT,
+
+    /** El turno no está esperando un reintento. */
+    TURN_NOT_RETRYABLE,
+
+    /** La persona ya usó todos los reintentos manuales del turno. */
+    TURN_RETRY_LIMIT_REACHED,
+
+    /** La evaluación de la entrevista no se pudo reunir; la sesión sigue en evaluación con sus respuestas. */
+    SESSION_CONSOLIDATION_FAILED
+
 }

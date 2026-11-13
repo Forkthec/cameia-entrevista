@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 1,
+  "ms" : 2394,
+  "tokensEntrada" : 695,
+  "tokensSalida" : 119,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta concisa y relevante. Hiciste referencia a una mejora de rendimiento sin explicar el mecanismo técnico; lo exploraremos en las preguntas técnicas.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato responde directamente a la pregunta introduciéndose, mencionando su stack tecnológico (Java/Spring), una experiencia concreta relevante (plataforma de pagos) y su motivación específica, cumpliendo con los requisitos de una pregunta de fácil a media.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

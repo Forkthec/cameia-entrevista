@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-B",
+  "corrida" : 2,
+  "ms" : 601,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 143,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Tu respuesta carece de specificidad técnica y no demuestra un entendimiento claro de las responsabilidades del rol ni de tus habilidades concretas.\", \"follow_up_texto\": \"Detalla un proyecto backend concreto que hayas desarrollado. ¿Qué tecnologías usa, qué problemas de escalabilidad o arquitectura resolviste y por qué ese contexto te motiva para este puesto específico?\", \"motivo\": \"La respuesta es demasiado generalista, se queda en generalidades ('me gusta la tecnología', 'seguir aprendiendo') y no proporciona detalles concretos sobre experiencia técnica o motivación específica para el rol.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

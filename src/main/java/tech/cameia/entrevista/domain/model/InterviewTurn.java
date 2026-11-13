@@ -4,6 +4,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.UUID;
 
+import tech.cameia.entrevista.domain.exception.TurnNotRetryableException;
+import tech.cameia.entrevista.domain.exception.TurnRetryLimitReachedException;
 import tech.cameia.entrevista.domain.exception.TurnTransitionNotAllowedException;
 
 /**
@@ -13,17 +15,22 @@ import tech.cameia.entrevista.domain.exception.TurnTransitionNotAllowedException
  */
 public final class InterviewTurn {
 
+    /** Veces que la persona puede usar «Reintentar» en un turno. */
+    public static final int MAX_MANUAL_RETRIES = 4;
+
     private final UUID id;
     private final UUID questionId;
     private final Instant createdAt;
     private final Long version;
     private TurnStatus status;
+    private int manualRetries;
     private Instant updatedAt;
 
     private InterviewTurn(TurnSnapshot snapshot) {
         this.id = snapshot.id();
         this.questionId = snapshot.questionId();
         this.status = snapshot.status();
+        this.manualRetries = snapshot.manualRetries();
         this.createdAt = snapshot.createdAt();
         this.updatedAt = snapshot.updatedAt();
         this.version = snapshot.version();
@@ -38,7 +45,7 @@ public final class InterviewTurn {
      */
     public static InterviewTurn open(UUID questionId, Clock clock) {
         Instant now = clock.instant();
-        return new InterviewTurn(new TurnSnapshot(UUID.randomUUID(), questionId, TurnStatus.PENDING, now, now, null));
+        return new InterviewTurn(new TurnSnapshot(UUID.randomUUID(), questionId, TurnStatus.PENDING, 0, now, now, null));
     }
 
     /**
@@ -91,6 +98,39 @@ public final class InterviewTurn {
         changeTo(TurnStatus.PROCESSING, clock);
     }
 
+    /**
+     * Empieza un uso de «Reintentar»: suma uno al contador y pasa a procesando.
+     *
+     * @param stale si el turno está procesando con una evaluación caída, se acepta como si estuviera en reintento
+     * @param clock reloj que da la fecha
+     * @throws TurnNotRetryableException si el turno no espera un reintento
+     * @throws TurnRetryLimitReachedException si ya se usaron los cuatro reintentos
+     */
+    public void startManualRetry(boolean stale, Clock clock) {
+        boolean waiting = status == TurnStatus.RETRYING || (status == TurnStatus.PROCESSING && stale);
+        if (!waiting) {
+            throw new TurnNotRetryableException();
+        }
+        if (manualRetries >= MAX_MANUAL_RETRIES) {
+            throw new TurnRetryLimitReachedException();
+        }
+        manualRetries++;
+        status = TurnStatus.PROCESSING;
+        updatedAt = clock.instant();
+    }
+
+    /**
+     * Devuelve la pregunta a pendiente cuando falla la transcripción de la respuesta por voz, antes de guardar
+     * ninguna respuesta: {@code PROCESSING → PENDING}. La persona puede grabar de nuevo o responder por texto
+     * (CA-5.13.5, CA-5.13.6).
+     *
+     * @param clock reloj que da la fecha
+     * @throws TurnTransitionNotAllowedException si el turno no se está procesando
+     */
+    public void release(Clock clock) {
+        changeTo(TurnStatus.PENDING, clock);
+    }
+
     private void changeTo(TurnStatus target, Clock clock) {
         // Se valida antes de tocar ningún campo: una transición rechazada deja el turno igual.
         if (!status.canChangeTo(target)) {
@@ -113,6 +153,11 @@ public final class InterviewTurn {
     /** @return estado actual */
     public TurnStatus status() {
         return status;
+    }
+
+    /** @return veces que se usó «Reintentar» en este turno */
+    public int manualRetries() {
+        return manualRetries;
     }
 
     /** @return fecha de creación */

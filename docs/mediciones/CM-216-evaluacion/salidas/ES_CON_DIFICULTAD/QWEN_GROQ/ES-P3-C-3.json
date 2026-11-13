@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-C",
+  "corrida" : 3,
+  "ms" : 1139,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 152,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"No puedo evaluar tus competencias de comunicación y resolución de conflictos con una respuesta que simplemente niega la existencia del problema.\", \"follow_up_texto\": \"Entiendo que las grandes discusiones son raras, pero en equipos técnicos siempre hay desacuerdos de menor escala. Describe una situación donde tuvieras que defender una decisión técnica frente a la opinión de otro miembro del equipo o ajústala. ¿Cómo llegó a la decisión final?\", \"motivo\": \"El candidato evadió la pregunta afirmado no recordar ningún desacuerdo, lo cual es evasivo ante una pregunta conductual estándar que busca evaluar habilidades blandas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

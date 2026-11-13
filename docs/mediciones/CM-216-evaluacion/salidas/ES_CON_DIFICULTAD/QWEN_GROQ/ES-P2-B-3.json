@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 3,
+  "ms" : 835,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 132,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general y no aborda los mecanismos técnicos ni el enfoque de uso.\", \"follow_up_texto\": \"Explica el mecanismo de control de concurrencia que utiliza el bloqueo optimista (por ejemplo, columnas de versión) y contrasta esto con el aislamiento y las garantías ACID de una transacción. Da un ejemplo concreto de cuándo elegirías uno sobre el otro.\", \"motivo\": \"El candidato identifica los conceptos pero se queda en definiciones superficiales sin explicar cómo funcionan ni las diferencias técnicas clave.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

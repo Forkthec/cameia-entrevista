@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-A",
+  "corrida" : 1,
+  "ms" : 537,
+  "tokensEntrada" : 686,
+  "tokensSalida" : 134,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es genérica y carece de métricas o resultados concretos, salvo una mención vaga a la optimización de consultas.\", \"follow_up_texto\": \"Puedes proporcionar más detalles sobre el proyecto de pagos? ¿Qué tecnologías específicas utilizaste para reducir el tiempo de respuesta de las consultas y cuál fue el impacto medible en el rendimiento?\", \"motivo\": \"Aunque menciona experiencia relevante, se queda en generalidades sobre el interés y el logro sin aportar detalles técnicos específicos ni contextos que demuestren profundidad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

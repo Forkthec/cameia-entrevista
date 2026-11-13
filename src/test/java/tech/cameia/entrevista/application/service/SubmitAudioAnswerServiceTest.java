@@ -37,7 +37,6 @@ import tech.cameia.entrevista.domain.exception.TranscriptionEmptyException;
 import tech.cameia.entrevista.domain.exception.TranscriptionLanguageMismatchException;
 import tech.cameia.entrevista.domain.exception.TranscriptionTooLongException;
 import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
-import tech.cameia.entrevista.domain.exception.TurnTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AiExecutionStatus;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.model.AnswerMode;
@@ -63,6 +62,7 @@ import tech.cameia.entrevista.domain.policy.AudioAnswerPolicy;
 import tech.cameia.entrevista.domain.policy.TranscriptionPolicy;
 import tech.cameia.entrevista.domain.policy.TranscriptionRetryPolicy;
 import tech.cameia.entrevista.domain.model.TranscriptionFailure;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.domain.port.IdempotencyKeyRepository;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
@@ -94,6 +94,8 @@ class SubmitAudioAnswerServiceTest {
     private final TranscriptionExecutionRepository executions = mock(TranscriptionExecutionRepository.class);
     private final IdempotencyKeyRepository keys = mock(IdempotencyKeyRepository.class);
     private final TransactionTemplate transaction = mock(TransactionTemplate.class);
+    private final AiExecutionRepository aiExecutions = mock(AiExecutionRepository.class);
+    private final TurnEvaluator evaluator = mock(TurnEvaluator.class);
     private final AudioInspector inspector = mock(AudioInspector.class);
     private final Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
     private final JsonMapper json = JsonMapper.builder().build();
@@ -116,8 +118,25 @@ class SubmitAudioAnswerServiceTest {
                 ((TransactionCallback<?>) call.getArgument(0)).doInTransaction(null));
         when(transcriber.provider()).thenReturn("assemblyai");
         when(transcriber.model()).thenReturn("universal-3-5-pro,universal-2");
-        AnswerRegistrar registrar = new AnswerRegistrar(sessions, questions, turns, attempts, transaction, clock);
-        service = new SubmitAudioAnswerService(sessions, registrar, transcriber, executions, keys,
+        when(turns.findByIdAndSession(any(), eq(SESSION))).thenAnswer(call -> turns.findById(call.getArgument(0)));
+        when(aiExecutions.save(any())).thenAnswer(call -> call.getArgument(0));
+        // El evaluador de la respuesta escrita (CM-216) completa el turno y abre el siguiente; aquí se simula su
+        // resultado y que guarda la clave anti-duplicados.
+        when(evaluator.evaluate(any())).thenAnswer(call -> {
+            TurnEvaluator.EvaluationJob job = call.getArgument(0);
+            int answered = job.question().position();
+            AnswerResult result = answered >= 5
+                    ? new AnswerResult(job.turn().id(), TurnStatus.COMPLETED, 5, 5, null, true)
+                    : new AnswerResult(job.turn().id(), TurnStatus.COMPLETED, answered + 1, 5,
+                            new SessionState.PendingQuestion(UUID.randomUUID(), answered + 1,
+                                    "Pregunta " + (answered + 1), TurnStatus.PENDING, 0), false);
+            job.recorder().succeeded(result);
+            return result;
+        });
+        AnswerRegistrar registrar = new AnswerRegistrar(sessions, questions, turns, attempts, aiExecutions,
+                transaction, clock, "modelo", java.time.Duration.ofMillis(3000), java.time.Duration.ofMillis(500),
+                java.time.Duration.ofMillis(1000));
+        service = new SubmitAudioAnswerService(sessions, registrar, evaluator, transcriber, executions, keys,
                 new TranscriptionPolicy(0.8), new AudioAnswerPolicy(), inspector, transaction, json, clock,
                 new TranscriptionRetryPolicy(java.time.Duration.ofSeconds(60), PAUSE,
                         java.time.Duration.ofSeconds(110)), pauses::add);
@@ -140,7 +159,7 @@ class SubmitAudioAnswerServiceTest {
     private UUID openTurnAt(int position) {
         UUID turnId = UUID.randomUUID();
         InterviewTurn turn = InterviewTurn.reconstitute(new TurnSnapshot(turnId, plan.get(position - 1).id(),
-                TurnStatus.PENDING, NOW, NOW, 0L));
+                TurnStatus.PENDING, 0, NOW, NOW, 0L));
         when(turns.findOpenBySession(SESSION)).thenReturn(Optional.of(turn));
         when(turns.findById(turnId)).thenReturn(Optional.of(turn));
         return turnId;
@@ -174,11 +193,11 @@ class SubmitAudioAnswerServiceTest {
         assertThat(result.nextQuestion().text()).isEqualTo("Pregunta 3");
 
         ArgumentCaptor<AnswerAttempt> attempt = ArgumentCaptor.forClass(AnswerAttempt.class);
-        verify(attempts).saveDefinitive(attempt.capture());
-        assertThat(attempt.getValue().origin()).isEqualTo(AnswerMode.AUDIO);
+        verify(attempts).save(attempt.capture());
+        assertThat(attempt.getValue().origin()).isEqualTo(AnswerAttempt.AnswerOrigin.AUDIO);
         assertThat(attempt.getValue().text()).isEqualTo(SPANISH_TEXT);
         assertThat(attempt.getValue().detectedLanguage()).isEqualTo("es");
-        assertThat(attempt.getValue().questionShown()).isEqualTo("Pregunta 2");
+        assertThat(attempt.getValue().shownQuestion()).isEqualTo("Pregunta 2");
     }
 
     @Test
@@ -250,8 +269,8 @@ class SubmitAudioAnswerServiceTest {
         assertThat(result.nextQuestion()).isNull();
         assertThat(result.interviewFinished()).isTrue();
         assertThat(result.currentQuestion()).isEqualTo(5);
-        // Dos escrituras del mismo turno (reserva y completado): no se abre un sexto turno.
-        verify(turns, org.mockito.Mockito.times(2)).save(any());
+        // El servicio solo reserva el turno; completar y cerrar la sesión lo hace el evaluador de CM-216/CM-220.
+        verify(turns).save(any());
         verify(turns, never()).save(org.mockito.ArgumentMatchers.argThat(turn -> !turn.id().equals(turnId)));
     }
 
@@ -265,9 +284,9 @@ class SubmitAudioAnswerServiceTest {
 
         assertThatThrownBy(() -> service.submit(command(turnId, audio(), null)))
                 .isInstanceOf(TranscriptionEmptyException.class);
-        verify(attempts, never()).saveDefinitive(any());
-        // La pregunta sigue pendiente: el turno reservado vuelve a RETRYING.
-        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.RETRYING);
+        verify(attempts, never()).save(any());
+        // La pregunta sigue pendiente: el turno reservado vuelve a PENDING.
+        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.PENDING);
         // La transcripción sí respondió: queda registrada como exitosa (CA-5.12.3).
         verify(executions).save(any());
     }
@@ -280,7 +299,7 @@ class SubmitAudioAnswerServiceTest {
 
         assertThatThrownBy(() -> service.submit(command(turnId, audio(), null)))
                 .isInstanceOf(TranscriptionTooLongException.class);
-        verify(attempts, never()).saveDefinitive(any());
+        verify(attempts, never()).save(any());
     }
 
     @Test
@@ -292,7 +311,7 @@ class SubmitAudioAnswerServiceTest {
         AnswerResult result = service.submit(command(turnId, audio(), null));
 
         assertThat(result.currentQuestion()).isEqualTo(2);
-        verify(attempts).saveDefinitive(any());
+        verify(attempts).save(any());
     }
 
     @Test
@@ -304,7 +323,7 @@ class SubmitAudioAnswerServiceTest {
         assertThatThrownBy(() -> service.submit(command(turnId, audio(), null)))
                 .isInstanceOf(TranscriptionLanguageMismatchException.class)
                 .hasMessage("Tu entrevista es en inglés. Responde en inglés.");
-        verify(attempts, never()).saveDefinitive(any());
+        verify(attempts, never()).save(any());
     }
 
     // ---- CA-5.12.8 ----
@@ -323,9 +342,9 @@ class SubmitAudioAnswerServiceTest {
         verify(executions).save(execution.capture());
         assertThat(execution.getValue().status()).isEqualTo(AiExecutionStatus.FAILED);
         assertThat(execution.getValue().errorCode()).isEqualTo("TRANSCRIPTION_UNAVAILABLE");
-        verify(attempts, never()).saveDefinitive(any());
-        // La pregunta sigue pendiente: el turno reservado vuelve a RETRYING.
-        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.RETRYING);
+        verify(attempts, never()).save(any());
+        // La pregunta sigue pendiente: el turno reservado vuelve a PENDING.
+        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.PENDING);
     }
 
     // ---- Validación previa a la transcripción ----
@@ -434,7 +453,7 @@ class SubmitAudioAnswerServiceTest {
         sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
         UUID turnId = UUID.randomUUID();
         AnswerResult stored = new AnswerResult(turnId, TurnStatus.COMPLETED, 2, 5,
-                new AnswerResult.NextQuestion(UUID.randomUUID(), 2, "Pregunta 2"), false);
+                new SessionState.PendingQuestion(UUID.randomUUID(), 2, "Pregunta 2", TurnStatus.PENDING, 0), false);
         when(keys.find(OWNER, "RESPONDER_AUDIO", "clave-1")).thenReturn(Optional.of(new IdempotencyKey(
                 UUID.randomUUID(), OWNER, "RESPONDER_AUDIO", "clave-1",
                 SubmitAudioAnswerService.fingerprint(SESSION, turnId, audio()), 200,
@@ -466,10 +485,10 @@ class SubmitAudioAnswerServiceTest {
         openTurnAt(2);
         UUID answered = UUID.randomUUID();
         when(turns.findById(answered)).thenReturn(Optional.of(InterviewTurn.reconstitute(new TurnSnapshot(answered,
-                plan.get(0).id(), TurnStatus.COMPLETED, NOW, NOW, 2L))));
+                plan.get(0).id(), TurnStatus.COMPLETED, 0, NOW, NOW, 2L))));
 
         assertThatThrownBy(() -> service.submit(command(answered, audio(), null)))
-                .isInstanceOf(TurnTransitionNotAllowedException.class);
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.AnswerAlreadyExistsException.class);
         verify(transcriber, never()).transcribe(any(), any());
     }
 
@@ -478,12 +497,12 @@ class SubmitAudioAnswerServiceTest {
         sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
         UUID turnId = UUID.randomUUID();
         InterviewTurn busy = InterviewTurn.reconstitute(new TurnSnapshot(turnId, plan.get(0).id(),
-                TurnStatus.PROCESSING, NOW, NOW, 1L));
+                TurnStatus.PROCESSING, 0, NOW, NOW, 1L));
         when(turns.findOpenBySession(SESSION)).thenReturn(Optional.of(busy));
         when(turns.findById(turnId)).thenReturn(Optional.of(busy));
 
         assertThatThrownBy(() -> service.submit(command(turnId, audio(), null)))
-                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.TurnConflictException.class);
         verify(transcriber, never()).transcribe(any(), any());
     }
 
@@ -507,8 +526,8 @@ class SubmitAudioAnswerServiceTest {
         assertThatThrownBy(() -> service.submit(command(turnId, audio(), null)))
                 .isInstanceOf(TranscriptionUnavailableException.class);
 
-        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.RETRYING);
-        verify(attempts, never()).saveDefinitive(any());
+        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.PENDING);
+        verify(attempts, never()).save(any());
     }
 
     // ---- HU-5.13: reintento automático de la transcripción ----
@@ -528,7 +547,7 @@ class SubmitAudioAnswerServiceTest {
 
         // CA-5.13.1 y CA-5.13.2: una sola respuesta, sin que la persona haga nada, y la entrevista sigue.
         verify(transcriber, org.mockito.Mockito.times(2)).transcribe(any(), any());
-        verify(attempts).saveDefinitive(any());
+        verify(attempts).save(any());
         assertThat(result.nextQuestion().number()).isEqualTo(2);
         assertThat(pauses).containsExactly(PAUSE);
         ArgumentCaptor<TranscriptionExecution> saved = ArgumentCaptor.forClass(TranscriptionExecution.class);
@@ -551,8 +570,8 @@ class SubmitAudioAnswerServiceTest {
 
         // CA-5.13.3: no hay tercer intento, no se registra nada y la pregunta sigue pendiente.
         verify(transcriber, org.mockito.Mockito.times(2)).transcribe(any(), any());
-        verify(attempts, never()).saveDefinitive(any());
-        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.RETRYING);
+        verify(attempts, never()).save(any());
+        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.PENDING);
     }
 
     @Test
@@ -566,7 +585,7 @@ class SubmitAudioAnswerServiceTest {
 
         verify(transcriber).transcribe(any(), any());
         assertThat(pauses).isEmpty();
-        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.RETRYING);
+        assertThat(turns.findById(turnId).orElseThrow().status()).isEqualTo(TurnStatus.PENDING);
     }
 
     @Test
@@ -600,8 +619,8 @@ class SubmitAudioAnswerServiceTest {
 
         // CA-5.13.8: durante el reintento el turno sigue en PROCESSING; el segundo envío no se transcribe.
         assertThat(secondSubmission).singleElement()
-                .isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.TurnConflictException.class);
         verify(transcriber, org.mockito.Mockito.times(2)).transcribe(any(), any());
-        verify(attempts).saveDefinitive(any());
+        verify(attempts).save(any());
     }
 }

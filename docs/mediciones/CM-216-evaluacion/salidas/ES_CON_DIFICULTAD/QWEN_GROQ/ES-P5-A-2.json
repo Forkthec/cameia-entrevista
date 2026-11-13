@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 2,
+  "ms" : 664,
+  "tokensEntrada" : 756,
+  "tokensSalida" : 185,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"INCOMPLETA\", \"feedback\": \"El protocolo es correcto para un incidente estándar, pero omite la verificación de dependencias de terceros y la capacidad del sistema (CPU/Memoria) antes de asumir que es un bug de código.\", \"follow_up_texto\": \"Supongamos que no hubo despliegue reciente y el error persiste. ¿Qué métricas de infraestructura o dependencias externas revisarías inmediatamente para descartar problemas de capacidad, timeouts o fallos en servicios de terceros como la base de datos o APIs externas?\", \"motivo\": \"La respuesta cubre la gestión del incidente y el despliegue, pero omite el diagnóstico técnico de causas no relacionadas con el código, como saturación de recursos o fallos en dependencias, lo cual es esencial en una respuesta de nivel difícil.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

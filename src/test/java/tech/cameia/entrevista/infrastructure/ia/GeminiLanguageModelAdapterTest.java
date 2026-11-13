@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.ai.model.google.genai.autoconfigure.chat.GoogleGenAiChatAutoConfiguration;
 import org.springframework.ai.model.tool.autoconfigure.ToolCallingAutoConfiguration;
 import org.springframework.ai.retry.autoconfigure.SpringAiRetryAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -35,6 +34,8 @@ import org.springframework.context.annotation.Configuration;
 
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.model.AiOperation;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
@@ -93,7 +94,7 @@ class GeminiLanguageModelAdapterTest {
 
         contexto().run(arrancado -> {
             LanguageModelResponse resultado = arrancado.getBean(LanguageModelPort.class)
-                    .generate(new LanguageModelPrompt("Responde OK.", 16));
+                    .generate(new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN), AiProvider.PRIMARY);
 
             assertThat(resultado.text()).isEqualTo("OK");
             assertThat(resultado.inputTokens()).isEqualTo(5);
@@ -114,7 +115,7 @@ class GeminiLanguageModelAdapterTest {
                 """);
 
         contexto().run(arrancado -> assertThat(arrancado.getBean(LanguageModelPort.class)
-                .generate(new LanguageModelPrompt("Responde.", 16)).text()).isEqualTo("UNO DOS"));
+                .generate(new LanguageModelPrompt("Responde.", 16, AiOperation.PLAN), AiProvider.PRIMARY).text()).isEqualTo("UNO DOS"));
     }
 
     @Test
@@ -123,13 +124,40 @@ class GeminiLanguageModelAdapterTest {
         respuesta = json(200, respuestaCon("OK"));
 
         contexto().run(arrancado -> arrancado.getBean(LanguageModelPort.class)
-                .generate(new LanguageModelPrompt("Responde OK.", 16)));
+                .generate(new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN), AiProvider.PRIMARY));
 
         assertThat(cuerpos).singleElement().asString()
                 .contains("Responde OK.")
                 .containsPattern("\"maxOutputTokens\"\\s*:\\s*16")
                 .containsPattern("\"temperature\"\\s*:\\s*1(\\.0)?")
                 .containsPattern("\"thinkingLevel\"\\s*:\\s*\"LOW\"");
+    }
+
+    @Test
+    @DisplayName("Con esquema en el prompt, la llamada pide JSON y envía el esquema")
+    void generate_shouldSendSchema_whenPromptHasOne() {
+        respuesta = json(200, respuestaCon("{}"));
+        String esquema = "{\"type\":\"object\",\"properties\":{\"accion\":{\"type\":\"string\"}}}";
+
+        contexto().run(arrancado -> arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Evalúa.", 16, esquema, AiOperation.EVALUATE), AiProvider.PRIMARY));
+
+        assertThat(cuerpos).singleElement().asString()
+                .containsPattern("\"responseMimeType\"\s*:\s*\"application/json\"")
+                .contains("\"responseJsonSchema\"")
+                .contains("\"accion\"");
+    }
+
+    @Test
+    @DisplayName("Sin esquema, como en la planificación, la llamada no pide JSON ni envía esquema")
+    void generate_shouldNotSendSchema_forPlanning() {
+        respuesta = json(200, respuestaCon("OK"));
+
+        contexto().run(arrancado -> arrancado.getBean(LanguageModelPort.class)
+                .generate(new LanguageModelPrompt("Planifica.", 16, AiOperation.PLAN), AiProvider.PRIMARY));
+
+        assertThat(cuerpos).singleElement().asString().doesNotContain("responseMimeType")
+                .doesNotContain("responseJsonSchema");
     }
 
     @Test
@@ -142,7 +170,7 @@ class GeminiLanguageModelAdapterTest {
 
         contexto().run(arrancado -> {
             LanguageModelResponse resultado = arrancado.getBean(LanguageModelPort.class)
-                    .generate(new LanguageModelPrompt("Responde OK.", 16));
+                    .generate(new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN), AiProvider.PRIMARY);
 
             assertThat(resultado.inputTokens()).isZero();
             assertThat(resultado.outputTokens()).isZero();
@@ -156,10 +184,10 @@ class GeminiLanguageModelAdapterTest {
         respuesta = json(200, respuestaCon(RESPUESTA_PRIVADA));
 
         contexto().run(arrancado -> arrancado.getBean(LanguageModelPort.class)
-                .generate(new LanguageModelPrompt(PROMPT_PRIVADO, 16)));
+                .generate(new LanguageModelPrompt(PROMPT_PRIVADO, 16, AiOperation.PLAN), AiProvider.PRIMARY));
 
         assertThat(salida.getOut())
-                .containsPattern("Llamada al modelo \\[resultado=ok, duracionMs=\\d+]")
+                .containsPattern("Llamada al modelo \\[proveedor=gemini, operacion=PLANIFICAR, resultado=ok, duracionMs=\\d+]")
                 .doesNotContain(PROMPT_PRIVADO)
                 .doesNotContain(RESPUESTA_PRIVADA)
                 .doesNotContain("clave-falsa-de-prueba");
@@ -177,13 +205,13 @@ class GeminiLanguageModelAdapterTest {
         };
 
         contexto("200ms").run(arrancado -> assertThatThrownBy(() -> arrancado.getBean(LanguageModelPort.class)
-                .generate(new LanguageModelPrompt("Responde OK.", 16)))
+                .generate(new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN), AiProvider.PRIMARY))
                 .isInstanceOf(LlmUnavailableException.class)
                 // OkHttp corta la llamada con «timeout»; debajo queda el «Canceled» de la cancelación.
                 .hasStackTraceContaining(InterruptedIOException.class.getName() + ": timeout"));
 
         assertThat(rutas).hasSize(1);
-        assertThat(salida.getOut()).containsPattern("Llamada al modelo \\[resultado=LLM_UNAVAILABLE, duracionMs=\\d+]");
+        assertThat(salida.getOut()).containsPattern("Llamada al modelo \\[proveedor=gemini, operacion=PLANIFICAR, resultado=LLM_UNAVAILABLE, duracionMs=\\d+]");
     }
 
     @Test
@@ -195,7 +223,7 @@ class GeminiLanguageModelAdapterTest {
 
         assertThat(fallo()).isInstanceOf(LlmLimitReachedException.class);
         assertThat(rutas).hasSize(1);
-        assertThat(salida.getOut()).contains("Llamada al modelo [resultado=LLM_LIMIT_REACHED");
+        assertThat(salida.getOut()).contains("Llamada al modelo [proveedor=gemini, operacion=PLANIFICAR, resultado=LLM_LIMIT_REACHED");
     }
 
     @ParameterizedTest(name = "estado {0}")
@@ -277,7 +305,7 @@ class GeminiLanguageModelAdapterTest {
     private Throwable fallo() {
         Throwable[] lanzada = new Throwable[1];
         contexto().run(arrancado -> lanzada[0] = catchThrowable(() -> arrancado.getBean(LanguageModelPort.class)
-                .generate(new LanguageModelPrompt("Responde OK.", 16))));
+                .generate(new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN), AiProvider.PRIMARY)));
         assertThat(lanzada[0]).as("la llamada debía fallar").isNotNull();
         return lanzada[0];
     }
@@ -290,13 +318,18 @@ class GeminiLanguageModelAdapterTest {
         return new ApplicationContextRunner()
                 .withConfiguration(AutoConfigurations.of(
                         SpringAiRetryAutoConfiguration.class,
-                        ToolCallingAutoConfiguration.class,
-                        GoogleGenAiChatAutoConfiguration.class))
+                        ToolCallingAutoConfiguration.class))
                 .withUserConfiguration(AdapterWithItsConfiguration.class)
                 .withPropertyValues(
                         "cameia.llm.api-key=clave-falsa-de-prueba",
                         "cameia.llm.model=modelo-de-prueba",
                         "cameia.llm.timeout=" + timeout,
+                        "cameia.llm.evaluation-timeout=5s",
+                        "cameia.llm.retry.first-wait=0ms",
+                        "cameia.llm.retry.second-wait=0ms",
+                        "cameia.llm.fallback.api-key=",
+                        "cameia.llm.fallback.model=modelo-de-respaldo",
+                        "cameia.llm.fallback.base-url=https://respaldo.invalido",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low",
                         "cameia.llm.base-url=http://localhost:" + servidor.getAddress().getPort());

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-C",
+  "corrida" : 2,
+  "ms" : 1095,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La pregunta es de presentación y no se puede obviar. Responde lo que se solicitó.\", \"follow_up_texto\": \"El puesto requiere interactuar con el equipo, así que necesito que respondas la pregunta actual: cuéntame brevemente sobre ti y por qué te interesa este rol de backend. No puedes saltarte esta parte para ir a temas técnicos.\", \"motivo\": \"El candidato esquiva explícitamente la pregunta solicitando cambiar al siguiente tema.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

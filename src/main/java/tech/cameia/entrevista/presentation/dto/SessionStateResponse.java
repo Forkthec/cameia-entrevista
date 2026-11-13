@@ -16,10 +16,10 @@ import tech.cameia.entrevista.application.service.SessionState;
  * @param sessionId identificador de la sesión
  * @param status estado de la sesión
  * @param answerFormat forma de respuesta de la sesión: {@code TEXTO} o {@code AUDIO}
- * @param interviewFinished {@code true} si la entrevista se está evaluando o ya terminó
+ * @param interviewFinished {@code true} si la entrevista se está evaluando, ya terminó o ya tiene las cinco respuestas
  * @param progress avance
  * @param pendingQuestion pregunta pendiente; {@code null} si la sesión no está en curso
- * @param history preguntas con respuesta definitiva, en orden; vacía mientras no se registren respuestas
+ * @param history preguntas con respuesta guardada, en orden; vacía mientras no haya respuestas
  */
 @Schema(description = "Estado de la sesión de entrevista")
 public record SessionStateResponse(
@@ -29,13 +29,15 @@ public record SessionStateResponse(
                 example = "EN_CURSO") String status,
         @Schema(description = "Forma de respuesta elegida al configurar la sesión; no cambia durante la entrevista",
                 allowableValues = {"TEXTO", "AUDIO"}, example = "TEXTO") String answerFormat,
-        @Schema(description = "true si la entrevista está en EVALUANDO o FINALIZADA", example = "false")
+        @Schema(description = "true si la entrevista está en EVALUANDO o FINALIZADA, o está EN_CURSO con las cinco preguntas"
+                + " respondidas", example = "false")
         boolean interviewFinished,
         ProgressResponse progress,
         @JsonInclude(JsonInclude.Include.ALWAYS)
         @Schema(description = "Pregunta pendiente; null si la sesión no está EN_CURSO", nullable = true)
         PendingQuestionResponse pendingQuestion,
-        @Schema(description = "Preguntas con respuesta definitiva, en orden; nunca trae retroalimentación")
+        @Schema(description = "Preguntas con respuesta guardada, en orden, también la que espera reintento; nunca trae"
+                + " retroalimentación")
         List<HistoryItemResponse> history) {
 
     /** Total de preguntas de toda entrevista. */
@@ -52,7 +54,9 @@ public record SessionStateResponse(
         return new SessionStateResponse(state.sessionId(), state.status().code(), state.answerMode().code(),
                 state.interviewFinished(),
                 new ProgressResponse(state.currentQuestion(), TOTAL_QUESTIONS),
-                pending == null ? null : new PendingQuestionResponse(pending.turnId(), pending.number(), pending.text()),
-                List.of());
+                pending == null ? null : new PendingQuestionResponse(pending.turnId(), pending.number(), pending.text(),
+                        pending.status().code(), pending.retriesUsed()),
+                state.history().stream().map(item -> new HistoryItemResponse(item.number(), item.question(),
+                        item.answer())).toList());
     }
 }

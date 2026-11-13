@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-A",
+  "corrida" : 1,
+  "ms" : 517,
+  "tokensEntrada" : 724,
+  "tokensSalida" : 102,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta concisa que cubre la detección, la comunicación inmediata y la verificación de la corrección. El resultado final también está claro.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un defecto específico, las acciones inmediatas (reproducción, notificación) y la validación posterior, cumpliendo con lo solicitado para esta dificultad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

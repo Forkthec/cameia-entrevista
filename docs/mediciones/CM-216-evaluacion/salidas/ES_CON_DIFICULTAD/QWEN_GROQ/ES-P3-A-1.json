@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 1,
+  "ms" : 694,
+  "tokensEntrada" : 739,
+  "tokensSalida" : 95,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Buen uso de datos para respaldar la decisión técnica y un cierre colaborativo.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta describe claramente la disputa técnica, el proceso de resolución basado en evidencia (métricas de despliegue) y el resultado exitoso, cumpliendo con los requisitos de la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P5-B",
+  "corrida" : 2,
+  "ms" : 1036,
+  "tokensEntrada" : 675,
+  "tokensSalida" : 155,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Demasiado genérico. Falta estructura, diagnóstico y gestión del impacto.\", \"follow_up_texto\": \"Desglosa el proceso: 1. Cómo mitigas el impacto inmediato (caballos de batalla vs reinicios a ciegas). 2. Cómo aísles la causa (qué miras en logs/métricas/trazas). 3. Cómo comunicas el incidente al equipo y stakeholders durante la investigación.\", \"motivo\": \"La respuesta es una enumeración vaga de acciones genéricas (logs, reiniciar) sin explicar la lógica de diagnóstico, la verificación de cambios recientes ni la gestión del incidente.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tech.cameia.entrevista.application.command.AudioAnswerCommand;
 import tech.cameia.entrevista.application.service.SubmitAudioAnswerService;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
-import tech.cameia.entrevista.presentation.dto.AnswerResponse;
+import tech.cameia.entrevista.presentation.dto.AnswerResultResponse;
 
 /**
  * Adaptador de entrada HTTP de la respuesta por voz (HU-5.12).
@@ -101,7 +101,7 @@ class AudioAnswerController {
                     + " Idempotency-Key con el mismo audio devuelve la misma respuesta.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Respuesta registrada", content = @Content(
-                    mediaType = "application/json", schema = @Schema(implementation = AnswerResponse.class),
+                    mediaType = "application/json", schema = @Schema(implementation = AnswerResultResponse.class),
                     examples = {
                         @ExampleObject(name = "siguientePregunta", value = EXAMPLE_200),
                         @ExampleObject(name = "ultimaPregunta", value = EXAMPLE_200_LAST)})),
@@ -138,7 +138,7 @@ class AudioAnswerController {
     })
     @PostMapping(path = "/{sessionId}/answers/audio", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<AnswerResponse> answerByVoice(
+    ResponseEntity<AnswerResultResponse> answerByVoice(
             @Parameter(hidden = true) @RequestHeader(value = "X-User-Id", required = false) String userId,
             @Parameter(description = "Identificador de la sesión (UUID)") @PathVariable String sessionId,
             @Parameter(description = "Clave única del envío: de 1 a 64 caracteres A-Z a-z 0-9 . _ -")
@@ -149,7 +149,7 @@ class AudioAnswerController {
             @RequestPart(value = "audio", required = false) MultipartFile audio) {
         FirebaseUid owner = FirebaseUid.required(userId);
         AudioAnswerCommand command = AudioAnswerCommand.of(sessionId, owner, turnId, bytesOf(audio), idempotencyKey);
-        return ResponseEntity.ok(AnswerResponse.from(submitAudio.submit(command)));
+        return ResponseEntity.ok(AnswerResultResponse.from(submitAudio.submit(command)));
     }
 
     private static byte[] bytesOf(MultipartFile audio) {

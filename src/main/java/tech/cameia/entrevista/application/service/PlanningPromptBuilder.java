@@ -20,6 +20,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 import tech.cameia.entrevista.domain.exception.ProfileSnapshotInvalidException;
+import tech.cameia.entrevista.domain.model.AiOperation;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.SessionConfiguration;
@@ -67,6 +68,8 @@ public class PlanningPromptBuilder {
 
     private final String template;
 
+    private final String fallbackSchema;
+
     private final Map<Tone, String> toneBlocks = new EnumMap<>(Tone.class);
 
     /**
@@ -77,6 +80,7 @@ public class PlanningPromptBuilder {
     public PlanningPromptBuilder(JsonMapper json) {
         this.json = json;
         this.template = read(BASE_VERSION + ".txt");
+        this.fallbackSchema = read("esquema." + BASE_VERSION + ".json").strip();
         TONE_VERSIONS.forEach((tone, version) ->
                 toneBlocks.put(tone, read("tono." + tone.code() + ".v" + version + ".txt").strip()));
     }
@@ -113,7 +117,8 @@ public class PlanningPromptBuilder {
         String text = replaceInOnePass(values);
         String version = BASE_VERSION + "+" + configuration.tone().code() + ".v"
                 + TONE_VERSIONS.get(configuration.tone());
-        return new PlanningPrompt(new LanguageModelPrompt(text, MAX_OUTPUT_TOKENS), version);
+        return new PlanningPrompt(new LanguageModelPrompt(text, MAX_OUTPUT_TOKENS, AiOperation.PLAN), version,
+                fallbackSchema);
     }
 
     private JsonNode readSnapshot(String snapshotJson) {

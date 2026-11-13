@@ -1,7 +1,7 @@
 package tech.cameia.entrevista.domain.exception;
 
 /**
- * La entrevista está en evaluación o finalizada y no admite respuestas (CA-5.5.5, CA-5.8.28).
+ * La entrevista está en evaluación o finalizada y no admite respuestas.
  */
 public class SessionAlreadyClosedException extends BusinessException {
 

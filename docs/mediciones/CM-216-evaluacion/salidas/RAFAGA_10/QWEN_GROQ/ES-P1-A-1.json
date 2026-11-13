@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 1,
+  "ms" : 1058,
+  "tokensEntrada" : 695,
+  "tokensSalida" : 100,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respondes ambos puntos de la pregunta con especificidad técnica. Pasa a la siguiente pregunta.\", \"follow_up_texto\": \"\", \"motivo\": \"Cubre el background técnico (ingeniería de sistemas, Java/Spring), aporta un logro concreto específico (mejora en rendimiento en plataforma de pagos) y explica motivaciones alineadas con el puesto de manera precisa.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-04",
+  "corrida" : 1,
+  "ms" : 3387,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 107,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato esquivó la pregunta solicitando que se repitan las instrucciones y el formato en lugar de responder.\",\n  \"follow_up_texto\": \"Por favor, responde a la pregunta original sobre la diferencia entre una transacción y un bloqueo optimista, y cuándo usarías cada uno.\",\n  \"feedback\": \"La respuesta no aborda el tema técnico solicitado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

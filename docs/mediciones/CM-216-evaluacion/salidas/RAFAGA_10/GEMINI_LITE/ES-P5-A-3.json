@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 3,
+  "ms" : 4067,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 72,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato proporciona un proceso estructurado, cubriendo mitigacion inicial, analisis, resolucion y comunicacion.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta adecuada y ordenada para la gestion de un incidente en produccion.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

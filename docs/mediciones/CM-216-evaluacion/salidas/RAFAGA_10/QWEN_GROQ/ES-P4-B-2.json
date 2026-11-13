@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-B",
+  "corrida" : 2,
+  "ms" : 1406,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 145,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Mencionas los componentes correctos pero careces de detalles sobre los mecanismos de garantizar la persistencia y el procesamiento asíncrono.\", \"follow_up_texto\": \"¿Qué tecnología específica usarías para la cola y cómo garantizarías que un mensaje en la base de datos se marque como procesado solo tras un envío exitoso para evitar duplicados o pérdidas durante la reiniciación?\", \"motivo\": \"La respuesta apela a conceptos generales (cola y base) pero omite los mecanismos concretos necesarios para asegurar la durabilidad y la consistencia en el flujo asíncrono.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

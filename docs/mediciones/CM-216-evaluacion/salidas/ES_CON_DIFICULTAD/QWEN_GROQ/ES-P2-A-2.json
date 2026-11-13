@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 2,
+  "ms" : 982,
+  "tokensEntrada" : 746,
+  "tokensSalida" : 175,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"INCOMPLETA\", \"feedback\": \"Confundes 'transacción' (mecanismo de atomicidad) con 'bloqueo pesimista' (estrategia de aislamiento). Una transacción puede usar aislamiento optimista o pesimista; la pregunta pide distinguir las estrategias, no el concepto transaccional.\", \"follow_up_texto\": \"Correcto. Una transacción es el contenedor (ACID), no la estrategia de bloqueo. Diferencia directamente bloqueo pesimista vs. optimista: cómo se resuelve el conflicto en cada uno y qué pasa si hay muchos concurrentes.\", \"motivo\": \"El candidato confunde el concepto de transacción con el bloqueo pesimista. La pregunta pide comparar dos estrategias de aislamiento, no definir transacción.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

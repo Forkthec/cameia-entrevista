@@ -4,6 +4,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.UUID;
 
+import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
+import tech.cameia.entrevista.domain.exception.SessionAlreadyClosedException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
 
 /**
@@ -115,6 +117,21 @@ public final class InterviewSession {
     }
 
     /**
+     * Pasa la entrevista a evaluación si sus cinco preguntas tienen respuesta completa.
+     *
+     * @param completedTurns turnos completos de la sesión, contando el que acaba de completarse
+     * @param clock reloj que da la fecha
+     * @return verdadero si la sesión pasó a evaluación
+     */
+    public boolean closeIfComplete(int completedTurns, Clock clock) {
+        if (status != SessionStatus.IN_PROGRESS || completedTurns < InterviewQuestion.TOTAL) {
+            return false;
+        }
+        startEvaluation(clock);
+        return true;
+    }
+
+    /**
      * Termina la sesión: {@code EVALUATING → FINISHED}, y registra la fecha de cierre.
      *
      * @param clock reloj que da la fecha
@@ -147,6 +164,36 @@ public final class InterviewSession {
     public void requireDeletable() {
         if (status != SessionStatus.CONFIGURED) {
             throw new SessionTransitionNotAllowedException();
+        }
+    }
+
+    /**
+     * Anota actividad de la persona: fija la última actividad y la modificación al instante actual.
+     *
+     * @param clock reloj que da la fecha
+     * @throws SessionTransitionNotAllowedException si la sesión no está en curso
+     */
+    public void registerActivity(Clock clock) {
+        if (status != SessionStatus.IN_PROGRESS) {
+            throw new SessionTransitionNotAllowedException();
+        }
+        updatedAt = clock.instant();
+        lastActivityAt = updatedAt;
+    }
+
+    /**
+     * Comprueba que la sesión admite respuestas: solo la que está en curso.
+     *
+     * @throws SessionAbandonedException si la sesión se abandonó
+     * @throws SessionAlreadyClosedException si la sesión ya se evalúa o terminó
+     * @throws SessionTransitionNotAllowedException si la sesión aún no empezó
+     */
+    public void requireAcceptsAnswers() {
+        switch (status) {
+            case IN_PROGRESS -> { }
+            case ABANDONED -> throw new SessionAbandonedException();
+            case EVALUATING, FINISHED -> throw new SessionAlreadyClosedException();
+            default -> throw new SessionTransitionNotAllowedException();
         }
     }
 

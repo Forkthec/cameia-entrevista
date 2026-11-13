@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-B",
+  "corrida" : 1,
+  "ms" : 818,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 139,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece del nivel de detalle y los mecanismos específicos que exige el diseño a grandes rasgos indicado en la pregunta.\", \"follow_up_texto\": \"¿Qué tecnología de cola utilizando (RabbitMQ, Kafka, SQS) y cómo garantizas que los mensajes no se pierdan si el servidor falla antes de confirmarlos? Explica el mecanismo de persistencia.\", \"motivo\": \"Menciona el uso de una cola y la base de datos pero se queda en generalidades sin detallar la tecnología, el flujo ni el mecanismo de consistencia.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

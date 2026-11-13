@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-C",
+  "corrida" : 1,
+  "ms" : 1252,
+  "tokensEntrada" : 663,
+  "tokensSalida" : 130,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta afirmando que no recuerda ninguna situación de desacuerdo técnico.\",\n  \"follow_up_texto\": \"Comprendo. Piensa en cualquier proyecto pasado, incluso uno pequeño, donde las opiniones sobre la implementación técnica hayan diferido, aunque no lo hayas considerado una discusión fuerte. ¿Cómo resolvieron esa discrepancia?\",\n  \"feedback\": \"Es importante aportar un ejemplo real de colaboración, ya que estas situaciones son habituales en el desarrollo de software.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

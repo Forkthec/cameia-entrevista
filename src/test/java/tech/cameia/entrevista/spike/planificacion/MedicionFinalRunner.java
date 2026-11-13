@@ -229,7 +229,8 @@ class MedicionFinalRunner {
             texto = texto.replace(antiguo, nuevo);
         }
         return new PlanningPrompt(new tech.cameia.entrevista.domain.model.LanguageModelPrompt(texto,
-                vigente.prompt().maxOutputTokens()), vigente.version() + ">" + VARIANTE);
+                vigente.prompt().maxOutputTokens(), tech.cameia.entrevista.domain.model.AiOperation.PLAN), vigente.version() + ">" + VARIANTE,
+                vigente.fallbackSchema());
     }
 
     private static List<String> leerLineas(Path ruta) {

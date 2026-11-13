@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P3-A",
+  "corrida" : 3,
+  "ms" : 924,
+  "tokensEntrada" : 717,
+  "tokensSalida" : 72,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde con una situación clara, detalla su acción ante el defecto y el resultado obtenido.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena descripción del proceso de resolución y mitigación del riesgo antes de la entrega.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

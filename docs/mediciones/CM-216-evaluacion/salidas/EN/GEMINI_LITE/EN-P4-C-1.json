@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P4-C",
+  "corrida" : 1,
+  "ms" : 937,
+  "tokensEntrada" : 652,
+  "tokensSalida" : 125,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato no respondió a la pregunta de diseño y habló sobre la historia del correo electrónico y uso personal.\",\n  \"follow_up_texto\": \"Por favor, céntrate en la pregunta original. ¿Cómo diseñarías el servicio a nivel de arquitectura para enviar correos de forma asíncrona y evitar la pérdida de mensajes ante un reinicio del servidor?\",\n  \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

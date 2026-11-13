@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-C",
+  "corrida" : 3,
+  "ms" : 1053,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"Tu respuesta no aborda la arquitectura técnica solicitada.\", \"follow_up_texto\": \"Por favor, descubre una arquitectura concreta: indica qué componente persiste las tareas antes del envío, cómo maneja la asincronía y qué mecanismo garantiza la durabilidad ante un reinicio del servidor.\", \"motivo\": \"La respuesta habla de la historia del correo y hábitos personales, ignorando completamente la solicitud técnica de diseño de un servicio asíncrono tolerante a fallos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

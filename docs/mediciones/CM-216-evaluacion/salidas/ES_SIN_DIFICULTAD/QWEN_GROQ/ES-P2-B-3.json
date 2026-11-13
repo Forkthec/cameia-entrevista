@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 3,
+  "ms" : 745,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 135,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado superficial y carece de precisión técnica.\", \"follow_up_texto\": \"Explícame los cuatro acrónimos ACID y cómo se aplican en una transacción. Después, describe el mecanismo técnico por el cual el bloqueo optimista detecta conflictos de concurrencia y qué pasa si se detecta un conflicto.\", \"motivo\": \"La respuesta solo menciona definiciones genéricas sin explicar los mecanismos subyacentes (ACID, versión de datos) ni los criterios concretos para elegir entre ambos enfoques.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

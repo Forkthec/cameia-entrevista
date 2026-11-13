@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P2-B",
+  "corrida" : 3,
+  "ms" : 999,
+  "tokensEntrada" : 659,
+  "tokensSalida" : 118,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general y no detalla los objetivos ni los mecanismos específicos de cada tipo de prueba.\",\n  \"follow_up_texto\": \"Podrías profundizar en qué verifica específicamente una prueba de humo frente a una de regresión y en qué momento exacto del ciclo de desarrollo se ejecuta cada una.\",\n  \"feedback\": \"La respuesta se queda en generalidades sin aportar detalles técnicos sobre el propósito de cada prueba.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

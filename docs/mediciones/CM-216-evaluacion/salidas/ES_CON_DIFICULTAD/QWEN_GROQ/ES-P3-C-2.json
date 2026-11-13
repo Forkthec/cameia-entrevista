@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-C",
+  "corrida" : 2,
+  "ms" : 1051,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 134,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Responder que casi nunca discutes no valida la respuesta; es necesario documentar un conflicto técnico real.\", \"follow_up_texto\": \"Esa respuesta insinúa una falta de colaboración. Es imposible no tener desacuerdos técnicos. Describe un conflicto específico reciente, por ejemplo, una discusión sobre arquitectura o debugging, y explica cómo llegó a un consenso.\", \"motivo\": \"El candidato esquiva la pregunta negando la ocurrencia de conflictos ('casi nunca discuto'), lo cual no responde a la solicitud de un caso concreto.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

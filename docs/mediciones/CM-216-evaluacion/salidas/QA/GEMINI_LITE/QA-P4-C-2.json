@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P4-C",
+  "corrida" : 2,
+  "ms" : 1226,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 132,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato no respondió a la pregunta sobre partición de equivalencia y valores límite, desviándose hacia otro tema.\",\n  \"follow_up_texto\": \"Por favor, vuelve a la pregunta original y explica cómo aplicarías partición de equivalencia y valores límite específicamente para el campo de la fecha de nacimiento en el formulario de registro.\",\n  \"feedback\": \"Es importante mantenerse enfocado en los requerimientos específicos de la pregunta en lugar de desviar la atención a otras áreas.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

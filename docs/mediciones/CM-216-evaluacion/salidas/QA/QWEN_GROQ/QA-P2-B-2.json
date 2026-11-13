@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P2-B",
+  "corrida" : 2,
+  "ms" : 638,
+  "tokensEntrada" : 664,
+  "tokensSalida" : 149,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La distinción es superficial. Falta definir el objetivo específico de cada tipo de prueba y los momentos específicos del ciclo de vida en los que se ejecutan.\", \"follow_up_texto\": \"Detalla el propósito específico de una prueba de humo frente a una de regresión. ¿Qué verificas exactamente en cada caso? Describe en qué puntos del flujo de integración y despliegue se ejecuta cada una.\", \"motivo\": \"La respuesta es vaga porque solo ofrece una comparación general ('rápida' vs 'grande') sin explicar el mecanismo, el objetivo técnico ni los momentos precisos de ejecución requeridos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

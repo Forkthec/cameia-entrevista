@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-A",
+  "corrida" : 3,
+  "ms" : 888,
+  "tokensEntrada" : 696,
+  "tokensSalida" : 64,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde con claridad sobre su experiencia relevante y los motivos de su interés en el puesto.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena síntesis de tu experiencia y motivación.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

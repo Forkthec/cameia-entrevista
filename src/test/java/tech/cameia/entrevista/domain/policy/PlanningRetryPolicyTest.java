@@ -44,9 +44,7 @@ class PlanningRetryPolicyTest {
     }
 
     @Test
-    void attemptNumberAndLastAttempt_shouldFollowCounter() {
-        assertThat(policy.attemptNumber(0)).isEqualTo(1);
-        assertThat(policy.attemptNumber(2)).isEqualTo(3);
+    void isLastAttempt_shouldFollowCounter() {
         assertThat(policy.isLastAttempt(1)).isFalse();
         assertThat(policy.isLastAttempt(2)).isTrue();
     }

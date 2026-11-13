@@ -63,6 +63,8 @@ import tech.cameia.entrevista.domain.model.ProfileReplica;
 import tech.cameia.entrevista.domain.model.ReplicatedProfileStatus;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.model.TranscriptionFailure;
+import tech.cameia.entrevista.domain.model.AiOperation;
+import tech.cameia.entrevista.domain.model.AiProvider;
 import tech.cameia.entrevista.domain.port.LanguageModelPort;
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
 import tech.cameia.entrevista.domain.port.SpeechTranscriptionPort;
@@ -299,7 +301,7 @@ class AudioAnswerEndToEndTest {
     }
 
     @Test
-    @DisplayName("Tras la quinta respuesta no hay pregunta siguiente y la entrevista sigue EN_CURSO hasta el cierre (CA-5.12.6)")
+    @DisplayName("Tras la quinta respuesta no hay pregunta siguiente y la entrevista se cierra como la escrita (CA-5.12.6, CM-220)")
     void submit_shouldFinishAfterFifthAnswer() {
         String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
         String turn = ids[1];
@@ -315,7 +317,7 @@ class AudioAnswerEndToEndTest {
         assertThat((Boolean) JsonPath.read(response.getBody(), "$.interviewFinished")).isTrue();
         assertThat((Object) JsonPath.read(response.getBody(), "$.nextQuestion")).isNull();
         assertThat((Integer) JsonPath.read(response.getBody(), "$.progress.currentQuestion")).isEqualTo(5);
-        assertThat(sessionStatus(ids[0])).isEqualTo("EN_CURSO");
+        assertThat(sessionStatus(ids[0])).isEqualTo("FINALIZADA");
         assertThat(answers()).isEqualTo(5);
     }
 
@@ -370,7 +372,7 @@ class AudioAnswerEndToEndTest {
             release.countDown();
 
             assertThat(second.getStatusCode().value()).isEqualTo(409);
-            assertThat(code(second)).isEqualTo("SESSION_CONFLICT");
+            assertThat(code(second)).isEqualTo("TURN_CONFLICT");
             assertThat(first.get(10, TimeUnit.SECONDS).getStatusCode().value()).isEqualTo(200);
         } finally {
             release.countDown();
@@ -602,7 +604,7 @@ class AudioAnswerEndToEndTest {
         ResponseEntity<String> missing = sendAudio(UID_A, ids[0], null, audio("tono-3s.webm"), null);
 
         assertThat(answered.getStatusCode().value()).isEqualTo(409);
-        assertThat(code(answered)).isEqualTo("TURN_TRANSITION_NOT_ALLOWED");
+        assertThat(code(answered)).isEqualTo("ANSWER_ALREADY_EXISTS");
         assertThat(unknown.getStatusCode().value()).isEqualTo(404);
         assertThat(code(unknown)).isEqualTo("TURN_NOT_FOUND");
         assertThat(missing.getStatusCode().value()).isEqualTo(422);
@@ -642,7 +644,7 @@ class AudioAnswerEndToEndTest {
         assertThat(detail(failed))
                 .isEqualTo("No pudimos transcribir tu respuesta. Graba de nuevo o responde por texto.");
         assertThat(answers()).isZero();
-        assertThat(turnStatus(ids[1])).isEqualTo("RETRYING");
+        assertThat(turnStatus(ids[1])).isEqualTo("PENDING");
         ResponseEntity<String> state = json(HttpMethod.GET, BASE + "/" + ids[0] + "/state", UID_A, null);
         assertThat((String) JsonPath.read(state.getBody(), "$.pendingQuestion.turnId")).isEqualTo(ids[1]);
 
@@ -650,6 +652,29 @@ class AudioAnswerEndToEndTest {
 
         assertThat(retried.getStatusCode().value()).isEqualTo(200);
         assertThat(transcriber.calls()).isEqualTo(2);
+        assertThat(answers()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Tras fallar la transcripción la misma pregunta se responde por texto (CA-5.13.6)")
+    void submit_shouldAllowWrittenAnswerAfterTranscriptionFails() {
+        String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
+        transcriber.enqueue(() -> {
+            throw new TranscriptionUnavailableException("caída simulada", null);
+        });
+        assertThat(sendAudio(UID_A, ids[0], ids[1], audio("tono-3s.webm"), "clave-1").getStatusCode().value())
+                .isEqualTo(503);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-User-Id", UID_A);
+        headers.set("Idempotency-Key", "texto-1");
+        ResponseEntity<String> written = client.exchange(BASE + "/" + ids[0] + "/answers", HttpMethod.POST,
+                new HttpEntity<>("{\"turnId\":\"" + ids[1] + "\",\"answerText\":\"Lideré la migración.\"}",
+                        headers), String.class);
+
+        assertThat(written.getStatusCode().value()).isEqualTo(200);
+        assertThat((Integer) JsonPath.read(written.getBody(), "$.nextQuestion.number")).isEqualTo(2);
         assertThat(answers()).isEqualTo(1);
     }
 
@@ -703,7 +728,16 @@ class AudioAnswerEndToEndTest {
         }
 
         @Override
-        public synchronized LanguageModelResponse generate(LanguageModelPrompt prompt) {
+        public boolean isAvailable(AiProvider provider) {
+            return provider == AiProvider.PRIMARY;
+        }
+
+        // La evaluación de cada respuesta (CM-216) responde AVANZAR salvo que la prueba programe otra cosa.
+        @Override
+        public synchronized LanguageModelResponse generate(LanguageModelPrompt prompt, AiProvider provider) {
+            if (script.isEmpty() && prompt.operation() == AiOperation.EVALUATE) {
+                return new LanguageModelResponse("{\"accion\":\"AVANZAR\",\"clasificacion\":\"COMPLETA\",\"motivo\":\"Responde lo pedido\",\"follow_up_texto\":\"\",\"feedback\":\"Buena estructura\"}", 800, 200, "modelo-de-prueba");
+            }
             if (script.isEmpty()) {
                 throw new IllegalStateException("La prueba no programó una respuesta del modelo");
             }
@@ -841,7 +875,7 @@ class AudioAnswerEndToEndTest {
                 .isEqualTo("No pudimos transcribir tu respuesta. Graba de nuevo o responde por texto.");
         assertThat(transcriber.calls()).isEqualTo(2);
         assertThat(answers()).isZero();
-        assertThat(turnStatus(ids[1])).isEqualTo("RETRYING");
+        assertThat(turnStatus(ids[1])).isEqualTo("PENDING");
         assertThat(attemptsOf(ids[1])).isEqualTo("1:FALLIDA,2:FALLIDA");
 
         // CA-5.13.5 y CA-5.13.7: grabar de nuevo en la misma pregunta deja una sola respuesta y avanza.

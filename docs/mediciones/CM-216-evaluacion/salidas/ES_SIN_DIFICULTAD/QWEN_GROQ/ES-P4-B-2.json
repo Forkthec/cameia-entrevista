@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-B",
+  "corrida" : 2,
+  "ms" : 1241,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 201,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica. No especifica qué tecnología de cola se usa, cómo se garantiza la durabilidad ante reinicios ni el mecanismo de entregabilidad (AT LEAST ONCE) ni la idempotencia.\", \"follow_up_texto\": \"¿Qué tecnología de mensajería propones (p. ej., RabbitMQ, Kafka, SQS) y cómo garantizas específicamente que un mensaje no se pierda si el servidor de consumidores cae justo después de recibirlo pero antes de procesarlo? Explica el mecanismo de confirmación (ACK/NACK) y la reintentabilidad.\", \"motivo\": \"El candidato menciona 'cola' y 'base de datos', pero omite mecanismos críticos como la durabilidad de la cola, las políticas de confirmación del consumidor y la idempotencia, que son esenciales para no perder mensajes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

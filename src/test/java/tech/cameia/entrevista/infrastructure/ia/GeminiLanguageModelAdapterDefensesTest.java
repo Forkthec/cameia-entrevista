@@ -23,8 +23,10 @@ import org.springframework.ai.google.genai.common.GoogleGenAiThinkingLevel;
 
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.model.AiOperation;
 import tech.cameia.entrevista.domain.model.LanguageModelPrompt;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
+import tech.cameia.entrevista.infrastructure.config.ia.GeminiChatModels;
 import tech.cameia.entrevista.infrastructure.config.ia.LanguageModelProperties;
 
 /**
@@ -35,12 +37,12 @@ import tech.cameia.entrevista.infrastructure.config.ia.LanguageModelProperties;
  */
 class GeminiLanguageModelAdapterDefensesTest {
 
-    private static final LanguageModelPrompt PROMPT = new LanguageModelPrompt("Responde OK.", 16);
+    private static final LanguageModelPrompt PROMPT = new LanguageModelPrompt("Responde OK.", 16, AiOperation.PLAN);
 
     private final ChatModel chatModel = mock(ChatModel.class);
 
-    private final GeminiLanguageModelAdapter adapter = new GeminiLanguageModelAdapter(chatModel,
-            new LanguageModelProperties("clave-falsa", "modelo-configurado", Duration.ofSeconds(5), 1.0,
+    private final GeminiLanguageModelAdapter adapter = new GeminiLanguageModelAdapter(new GeminiChatModels(chatModel, chatModel),
+            new LanguageModelProperties("clave-falsa", "modelo-configurado", Duration.ofSeconds(5), Duration.ofSeconds(3), 1.0,
                     GoogleGenAiThinkingLevel.MINIMAL));
 
     private static Generation parte(String texto) {

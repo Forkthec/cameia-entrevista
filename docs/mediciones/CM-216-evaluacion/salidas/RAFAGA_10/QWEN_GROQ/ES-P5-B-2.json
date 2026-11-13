@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 2,
+  "ms" : 863,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 141,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y omite el análisis del error y la comunicación con el equipo. Reiniciar sin investigar la causa raíz no es una práctica estándar.\", \"follow_up_texto\": \"Detalla el proceso de diagnóstico: qué herramientas usas para analizar los logs, cómo aisláis el error específico y qué pasos tomás antes de intentar cualquier acción correctiva como reiniciar.\", \"motivo\": \"El candidato menciona revisar logs pero no especifica cómo ni qué buscar, y omite pasos esenciales como identificar la causa raíz, evaluar el impacto y comunicar el incidente.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

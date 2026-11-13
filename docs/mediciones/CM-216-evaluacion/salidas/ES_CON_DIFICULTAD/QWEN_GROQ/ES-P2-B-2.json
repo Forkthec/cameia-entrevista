@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 2,
+  "ms" : 1306,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 162,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es excesivamente superficial. Falta definir el aislamiento transaccional, explicar el mecanismo concreto del bloqueo optimista (versiones o timestamps) y no se detallan los criterios técnicos para elegir entre ambos enfoques.\", \"follow_up_texto\": \"Explica la diferencia técnica exacta entre un bloqueo transaccional (pesimista) y un bloqueo optimista. Mencionados mecanismos internos (locks, versionados, timeouts) y da un ejemplo concreto de cuándo fallaría el optimista o cuándo sería preferible el pesimista.\", \"motivo\": \"La respuesta está en la dirección correcta pero carece de precisión técnica, mecanismos concretos y criterios de decisión específicos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

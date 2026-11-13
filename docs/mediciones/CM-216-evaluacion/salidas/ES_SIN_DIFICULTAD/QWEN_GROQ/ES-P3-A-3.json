@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 3,
+  "ms" : 946,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 113,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Responder con un caso práctico concreto, mostrar el uso de datos para la toma de decisiones y describir el resultado medible demuestra madurez técnica y habilidades de comunicación efectivas.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe una situación conflictiva específica, detalla el proceso de resolución basado en datos (métricas de despliegue y cambios cruzados) y presenta un resultado exitoso y comprobable.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

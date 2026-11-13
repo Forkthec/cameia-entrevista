@@ -1,19 +1,28 @@
 package tech.cameia.entrevista.application.service;
 
+import java.time.Clock;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import tech.cameia.entrevista.application.command.SessionCommand;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.model.AnswerMode;
+import tech.cameia.entrevista.domain.model.AnsweredQuestion;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
 import tech.cameia.entrevista.domain.model.SessionStatus;
+import tech.cameia.entrevista.domain.model.TurnStatus;
+import tech.cameia.entrevista.domain.policy.AiRetryPolicy;
+import tech.cameia.entrevista.domain.policy.EvaluationStaleness;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
+import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
@@ -30,12 +39,24 @@ public class GetSessionStateService {
     private final InterviewSessionRepository sessions;
     private final InterviewQuestionRepository questions;
     private final InterviewTurnRepository turns;
+    private final AnswerAttemptRepository answers;
+    private final AiExecutionRepository executions;
+    private final EvaluationStaleness staleness;
+    private final Clock clock;
 
     GetSessionStateService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
-            InterviewTurnRepository turns) {
+            InterviewTurnRepository turns, AnswerAttemptRepository answers, AiExecutionRepository executions,
+            Clock clock,
+            @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait) {
         this.sessions = sessions;
         this.questions = questions;
         this.turns = turns;
+        this.answers = answers;
+        this.executions = executions;
+        this.clock = clock;
+        this.staleness = new EvaluationStaleness(AiRetryPolicy.cycleBudget(evaluationTimeout, firstWait, secondWait));
     }
 
     /**
@@ -61,8 +82,9 @@ public class GetSessionStateService {
         if (status == SessionStatus.CONFIGURED) {
             return new SessionState(session.id(), status, answerMode, 0, null);
         }
+        List<AnsweredQuestion> history = answers.historyOf(session.id());
         if (status == SessionStatus.EVALUATING || status == SessionStatus.FINISHED) {
-            return new SessionState(session.id(), status, answerMode, InterviewQuestion.TOTAL, null);
+            return new SessionState(session.id(), status, answerMode, InterviewQuestion.TOTAL, null, history);
         }
         List<InterviewQuestion> planned = questions.findBySession(session.id());
         Optional<InterviewTurn> open = turns.findOpenBySession(session.id());
@@ -70,14 +92,27 @@ public class GetSessionStateService {
                 .filter(question -> question.id().equals(turn.questionId())).findFirst());
         int number = current.map(InterviewQuestion::position).orElse(InterviewQuestion.TOTAL);
         if (status == SessionStatus.IN_PROGRESS && current.isPresent()) {
+            InterviewTurn turn = open.get();
             return new SessionState(session.id(), status, answerMode, number, new SessionState.PendingQuestion(
-                    open.get().id(), number, current.get().originalText()));
+                    turn.id(), number, current.get().originalText(), visibleStatus(turn), turn.manualRetries()),
+                    history);
         }
-        if (status == SessionStatus.IN_PROGRESS) {
-            // Una sesión en curso siempre tiene su turno abierto: que falte es una inconsistencia que se registra.
+        // Con las cinco respondidas no queda turno abierto: es el cierre normal de las respuestas, no un defecto.
+        if (status == SessionStatus.IN_PROGRESS && turns.countCompleted(session.id()) < InterviewQuestion.TOTAL) {
+            // Una sesión en curso con preguntas por responder siempre tiene su turno abierto: que falte es una
+            // inconsistencia que se registra.
             log.warn("Sesión en curso sin turno abierto [sessionId={}]", session.id());
         }
-        return new SessionState(session.id(), status, answerMode, number, null);
+        return new SessionState(session.id(), status, answerMode, number, null, history);
+    }
+
+    // Un turno procesando cuya evaluación murió se muestra en reintento, para que la persona pueda reintentar.
+    private TurnStatus visibleStatus(InterviewTurn turn) {
+        if (turn.status() == TurnStatus.PROCESSING
+                && staleness.isStale(executions.findEvaluationInProgress(turn.id()), clock.instant())) {
+            return TurnStatus.RETRYING;
+        }
+        return turn.status();
     }
 
     /**

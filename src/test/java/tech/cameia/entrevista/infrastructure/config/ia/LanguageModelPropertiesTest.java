@@ -41,6 +41,7 @@ class LanguageModelPropertiesTest {
                     "cameia.llm.api-key=clave-falsa-de-prueba",
                     "cameia.llm.model=modelo-de-prueba",
                     "cameia.llm.timeout=30s",
+                    "cameia.llm.evaluation-timeout=3s",
                     "cameia.llm.temperature=1.0",
                     "cameia.llm.thinking-level=low");
 
@@ -53,6 +54,7 @@ class LanguageModelPropertiesTest {
             assertThat(properties.apiKey()).isEqualTo("clave-falsa-de-prueba");
             assertThat(properties.model()).isEqualTo("modelo-de-prueba");
             assertThat(properties.timeout()).isEqualTo(Duration.ofSeconds(30));
+            assertThat(properties.evaluationTimeout()).isEqualTo(Duration.ofSeconds(3));
             assertThat(properties.temperature()).isEqualTo(1.0);
             assertThat(properties.thinkingLevel()).isEqualTo(GoogleGenAiThinkingLevel.LOW);
         });
@@ -75,6 +77,7 @@ class LanguageModelPropertiesTest {
                 .withPropertyValues(
                         "cameia.llm.model=modelo-de-prueba",
                         "cameia.llm.timeout=30s",
+                    "cameia.llm.evaluation-timeout=3s",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low")
                 .run(started -> assertThat(messages(started.getStartupFailure()))
@@ -98,6 +101,7 @@ class LanguageModelPropertiesTest {
                 .withPropertyValues(
                         "cameia.llm.api-key=clave-falsa-de-prueba",
                         "cameia.llm.timeout=30s",
+                    "cameia.llm.evaluation-timeout=3s",
                         "cameia.llm.temperature=1.0",
                         "cameia.llm.thinking-level=low")
                 .run(started -> assertThat(messages(started.getStartupFailure()))
@@ -111,6 +115,30 @@ class LanguageModelPropertiesTest {
         context.withPropertyValues("cameia.llm.timeout=" + timeout)
                 .run(started -> assertThat(messages(started.getStartupFailure()))
                         .contains("cameia.llm.timeout (LLM_TIMEOUT) debe ser mayor que cero"));
+    }
+
+    @ParameterizedTest(name = "timeout de evaluación [{0}]")
+    @ValueSource(strings = {"0ms", "-1ms"})
+    @DisplayName("Un timeout de evaluación cero o negativo impide arrancar")
+    void bind_shouldFail_whenEvaluationTimeoutIsNotPositive(String timeout) {
+        context.withPropertyValues("cameia.llm.evaluation-timeout=" + timeout)
+                .run(started -> assertThat(messages(started.getStartupFailure()))
+                        .contains("cameia.llm.evaluation-timeout (LLM_EVALUATION_TIMEOUT) debe ser mayor que cero"));
+    }
+
+    @Test
+    @DisplayName("Sin el timeout de evaluación el servicio no arranca")
+    void bind_shouldFail_whenEvaluationTimeoutIsMissing() {
+        new ApplicationContextRunner()
+                .withUserConfiguration(PropertiesOnly.class)
+                .withPropertyValues(
+                        "cameia.llm.api-key=clave-falsa-de-prueba",
+                        "cameia.llm.model=modelo-de-prueba",
+                        "cameia.llm.timeout=30s",
+                        "cameia.llm.temperature=1.0",
+                        "cameia.llm.thinking-level=low")
+                .run(started -> assertThat(messages(started.getStartupFailure()))
+                        .contains("cameia.llm.evaluation-timeout (LLM_EVALUATION_TIMEOUT) es obligatorio"));
     }
 
     @Test
@@ -151,6 +179,7 @@ class LanguageModelPropertiesTest {
                 "--cameia.llm.api-key=" + SECRET_KEY,
                 "--cameia.llm.model=modelo-de-prueba",
                 "--cameia.llm.timeout=abc",
+                "--cameia.llm.evaluation-timeout=3s",
                 "--cameia.llm.temperature=1.0",
                 "--cameia.llm.thinking-level=low"))
                 .satisfies(error -> assertThat(messages(error)).doesNotContain(SECRET_KEY));
@@ -172,6 +201,7 @@ class LanguageModelPropertiesTest {
                 "--cameia.llm.api-key=" + SECRET_KEY,
                 "--cameia.llm.model=",
                 "--cameia.llm.timeout=30s",
+                "--cameia.llm.evaluation-timeout=3s",
                 "--cameia.llm.temperature=1.0",
                 "--cameia.llm.thinking-level=low"))
                 .satisfies(error -> assertThat(messages(error)).doesNotContain(SECRET_KEY));
@@ -185,7 +215,7 @@ class LanguageModelPropertiesTest {
     @DisplayName("La representación de texto enmascara la llave")
     void toString_shouldMaskApiKey_whenPropertiesArePrinted() {
         LanguageModelProperties properties = new LanguageModelProperties(SECRET_KEY, "modelo-de-prueba",
-                Duration.ofSeconds(30), 1.0, GoogleGenAiThinkingLevel.LOW);
+                Duration.ofSeconds(30), Duration.ofSeconds(3), 1.0, GoogleGenAiThinkingLevel.LOW);
 
         assertThat(properties.toString())
                 .contains("apiKey=****")
@@ -215,6 +245,7 @@ class LanguageModelPropertiesTest {
                     LanguageModelProperties properties = started.getBean(LanguageModelProperties.class);
                     assertThat(properties.thinkingLevel()).isEqualTo(GoogleGenAiThinkingLevel.MINIMAL);
                     assertThat(properties.timeout()).isEqualTo(Duration.ofMillis(20000));
+                    assertThat(properties.evaluationTimeout()).isEqualTo(Duration.ofMillis(3000));
                     assertThat(properties.temperature()).isEqualTo(1.0);
                 });
     }

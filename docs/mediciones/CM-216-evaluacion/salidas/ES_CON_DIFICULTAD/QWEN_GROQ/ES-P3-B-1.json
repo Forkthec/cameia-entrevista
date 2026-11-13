@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-B",
+  "corrida" : 1,
+  "ms" : 1248,
+  "tokensEntrada" : 689,
+  "tokensSalida" : 129,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de detalles concretos sobre el desacuerdo, el problema técnico y la resolución.\", \"follow_up_texto\": \"Especifica: ¿cuál era el problema técnico exacto, cuál era la postura de tu compañero y cuál la tuya, y qué criterios objetivos usaron para decidir la solución final?\", \"motivo\": \"La respuesta afirma que hubo un desacuerdo y se resolvió, pero omite los detalles críticos: el contexto técnico, las posturas en conflicto y el mecanismo de decisión.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

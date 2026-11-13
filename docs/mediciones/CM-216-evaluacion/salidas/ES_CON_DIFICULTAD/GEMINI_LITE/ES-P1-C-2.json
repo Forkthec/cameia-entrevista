@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-C",
+  "corrida" : 2,
+  "ms" : 1811,
+  "tokensEntrada" : 654,
+  "tokensSalida" : 111,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta personal y de motivación, solicitando cambiar de tema.\",\n  \"follow_up_texto\": \"Entiendo tu preferencia por los temas técnicos, pero necesito que respondas brevemente sobre tu trayectoria y tu motivación para este rol de backend.\",\n  \"feedback\": \"Es necesario responder a todas las partes de la entrevista, incluidas las preguntas de perfil y motivación.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

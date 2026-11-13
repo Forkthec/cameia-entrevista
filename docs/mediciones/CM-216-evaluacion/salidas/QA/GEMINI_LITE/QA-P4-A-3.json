@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P4-A",
+  "corrida" : 3,
+  "ms" : 1103,
+  "tokensEntrada" : 767,
+  "tokensSalida" : 85,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato cubre adecuadamente la partición de equivalencia y los valores límite para los tres campos requeridos, incluyendo casos válidos, inválidos y de frontera.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena cobertura de casos límite y de equivalencia para los diferentes tipos de datos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

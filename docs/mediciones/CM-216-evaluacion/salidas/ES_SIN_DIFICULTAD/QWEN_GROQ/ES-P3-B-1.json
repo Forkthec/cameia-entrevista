@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-B",
+  "corrida" : 1,
+  "ms" : 587,
+  "tokensEntrada" : 683,
+  "tokensSalida" : 136,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Tu respuesta es demasiado genérica y carece de detalles técnicos o de contexto. Necesito saber exactamente cuál era el desacuerdo y cómo lo resolviste.\", \"follow_up_texto\": \"Necesito más detalles. ¿Cuál era la disputa técnica concreta entre ustedes? ¿Qué argumentos técnico fue el decisorio a la hora de tomar la decisión final?\", \"motivo\": \"La respuesta va en la dirección correcta pero se queda en generalidades, sin mencionar qué fue lo que no les gustaba al compañero ni especificar qué argumento técnico fue decisivo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

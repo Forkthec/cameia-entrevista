@@ -1,39 +1,33 @@
 #!/usr/bin/env python3
-"""Simulador local de Gemini (planificación) y de AssemblyAI (transcripción) para las pruebas de Postman de Entrevista.
+"""Simulador local de la API de Gemini y de la API compatible con OpenAI de Groq para las pruebas de Postman.
 
-Sirve solo para correr la colección con Newman sin gastar el cupo de los proveedores ni usar llaves reales. El servicio
-se apunta a este simulador con dos variables de entorno y llaves falsas:
-  CAMEIA_LLM_BASE_URL=http://localhost:8099     (Gemini: planificar las cinco preguntas)
-  ASSEMBLYAI_BASE_URL=http://localhost:8099     (AssemblyAI: transcribir la respuesta por voz)
-  ASSEMBLYAI_API_KEY=simulada                   (cualquier valor no vacío)
-Sin dependencias: usa solo la biblioteca estándar de Python 3.
+Sirve solo para correr la colección con Newman sin gastar el cupo del proveedor ni usar una llave real. El servicio se
+apunta a este simulador con las variables de entorno CAMEIA_LLM_BASE_URL y LLM_FALLBACK_BASE_URL (por ejemplo
+http://localhost:8099 las dos) y llaves falsas (GOOGLE_GENAI_API_KEY y GROQ_API_KEY). Sin dependencias: usa solo la
+biblioteca estándar de Python 3.
 
 Rutas de control (las llama la colección):
-  POST /__script   cuerpo {"scenario": "..."}  encola la respuesta de la siguiente llamada a un proveedor.
-  POST /__reset    vacía la cola y pone el contador en cero.
-  GET  /__calls    devuelve {"calls": N}: llamadas a generateContent más transcripciones pedidas (subidas de audio).
+  POST /__script   cuerpo {"scenario": "...", "times": N}  encola la respuesta de las siguientes N llamadas al modelo
+                   (N es opcional y vale 1). Un ciclo de tres intentos que falla consume tres entradas.
+  POST /__reset    vacía la cola y pone los contadores en cero.
+  GET  /__calls    devuelve {"calls": N, "gemini": G, "groq": Q}: las llamadas recibidas en total y por proveedor.
 
 Escenarios de /__script:
-  valid          plan válido de cinco preguntas (APERTURA, TECNICA, CONDUCTUAL, TECNICA, SITUACIONAL), idioma es-CO.
-  bad_type       plan con el tipo de la pregunta 3 distinto al de la plantilla (la salida es inválida).
-  limit          Gemini responde 429; en la transcripción, la subida responde 429.
-  unavailable    el proveedor responde 503 (Gemini o la subida del audio a AssemblyAI).
-  transcript     transcripción en español con confianza 0.98.
-  transcript_en  transcripción en inglés con confianza 0.97 (para CA-5.12.10 en una entrevista en español).
-  no_speech      transcripción vacía (AssemblyAI sin voz con on_no_speech_detected=fallback).
-  error          AssemblyAI termina la transcripción con status=error.
-  stuck          la transcripción se queda en status=processing: el intento agota TRANSCRIPTION_TIMEOUT (HU-5.13).
+  valid        plan válido de cinco preguntas (APERTURA, TECNICA, CONDUCTUAL, TECNICA, SITUACIONAL), idioma es-CO.
+  bad_type     plan con el tipo de la pregunta 3 distinto al de la plantilla (la salida es inválida).
+  limit        el proveedor responde 429 (límite de uso).
+  unavailable  el proveedor responde 503.
+  eval_valid      evaluación válida (AVANZAR, COMPLETA) de una respuesta.
+  eval_follow_up  evaluación con acción FOLLOW_UP y un texto de seguimiento (el servicio lo ignora y avanza).
+  eval_invalid    evaluación con una acción fuera del esquema (la salida es inválida).
+  eval_slow       evaluación válida que tarda 3,3 s (más que el tiempo de 3 s de cada intento de evaluar).
 
-Con el reintento de HU-5.13, un 503 (unavailable) del primer intento se reintenta: para ver TRANSCRIPTION_UNAVAILABLE
-hay que programar dos. Los escenarios error y stuck no se reintentan.
-
-Gemini: cualquier ruta que termine en ":generateContent" consume el siguiente escenario; con la cola vacía, "valid".
-AssemblyAI: POST /v2/upload consume el siguiente escenario (con la cola vacía, "transcript"); POST /v2/transcript y
-GET /v2/transcript/{id} devuelven la transcripción de esa subida.
+Cualquier ruta que termine en ":generateContent" (Gemini) o en "/chat/completions" (Groq) consume el siguiente escenario. Con la cola vacía, una petición cuyo
+prompt trae la marca <respuesta_del_candidato> (una evaluación) responde "eval_valid" y cualquier otra responde "valid".
 """
 import json
 import sys
-import uuid
+import time
 from collections import deque
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from threading import Lock
@@ -46,19 +40,9 @@ QUESTIONS = [
     ("SITUACIONAL", "Si un informe tuyo tuviera un error en producción, ¿qué harías primero?"),
 ]
 
-TRANSCRIPTS = {
-    "transcript": ("En mi último trabajo lideré un equipo de cuatro personas y resolví un conflicto de plazos.", "es",
-                   0.98),
-    "transcript_en": ("In my last job I led a team of four people and solved a deadline conflict.", "en", 0.97),
-    "no_speech": ("", "es", None),
-}
-SCENARIOS = ("valid", "bad_type", "limit", "unavailable", "transcript", "transcript_en", "no_speech", "error",
-             "stuck")
-
 queue = deque()
 calls = 0
-uploads = {}       # upload_url -> escenario
-transcripts = {}   # id -> escenario
+by_provider = {"gemini": 0, "groq": 0}
 lock = Lock()
 
 
@@ -71,6 +55,17 @@ def plan(bad_type=False):
     return json.dumps({"idioma": "es-CO", "preguntas": items}, ensure_ascii=False)
 
 
+def evaluation(scenario):
+    if scenario == "eval_follow_up":
+        action, follow_up = "FOLLOW_UP", "SEGUIMIENTO-DEL-SIMULADOR ¿Qué pasaría si la cola fallara?"
+    elif scenario == "eval_invalid":
+        action, follow_up = "OTRA_ACCION", ""
+    else:
+        action, follow_up = "AVANZAR", ""
+    return json.dumps({"accion": action, "clasificacion": "COMPLETA", "motivo": "Responde lo pedido",
+                       "follow_up_texto": follow_up, "feedback": "Buena estructura"}, ensure_ascii=False)
+
+
 def gemini_body(text):
     return {
         "candidates": [{"content": {"role": "model", "parts": [{"text": text}]}, "finishReason": "STOP"}],
@@ -79,14 +74,15 @@ def gemini_body(text):
     }
 
 
-def transcript_body(transcript_id, scenario):
-    if scenario == "stuck":
-        return {"id": transcript_id, "status": "processing"}
-    if scenario == "error":
-        return {"id": transcript_id, "status": "error", "error": "audio ilegible (simulado)"}
-    text, language, confidence = TRANSCRIPTS.get(scenario, TRANSCRIPTS["transcript"])
-    return {"id": transcript_id, "status": "completed", "text": text, "language_code": language,
-            "language_confidence": confidence}
+def groq_body(text):
+    return {
+        "id": "simulador-groq",
+        "object": "chat.completion",
+        "created": 1,
+        "model": "simulador-groq",
+        "choices": [{"index": 0, "message": {"role": "assistant", "content": text}, "finish_reason": "stop"}],
+        "usage": {"prompt_tokens": 1200, "completion_tokens": 300, "total_tokens": 1500},
+    }
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -99,22 +95,13 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def _read(self):
-        # Bytes: la subida de AssemblyAI trae el audio en binario.
         length = int(self.headers.get("Content-Length") or 0)
-        return self.rfile.read(length) if length else b""
+        return self.rfile.read(length).decode("utf-8") if length else ""
 
     def do_GET(self):
         if self.path == "/__calls":
             with lock:
-                self._send(200, {"calls": calls})
-        elif self.path.startswith("/v2/transcript/"):
-            transcript_id = self.path.rsplit("/", 1)[-1]
-            with lock:
-                scenario = transcripts.get(transcript_id)
-            if scenario is None:
-                self._send(404, {"error": "transcripción desconocida"})
-            else:
-                self._send(200, transcript_body(transcript_id, scenario))
+                self._send(200, {"calls": calls, "gemini": by_provider["gemini"], "groq": by_provider["groq"]})
         else:
             self._send(404, {"error": "ruta desconocida"})
 
@@ -124,48 +111,37 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/__reset":
             with lock:
                 queue.clear()
-                uploads.clear()
-                transcripts.clear()
                 calls = 0
+                by_provider["gemini"] = 0
+                by_provider["groq"] = 0
             self._send(200, {"ok": True})
         elif self.path == "/__script":
-            scenario = json.loads(body.decode("utf-8") or "{}").get("scenario")
-            if scenario not in SCENARIOS:
-                self._send(400, {"error": "escenario desconocido"})
+            request = json.loads(body or "{}")
+            scenario = request.get("scenario")
+            times = request.get("times", 1)
+            if scenario not in ("valid", "bad_type", "limit", "unavailable", "eval_valid", "eval_follow_up",
+                                "eval_invalid", "eval_slow") or not isinstance(times, int) or not 1 <= times <= 20:
+                self._send(400, {"error": "escenario o cantidad desconocidos"})
                 return
             with lock:
-                queue.append(scenario)
-            self._send(200, {"queued": scenario})
-        elif self.path == "/v2/upload":
+                queue.extend([scenario] * times)
+            self._send(200, {"queued": scenario, "times": times})
+        elif self.path.endswith(":generateContent") or self.path.endswith("/chat/completions"):
+            groq = self.path.endswith("/chat/completions")
             with lock:
                 calls += 1
-                scenario = queue.popleft() if queue else "transcript"
-            if scenario == "unavailable":
-                self._send(503, {"error": "servicio no disponible (simulado)"})
-            elif scenario == "limit":
-                self._send(429, {"error": "límite de uso (simulado)"})
-            else:
-                url = "http://simulador/upload/" + uuid.uuid4().hex
-                with lock:
-                    uploads[url] = scenario
-                self._send(200, {"upload_url": url})
-        elif self.path == "/v2/transcript":
-            request = json.loads(body.decode("utf-8") or "{}")
-            with lock:
-                scenario = uploads.pop(request.get("audio_url"), "transcript")
-                transcript_id = uuid.uuid4().hex
-                transcripts[transcript_id] = scenario
-            self._send(200, {"id": transcript_id, "status": "queued"})
-        elif self.path.endswith(":generateContent"):
-            with lock:
-                calls += 1
-                scenario = queue.popleft() if queue else "valid"
+                by_provider["groq" if groq else "gemini"] += 1
+                default = "eval_valid" if "respuesta_del_candidato" in body else "valid"
+                scenario = queue.popleft() if queue else default
+            if scenario == "eval_slow":
+                time.sleep(3.3)
             if scenario == "limit":
                 self._send(429, {"error": {"code": 429, "message": "agotado", "status": "RESOURCE_EXHAUSTED"}})
             elif scenario == "unavailable":
                 self._send(503, {"error": {"code": 503, "message": "no disponible", "status": "UNAVAILABLE"}})
             else:
-                self._send(200, gemini_body(plan(bad_type=scenario == "bad_type")))
+                text = evaluation(scenario) if scenario.startswith("eval_") else plan(bad_type=scenario == "bad_type")
+                self._send(200, groq_body(text) if groq else gemini_body(text))
         else:
             self._send(404, {"error": "ruta desconocida"})
 

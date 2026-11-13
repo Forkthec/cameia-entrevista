@@ -15,9 +15,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import tech.cameia.entrevista.domain.exception.ErrorCode;
-import tech.cameia.entrevista.domain.exception.TurnTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
-import tech.cameia.entrevista.domain.model.AnswerMode;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.TranscriptionExecution;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
@@ -50,11 +48,11 @@ class VoiceAnswerPersistenceTest extends AbstractPersistenceTest {
     }
 
     @Test
-    void saveDefinitive_shouldStoreAudioAnswerWithDetectedLanguage() {
+    void save_shouldStoreAudioAnswerWithDetectedLanguage() {
         UUID session = sessionId();
         UUID turn = insertTurn(session);
 
-        attempts.saveDefinitive(new AnswerAttempt(UUID.randomUUID(), turn, AnswerMode.AUDIO, "a".repeat(4000),
+        attempts.save(new AnswerAttempt(UUID.randomUUID(), turn, AnswerAttempt.AnswerOrigin.AUDIO, "a".repeat(4000),
                 "Cuéntame sobre ti", "es", Instant.parse("2026-11-11T15:00:00Z")));
 
         Map<String, Object> row = jdbc.queryForMap(
@@ -67,14 +65,14 @@ class VoiceAnswerPersistenceTest extends AbstractPersistenceTest {
     }
 
     @Test
-    void saveDefinitive_shouldRejectSecondDefinitiveAnswerOfTheSameTurn() {
+    void save_shouldRejectSecondDefinitiveAnswerOfTheSameTurn() {
         UUID turn = insertTurn(sessionId());
-        attempts.saveDefinitive(new AnswerAttempt(UUID.randomUUID(), turn, AnswerMode.AUDIO, "uno", "P", "es",
+        attempts.save(new AnswerAttempt(UUID.randomUUID(), turn, AnswerAttempt.AnswerOrigin.AUDIO, "uno", "P", "es",
                 Instant.now()));
 
-        assertThatThrownBy(() -> attempts.saveDefinitive(new AnswerAttempt(UUID.randomUUID(), turn,
-                AnswerMode.AUDIO, "dos", "P", "es", Instant.now())))
-                .isInstanceOf(TurnTransitionNotAllowedException.class);
+        assertThatThrownBy(() -> attempts.save(new AnswerAttempt(UUID.randomUUID(), turn,
+                AnswerAttempt.AnswerOrigin.AUDIO, "dos", "P", "es", Instant.now())))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.AnswerAlreadyExistsException.class);
     }
 
     @Test

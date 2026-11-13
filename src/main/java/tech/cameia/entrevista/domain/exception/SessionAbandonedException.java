@@ -1,7 +1,7 @@
 package tech.cameia.entrevista.domain.exception;
 
 /**
- * La entrevista quedó abandonada y no admite respuestas (CA-5.5.4, CA-5.8.28).
+ * La entrevista quedó abandonada y no admite respuestas ni genera evaluación.
  */
 public class SessionAbandonedException extends BusinessException {
 

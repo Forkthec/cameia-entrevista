@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-B",
+  "corrida" : 2,
+  "ms" : 1338,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 131,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es superficial y carece de un procedimiento estructurado para la resolución de incidentes en producción.\",\n  \"follow_up_texto\": \"Por favor, detalla los pasos concretos de tu proceso de troubleshooting. ¿Cómo analizas los logs, qué métricas revisas y cómo evalúas el impacto antes de decidir reiniciar un servicio en producción?\",\n  \"feedback\": \"La respuesta se queda en generalidades y no describe un proceso metódico de respuesta a incidentes.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 2,
+  "ms" : 8162,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 97,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato describe un proceso de respuesta a incidentes lógico, priorizando la mitigación y abarcando monitoreo, análisis, comunicación y prevención.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta sólida que cubre los aspectos operativos y de comunicación en la gestión de un incidente en producción.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

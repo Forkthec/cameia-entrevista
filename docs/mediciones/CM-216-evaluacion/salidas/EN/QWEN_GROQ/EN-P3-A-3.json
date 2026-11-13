@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-A",
+  "corrida" : 3,
+  "ms" : 758,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 95,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta describe claramente el desacuerdo, la metodología de consenso basada en datos y el resultado cuantitativo satisfactorio.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato responde directamente a la pregunta proporcionando un ejemplo concreto, acciones específicas (medición de métricas) y un desenlace claro con resultados medibles.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

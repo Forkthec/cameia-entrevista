@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P4-C",
+  "corrida" : 2,
+  "ms" : 1032,
+  "tokensEntrada" : 652,
+  "tokensSalida" : 113,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"motivo\": \"El candidato no responde a la pregunta sobre el diseño del sistema y habla de historia y uso personal.\", \"follow_up_texto\": \"Por favor, céntrate en la pregunta original. Diseña a alto nivel un servicio que envíe correos de forma asíncrona y garantice que no se pierdan mensajes si el servidor se reinicia.\", \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}
