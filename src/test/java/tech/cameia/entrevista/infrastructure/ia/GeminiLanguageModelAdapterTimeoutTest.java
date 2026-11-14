@@ -83,16 +83,18 @@ class GeminiLanguageModelAdapterTimeoutTest {
     }
 
     @Test
-    @DisplayName("Una evaluación que responde a los 3300 ms con un tope de 3000 ms falla sin esperar la respuesta")
+    @DisplayName("Una evaluación que responde a los 5000 ms con un tope de 3000 ms falla sin esperar la respuesta")
     void generate_shouldFailUnavailable_whenTimeout() {
-        demoraMs = 3300;
-        long inicio = System.nanoTime();
+        demoraMs = 5000;
+        long[] duracionMs = new long[1];
 
-        Throwable fallo = catchThrowable(() -> llamar(evaluacion(), "20s", "3000ms"));
+        Throwable fallo = catchThrowable(() -> llamar(evaluacion(), "20s", "3000ms", duracionMs));
 
-        long duracionMs = Duration.ofNanos(System.nanoTime() - inicio).toMillis();
         assertThat(fallo).isInstanceOf(LlmUnavailableException.class);
-        assertThat(duracionMs).as("la llamada debe volver al cumplirse el tope, no a los 3300 ms").isLessThan(3300);
+        // Se mide solo la llamada al modelo, sin el arranque del contexto (en frío tarda segundos); el margen de
+        // 1,5 s sobre el tope absorbe la lentitud de una máquina cargada y sigue distinguiendo esperar los 5000 ms.
+        assertThat(duracionMs[0]).as("la llamada debe volver al cumplirse el tope, no a los 5000 ms")
+                .isLessThan(4500);
     }
 
     @Test
@@ -126,6 +128,12 @@ class GeminiLanguageModelAdapterTimeoutTest {
 
     private LanguageModelResponse llamar(LanguageModelPrompt prompt, String planningTimeout,
             String evaluationTimeout) {
+        return llamar(prompt, planningTimeout, evaluationTimeout, new long[1]);
+    }
+
+    /** Igual que la anterior; deja en {@code duracionMs[0]} lo que tardó solo la llamada al modelo. */
+    private LanguageModelResponse llamar(LanguageModelPrompt prompt, String planningTimeout,
+            String evaluationTimeout, long[] duracionMs) {
         LanguageModelResponse[] resultado = new LanguageModelResponse[1];
         Throwable[] fallo = new Throwable[1];
         new ApplicationContextRunner()
@@ -147,10 +155,14 @@ class GeminiLanguageModelAdapterTimeoutTest {
                         "cameia.llm.fallback.base-url=https://respaldo.invalido",
                         "cameia.llm.base-url=http://localhost:" + servidor.getAddress().getPort())
                 .run(arrancado -> {
+                    GeminiLanguageModelAdapter adaptador = arrancado.getBean(GeminiLanguageModelAdapter.class);
+                    long inicio = System.nanoTime();
                     try {
-                        resultado[0] = arrancado.getBean(GeminiLanguageModelAdapter.class).generate(prompt);
+                        resultado[0] = adaptador.generate(prompt);
                     } catch (RuntimeException lanzada) {
                         fallo[0] = lanzada;
+                    } finally {
+                        duracionMs[0] = Duration.ofNanos(System.nanoTime() - inicio).toMillis();
                     }
                 });
         if (fallo[0] instanceof RuntimeException lanzada) {
