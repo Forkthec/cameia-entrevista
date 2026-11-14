@@ -1,4 +1,4 @@
-# ADR 0013 · Reintento automático de la transcripción
+# ADR 0016 · Reintento automático de la transcripción
 
 ## Estado
 
@@ -9,7 +9,7 @@ Propuesta (CM-362, 12-nov-2026). Se ratifica en el PR.
 HU-5.13 pide reintentar una vez, sin intervención de la persona, una transcripción que falló por un error
 transitorio; no reintentar si el intento agotó sus 60 s; y rechazar otro envío de la misma pregunta mientras se
 transcribe o reintenta. La transcripción la hace AssemblyAI (CM-349) y el turno ya se reserva antes de transcribir
-(CM-345, ADR 0012).
+(CM-345, ADR 0015).
 
 ## Decisión
 

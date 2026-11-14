@@ -21,7 +21,7 @@ registrar la respuesta y abrir el turno siguiente. La transcripción se valida e
 | Infraestructura | `infrastructure/persistence/entity/AnswerAttemptEntity`, `TranscriptionExecutionEntity` y sus repositorios y adaptadores | Persistencia |
 | Presentación | `presentation/controller/AudioAnswerController`, `presentation/dto/AnswerResponse`; `BusinessExceptionHandler` (+6 definiciones, manejador de `TranscriptionUnavailableException`) | Contrato HTTP |
 | Configuración | `application.properties`, `.env.example`, `docker-compose.yml` | Multipart en memoria y variables de AssemblyAI |
-| Documentación | `docs/errores.md`, `CLAUDE.md`, `postman/`, `docs/bitacora-ia/11_respuesta-por-voz_prompt.md` | Catálogo, contexto, colección y bitácora |
+| Documentación | `docs/errores.md`, `CLAUDE.md`, `postman/`, `docs/bitacora-ia/14_respuesta-por-voz_prompt.md` | Catálogo, contexto, colección y bitácora |
 
 ## Qué se reutiliza
 

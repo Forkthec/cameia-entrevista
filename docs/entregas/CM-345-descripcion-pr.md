@@ -5,7 +5,7 @@
 - Lectura del contenido real WebM/Opus y MP4/AAC (`infrastructure.media`), límites 10 MiB / 3 min (`AudioAnswerPolicy`).
 - Transcripción con Gemini en línea (`infrastructure.speech`), sin almacenamiento; 12 códigos nuevos en `docs/errores.md`.
 - `V8__respuesta_por_voz.sql` (idéntica a la de CM-349). Carpeta Postman «Responder por voz» y simulador que transcribe.
-- Documentación: `specs/CM-345-RespuestaPorVoz/` (spec, plan, tasks), ADR 0012, bitácora IA 11, `CLAUDE.md`, `.env.example` y `postman/README.md`.
+- Documentación: `specs/CM-345-RespuestaPorVoz/` (spec, plan, tasks), ADR 0015, bitácora IA 14, `CLAUDE.md`, `.env.example` y `postman/README.md`.
 
 ## Criterios cubiertos (backend)
 CA-5.8.5, 5.8.6, 5.8.7, 5.8.8, 5.8.12–5.8.18, 5.8.20, 5.8.21, 5.8.27, 5.8.28. Los demás son de Frontend (ya en `cameia-web`).

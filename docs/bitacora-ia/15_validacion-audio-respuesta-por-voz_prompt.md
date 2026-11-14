@@ -1,4 +1,4 @@
-# Entrada 12 · Responder por voz: validación del audio (HU-5.8)
+# Entrada 15 · Responder por voz: validación del audio (HU-5.8)
 
 - **Fecha:** 2026-11-11 · **Herramienta:** Claude Code (Claude Opus 5.5) · **Responsable:** la persona que pidió la tarea (revisión humana pendiente)
 - **Salida:** [Spec de CM-345](../../specs/CM-345-RespuestaPorVoz/spec.md), sección 8 (decisiones D-345-1 a D-345-7)

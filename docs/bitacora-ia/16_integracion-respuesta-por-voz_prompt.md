@@ -1,4 +1,4 @@
-# Entrada 13 · Integración de la respuesta por voz (CM-349, CM-345 y CM-362)
+# Entrada 16 · Integración de la respuesta por voz (CM-349, CM-345 y CM-362)
 
 - **Fecha:** 2026-11-12 · **Herramienta:** Claude Code (Claude Opus 5.5) · **Responsable:** la persona que pidió la integración (revisión humana pendiente)
 - **Salida:** [Spec de CM-345](../../specs/CM-345-RespuestaPorVoz/spec.md), sección 10
