@@ -118,6 +118,16 @@ jobs:
       # cuenta de Groq tiene activada la retencion cero de datos, porque las respuestas de
       # la entrevista son datos personales. Sin esta llave el tercer intento usa Gemini.
       #
+      # ASSEMBLYAI_API_KEY: llave del servicio que transcribe la respuesta por voz. Viene
+      # de un secreto gestionado, uno por ambiente, y la cuenta de ejecucion solo puede leer
+      # el de su ambiente. Sin esta llave el servicio arranca, pero cada respuesta por voz
+      # responde 503. ASSEMBLYAI_BASE_URL apunta a la region europea del proveedor: con la
+      # cuenta gratuita, lo que se envia a esa region no se usa para entrenar sus modelos,
+      # y en la region de Estados Unidos no se puede desactivar. El audio es la voz de la
+      # persona, un dato personal. TRANSCRIPTION_LANGUAGE_CONFIDENCE_THRESHOLD es la
+      # confianza minima para dar por distinto el idioma del audio; 0.8 coincide con el
+      # valor por defecto del servicio y se deja explicito. Se fija igual en produccion.
+      #
       # SPRING_PROFILES_ACTIVE=production: el nombre de este perfil es "production", no
       # "prod" como en cameia-gateway/cameia-cuentas (application-production.properties,
       # no application-prod.properties) -- sin esta variable,
@@ -159,8 +169,8 @@ jobs:
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1,LLM_EVALUATION_TIMEOUT=8000ms" \
-            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest,GROQ_API_KEY=groq-api-key-staging:latest"
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=10.20.0.3,DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1,LLM_EVALUATION_TIMEOUT=8000ms,ASSEMBLYAI_BASE_URL=https://api.eu.assemblyai.com,TRANSCRIPTION_LANGUAGE_CONFIDENCE_THRESHOLD=0.8" \
+            --set-secrets="DB_PASSWORD=cloudsql-staging-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-staging:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest,GROQ_API_KEY=groq-api-key-staging:latest,ASSEMBLYAI_API_KEY=assemblyai-api-key-staging:latest"
 
       - name: URL del servicio desplegado
         run: gcloud run services describe "${{ env.SERVICE }}" --project="${{ vars.GCP_PROJECT_ID }}" --region="${{ env.REGION }}" --format="value(status.url)"
@@ -366,8 +376,8 @@ jobs:
             --network="$VPC_NETWORK" \
             --subnet="$VPC_SUBNET" \
             --vpc-egress=all-traffic \
-            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1,LLM_EVALUATION_TIMEOUT=8000ms" \
-            --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest,GROQ_API_KEY=groq-api-key-production:latest"
+            --set-env-vars="SPRING_PROFILES_ACTIVE=production,DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=cameia_entrevista,DB_USERNAME=cameia_entrevista,LLM_MODEL=gemini-3.5-flash-lite,SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=2,SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=1,LLM_EVALUATION_TIMEOUT=8000ms,ASSEMBLYAI_BASE_URL=https://api.eu.assemblyai.com,TRANSCRIPTION_LANGUAGE_CONFIDENCE_THRESHOLD=0.8" \
+            --set-secrets="DB_PASSWORD=cloudsql-production-entrevista-password:latest,GOOGLE_GENAI_API_KEY=google-genai-api-key-production:latest,SPRING_RABBITMQ_ADDRESSES=rabbitmq-amqps-url:latest,GROQ_API_KEY=groq-api-key-production:latest,ASSEMBLYAI_API_KEY=assemblyai-api-key-production:latest"
 
       - name: URL del servicio desplegado
         id: url
