@@ -1,4 +1,4 @@
-# Entrada 11 · Respuesta por voz transcrita y avance (HU-5.12)
+# Entrada 14 · Respuesta por voz transcrita y avance (HU-5.12)
 
 - **Fecha:** 2026-11-11 · **Herramienta:** Claude Code (Claude Opus 5.5) · **Responsable:** quien abre el PR de CM-349
 - **Salida:** [Spec de CM-349](../../specs/CM-349-TranscripcionRespuestaVoz/spec.md), sección 9 (decisiones D-01 a D-13)

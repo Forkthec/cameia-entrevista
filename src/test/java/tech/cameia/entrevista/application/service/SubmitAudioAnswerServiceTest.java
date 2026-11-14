@@ -13,6 +13,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,9 +29,11 @@ import tools.jackson.databind.json.JsonMapper;
 import tech.cameia.entrevista.application.command.AudioAnswerCommand;
 import tech.cameia.entrevista.domain.exception.AudioNotAllowedException;
 import tech.cameia.entrevista.domain.exception.AudioInvalidFormatException;
+import tech.cameia.entrevista.domain.exception.AudioTooLargeException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.IdempotencyKeyConflictException;
 import tech.cameia.entrevista.domain.exception.InvalidRequestException;
+import tech.cameia.entrevista.domain.exception.SessionAbandonedException;
 import tech.cameia.entrevista.domain.exception.SessionNotFoundException;
 import tech.cameia.entrevista.domain.exception.SessionTransitionNotAllowedException;
 import tech.cameia.entrevista.domain.exception.TranscriptionEmptyException;
@@ -253,6 +256,77 @@ class SubmitAudioAnswerServiceTest {
 
         assertThatThrownBy(() -> service.submit(command(turnId, audio, null)))
                 .isInstanceOf(TranscriptionEmptyException.class);
+        assertThat(audio).containsOnly((byte) 0);
+    }
+
+    @Test
+    void submit_shouldWipeAudioBytes_whenAudioIsTooLarge() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        byte[] audio = new byte[10_485_761];
+        Arrays.fill(audio, (byte) 7);
+
+        assertThatThrownBy(() -> service.submit(command(turnId, audio, null)))
+                .isInstanceOf(AudioTooLargeException.class);
+        assertThat(audio).containsOnly((byte) 0);
+    }
+
+    @Test
+    void submit_shouldWipeAudioBytes_whenContentIsNotAudio() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        when(inspector.inspect(any())).thenReturn(Optional.empty());
+        byte[] audio = audio();
+
+        assertThatThrownBy(() -> service.submit(command(turnId, audio, null)))
+                .isInstanceOf(AudioInvalidFormatException.class);
+        assertThat(audio).containsOnly((byte) 0);
+    }
+
+    @Test
+    void submit_shouldWipeAudioBytes_whenInterviewIsByText() {
+        sessionWith(AnswerMode.TEXT, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        byte[] audio = audio();
+
+        assertThatThrownBy(() -> service.submit(command(turnId, audio, null)))
+                .isInstanceOf(AudioNotAllowedException.class);
+        assertThat(audio).containsOnly((byte) 0);
+    }
+
+    @Test
+    void submit_shouldWipeAudioBytes_whenSessionIsAbandoned() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.ABANDONED);
+        byte[] audio = audio();
+
+        assertThatThrownBy(() -> service.submit(command(UUID.randomUUID(), audio, null)))
+                .isInstanceOf(SessionAbandonedException.class);
+        assertThat(audio).containsOnly((byte) 0);
+    }
+
+    @Test
+    void submit_shouldWipeAudioBytes_whenAudioIsTooShort() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        when(inspector.inspect(any())).thenReturn(Optional.of(
+                new AudioInspection(AudioFormat.WEBM_OPUS, java.time.Duration.ofMillis(1_000))));
+        byte[] audio = audio();
+
+        assertThatThrownBy(() -> service.submit(command(turnId, audio, null)))
+                .isInstanceOf(tech.cameia.entrevista.domain.exception.AudioTooShortException.class);
+        assertThat(audio).containsOnly((byte) 0);
+    }
+
+    @Test
+    void submit_shouldWipeAudioBytes_whenTranscriptionServiceIsDown() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        when(transcriber.transcribe(any(), any()))
+                .thenThrow(new TranscriptionUnavailableException("servicio caído", null));
+        byte[] audio = audio();
+
+        assertThatThrownBy(() -> service.submit(command(turnId, audio, null)))
+                .isInstanceOf(TranscriptionUnavailableException.class);
         assertThat(audio).containsOnly((byte) 0);
     }
 

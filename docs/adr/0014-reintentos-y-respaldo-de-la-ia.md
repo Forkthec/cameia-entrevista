@@ -28,7 +28,7 @@ Planificar las cinco preguntas y evaluar cada respuesta dependen de un modelo de
 | 3 intentos hechos | — | fin (causa del 3.º) |
 
 - **D-224-1 · Cliente de Groq.** Starter `spring-ai-starter-model-openai`; el `ChatModel` de Groq se arma a mano, sin la autoconfiguración de OpenAI, para no chocar con el de Gemini. URL `https://api.groq.com/openai`, modelo `qwen/qwen3.8-27b`, `reasoning_effort: none` y respuesta con `json_schema` estricto. El respaldo recibe el mismo texto de prompt y el mismo tope de salida que el principal, más el esquema JSON de la operación.
-- **D-224-2 · Esperas de 500 ms y 1 s** antes del segundo y del tercer intento, configurables. Peor caso: evaluar ≈ 10,5 s (3 × 3 s + 1,5 s); planificar ≈ 61,5 s (3 × 20 s + 1,5 s), dentro de los 120 s del Gateway.
+- **D-224-2 · Esperas de 500 ms y 1 s** antes del segundo y del tercer intento, configurables. Peor caso: evaluar ≈ 25,5 s (3 × 8 s + 1,5 s); planificar ≈ 61,5 s (3 × 20 s + 1,5 s), dentro de los 120 s del Gateway.
 - **D-224-3 · Sin llave de Groq el servicio arranca**, registra un aviso una sola vez y el tercer intento usa Gemini. Probar el respaldo real queda pendiente hasta que DevOps cargue la llave.
 - **D-224-4 · Prueba literal de los 19,9 s.** Un servidor local responde a los 19.900 ms con corte de 20.000 ms, además de la versión escalada.
 - **D-224-5 · Datos que recibe el respaldo y condiciones de uso de Groq (Paula, Product Owner, 12-nov-2026).** El respaldo recibe el mismo texto de prompt que el proveedor principal (contexto profesional, vacante y respuesta de la persona); se aprueba su uso en pruebas locales y en el despliegue con estas condiciones:
@@ -41,7 +41,7 @@ Planificar las cinco preguntas y evaluar cada respuesta dependen de un modelo de
   - **Llaves:** la de pruebas locales y la de despliegue son distintas y de proyectos distintos de Groq; ninguna se escribe en Git, registros ni respuestas.
   - **Política de la aplicación:** el equipo aceptó (12-nov-2026) la tarea de políticas de la aplicación (CM-365; su parte de Product Owner y Backend es CM-367). La política de tratamiento de datos personales que la persona acepta al registrarse nombra a Groq como modelo de IA de respaldo, con retención cero y sin entrenamiento, que son las condiciones de esta decisión. La persona que revisa el texto con criterio legal y la Product Owner lo aprueban antes de publicarlo.
   - **Pendiente de verificación humana:** la vigencia de Estados Unidos en la lista de países con nivel adecuado de la Superintendencia de Industria y Comercio y el texto operativo de su Circular Externa 003 de 2025; lo confirma quien responde por la protección de datos del equipo antes de producción.
-- **Tiempos por operación.** La evaluación espera como máximo 3 s por intento (`LLM_EVALUATION_TIMEOUT`); la planificación, 20 s (`LLM_TIMEOUT`).
+- **Tiempos por operación.** La evaluación espera como máximo 8 s por intento en los ambientes desplegados (`LLM_EVALUATION_TIMEOUT=8000ms`; el valor por defecto del servicio es 3 s); la planificación, 20 s (`LLM_TIMEOUT`).
 - **Error de la respuesta.** Si los tres intentos fallan, el `code` es el del último (`LLM_UNAVAILABLE`, `LLM_LIMIT_REACHED` o `LLM_INVALID_OUTPUT`), con el mismo mensaje de siempre. Una evaluación fallida deja el turno en `RETRYING`; una planificación fallida deja la sesión `CONFIGURADA`.
 - **Reintentar corre un ciclo nuevo** desde el intento 1; el contador de reintentos manuales del turno sube en uno por ciclo, no por intento.
 - **La caducidad de la evaluación en curso** y la espera de la misma clave idempotente usan el presupuesto del ciclo completo (3 × tiempo de evaluación + esperas, más 15 s de margen en la espera), para no declarar abandonado un ciclo que sigue vivo.
@@ -49,7 +49,7 @@ Planificar las cinco preguntas y evaluar cada respuesta dependen de un modelo de
 
 ## Consecuencias
 
-- Frontend no cambia su contrato: los mismos códigos 503, ahora tras hasta tres intentos; la petición puede tardar más (hasta ≈ 10,5 s al evaluar).
+- Frontend no cambia su contrato: los mismos códigos 503, ahora tras hasta tres intentos; la petición puede tardar más (hasta ≈ 25,5 s al evaluar).
 - DevOps debe cargar `GROQ_API_KEY` y, si se desea, las variables de tiempo (tarea de CM-225). Sin la llave todo funciona con Gemini en el tercer intento.
 - Cada intento queda trazable en la base sin guardar texto de la persona ni de la IA.
 

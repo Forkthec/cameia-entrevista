@@ -4,11 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -22,6 +28,9 @@ import java.util.function.Supplier;
 
 import com.jayway.jsonpath.JsonPath;
 
+import jakarta.servlet.MultipartConfigElement;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,6 +55,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -106,6 +117,25 @@ class AudioAnswerEndToEndTest {
     @ServiceConnection
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16-alpine");
 
+    /** Directorio propio para las partes del multipart: si el contenedor escribiera el audio, quedaría aquí. */
+    private static final Path MULTIPART_DIR = createMultipartDir();
+
+    @Autowired
+    private MultipartConfigElement multipartConfig;
+
+    @DynamicPropertySource
+    static void multipartLocation(DynamicPropertyRegistry registry) {
+        registry.add("spring.servlet.multipart.location", MULTIPART_DIR::toString);
+    }
+
+    private static Path createMultipartDir() {
+        try {
+            return Files.createTempDirectory("cameia-multipart-");
+        } catch (IOException cannotCreate) {
+            throw new UncheckedIOException(cannotCreate);
+        }
+    }
+
     @Autowired
     private TestRestTemplate client;
 
@@ -123,6 +153,12 @@ class AudioAnswerEndToEndTest {
 
     @Autowired
     private ScriptedTranscriber transcriber;
+
+    /** Borra el directorio propio de las partes; {@code Files.delete} falla si quedó algún archivo dentro. */
+    @AfterAll
+    static void deleteMultipartDir() throws IOException {
+        Files.delete(MULTIPART_DIR);
+    }
 
     @BeforeEach
     void prepare() {
@@ -240,6 +276,15 @@ class AudioAnswerEndToEndTest {
         assertThat(transcriber.calls()).isZero();
         assertThat(answers()).isZero();
         assertThat(turnStatus(turnId)).isEqualTo("PENDING");
+    }
+
+    /** Cuenta los archivos que el contenedor dejó en el directorio de partes. */
+    private static long filesInMultipartDir() {
+        try (var files = Files.list(MULTIPART_DIR)) {
+            return files.count();
+        } catch (IOException unreadable) {
+            throw new UncheckedIOException(unreadable);
+        }
     }
 
     /** Un WebM real rellenado con un elemento Void de EBML hasta {@code size} bytes: sigue siendo un audio válido. */
@@ -531,6 +576,74 @@ class AudioAnswerEndToEndTest {
         }
         assertThat(count("SELECT count(*) FROM information_schema.columns WHERE table_schema = 'microentrevista'"
                 + " AND data_type = 'bytea'")).isZero();
+    }
+
+    @Test
+    @DisplayName("CA-5.8.18: el umbral de escritura en disco supera el máximo, así que las partes viven solo en memoria")
+    void submit_shouldKeepMultipartPartsInMemory() {
+        assertThat(multipartConfig.getMaxFileSize()).isEqualTo(12L * 1024 * 1024);
+        assertThat((long) multipartConfig.getFileSizeThreshold()).isGreaterThan(multipartConfig.getMaxFileSize());
+        assertThat(multipartConfig.getLocation()).isEqualTo(MULTIPART_DIR.toString());
+    }
+
+    private static final String HOSTILE_NAME = "../../respuesta final.webm";
+
+    /** Envía un caso de la lista y comprueba su estado y código; devuelve los bytes enviados para buscarlos en el log. */
+    private byte[] sendCase(String uid, String sessionId, String turnId, byte[] audio, int status, String code) {
+        ResponseEntity<String> response = sendAudio(uid, sessionId, turnId, audio, HOSTILE_NAME, "audio/webm", null);
+        assertThat(response.getStatusCode().value()).as(code).isEqualTo(status);
+        if (code != null) {
+            assertThat(code(response)).isEqualTo(code);
+        }
+        return audio;
+    }
+
+    @Test
+    @DisplayName("HT-06: tras respuestas válidas y fallidas no queda audio en disco, en la base ni en el log")
+    void submit_shouldLeaveNoAudio_whenAnswersSucceedOrFail(CapturedOutput output) {
+        List<byte[]> sent = new ArrayList<>();
+        // Válido
+        String[] ok = startInterview(UID_A, PROFILE_A, "AUDIO");
+        sent.add(sendCase(UID_A, ok[0], ok[1], audio("tono-3s.webm"), 200, null));
+        // Rechazos antes de transcribir
+        String[] s = startInterview(UID_A, PROFILE_A, "AUDIO");
+        sent.add(sendCase(UID_A, s[0], s[1], paddedWebm(10_485_761), 413, "AUDIO_TOO_LARGE"));
+        sent.add(sendCase(UID_A, s[0], s[1], audio("tono-3s.mp3"), 415, "AUDIO_INVALID_FORMAT"));
+        sent.add(sendCase(UID_A, s[0], s[1], audio("no-es-audio.webm"), 415, "AUDIO_INVALID_FORMAT"));
+        sent.add(sendCase(UID_A, s[0], s[1], audio("tono-1s.webm"), 422, "AUDIO_TOO_SHORT"));
+        // Fallos al transcribir
+        transcriber.enqueue(() -> "   ");
+        sent.add(sendCase(UID_A, s[0], s[1], audio("tono-3s.webm"), 422, "TRANSCRIPTION_EMPTY"));
+        transcriber.enqueue(() -> {
+            throw transient503();
+        });
+        transcriber.enqueue(() -> {
+            throw transient503();
+        });
+        sent.add(sendCase(UID_A, s[0], s[1], audio("tono-3s.webm"), 503, "TRANSCRIPTION_UNAVAILABLE"));
+        byte[] seenOnFailure = transcriber.lastAudio();
+        // Ajena
+        sent.add(sendCase(UID_B, s[0], s[1], audio("tono-3s.webm"), 404, "SESSION_NOT_FOUND"));
+        // Entrevista por texto
+        String[] text = startInterview(UID_B, PROFILE_B, "TEXTO");
+        sent.add(sendCase(UID_B, text[0], text[1], audio("tono-3s.webm"), 422, "AUDIO_NOT_ALLOWED"));
+
+        assertThat(filesInMultipartDir()).isZero();
+        assertThat(seenOnFailure).containsOnly((byte) 0);
+        assertThat(count("SELECT count(*) FROM information_schema.columns WHERE table_schema = 'microentrevista'"
+                + " AND data_type IN ('bytea', 'oid')")).isZero();
+        assertThat(turnStatus(s[1])).isEqualTo("PENDING");
+        // Solo el envío válido guardó una respuesta; los cuatro intentos que llegaron a transcribir
+        // (válido, transcripción vacía y los dos de la caída) no dejaron ninguna otra.
+        assertThat(answers()).isEqualTo(1);
+        assertThat(transcriber.calls()).isEqualTo(4);
+        String log = output.getAll();
+        assertThat(log).doesNotContain("respuesta final").doesNotContain("../../").doesNotContain(TRANSCRIPT);
+        for (byte[] audio : sent) {
+            byte[] head = Arrays.copyOf(audio, Math.min(48, audio.length));
+            assertThat(log).doesNotContain(Base64.getEncoder().encodeToString(head))
+                    .doesNotContain(HexFormat.of().formatHex(head));
+        }
     }
 
     // ---- sesión y turno ----

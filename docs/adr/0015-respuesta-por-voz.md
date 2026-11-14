@@ -1,4 +1,4 @@
-# ADR 0012 · Respuesta por voz: validación del contenido y transcripción sin almacenamiento
+# ADR 0015 · Respuesta por voz: validación del contenido y transcripción sin almacenamiento
 
 ## Estado
 

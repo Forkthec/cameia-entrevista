@@ -4,7 +4,7 @@
 |---|---|
 | Tarea Jira | CM-362 (HU-5.13). No se pudo leer desde la sesión de IA; la fuente son los criterios CA-5.13.1 a CA-5.13.8 que entregó el solicitante |
 | Repositorio | `cameia-entrevista`. Rama apilada: fusiona `CM-345-respuesta-por-voz`, que a su vez fusiona `CM-349-transcripcion-respuesta-voz` |
-| Orden de fusión | CM-349 → CM-345 → CM-362 (decisión de integración del 12-nov-2026, bitácora 13 y 14) |
+| Orden de fusión | CM-349 → CM-345 → CM-362 (decisión de integración del 12-nov-2026, bitácora 16 y 17) |
 | Estado | Implementada sin aprobación previa por indicación del solicitante; las decisiones de §5 se ratifican en el PR |
 
 ## 1. Objetivo

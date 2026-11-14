@@ -53,7 +53,7 @@ Cambio en el compose compartido (aditivo; no reinicié nada): la variable `TRANS
 7. Sin evaluación del turno por la IA (es de HU-5.2): el turno queda `COMPLETED` y tras la 5.ª respuesta la sesión pasa a `EVALUANDO`.
 8. Los códigos `SESSION_ABANDONED`, `SESSION_ALREADY_CLOSED` y `TRANSCRIPTION_*` siguen el contrato que ya usa la web.
 
-Detalle completo: `specs/CM-345-RespuestaPorVoz/spec.md` §8 y `docs/adr/0012-respuesta-por-voz.md`.
+Detalle completo: `specs/CM-345-RespuestaPorVoz/spec.md` §8 y `docs/adr/0015-respuesta-por-voz.md`.
 
 ## Riesgo de integración con CM-349
 
@@ -64,7 +64,7 @@ CM-349 también implementa `POST …/answers/audio`, pero con AssemblyAI y con a
 - `./mvnw clean verify`: 1438 pruebas, 0 fallos, 2 omitidas (las de llamada real a Gemini) (27 E2E con PostgreSQL real en `AudioAnswerEndToEndTest`).
 - Newman, carpeta «Responder por voz», contra el servicio levantado con PostgreSQL, RabbitMQ y el simulador: 39 peticiones, 159 aserciones, 0 fallos. Carpeta «Errores del framework» (multipart de 13 MB): 31/31.
 - Transcripción real con Gemini (`GeminiTranscriptionLiveTest`, `LLM_LIVE_TEST=true`): WebM y MP4 de voz en español, unos 465 tokens de entrada por 13 s.
-- Documentación: `specs/CM-345-RespuestaPorVoz/`, ADR 0012, bitácora 11, `CLAUDE.md`, `.env.example`, `postman/README.md`.
+- Documentación: `specs/CM-345-RespuestaPorVoz/`, ADR 0015, bitácora 14, `CLAUDE.md`, `.env.example`, `postman/README.md`.
 
 ## Pendiente
 
