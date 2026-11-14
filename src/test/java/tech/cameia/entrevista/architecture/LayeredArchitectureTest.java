@@ -1,5 +1,9 @@
 package tech.cameia.entrevista.architecture;
 
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.assignableTo;
+import static com.tngtech.archunit.core.domain.JavaCall.Predicates.target;
+import static com.tngtech.archunit.core.domain.properties.HasName.Predicates.nameMatching;
+import static com.tngtech.archunit.core.domain.properties.HasOwner.Predicates.With.owner;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
@@ -75,6 +79,26 @@ class LayeredArchitectureTest {
                         BASE_PACKAGE + ".infrastructure..",
                         BASE_PACKAGE + ".presentation..")
                 .allowEmptyShould(true);
+
+        rule.check(classes);
+    }
+
+    @Test
+    @DisplayName("Ninguna clase del servicio escribe archivos: el audio y los datos de la persona no tocan el disco")
+    void services_shouldNotWriteFiles() {
+        ArchRule rule = noClasses()
+                .that().resideInAPackage(BASE_PACKAGE + "..")
+                .should().dependOnClassesThat().haveFullyQualifiedName("java.nio.file.Files")
+                .orShould().dependOnClassesThat().haveFullyQualifiedName("java.io.FileOutputStream")
+                .orShould().dependOnClassesThat().haveFullyQualifiedName("java.io.FileWriter")
+                .orShould().dependOnClassesThat().haveFullyQualifiedName("java.io.RandomAccessFile")
+                .orShould().dependOnClassesThat().haveFullyQualifiedName("java.nio.channels.FileChannel")
+                .orShould().dependOnClassesThat().haveFullyQualifiedName("java.nio.channels.AsynchronousFileChannel")
+                .orShould().callMethodWhere(target(nameMatching("createTempFile"))
+                        .and(target(owner(assignableTo(java.io.File.class)))))
+                .orShould().callMethodWhere(target(nameMatching("transferTo"))
+                        .and(target(owner(assignableTo(org.springframework.web.multipart.MultipartFile.class)))))
+                .because("el audio de la respuesta vive solo en memoria y se descarta al terminar la petición");
 
         rule.check(classes);
     }
