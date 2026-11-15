@@ -128,6 +128,11 @@ jobs:
       # confianza minima para dar por distinto el idioma del audio; 0.8 coincide con el
       # valor por defecto del servicio y se deja explicito. Se fija igual en produccion.
       #
+      # --memory=2Gi: con la respuesta por voz el audio se mantiene en memoria mientras se
+      # transcribe, y con los 512 MiB por defecto la instancia supero el limite varias veces
+      # y Cloud Run la reinicio. Con 2 GiB queda margen para varias respuestas por voz a la
+      # vez. Se fija igual en produccion.
+      #
       # SPRING_PROFILES_ACTIVE=production: el nombre de este perfil es "production", no
       # "prod" como en cameia-gateway/cameia-cuentas (application-production.properties,
       # no application-prod.properties) -- sin esta variable,
@@ -165,6 +170,7 @@ jobs:
             --ingress=internal \
             --min-instances=0 \
             --max-instances=2 \
+            --memory=2Gi \
             --service-account="cameia-entrevista-run@cameia-e245f.iam.gserviceaccount.com" \
             --network="${{ env.VPC_NETWORK }}" \
             --subnet="${{ env.VPC_SUBNET }}" \
@@ -372,6 +378,7 @@ jobs:
             --ingress=internal \
             --min-instances=0 \
             --max-instances=2 \
+            --memory=2Gi \
             --service-account="cameia-entrevista-run@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \
             --network="$VPC_NETWORK" \
             --subnet="$VPC_SUBNET" \
