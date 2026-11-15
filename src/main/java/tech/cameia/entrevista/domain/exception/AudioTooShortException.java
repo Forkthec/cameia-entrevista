@@ -1,7 +1,8 @@
 package tech.cameia.entrevista.domain.exception;
 
 /**
- * El audio dura menos de 1,5 segundos: no puede traer los 2 segundos de voz que exige la interfaz (CA-5.8.10).
+ * La respuesta trae menos de 1,5 segundos de voz (CA-5.8.10): el archivo dura menos de eso, o el proveedor de la
+ * transcripción reconoció menos de eso sumando lo que dura cada palabra. No se registra la respuesta.
  */
 public class AudioTooShortException extends BusinessException {
 
