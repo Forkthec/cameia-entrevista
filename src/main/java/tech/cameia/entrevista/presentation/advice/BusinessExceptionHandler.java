@@ -159,7 +159,23 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.TURN_RETRY_LIMIT_REACHED,
                     new Definition(HttpStatus.CONFLICT, "Reintentos agotados")),
             Map.entry(ErrorCode.SESSION_CONSOLIDATION_FAILED,
-                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Cierre pendiente")));
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Cierre pendiente")),
+            Map.entry(ErrorCode.QUESTION_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
+            Map.entry(ErrorCode.QUESTION_NOT_AVAILABLE,
+                    new Definition(HttpStatus.CONFLICT, "Pregunta no disponible")),
+            Map.entry(ErrorCode.QUESTION_AUDIO_LIMIT_REACHED,
+                    new Definition(HttpStatus.CONFLICT, "Usos de audio agotados")),
+            Map.entry(ErrorCode.SPEECH_DISABLED, new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_TIMEOUT, new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_BUSY, new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz ocupada")),
+            Map.entry(ErrorCode.SPEECH_MONTHLY_LIMIT_REACHED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_TEXT_EMPTY,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Pregunta no reproducible")),
+            Map.entry(ErrorCode.SPEECH_TEXT_TOO_LONG,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Pregunta no reproducible")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
