@@ -4,9 +4,9 @@
 
 | Capa | Piezas |
 |---|---|
-| Dominio | `SpeechDirection`, `SpeechAudio`; `SpeechDirectionPolicy`, `QuestionAudioPolicy`; puertos `SpeechSynthesisPort`, `SpeechDirectorPort`, `SpeechUsageRepository`; 10 excepciones y sus códigos |
+| Dominio | `SpeechAudio`; `QuestionAudioPolicy`; puertos `SpeechSynthesisPort` y `SpeechUsageRepository`; 10 excepciones y sus códigos |
 | Aplicación | `ListenQuestionService`, `QuestionAudioAvailability`, `SpeechSettings`; `GetSessionStateService` y `SessionState` con la voz |
-| Infraestructura | `GeminiSpeechSynthesisAdapter`, `GeminiSpeechDirectorAdapter` (`infrastructure.client.gemini`); `SpeechUsageRepositoryAdapter`; `SpeechProperties` y `SpeechConfiguration`; migración `V10`; prompt `voz.direccion.v1.txt` |
+| Infraestructura | `GoogleTextToSpeechAdapter` y `SpeechCredentials` (`infrastructure.client.googletts`); `SpeechUsageRepositoryAdapter`; `SpeechProperties` y `SpeechConfiguration`; migración `V10` |
 | Presentación | `QuestionAudioController`; `SessionStateResponse`, `PendingQuestionResponse`, `HistoryItemResponse`; filas del manejador |
 | Documentación | ADR 0017, `docs/errores.md`, `CLAUDE.md`, `.env.example`, Postman (carpeta y simulador), bitácora 18 |
 
@@ -14,13 +14,12 @@
 
 | Riesgo | Mitigación |
 |---|---|
-| El modelo de dirección cambia la pregunta | Validación de dominio palabra por palabra; si falla, se lee tal cual |
-| Demanda alta de Gemini TTS | Respaldo 3.1 dentro del mismo tiempo máximo |
-| Latencia de preguntas largas | `SPEECH_TIMEOUT` 15 s configurable; medición de DevOps |
+| Latencia de Google por encima de 10 s | `SPEECH_TIMEOUT` configurable; 503 `SPEECH_TIMEOUT` sin gastar el uso; medición de DevOps (CM-374) |
+| Cuenta de servicio sin permiso o API sin habilitar | 503 `SPEECH_UNAVAILABLE` con la causa en el registro; la entrevista sigue en texto |
 | Contadores en carrera | Sentencias condicionadas; pruebas de concurrencia |
-| Fuga de texto al registro | `toString` sin texto; pruebas con `CapturedOutput` |
+| Fuga de texto o credencial al registro | `toString` sin texto ni llave; pruebas con `CapturedOutput` |
 
 ## Verificación
 
 `./mvnw.cmd clean verify` (cobertura de lo nuevo ≥ 90 % de líneas y ramas), Newman de toda la colección con el
-simulador y la prueba real manual `GeminiSpeechLiveTest` (`SPEECH_LIVE_TEST=true`).
+simulador y la prueba real manual `GoogleTextToSpeechLiveTest` (`SPEECH_LIVE_TEST=true`).
