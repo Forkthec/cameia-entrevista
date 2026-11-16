@@ -8569,6 +8569,1430 @@
           }
         }
       ]
+    },
+    {
+      "name": "Escuchar la pregunta",
+      "item": [
+        {
+          "name": "200 preparar catálogo de roles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('vozMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                  "// Cada corrida usa personas y un perfil nuevos para no depender de lo que dejó la anterior.",
+                  "pm.collectionVariables.set('vozUid', 'ini' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('vozOtherUid', 'otr' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('vozProfileId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{vozMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-voz\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\", \\\"roles\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombreEs\\\": \\\"Desarrollador Backend\\\", \\\"nombreEn\\\": \\\"Backend Developer\\\", \\\"estado\\\": \\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+            }
+          }
+        },
+        {
+          "name": "200 preparar perfil completo",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('vozMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{vozMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-voz\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\": \\\"{{vozUid}}\\\", \\\"contextoProfesional\\\": {\\\"id\\\": \\\"{{vozProfileId}}\\\", \\\"nombre\\\": \\\"Analista de datos\\\", \\\"estado\\\": \\\"COMPLETED\\\", \\\"fecha_archivado\\\": null, \\\"resumen\\\": \\\"Analista con tres años de experiencia en SQL y Python.\\\", \\\"experiencias\\\": [{\\\"empresa\\\": \\\"ACME\\\", \\\"cargo\\\": \\\"Analista\\\", \\\"descripcion\\\": null, \\\"inicio\\\": \\\"2022-01\\\", \\\"fin\\\": null, \\\"estadoEmpleo\\\": \\\"CURRENT\\\"}], \\\"formaciones\\\": [{\\\"institucion\\\": \\\"Universidad del Cauca\\\", \\\"titulo\\\": \\\"Ingeniería de Sistemas\\\", \\\"nivel\\\": \\\"UNDERGRADUATE\\\", \\\"inicio\\\": \\\"2017-02\\\", \\\"fin\\\": \\\"2021-12\\\", \\\"enCurso\\\": false}], \\\"habilidades\\\": [{\\\"nombre\\\": \\\"Python\\\", \\\"nivel\\\": \\\"INTERMEDIATE\\\"}]}, \\\"rolesAspirados\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombre\\\": \\\"Desarrollador Backend\\\"}], \\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            }
+          }
+        },
+        {
+          "name": "200 reiniciar el simulador de la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__reset",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión con tono estricto",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Los consumidores son asíncronos: se espera a que la copia del perfil exista.",
+                  "setTimeout(function () {}, 3000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('vozSession', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{vozProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"ESTRICTO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "409 escuchar antes de iniciar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('code SESSION_TRANSITION_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('SESSION_TRANSITION_NOT_ALLOWED'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 inicia la entrevista",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('EN_CURSO con la pregunta 1', () => { const s = pm.response.json(); pm.expect(s.status).to.eql('EN_CURSO'); pm.expect(s.pendingQuestion.number).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado con la voz disponible y 3 usos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('audioEnabled true', () => pm.expect(s.audioEnabled).to.eql(true));",
+                  "pm.test('Pregunta pendiente con 3 usos de audio', () => pm.expect(s.pendingQuestion.audioPlaysRemaining).to.eql(3));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 escucha la pregunta 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type audio/wav', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/wav'));",
+                  "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
+                  "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
+                  "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
+                  "pm.test('Cuerpo WAV (RIFF....WAVE)', () => { const t = pm.response.stream.toString('latin1'); pm.expect(t.substring(0, 4)).to.eql('RIFF'); pm.expect(t.substring(8, 12)).to.eql('WAVE'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 el director y la voz se llamaron una vez",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const c = pm.response.json();",
+                  "pm.test('1 llamadas a la voz', () => pm.expect(c.tts).to.eql(1));",
+                  "pm.test('1 llamadas al director', () => pm.expect(c.director).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado con 2 usos restantes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('audioEnabled true', () => pm.expect(s.audioEnabled).to.eql(true));",
+                  "pm.test('Pregunta pendiente con 2 usos de audio', () => pm.expect(s.pendingQuestion.audioPlaysRemaining).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 pregunta futura",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('code QUESTION_NOT_AVAILABLE', () => pm.expect(pm.response.json().code).to.eql('QUESTION_NOT_AVAILABLE'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Esa pregunta todavía no está disponible.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/2/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "2",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 pregunta 0",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code QUESTION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('QUESTION_NOT_FOUND'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/0/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "0",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 pregunta 6",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code QUESTION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('QUESTION_NOT_FOUND'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/6/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "6",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 pregunta con cero a la izquierda",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code QUESTION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('QUESTION_NOT_FOUND'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/01/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "01",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 pregunta que no es número",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code QUESTION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('QUESTION_NOT_FOUND'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/a/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "a",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 sesión de otra persona",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No encontramos lo que buscabas.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozOtherUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 sesión que no es un UUID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('code SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/no-es-uuid/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "no-es-uuid",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "401 sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('code IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "405 GET no admitido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 405', () => pm.response.to.have.status(405));",
+                  "pm.test('code METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('METHOD_NOT_ALLOWED'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "406 Accept JSON",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 406', () => pm.response.to.have.status(406));",
+                  "pm.test('code MEDIA_TYPE_NOT_ACCEPTABLE', () => pm.expect(pm.response.json().code).to.eql('MEDIA_TYPE_NOT_ACCEPTABLE'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar la voz: tts_unavailable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script_tts",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script_tts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\": \"tts_unavailable\", \"times\": 2}"
+            }
+          }
+        },
+        {
+          "name": "503 la voz falla en el principal y en el respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('code SPEECH_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('SPEECH_UNAVAILABLE'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No pudimos reproducir la pregunta. Inténtalo de nuevo o léela en pantalla.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 el fallo no gastó el uso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('audioEnabled true', () => pm.expect(s.audioEnabled).to.eql(true));",
+                  "pm.test('Pregunta pendiente con 2 usos de audio', () => pm.expect(s.pendingQuestion.audioPlaysRemaining).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "state"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar la voz: tts_bad_audio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script_tts",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script_tts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\": \"tts_bad_audio\", \"times\": 1}"
+            }
+          }
+        },
+        {
+          "name": "503 audio que no es WAV",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('code SPEECH_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('SPEECH_UNAVAILABLE'));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar la voz: tts_limit",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script_tts",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script_tts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\": \"tts_limit\", \"times\": 1}"
+            }
+          }
+        },
+        {
+          "name": "200 mucha demanda: responde el respaldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type audio/wav', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/wav'));",
+                  "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
+                  "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
+                  "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
+                  "pm.test('Cuerpo WAV (RIFF....WAVE)', () => { const t = pm.response.stream.toString('latin1'); pm.expect(t.substring(0, 4)).to.eql('RIFF'); pm.expect(t.substring(8, 12)).to.eql('WAVE'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 tercera escucha",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type audio/wav', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/wav'));",
+                  "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
+                  "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
+                  "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
+                  "pm.test('Cuerpo WAV (RIFF....WAVE)', () => { const t = pm.response.stream.toString('latin1'); pm.expect(t.substring(0, 4)).to.eql('RIFF'); pm.expect(t.substring(8, 12)).to.eql('WAVE'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 cuarta escucha",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('code QUESTION_AUDIO_LIMIT_REACHED', () => pm.expect(pm.response.json().code).to.eql('QUESTION_AUDIO_LIMIT_REACHED'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"Ya escuchaste esta pregunta el máximo de veces. Puedes leerla en pantalla.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 estado con 0 usos restantes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const s = pm.response.json();",
+                  "pm.test('audioEnabled true', () => pm.expect(s.audioEnabled).to.eql(true));",
+                  "pm.test('Pregunta pendiente con 0 usos de audio', () => pm.expect(s.pendingQuestion.audioPlaysRemaining).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/state",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "state"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @param text texto original de la pregunta, nunca reformulado
  * @param status estado del turno: pendiente, procesando o en reintento
  * @param retriesUsed veces que se usó «Reintentar» en el turno, de 0 a 4
+ * @param audioPlaysRemaining usos de audio que le quedan a la pregunta; ausente si la voz no está disponible
  */
 @Schema(description = "Pregunta pendiente de respuesta")
 public record PendingQuestionResponse(
@@ -22,5 +23,21 @@ public record PendingQuestionResponse(
         @Schema(description = "Estado del turno. RETRYING: la evaluación falló o quedó colgada y se puede reintentar",
                 allowableValues = {"PENDING", "PROCESSING", "RETRYING"}, example = "PENDING") String status,
         @Schema(description = "Reintentos usados en este turno, de 0 a 4", minimum = "0", maximum = "4",
-                example = "0") int retriesUsed) {
+                example = "0") int retriesUsed,
+        @Schema(description = "Usos de audio que le quedan a la pregunta, de 0 a 3 (3 en una pregunta nueva); ausente"
+                + " si audioEnabled es false", minimum = "0", maximum = "3", example = "3", nullable = true)
+        Integer audioPlaysRemaining) {
+
+    /**
+     * Crea la pregunta sin la voz.
+     *
+     * @param turnId identificador del turno
+     * @param number posición de la pregunta
+     * @param text texto original
+     * @param status estado del turno
+     * @param retriesUsed reintentos usados
+     */
+    public PendingQuestionResponse(UUID turnId, int number, String text, String status, int retriesUsed) {
+        this(turnId, number, text, status, retriesUsed, null);
+    }
 }

@@ -32,6 +32,9 @@ public record SessionStateResponse(
         @Schema(description = "true si la entrevista está en EVALUANDO o FINALIZADA, o está EN_CURSO con las cinco preguntas"
                 + " respondidas", example = "false")
         boolean interviewFinished,
+        @Schema(description = "true si se puede escuchar la pregunta (HU-5.15): la voz está encendida y la entrevista"
+                + " EN_CURSO. Con false no se muestra «Escuchar»", example = "true")
+        boolean audioEnabled,
         ProgressResponse progress,
         @JsonInclude(JsonInclude.Include.ALWAYS)
         @Schema(description = "Pregunta pendiente; null si la sesión no está EN_CURSO", nullable = true)
@@ -52,11 +55,12 @@ public record SessionStateResponse(
     public static SessionStateResponse from(SessionState state) {
         SessionState.PendingQuestion pending = state.pending();
         return new SessionStateResponse(state.sessionId(), state.status().code(), state.answerMode().code(),
-                state.interviewFinished(),
+                state.interviewFinished(), state.audioEnabled(),
                 new ProgressResponse(state.currentQuestion(), TOTAL_QUESTIONS),
                 pending == null ? null : new PendingQuestionResponse(pending.turnId(), pending.number(), pending.text(),
-                        pending.status().code(), pending.retriesUsed()),
+                        pending.status().code(), pending.retriesUsed(),
+                        state.audioPlaysRemaining().get(pending.number())),
                 state.history().stream().map(item -> new HistoryItemResponse(item.number(), item.question(),
-                        item.answer())).toList());
+                        item.answer(), state.audioPlaysRemaining().get(item.number()))).toList());
     }
 }

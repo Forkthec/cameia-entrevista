@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class GetSessionStateService {
     private final AiExecutionRepository executions;
     private final EvaluationStaleness staleness;
     private final Clock clock;
+    private final QuestionAudioAvailability audio;
 
     GetSessionStateService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
             InterviewTurnRepository turns, AnswerAttemptRepository answers, AiExecutionRepository executions,
@@ -50,6 +52,20 @@ public class GetSessionStateService {
             @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
             @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
             @Value("${cameia.llm.retry.second-wait}") Duration secondWait) {
+        this(sessions, questions, turns, answers, executions, clock, evaluationTimeout, firstWait, secondWait,
+                QuestionAudioAvailability.disabled());
+    }
+
+    @Autowired
+    @SuppressWarnings("java:S107")
+    GetSessionStateService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
+            InterviewTurnRepository turns, AnswerAttemptRepository answers, AiExecutionRepository executions,
+            Clock clock,
+            @Value("${cameia.llm.evaluation-timeout}") Duration evaluationTimeout,
+            @Value("${cameia.llm.retry.first-wait}") Duration firstWait,
+            @Value("${cameia.llm.retry.second-wait}") Duration secondWait,
+            QuestionAudioAvailability audio) {
+        this.audio = audio;
         this.sessions = sessions;
         this.questions = questions;
         this.turns = turns;
@@ -74,9 +90,14 @@ public class GetSessionStateService {
      * Calcula el estado de una sesión ya cargada.
      *
      * @param session sesión de la que se informa
-     * @return el estado: forma de respuesta, avance y, solo si está en curso, la pregunta pendiente
+     * @return el estado: forma de respuesta, avance, la voz de las preguntas y, solo si está en curso, la pregunta
+     *         pendiente
      */
     SessionState stateOf(InterviewSession session) {
+        return audio.apply(stateWithoutAudio(session));
+    }
+
+    private SessionState stateWithoutAudio(InterviewSession session) {
         SessionStatus status = session.status();
         AnswerMode answerMode = session.configuration().answerMode();
         if (status == SessionStatus.CONFIGURED) {

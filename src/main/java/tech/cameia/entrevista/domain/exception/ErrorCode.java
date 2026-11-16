@@ -216,6 +216,36 @@ public enum ErrorCode {
     TURN_RETRY_LIMIT_REACHED,
 
     /** La evaluación de la entrevista no se pudo reunir; la sesión sigue en evaluación con sus respuestas. */
-    SESSION_CONSOLIDATION_FAILED
+    SESSION_CONSOLIDATION_FAILED,
+
+    /** El número de pregunta pedido para escuchar no es un entero de 1 a 5. */
+    QUESTION_NOT_FOUND,
+
+    /** La pregunta pedida para escuchar todavía no se ha mostrado. */
+    QUESTION_NOT_AVAILABLE,
+
+    /** La pregunta ya gastó sus usos de audio. */
+    QUESTION_AUDIO_LIMIT_REACHED,
+
+    /** La función de escuchar la pregunta está apagada por configuración. */
+    SPEECH_DISABLED,
+
+    /** El servicio de voz falló, no entregó un audio válido o no hay credencial. */
+    SPEECH_UNAVAILABLE,
+
+    /** El servicio de voz no respondió dentro del tiempo máximo. */
+    SPEECH_TIMEOUT,
+
+    /** La instancia ya atiende el máximo de síntesis de voz simultáneas. */
+    SPEECH_BUSY,
+
+    /** El texto de la pregunta supera el máximo que se envía a la voz. */
+    SPEECH_TEXT_TOO_LONG,
+
+    /** El texto de la pregunta está vacío o solo tiene espacios. */
+    SPEECH_TEXT_EMPTY,
+
+    /** Los caracteres enviados a la voz en el mes llegaron al tope configurado. */
+    SPEECH_MONTHLY_LIMIT_REACHED
 
 }
