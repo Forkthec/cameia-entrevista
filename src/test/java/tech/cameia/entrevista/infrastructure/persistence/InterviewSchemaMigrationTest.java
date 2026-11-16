@@ -83,7 +83,22 @@ class InterviewSchemaMigrationTest {
 
 		assertThat(tables).containsExactlyInAnyOrder("tipo_pregunta", "sesion", "pregunta", "turno",
 				"intento_respuesta", "feedback_turno", "ejecucion_ia", "clave_idempotencia",
-				"contexto_profesional_replica", "evento_procesado", "rol_profesional");
+				"contexto_profesional_replica", "evento_procesado", "rol_profesional", "uso_audio_pregunta",
+				"consumo_voz_mensual");
+	}
+
+	@Test
+	@DisplayName("V10: el consumo de voz solo admite el día 1 del mes y caracteres no negativos")
+	void migration_shouldConstrainSpeechCounters_whenApplied() {
+		assertThatThrownBy(() -> jdbc.update(
+				"INSERT INTO microentrevista.consumo_voz_mensual (mes, caracteres) VALUES ('2026-11-02', 1)"))
+				.hasMessageContaining("ck_consumo_voz_mensual_mes");
+		assertThatThrownBy(() -> jdbc.update(
+				"INSERT INTO microentrevista.consumo_voz_mensual (mes, caracteres) VALUES ('2026-11-01', -1)"))
+				.hasMessageContaining("ck_consumo_voz_mensual_caracteres");
+		assertThatThrownBy(() -> jdbc.update(
+				"INSERT INTO microentrevista.uso_audio_pregunta (pregunta_id, usos) VALUES (gen_random_uuid(), 1)"))
+				.hasMessageContaining("fk_uso_audio_pregunta_pregunta");
 	}
 
 	@Test
