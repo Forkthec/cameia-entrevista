@@ -38,7 +38,7 @@ class QuestionAudioController {
     private static final String PROBLEM = "application/problem+json";
 
     /** Tipo de contenido del audio, el mismo que entrega el adaptador de voz. */
-    private static final String AUDIO_WAV = "audio/wav";
+    private static final String AUDIO_MPEG = "audio/mpeg";
 
     private final ListenQuestionService listen;
 
@@ -57,17 +57,17 @@ class QuestionAudioController {
      * @param userId identidad del Gateway
      * @param sessionId sesión, tal como llegó en la ruta
      * @param number número de la pregunta, tal como llegó en la ruta
-     * @return 200 con el audio WAV
+     * @return 200 con el audio MP3
      */
     @Operation(summary = "Escuchar una pregunta ya mostrada",
-            description = "Sin cuerpo. Gemini TTS lee el texto guardado de la pregunta (nunca uno enviado por el"
-                    + " cliente), con etiquetas de voz que un modelo coloca según el tono de la entrevista. Responde"
-                    + " audio/wav (PCM 16 bits, 24 kHz, mono) que no se guarda. Cada respuesta 200 gasta un uso de"
-                    + " audio de la pregunta (3 por pregunta); un error no lo gasta. No cambia la entrevista ni su"
-                    + " última actividad. Puede tardar hasta SPEECH_TIMEOUT (15 s por defecto).")
+            description = "Sin cuerpo. Google Cloud Text-to-Speech (voz Chirp 3 HD del idioma de la entrevista) lee"
+                    + " el texto guardado de la pregunta, nunca uno enviado por el cliente. Responde audio/mpeg (MP3)"
+                    + " que no se guarda. Cada respuesta 200 gasta un uso de audio de la pregunta (3 por pregunta); un"
+                    + " error no lo gasta. No cambia la entrevista ni su última actividad. Puede tardar hasta"
+                    + " SPEECH_TIMEOUT (10 s por defecto).")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Audio de la pregunta",
-                    content = @Content(mediaType = AUDIO_WAV,
+                    content = @Content(mediaType = AUDIO_MPEG,
                             schema = @Schema(type = "string", format = "binary"))),
             @ApiResponse(responseCode = "401", description = "Sin identidad (code IDENTITY_REQUIRED)",
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class))),
@@ -86,7 +86,7 @@ class QuestionAudioController {
                     + " SPEECH_BUSY, SPEECH_TIMEOUT o SPEECH_UNAVAILABLE; ninguno gasta el uso de audio",
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping(path = "/{sessionId}/questions/{number}/audio", produces = AUDIO_WAV)
+    @PostMapping(path = "/{sessionId}/questions/{number}/audio", produces = AUDIO_MPEG)
     ResponseEntity<byte[]> listen(
             @Parameter(hidden = true) @RequestHeader(value = "X-User-Id", required = false) String userId,
             @Parameter(description = "Identificador de la sesión (UUID)") @PathVariable String sessionId,

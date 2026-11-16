@@ -8827,7 +8827,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -8935,11 +8935,11 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-                  "pm.test('Content-Type audio/wav', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/wav'));",
+                  "pm.test('Content-Type audio/mpeg', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/mpeg'));",
                   "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
                   "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
                   "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
-                  "pm.test('Cuerpo WAV (RIFF....WAVE)', () => { const t = pm.response.stream.toString('latin1'); pm.expect(t.substring(0, 4)).to.eql('RIFF'); pm.expect(t.substring(8, 12)).to.eql('WAVE'); });"
+                  "pm.test('Cuerpo MP3 (marco MPEG al inicio)', () => { const b = pm.response.stream; pm.expect(b[0]).to.eql(0xFF); pm.expect(b[1] & 0xE0).to.eql(0xE0); });"
                 ]
               }
             }
@@ -8953,7 +8953,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -8975,7 +8975,7 @@
           }
         },
         {
-          "name": "200 el director y la voz se llamaron una vez",
+          "name": "200 la voz se llamó una vez, con la voz Chirp 3 HD en español",
           "event": [
             {
               "listen": "test",
@@ -8984,8 +8984,9 @@
                 "exec": [
                   "pm.test('Estado 200', () => pm.response.to.have.status(200));",
                   "const c = pm.response.json();",
-                  "pm.test('1 llamadas a la voz', () => pm.expect(c.tts).to.eql(1));",
-                  "pm.test('1 llamadas al director', () => pm.expect(c.director).to.eql(1));"
+                  "pm.test('1 llamada a la voz', () => pm.expect(c.tts).to.eql(1));",
+                  "pm.test('Voz en español de Chirp 3 HD', () => pm.expect(c.ttsVoice).to.eql('es-US-Chirp3-HD-Kore'));",
+                  "pm.test('Idioma de la voz es-US', () => pm.expect(c.ttsLanguage).to.eql('es-US'));"
                 ]
               }
             }
@@ -9075,7 +9076,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9127,7 +9128,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9178,7 +9179,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9229,7 +9230,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9280,7 +9281,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9332,7 +9333,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9383,7 +9384,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9430,7 +9431,7 @@
             "header": [
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9481,7 +9482,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9585,12 +9586,12 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"scenario\": \"tts_unavailable\", \"times\": 2}"
+              "raw": "{\"scenario\": \"tts_unavailable\", \"times\": 1}"
             }
           }
         },
         {
-          "name": "503 la voz falla en el principal y en el respaldo",
+          "name": "503 Google responde 503",
           "event": [
             {
               "listen": "test",
@@ -9620,7 +9621,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9718,7 +9719,7 @@
           }
         },
         {
-          "name": "503 audio que no es WAV",
+          "name": "503 audio que no es MP3",
           "event": [
             {
               "listen": "test",
@@ -9747,7 +9748,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9805,19 +9806,23 @@
           }
         },
         {
-          "name": "200 mucha demanda: responde el respaldo",
+          "name": "503 cuota de Google agotada (429)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-                  "pm.test('Content-Type audio/wav', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/wav'));",
-                  "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
-                  "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
-                  "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
-                  "pm.test('Cuerpo WAV (RIFF....WAVE)', () => { const t = pm.response.stream.toString('latin1'); pm.expect(t.substring(0, 4)).to.eql('RIFF'); pm.expect(t.substring(8, 12)).to.eql('WAVE'); });"
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('code SPEECH_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('SPEECH_UNAVAILABLE'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No pudimos reproducir la pregunta. Inténtalo de nuevo o léela en pantalla.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
                 ]
               }
             }
@@ -9831,7 +9836,143 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 programar la voz: tts_forbidden",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script_tts",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script_tts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\": \"tts_forbidden\", \"times\": 1}"
+            }
+          }
+        },
+        {
+          "name": "503 sin permiso o sin facturación (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 503', () => pm.response.to.have.status(503));",
+                  "pm.test('code SPEECH_UNAVAILABLE', () => pm.expect(pm.response.json().code).to.eql('SPEECH_UNAVAILABLE'));",
+                  "pm.test('Mensaje para la persona', () => pm.expect(pm.response.json().detail).to.eql(\"No pudimos reproducir la pregunta. Inténtalo de nuevo o léela en pantalla.\"));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => {",
+                  "  const type = (pm.response.headers.get('Content-Type') || '').toLowerCase();",
+                  "  pm.expect(type).to.include('application/problem+json');",
+                  "  pm.expect(type).to.include('charset=utf-8');",
+                  "});",
+                  "pm.test('requestId presente', () => pm.expect(pm.response.json().requestId).to.be.a('string'));",
+                  "pm.test('Sin traza', () => { const t = pm.response.text(); pm.expect(t).to.not.include('trace'); pm.expect(t).to.not.include('exception'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{vozSession}}/questions/1/audio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{vozSession}}",
+                "questions",
+                "1",
+                "audio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 segunda escucha",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type audio/mpeg', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/mpeg'));",
+                  "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
+                  "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
+                  "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
+                  "pm.test('Cuerpo MP3 (marco MPEG al inicio)', () => { const b = pm.response.stream; pm.expect(b[0]).to.eql(0xFF); pm.expect(b[1] & 0xE0).to.eql(0xE0); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{vozUid}}"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9861,11 +10002,11 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-                  "pm.test('Content-Type audio/wav', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/wav'));",
+                  "pm.test('Content-Type audio/mpeg', () => pm.expect((pm.response.headers.get('Content-Type') || '').toLowerCase()).to.include('audio/mpeg'));",
                   "pm.test('Cache-Control no-store', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));",
                   "pm.test('X-Content-Type-Options nosniff', () => pm.expect(pm.response.headers.get('X-Content-Type-Options')).to.eql('nosniff'));",
                   "pm.test('Content-Length igual a los bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(pm.response.responseSize));",
-                  "pm.test('Cuerpo WAV (RIFF....WAVE)', () => { const t = pm.response.stream.toString('latin1'); pm.expect(t.substring(0, 4)).to.eql('RIFF'); pm.expect(t.substring(8, 12)).to.eql('WAVE'); });"
+                  "pm.test('Cuerpo MP3 (marco MPEG al inicio)', () => { const b = pm.response.stream; pm.expect(b[0]).to.eql(0xFF); pm.expect(b[1] & 0xE0).to.eql(0xE0); });"
                 ]
               }
             }
@@ -9879,7 +10020,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
@@ -9931,7 +10072,7 @@
               },
               {
                 "key": "Accept",
-                "value": "audio/wav"
+                "value": "audio/mpeg"
               }
             ],
             "url": {
