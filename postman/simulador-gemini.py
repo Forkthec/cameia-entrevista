@@ -22,10 +22,24 @@ Escenarios de /__script:
   eval_invalid    evaluación con una acción fuera del esquema (la salida es inválida).
   eval_slow       evaluación válida que tarda 3,3 s (más que el tiempo de 3 s de cada intento de evaluar).
 
-Cualquier ruta que termine en ":generateContent" (Gemini) o en "/chat/completions" (Groq) consume el siguiente escenario. Con la cola vacía, una petición cuyo
+Voz de las preguntas (CM-372): POST /v1beta/interactions es Gemini TTS y tiene su propia cola, que se programa con
+  POST /__script_tts  cuerpo {"scenario": "...", "times": N}; con la cola vacía responde tts_valid.
+  tts_valid      200 con un WAV corto (cabecera RIFF/WAVE y 0,1 s de silencio) en steps[].content[].data.
+  tts_limit      429 (mucha demanda): el servicio pasa al modelo de respaldo.
+  tts_unavailable 503.
+  tts_bad_audio  200 con un audio que no es WAV.
+  tts_slow       WAV válido que tarda 16 s (más que SPEECH_TIMEOUT, 15 s por defecto).
+El director de la voz (un generateContent cuyo prompt empieza con "Eres director de voz") no consume ninguna cola:
+responde la pregunta delimitada con "<breath>" al inicio y el primer estilo de la lista. GET /__calls suma "tts" y
+"director".
+
+Cualquier otra ruta que termine en ":generateContent" (Gemini) o en "/chat/completions" (Groq) consume el siguiente escenario. Con la cola vacía, una petición cuyo
 prompt trae la marca <respuesta_del_candidato> (una evaluación) responde "eval_valid" y cualquier otra responde "valid".
 """
+import base64
 import json
+import re
+import struct
 import sys
 import time
 from collections import deque
@@ -41,8 +55,34 @@ QUESTIONS = [
 ]
 
 queue = deque()
+tts_queue = deque()
 calls = 0
-by_provider = {"gemini": 0, "groq": 0}
+by_provider = {"gemini": 0, "groq": 0, "tts": 0, "director": 0}
+TTS_SCENARIOS = ("tts_valid", "tts_limit", "tts_unavailable", "tts_bad_audio", "tts_slow")
+
+
+def wav():
+    samples = 2400  # 0,1 s de silencio a 24 kHz, 16 bits, mono
+    data = b"\x00\x00" * samples
+    header = b"RIFF" + struct.pack("<I", 36 + len(data)) + b"WAVEfmt " + struct.pack("<IHHIIHH", 16, 1, 1, 24000,
+                                                                                         48000, 2, 16)
+    return header + b"data" + struct.pack("<I", len(data)) + data
+
+
+def tts_body(audio):
+    return {"status": "completed", "model": "simulador-tts",
+            "steps": [{"type": "model_output",
+                       "content": [{"type": "audio", "mime_type": "audio/wav",
+                                    "data": base64.b64encode(audio).decode("ascii")}]}]}
+
+
+def director(prompt):
+    question = re.search(r"<<<(.*)>>>", prompt, re.S)
+    styles = re.search(r"exactamente uno de estos valores, el que mejor encaje con el tono y el momento: ([^,\n]+)",
+                       prompt)
+    text = "<breath> " + (question.group(1) if question else "")
+    return json.dumps({"estilo": styles.group(1).strip() if styles else "confident", "texto": text},
+                      ensure_ascii=False)
 lock = Lock()
 
 
@@ -101,7 +141,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/__calls":
             with lock:
-                self._send(200, {"calls": calls, "gemini": by_provider["gemini"], "groq": by_provider["groq"]})
+                self._send(200, {"calls": calls, "gemini": by_provider["gemini"], "groq": by_provider["groq"],
+                                 "tts": by_provider["tts"], "director": by_provider["director"]})
         else:
             self._send(404, {"error": "ruta desconocida"})
 
@@ -111,9 +152,10 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/__reset":
             with lock:
                 queue.clear()
+                tts_queue.clear()
                 calls = 0
-                by_provider["gemini"] = 0
-                by_provider["groq"] = 0
+                for provider in by_provider:
+                    by_provider[provider] = 0
             self._send(200, {"ok": True})
         elif self.path == "/__script":
             request = json.loads(body or "{}")
@@ -126,6 +168,35 @@ class Handler(BaseHTTPRequestHandler):
             with lock:
                 queue.extend([scenario] * times)
             self._send(200, {"queued": scenario, "times": times})
+        elif self.path == "/__script_tts":
+            request = json.loads(body or "{}")
+            scenario = request.get("scenario")
+            times = request.get("times", 1)
+            if scenario not in TTS_SCENARIOS or not isinstance(times, int) or not 1 <= times <= 20:
+                self._send(400, {"error": "escenario o cantidad desconocidos"})
+                return
+            with lock:
+                tts_queue.extend([scenario] * times)
+            self._send(200, {"queued": scenario, "times": times})
+        elif self.path == "/v1beta/interactions":
+            with lock:
+                by_provider["tts"] += 1
+                scenario = tts_queue.popleft() if tts_queue else "tts_valid"
+            if scenario == "tts_slow":
+                time.sleep(16)
+            if scenario == "tts_limit":
+                self._send(429, {"error": {"code": 429, "message": "mucha demanda", "status": "RESOURCE_EXHAUSTED"}})
+            elif scenario == "tts_unavailable":
+                self._send(503, {"error": {"code": 503, "message": "no disponible", "status": "UNAVAILABLE"}})
+            elif scenario == "tts_bad_audio":
+                self._send(200, tts_body(b"ID3" + b"\x00" * 64))
+            else:
+                self._send(200, tts_body(wav()))
+        elif self.path.endswith(":generateContent") and "Eres director de voz" in body:
+            with lock:
+                by_provider["director"] += 1
+            prompt = json.loads(body)["contents"][0]["parts"][0]["text"]
+            self._send(200, gemini_body(director(prompt)))
         elif self.path.endswith(":generateContent") or self.path.endswith("/chat/completions"):
             groq = self.path.endswith("/chat/completions")
             with lock:
