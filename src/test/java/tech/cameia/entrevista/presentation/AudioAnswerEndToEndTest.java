@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -818,6 +819,35 @@ class AudioAnswerEndToEndTest {
         assertThat(answers()).isZero();
     }
 
+    @Test
+    @DisplayName("Un audio largo con menos de 1,5 s de voz responde 422 AUDIO_TOO_SHORT y deja la pregunta pendiente")
+    void submit_shouldRejectTranscriptionWithLittleSpeech() {
+        String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
+        transcriber.speech(Duration.ofMillis(1499));
+        transcriber.enqueue(() -> "Sí.");
+
+        ResponseEntity<String> response = sendAudio(UID_A, ids[0], ids[1], audio("tono-3s.webm"), null);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(422);
+        assertThat(code(response)).isEqualTo("AUDIO_TOO_SHORT");
+        assertThat(detail(response)).isEqualTo("No detectamos tu voz, intenta de nuevo.");
+        assertThat(transcriber.calls()).isEqualTo(1);
+        assertThat(answers()).isZero();
+        assertThat(turnStatus(ids[1])).isEqualTo("PENDING");
+    }
+
+    @Test
+    @DisplayName("Exactamente 1,5 s de voz se registra como respuesta")
+    void submit_shouldAcceptExactlyMinimumSpeech() {
+        String[] ids = startInterview(UID_A, PROFILE_A, "AUDIO");
+        transcriber.speech(Duration.ofMillis(1500));
+
+        ResponseEntity<String> response = sendAudio(UID_A, ids[0], ids[1], audio("tono-3s.webm"), null);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        assertThat(answers()).isEqualTo(1);
+    }
+
     private static void await(CountDownLatch latch) {
         try {
             latch.await(10, TimeUnit.SECONDS);
@@ -865,6 +895,12 @@ class AudioAnswerEndToEndTest {
         private final AtomicInteger calls = new AtomicInteger();
         private final AtomicReference<AudioAnswer> last = new AtomicReference<>();
         private final AtomicReference<InterviewLanguage> language = new AtomicReference<>();
+        private final AtomicReference<Duration> speech = new AtomicReference<>();
+
+        /** Voz reconocida que informan las siguientes transcripciones; {@code null} la deja sin informar. */
+        void speech(Duration duration) {
+            speech.set(duration);
+        }
 
         synchronized void enqueue(Supplier<String> next) {
             script.add(next);
@@ -874,6 +910,7 @@ class AudioAnswerEndToEndTest {
             script.clear();
             calls.set(0);
             last.set(null);
+            speech.set(null);
         }
 
         int calls() {
@@ -902,7 +939,7 @@ class AudioAnswerEndToEndTest {
                 next = script.isEmpty() ? () -> TRANSCRIPT : script.remove(0);
             }
             String language = interviewLanguage == InterviewLanguage.ENGLISH ? "en" : "es";
-            return new Transcription(next.get(), language, 0.99);
+            return new Transcription(next.get(), language, 0.99, speech.get());
         }
 
         @Override

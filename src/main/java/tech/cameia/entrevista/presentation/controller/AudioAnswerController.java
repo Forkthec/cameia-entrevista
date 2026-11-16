@@ -124,7 +124,8 @@ class AudioAnswerController {
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "422", description = "VALIDATION_FAILED (falta turnId o audio, o la clave"
                     + " no tiene formato), AUDIO_NOT_ALLOWED (la entrevista es por texto), AUDIO_TOO_LONG,"
-                    + " AUDIO_TOO_SHORT, TRANSCRIPTION_EMPTY,"
+                    + " AUDIO_TOO_SHORT (el archivo dura menos de 1,5 s o la transcripción reconoce menos de 1,5 s de voz),"
+                    + " TRANSCRIPTION_EMPTY,"
                     + " TRANSCRIPTION_LANGUAGE_MISMATCH o TRANSCRIPTION_TOO_LONG. Ninguno registra la respuesta ni gasta"
                     + " un intento",
                     content = @Content(mediaType = PROBLEM, schema = @Schema(implementation = ProblemDetail.class),
