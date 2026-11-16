@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
@@ -57,17 +57,15 @@ import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.model.ProfileReplica;
 import tech.cameia.entrevista.domain.model.ReplicatedProfileStatus;
 import tech.cameia.entrevista.domain.model.SpeechAudio;
-import tech.cameia.entrevista.domain.model.SpeechDirection;
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
-import tech.cameia.entrevista.domain.port.SpeechDirectorPort;
 import tech.cameia.entrevista.domain.port.SpeechSynthesisPort;
 import tech.cameia.entrevista.support.ReplicaFixtures;
 import tech.cameia.entrevista.support.WithLanguageModelProperties;
 
 /**
  * Escuchar la pregunta (HU-5.15) contra el servidor completo y PostgreSQL 16 real: contrato HTTP, contadores en la
- * base, preguntas mostradas, estados de la sesión, errores de la voz y registros. La planificación, el director y la
- * voz están simulados; ninguna prueba llama a Gemini.
+ * base, preguntas mostradas, estados de la sesión, errores de la voz y registros. La planificación y la voz están
+ * simuladas; ninguna prueba llama a Gemini ni a Google Cloud Text-to-Speech.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestRestTemplate
@@ -84,7 +82,7 @@ class QuestionAudioEndToEndTest {
     private static final UUID PROFILE_A = ReplicaFixtures.PROFILE_ID;
     private static final UUID PROFILE_B = UUID.fromString("5d0c1e2f-3a4b-4c5d-8e6f-7a8b9c0d1e2f");
     private static final String ROLE = "a0000001-0000-0000-0000-000000000002";
-    private static final byte[] WAV = wav();
+    private static final byte[] MP3 = mp3();
     private static final String SECRET_WORDS = "consulta SQL lenta";
 
     private static final String PLAN = """
@@ -142,10 +140,11 @@ class QuestionAudioEndToEndTest {
         transaction.executeWithoutResult(tx -> replicas.upsertIfNotOlder(replica, NOW));
     }
 
-    private static byte[] wav() {
-        byte[] bytes = new byte[44 + 480];
-        System.arraycopy("RIFF".getBytes(), 0, bytes, 0, 4);
-        System.arraycopy("WAVE".getBytes(), 0, bytes, 8, 4);
+    private static byte[] mp3() {
+        byte[] bytes = new byte[4 + 480];
+        bytes[0] = (byte) 0xFF;
+        bytes[1] = (byte) 0xFB;
+        bytes[2] = (byte) 0x90;
         return bytes;
     }
 
@@ -182,7 +181,7 @@ class QuestionAudioEndToEndTest {
     }
 
     private ResponseEntity<byte[]> listen(String uid, String sessionId, String number) {
-        return listen(uid, sessionId, number, "audio/wav");
+        return listen(uid, sessionId, number, "audio/mpeg");
     }
 
     private ResponseEntity<byte[]> listen(String uid, String sessionId, String number, String accept) {
@@ -278,8 +277,8 @@ class QuestionAudioEndToEndTest {
     // ---- camino feliz (CA-5.15.2) ----
 
     @Test
-    @DisplayName("CA-5.15.2: responde audio/wav con su largo, no-store y nosniff, y no cambia la entrevista")
-    void listen_shouldReturnWavWithoutChangingTheInterview() {
+    @DisplayName("CA-5.15.2: responde audio/mpeg con su largo, no-store y nosniff, y no cambia la entrevista")
+    void listen_shouldReturnMp3WithoutChangingTheInterview() {
         String[] ids = startInterview(UID_A, PROFILE_A);
         String before = snapshot(ids[0], ids[1]);
 
@@ -288,11 +287,11 @@ class QuestionAudioEndToEndTest {
         assertThat(response.getStatusCode().value()).isEqualTo(200);
         // spring.servlet.encoding.force-response agrega ;charset=UTF-8 a toda respuesta; el navegador lo ignora.
         assertThat(response.getHeaders().getContentType().getType()).isEqualTo("audio");
-        assertThat(response.getHeaders().getContentType().getSubtype()).isEqualTo("wav");
-        assertThat(response.getHeaders().getContentLength()).isEqualTo(WAV.length);
+        assertThat(response.getHeaders().getContentType().getSubtype()).isEqualTo("mpeg");
+        assertThat(response.getHeaders().getContentLength()).isEqualTo(MP3.length);
         assertThat(response.getHeaders().getCacheControl()).isEqualTo("no-store");
         assertThat(response.getHeaders().getFirst("X-Content-Type-Options")).isEqualTo("nosniff");
-        assertThat(response.getBody()).isEqualTo(WAV);
+        assertThat(response.getBody()).isEqualTo(MP3);
         assertThat(plays(ids[0], 1)).isEqualTo(1);
         assertThat(monthCharacters()).isEqualTo(
                 "Cuéntame brevemente quién eres y por qué te interesa este rol.".length());
@@ -301,20 +300,14 @@ class QuestionAudioEndToEndTest {
     }
 
     @Test
-    @DisplayName("La voz recibe las etiquetas del director para el tono estricto, en el idioma de la entrevista")
-    void listen_shouldSendDirectedQuestion() {
+    @DisplayName("CA-5.15.3: la voz recibe el texto guardado de la pregunta, sin alterar, y el idioma de la entrevista")
+    void listen_shouldSendStoredQuestionAndLanguage() {
         String[] ids = startInterview(UID_A, PROFILE_A);
-        voice.proposal.set(new SpeechDirectorPort.Proposal(
-                "<grunt> Cuéntame brevemente quién eres <short pause> y por qué te interesa este rol.", "urgent"));
 
         listen(UID_A, ids[0], "1");
 
-        assertThat(voice.lastDirection.get()).isEqualTo(new SpeechDirection(
-                "<grunt> Cuéntame brevemente quién eres <short pause> y por qué te interesa este rol.", "urgent",
-                true));
+        assertThat(voice.lastText.get()).isEqualTo("Cuéntame brevemente quién eres y por qué te interesa este rol.");
         assertThat(voice.lastLanguage.get()).isEqualTo(InterviewLanguage.SPANISH_COLOMBIA);
-        assertThat(voice.lastRequest.get().tone().code()).isEqualTo("ESTRICTO");
-        assertThat(voice.lastRequest.get().number()).isEqualTo(1);
     }
 
     // ---- límites ----
@@ -401,18 +394,31 @@ class QuestionAudioEndToEndTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "6", "-1", "a", "%202", "02", "+2", "2.0", "2e0", "%D9%A2", "99999999999999999999",
-        "%00"})
+        "%252"})
     @DisplayName("CA-5.15.12: un número que no es 1 a 5 responde 404 QUESTION_NOT_FOUND, nunca 500")
     void listen_shouldRejectInvalidNumbers(String number) {
         String[] ids = startInterview(UID_A, PROFILE_A);
 
         ResponseEntity<byte[]> response = listen(UID_A, ids[0], number);
 
-        assertThat(response.getStatusCode().value()).isIn(404, 400);
-        if (response.getStatusCode().value() == 404) {
-            assertThat(code(response)).isEqualTo("QUESTION_NOT_FOUND");
-            assertThat(detail(response)).isEqualTo("No encontramos lo que buscabas.");
-        }
+        assertThat(response.getStatusCode().value()).isEqualTo(404);
+        assertThat(code(response)).isEqualTo("QUESTION_NOT_FOUND");
+        assertThat(detail(response)).isEqualTo("No encontramos lo que buscabas.");
+        assertThat(voice.calls.get()).isZero();
+        assertThat(plays(ids[0], 1)).isZero();
+    }
+
+    @ParameterizedTest
+    @CsvSource({"%00, 400, REQUEST_PATH_INVALID_FORMAT", "'', 404, ROUTE_NOT_FOUND"})
+    @DisplayName("CA-5.15.12: un número vacío o con %00 lo rechaza el servidor antes del caso de uso, sin el error"
+            + " genérico, sin voz y sin gastar usos")
+    void listen_shouldRejectEmptyOrNullNumberBeforeTheUseCase(String number, int status, String errorCode) {
+        String[] ids = startInterview(UID_A, PROFILE_A);
+
+        ResponseEntity<byte[]> response = listen(UID_A, ids[0], number);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(status);
+        assertThat(code(response)).isEqualTo(errorCode).isNotEqualTo("INTERNAL_ERROR");
         assertThat(voice.calls.get()).isZero();
         assertThat(plays(ids[0], 1)).isZero();
     }
@@ -498,9 +504,9 @@ class QuestionAudioEndToEndTest {
     @DisplayName("CA-5.15.25: si la entrevista se abandona mientras se genera, responde 409 sin audio y el uso queda")
     void listen_shouldNotDeliver_whenSessionIsAbandonedDuringSynthesis() {
         String[] ids = startInterview(UID_A, PROFILE_A);
-        voice.behavior.set(direction -> {
+        voice.behavior.set(text -> {
             setSessionStatus(ids[0], "ABANDONADA");
-            return new SpeechAudio(WAV, "audio/wav", "modelo");
+            return new SpeechAudio(MP3, "audio/mpeg", "voz");
         });
 
         ResponseEntity<byte[]> response = listen(UID_A, ids[0], "1");
@@ -517,11 +523,11 @@ class QuestionAudioEndToEndTest {
     @DisplayName("CA-5.15.8: si la voz falla o tarda, responde 503 con su código y no descuenta el uso")
     void listen_shouldNotCount_whenSpeechFails() {
         String[] ids = startInterview(UID_A, PROFILE_A);
-        voice.behavior.set(direction -> {
+        voice.behavior.set(text -> {
             throw new SpeechUnavailableException("status=500", null);
         });
         ResponseEntity<byte[]> failed = listen(UID_A, ids[0], "1");
-        voice.behavior.set(direction -> {
+        voice.behavior.set(text -> {
             throw new SpeechTimeoutException("tiempo agotado", null);
         });
         ResponseEntity<byte[]> late = listen(UID_A, ids[0], "1");
@@ -545,52 +551,42 @@ class QuestionAudioEndToEndTest {
         String[] ids = startInterview(UID_A, PROFILE_A);
         answerText(UID_A, ids[0], ids[1]);
         listen(UID_A, ids[0], "2");
-        voice.behavior.set(direction -> {
+        voice.behavior.set(text -> {
             throw new SpeechUnavailableException("status=500", null);
         });
         listen(UID_A, ids[0], "2");
-        voice.behavior.set(direction -> {
+        voice.behavior.set(text -> {
             throw new SpeechTimeoutException("tiempo agotado", null);
         });
         listen(UID_A, ids[0], "2");
 
         assertThat(output).contains("Voz de la pregunta generada").contains("SPEECH_TIMEOUT")
-                .doesNotContain(SECRET_WORDS).doesNotContain("UklGR");
+                .doesNotContain(SECRET_WORDS).doesNotContain("//uQ");
     }
 
     // ---- dobles ----
 
-    /** Director y voz programados; cuentan las llamadas a la voz y guardan lo último que recibió. */
-    static class ScriptedVoice implements SpeechSynthesisPort, SpeechDirectorPort {
+    /** Voz programada; cuenta las llamadas y guarda lo último que recibió. */
+    static class ScriptedVoice implements SpeechSynthesisPort {
 
         final AtomicInteger calls = new AtomicInteger();
-        final AtomicReference<SpeechDirection> lastDirection = new AtomicReference<>();
+        final AtomicReference<String> lastText = new AtomicReference<>();
         final AtomicReference<InterviewLanguage> lastLanguage = new AtomicReference<>();
-        final AtomicReference<Request> lastRequest = new AtomicReference<>();
-        final AtomicReference<Proposal> proposal = new AtomicReference<>();
-        final AtomicReference<Function<SpeechDirection, SpeechAudio>> behavior = new AtomicReference<>();
+        final AtomicReference<Function<String, SpeechAudio>> behavior = new AtomicReference<>();
 
         void reset() {
             calls.set(0);
-            lastDirection.set(null);
+            lastText.set(null);
             lastLanguage.set(null);
-            lastRequest.set(null);
-            proposal.set(null);
-            behavior.set(direction -> new SpeechAudio(WAV, "audio/wav", "modelo-de-voz"));
+            behavior.set(text -> new SpeechAudio(MP3, "audio/mpeg", "es-US-Chirp3-HD-Kore"));
         }
 
         @Override
-        public SpeechAudio synthesize(SpeechDirection direction, InterviewLanguage language) {
+        public SpeechAudio synthesize(String text, InterviewLanguage language) {
             calls.incrementAndGet();
-            lastDirection.set(direction);
+            lastText.set(text);
             lastLanguage.set(language);
-            return behavior.get().apply(direction);
-        }
-
-        @Override
-        public Optional<Proposal> direct(Request request) {
-            lastRequest.set(request);
-            return Optional.ofNullable(proposal.get());
+            return behavior.get().apply(text);
         }
     }
 
@@ -609,7 +605,7 @@ class QuestionAudioEndToEndTest {
             return new AudioAnswerEndToEndTest.ScriptedModel();
         }
 
-        /** Un solo bean principal para los dos puertos: implementa el director y la voz. */
+        /** La voz simulada reemplaza a Google Cloud Text-to-Speech. */
         @Bean
         @Primary
         ScriptedVoice scriptedVoice() {

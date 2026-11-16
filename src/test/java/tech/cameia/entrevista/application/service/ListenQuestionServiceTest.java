@@ -30,6 +30,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
@@ -59,16 +61,13 @@ import tech.cameia.entrevista.domain.model.SessionConfiguration;
 import tech.cameia.entrevista.domain.model.SessionSnapshot;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.SpeechAudio;
-import tech.cameia.entrevista.domain.model.SpeechDirection;
 import tech.cameia.entrevista.domain.model.Tone;
 import tech.cameia.entrevista.domain.model.TurnSnapshot;
 import tech.cameia.entrevista.domain.model.TurnStatus;
 import tech.cameia.entrevista.domain.policy.QuestionAudioPolicy;
-import tech.cameia.entrevista.domain.policy.SpeechDirectionPolicy;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
-import tech.cameia.entrevista.domain.port.SpeechDirectorPort;
 import tech.cameia.entrevista.domain.port.SpeechSynthesisPort;
 import tech.cameia.entrevista.domain.port.SpeechUsageRepository;
 
@@ -82,12 +81,11 @@ class ListenQuestionServiceTest {
     private static final Instant NOW = Instant.parse("2026-11-15T15:00:00Z");
     private static final FirebaseUid OWNER = new FirebaseUid("uid-a");
     private static final UUID SESSION = UUID.fromString("3f1c9a52-7d0e-4c41-9a56-0b7e2d8c1a10");
-    private static final byte[] WAV = {'R', 'I', 'F', 'F'};
+    private static final byte[] MP3 = {(byte) 0xFF, (byte) 0xFB, (byte) 0x90, 0, 0};
 
     private final InterviewSessionRepository sessions = mock(InterviewSessionRepository.class);
     private final InterviewQuestionRepository questions = mock(InterviewQuestionRepository.class);
     private final InterviewTurnRepository turns = mock(InterviewTurnRepository.class);
-    private final SpeechDirectorPort director = mock(SpeechDirectorPort.class);
     private final SpeechSynthesisPort synthesis = mock(SpeechSynthesisPort.class);
     private final MemoryUsage usage = new MemoryUsage();
     private final List<InterviewQuestion> plan = new ArrayList<>();
@@ -146,15 +144,14 @@ class ListenQuestionServiceTest {
                     "Pregunta número " + position + " sobre Java", execution, NOW));
         }
         when(questions.findBySession(SESSION)).thenReturn(plan);
-        when(director.direct(any())).thenReturn(Optional.empty());
-        when(synthesis.synthesize(any(), any())).thenReturn(new SpeechAudio(WAV, "audio/wav", "gemini-3.8-flash-tts"));
+        when(synthesis.synthesize(any(), any())).thenReturn(new SpeechAudio(MP3, "audio/mpeg", "es-US-Chirp3-HD-Kore"));
         sessionWith(SessionStatus.IN_PROGRESS);
         openTurnAt(3);
     }
 
     private ListenQuestionService service(SpeechSettings settings) {
-        return new ListenQuestionService(sessions, questions, turns, usage, director, synthesis,
-                new QuestionAudioPolicy(3), new SpeechDirectionPolicy(), settings, clock);
+        return new ListenQuestionService(sessions, questions, turns, usage, synthesis,
+                new QuestionAudioPolicy(3), settings, clock);
     }
 
     private ListenQuestionService service() {
@@ -168,8 +165,12 @@ class ListenQuestionServiceTest {
     }
 
     private static InterviewSession session(SessionStatus status) {
+        return session(status, Tone.STRICT, InterviewLanguage.SPANISH_COLOMBIA);
+    }
+
+    private static InterviewSession session(SessionStatus status, Tone tone, InterviewLanguage language) {
         SessionConfiguration configuration = new SessionConfiguration(UUID.randomUUID(), UUID.randomUUID(), null,
-                "{}", Modality.SIMULATION, Tone.STRICT, AnswerMode.TEXT, InterviewLanguage.SPANISH_COLOMBIA);
+                "{}", Modality.SIMULATION, tone, AnswerMode.TEXT, language);
         return InterviewSession.reconstitute(new SessionSnapshot(SESSION, OWNER, configuration, status, 0, NOW, NOW,
                 NOW, null, 1L));
     }
@@ -195,33 +196,31 @@ class ListenQuestionServiceTest {
     void listen_shouldReturnAudioAndCountUsage() {
         SpeechAudio audio = service().listen(command(), "2");
 
-        assertThat(audio.content()).isEqualTo(WAV);
+        assertThat(audio.content()).isEqualTo(MP3);
         assertThat(playsOf(2)).isEqualTo(1);
         assertThat(usage.characters.get(YearMonth.of(2026, 11))).isEqualTo("Pregunta número 2 sobre Java".length());
     }
 
-    @Test
-    @DisplayName("El director coloca las etiquetas y la voz recibe la dirección aceptada")
-    void listen_shouldSendDirectedText_whenProposalIsValid() {
-        when(director.direct(any())).thenReturn(Optional.of(new SpeechDirectorPort.Proposal(
-                "<grunt> Pregunta número 3 sobre Java", "urgent")));
+    @ParameterizedTest
+    @EnumSource(Tone.class)
+    @DisplayName("CA-5.15.3: con cualquier tono, la voz depende solo del idioma de la entrevista")
+    void listen_shouldUseLanguageOfInterview_whateverTheTone(Tone tone) {
+        for (InterviewLanguage language : InterviewLanguage.values()) {
+            when(sessions.findByIdAndOwner(SESSION, OWNER)).thenReturn(Optional.of(
+                    session(SessionStatus.IN_PROGRESS, tone, language)));
 
-        service().listen(command(), "3");
+            service().listen(command(), "1");
 
-        verify(synthesis).synthesize(new SpeechDirection("<grunt> Pregunta número 3 sobre Java", "urgent", true),
-                InterviewLanguage.SPANISH_COLOMBIA);
+            verify(synthesis).synthesize("Pregunta número 1 sobre Java", language);
+        }
     }
 
     @Test
-    @DisplayName("Una propuesta que cambia la pregunta se descarta y se lee tal cual con el estilo del tono")
-    void listen_shouldReadPlainText_whenProposalChangesTheQuestion() {
-        when(director.direct(any())).thenReturn(Optional.of(new SpeechDirectorPort.Proposal(
-                "<grunt> Otra pregunta distinta", "urgent")));
+    @DisplayName("CA-5.15.3: la voz recibe el texto guardado, sin alterar, y el idioma de la entrevista")
+    void listen_shouldSendStoredTextAndLanguage() {
+        service().listen(command(), "3");
 
-        service().listen(command(), "1");
-
-        verify(synthesis).synthesize(new SpeechDirection("Pregunta número 1 sobre Java", "confident", false),
-                InterviewLanguage.SPANISH_COLOMBIA);
+        verify(synthesis).synthesize("Pregunta número 3 sobre Java", InterviewLanguage.SPANISH_COLOMBIA);
     }
 
     @Test
@@ -289,7 +288,7 @@ class ListenQuestionServiceTest {
     void listen_shouldAllowAll_whenNoTurnIsOpen() {
         when(turns.findOpenBySession(SESSION)).thenReturn(Optional.empty());
 
-        assertThat(service().listen(command(), "5").content()).isEqualTo(WAV);
+        assertThat(service().listen(command(), "5").content()).isEqualTo(MP3);
     }
 
     @Test
@@ -336,7 +335,7 @@ class ListenQuestionServiceTest {
         assertThat(usage.plays).isEmpty();
 
         usage.characters.put(YearMonth.of(2026, 11), 899_999L);
-        assertThat(service().listen(command(), "1").content()).isEqualTo(WAV);
+        assertThat(service().listen(command(), "1").content()).isEqualTo(MP3);
     }
 
     @Test
@@ -348,7 +347,7 @@ class ListenQuestionServiceTest {
                 .isInstanceOf(SpeechMonthlyLimitReachedException.class);
 
         clock = Clock.fixed(Instant.parse("2027-01-01T00:00:00Z"), ZoneOffset.UTC);
-        assertThat(service().listen(command(), "1").content()).isEqualTo(WAV);
+        assertThat(service().listen(command(), "1").content()).isEqualTo(MP3);
         assertThat(usage.characters).containsKey(YearMonth.of(2027, 1));
     }
 
@@ -361,7 +360,7 @@ class ListenQuestionServiceTest {
         when(synthesis.synthesize(any(), any())).thenAnswer(call -> {
             inside.countDown();
             release.await(10, TimeUnit.SECONDS);
-            return new SpeechAudio(WAV, "audio/wav", "modelo");
+            return new SpeechAudio(MP3, "audio/mpeg", "voz");
         });
         ListenQuestionService service = service(new SpeechSettings(true, 10, 900_000));
         ExecutorService pool = Executors.newFixedThreadPool(10);
@@ -383,13 +382,13 @@ class ListenQuestionServiceTest {
 
             release.countDown();
             for (Future<SpeechAudio> future : running) {
-                assertThat(future.get(10, TimeUnit.SECONDS).content()).isEqualTo(WAV);
+                assertThat(future.get(10, TimeUnit.SECONDS).content()).isEqualTo(MP3);
             }
         } finally {
             release.countDown();
             pool.shutdownNow();
         }
-        assertThat(service.listen(command(), "1").content()).isEqualTo(WAV);
+        assertThat(service.listen(command(), "1").content()).isEqualTo(MP3);
     }
 
     @Test
@@ -467,7 +466,7 @@ class ListenQuestionServiceTest {
         when(sessions.findByIdAndOwner(SESSION, OWNER)).thenAnswer(call -> Optional.of(current.get()));
         when(synthesis.synthesize(any(), any())).thenAnswer(call -> {
             current.set(abandoned);
-            return new SpeechAudio(WAV, "audio/wav", "modelo");
+            return new SpeechAudio(MP3, "audio/mpeg", "voz");
         });
 
         assertThatThrownBy(() -> service().listen(command(), "1"))
@@ -479,8 +478,6 @@ class ListenQuestionServiceTest {
     @Test
     @DisplayName("CA-5.15.15: los registros no llevan el texto de la pregunta, en éxito ni en fallo")
     void listen_shouldNotLogQuestionText(CapturedOutput output) {
-        when(director.direct(any())).thenReturn(Optional.of(new SpeechDirectorPort.Proposal(
-                "<sigh> Pregunta número 1 sobre Java", "urgent")));
         service().listen(command(), "1");
         when(synthesis.synthesize(any(), any())).thenThrow(new SpeechUnavailableException("status=500", null));
         assertThatThrownBy(() -> service().listen(command(), "1")).isInstanceOf(SpeechUnavailableException.class);

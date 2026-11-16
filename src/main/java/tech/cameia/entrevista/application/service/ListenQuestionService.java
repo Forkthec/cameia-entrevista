@@ -26,15 +26,11 @@ import tech.cameia.entrevista.domain.exception.SpeechUnavailableException;
 import tech.cameia.entrevista.domain.model.InterviewQuestion;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
-import tech.cameia.entrevista.domain.model.SessionConfiguration;
 import tech.cameia.entrevista.domain.model.SpeechAudio;
-import tech.cameia.entrevista.domain.model.SpeechDirection;
 import tech.cameia.entrevista.domain.policy.QuestionAudioPolicy;
-import tech.cameia.entrevista.domain.policy.SpeechDirectionPolicy;
 import tech.cameia.entrevista.domain.port.InterviewQuestionRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.InterviewTurnRepository;
-import tech.cameia.entrevista.domain.port.SpeechDirectorPort;
 import tech.cameia.entrevista.domain.port.SpeechSynthesisPort;
 import tech.cameia.entrevista.domain.port.SpeechUsageRepository;
 
@@ -47,9 +43,8 @@ import tech.cameia.entrevista.domain.port.SpeechUsageRepository;
  * {@code SPEECH_TEXT_*}), tope mensual (503 {@code SPEECH_MONTHLY_LIMIT_REACHED}), síntesis simultáneas (503
  * {@code SPEECH_BUSY}) y uso de audio (409 {@code QUESTION_AUDIO_LIMIT_REACHED}).</p>
  *
- * <p>Después, sin transacción abierta: un modelo de lenguaje coloca las etiquetas de voz según el tono y el momento
- * de la entrevista (si falla o propone algo que cambia la pregunta, se lee tal cual) y el servicio de voz genera el
- * audio. Si la voz falla, se devuelven el uso de audio y los caracteres reservados (CA-5.15.8, CA-5.15.23). Si la
+ * <p>Después, sin transacción abierta, Google Cloud Text-to-Speech lee el texto guardado de la pregunta, sin
+ * alterarlo, con la voz del idioma de la entrevista. Si la voz falla, se devuelven el uso de audio y los caracteres reservados (CA-5.15.8, CA-5.15.23). Si la
  * entrevista dejó de estar en curso mientras se generaba, no se entrega el audio (CA-5.15.25); el uso queda gastado,
  * porque la voz ya procesó el texto, igual que si la persona cierra la pestaña (CA-5.15.24).</p>
  *
@@ -65,28 +60,22 @@ public class ListenQuestionService {
     private final InterviewQuestionRepository questions;
     private final InterviewTurnRepository turns;
     private final SpeechUsageRepository usage;
-    private final SpeechDirectorPort director;
     private final SpeechSynthesisPort synthesis;
     private final QuestionAudioPolicy policy;
-    private final SpeechDirectionPolicy directionPolicy;
     private final SpeechSettings settings;
     private final Semaphore slots;
     private final Clock clock;
 
     @Autowired
-    @SuppressWarnings("java:S107")
     ListenQuestionService(InterviewSessionRepository sessions, InterviewQuestionRepository questions,
-            InterviewTurnRepository turns, SpeechUsageRepository usage, SpeechDirectorPort director,
-            SpeechSynthesisPort synthesis, QuestionAudioPolicy policy, SpeechDirectionPolicy directionPolicy,
-            SpeechSettings settings, Clock clock) {
+            InterviewTurnRepository turns, SpeechUsageRepository usage, SpeechSynthesisPort synthesis,
+            QuestionAudioPolicy policy, SpeechSettings settings, Clock clock) {
         this.sessions = sessions;
         this.questions = questions;
         this.turns = turns;
         this.usage = usage;
-        this.director = director;
         this.synthesis = synthesis;
         this.policy = policy;
-        this.directionPolicy = directionPolicy;
         this.settings = settings;
         this.slots = new Semaphore(settings.maxConcurrent());
         this.clock = clock;
@@ -152,12 +141,9 @@ public class ListenQuestionService {
     private SpeechAudio generate(InterviewSession session, InterviewQuestion question, String text, YearMonth month,
             int characters) {
         Instant started = clock.instant();
-        SessionConfiguration configuration = session.configuration();
-        SpeechDirection direction;
         SpeechAudio audio;
         try {
-            direction = direct(question, text, configuration);
-            audio = synthesis.synthesize(direction, configuration.language());
+            audio = synthesis.synthesize(text, session.configuration().language());
         } catch (SpeechUnavailableException | SpeechTimeoutException failure) {
             giveBack(question, month, characters, failure.getErrorCode());
             log.warn("Voz de la pregunta no disponible [sessionId={}, pregunta={}, code={}, causa={}]", session.id(),
@@ -169,20 +155,10 @@ public class ListenQuestionService {
                     question.position(), unexpected);
             throw new SpeechUnavailableException("fallo imprevisto", unexpected);
         }
-        log.info("Voz de la pregunta generada [sessionId={}, pregunta={}, bytes={}, modelo={}, dirigida={}, estilo={},"
-                + " ms={}]", session.id(), question.position(), audio.content().length, audio.model(),
-                direction.directed(), direction.style(), Duration.between(started, clock.instant()).toMillis());
+        log.info("Voz de la pregunta generada [sessionId={}, pregunta={}, bytes={}, voz={}, ms={}]", session.id(),
+                question.position(), audio.content().length, audio.voice(),
+                Duration.between(started, clock.instant()).toMillis());
         return audio;
-    }
-
-    private SpeechDirection direct(InterviewQuestion question, String text, SessionConfiguration configuration) {
-        SpeechDirectionPolicy.Rules rules = directionPolicy.rulesFor(configuration.tone());
-        SpeechDirectorPort.Request request = new SpeechDirectorPort.Request(text, question.position(),
-                configuration.tone(), configuration.language(), rules);
-        return director.direct(request)
-                .flatMap(proposal -> directionPolicy.accept(text, configuration.tone(), proposal.text(),
-                        proposal.style()))
-                .orElseGet(() -> directionPolicy.plain(text, configuration.tone()));
     }
 
     // CA-5.15.23: el uso y los caracteres vuelven; si la base falla al devolverlos, se registra y la persona ve el

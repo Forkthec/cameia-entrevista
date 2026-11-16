@@ -44,6 +44,13 @@
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-google-genai</artifactId>
 		</dependency>
+		<!-- Credenciales de Google (ADC) para Cloud Text-to-Speech (voz de las preguntas, ADR 0017). Ya llegaba con el
+		     SDK de Gemini; se declara porque el código la usa directamente, con la misma versión. -->
+		<dependency>
+			<groupId>com.google.auth</groupId>
+			<artifactId>google-auth-library-oauth2-http</artifactId>
+			<version>1.33.0</version>
+		</dependency>
 		<!-- Proveedor de respaldo (Qwen en Groq, API compatible con OpenAI): solo sus clases de modelo; los
 		     modelos de chat se arman a mano y la autoconfiguracion de chat queda apagada. -->
 		<dependency>
