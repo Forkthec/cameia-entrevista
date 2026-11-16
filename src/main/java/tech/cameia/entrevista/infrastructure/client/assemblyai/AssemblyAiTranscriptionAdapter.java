@@ -44,6 +44,10 @@ import tech.cameia.entrevista.domain.port.SpeechTranscriptionPort;
  * confianza para que el dominio lo rechace. Sin voz, {@code on_no_speech_detected=fallback} hace que el proveedor
  * devuelva un texto vacío en lugar de un error, que el dominio responde como CA-5.12.7.</p>
  *
+ * <p>Voz reconocida (CA-5.8.10): suma lo que dura cada palabra de {@code words} ({@code end - start}, en
+ * milisegundos), sin los silencios entre ellas, para que el dominio rechace una respuesta casi sin voz aunque el
+ * archivo sea largo. Si la respuesta no trae {@code words}, la duración queda sin informar.</p>
+ *
  * <p>Nunca registra el audio, la URL de subida ni el texto transcrito: solo el identificador de la transcripción
  * del proveedor y la razón de un fallo.</p>
  */
@@ -193,10 +197,34 @@ public class AssemblyAiTranscriptionAdapter implements SpeechTranscriptionPort {
         }
         JsonNode language = body.get("language_code");
         JsonNode confidence = body.get("language_confidence");
-        log.info("Transcripción completada [transcriptId={}]", transcriptId);
+        Duration speech = speechDuration(body.get("words"));
+        log.info("Transcripción completada [transcriptId={}, vozMs={}]", transcriptId,
+                speech == null ? "-" : speech.toMillis());
         return new Transcription(text == null || text.isNull() ? "" : text.asString(),
                 language != null && language.isString() ? language.asString() : null,
-                confidence != null && confidence.isNumber() ? confidence.asDouble() : null);
+                confidence != null && confidence.isNumber() ? confidence.asDouble() : null, speech);
+    }
+
+    /**
+     * Suma lo que dura cada palabra reconocida. Una palabra sin marcas numéricas, o con el final antes del inicio,
+     * no suma.
+     *
+     * @param words el arreglo {@code words} de la transcripción
+     * @return la voz reconocida, o {@code null} si el arreglo no viene
+     */
+    static Duration speechDuration(JsonNode words) {
+        if (words == null || !words.isArray()) {
+            return null;
+        }
+        long millis = 0;
+        for (JsonNode word : words) {
+            JsonNode start = word.get("start");
+            JsonNode end = word.get("end");
+            if (start != null && end != null && start.isNumber() && end.isNumber()) {
+                millis += Math.max(0, end.asLong() - start.asLong());
+            }
+        }
+        return Duration.ofMillis(millis);
     }
 
     private void sleepUntilNextPoll(long deadline) {

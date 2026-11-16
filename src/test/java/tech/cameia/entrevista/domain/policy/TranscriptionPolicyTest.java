@@ -3,10 +3,14 @@ package tech.cameia.entrevista.domain.policy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.Duration;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import tech.cameia.entrevista.domain.exception.AudioTooShortException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.TranscriptionEmptyException;
 import tech.cameia.entrevista.domain.exception.TranscriptionLanguageMismatchException;
@@ -49,6 +53,45 @@ class TranscriptionPolicyTest {
     void accept_shouldRejectAsEmpty_whenTextIsNull() {
         assertThatThrownBy(() -> policy.accept(new Transcription(null, null, null), InterviewLanguage.ENGLISH))
                 .isInstanceOf(TranscriptionEmptyException.class);
+    }
+
+    @Test
+    @DisplayName("Menos de 1,5 s de voz reconocida se rechaza como AUDIO_TOO_SHORT aunque haya texto")
+    void accept_shouldRejectAsTooShort_whenSpeechIsUnderMinimum() {
+        assertThatThrownBy(() -> policy.accept(new Transcription("Sí.", "es", 0.99, Duration.ofMillis(1499)),
+                InterviewLanguage.SPANISH_COLOMBIA))
+                .isInstanceOf(AudioTooShortException.class)
+                .hasMessage("No detectamos tu voz, intenta de nuevo.");
+    }
+
+    @Test
+    @DisplayName("Exactamente 1,5 s de voz reconocida se acepta")
+    void accept_shouldAccept_whenSpeechIsExactlyMinimum() {
+        assertThat(policy.accept(new Transcription("Sí, lo hice.", "es", 0.99, Duration.ofMillis(1500)),
+                InterviewLanguage.SPANISH_COLOMBIA)).isEqualTo("Sí, lo hice.");
+    }
+
+    @Test
+    @DisplayName("Sin la voz informada por el proveedor no se rechaza por voz")
+    void accept_shouldAccept_whenSpeechIsNotReported() {
+        assertThat(policy.accept(new Transcription("Sí.", "es", 0.99, null), InterviewLanguage.SPANISH_COLOMBIA))
+                .isEqualTo("Sí.");
+    }
+
+    @Test
+    @DisplayName("El texto vacío se decide antes que la voz")
+    void accept_shouldRejectAsEmptyBeforeSpeech() {
+        assertThatThrownBy(() -> policy.accept(new Transcription(" ", "es", 0.99, Duration.ZERO),
+                InterviewLanguage.SPANISH_COLOMBIA))
+                .isInstanceOf(TranscriptionEmptyException.class);
+    }
+
+    @Test
+    @DisplayName("Poca voz se decide antes que el idioma distinto")
+    void accept_shouldRejectAsTooShortBeforeLanguage() {
+        assertThatThrownBy(() -> policy.accept(new Transcription("Yes.", "en", 0.99, Duration.ofMillis(400)),
+                InterviewLanguage.SPANISH_COLOMBIA))
+                .isInstanceOf(AudioTooShortException.class);
     }
 
     @Test

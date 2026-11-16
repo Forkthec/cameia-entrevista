@@ -127,6 +127,38 @@ class AssemblyAiTranscriptionAdapterTest {
     }
 
     @Test
+    void transcribe_shouldSumWordDurations_withoutSilences() {
+        finalStatusBody = """
+                {"id":"tr-1","status":"completed","text":"Sí, claro.","language_code":"es",
+                 "language_confidence":0.93,
+                 "words":[{"text":"Sí,","start":1200,"end":1500},{"text":"claro.","start":2400,"end":2950}]}""";
+
+        Transcription result = adapter("llave", Duration.ofSeconds(5))
+                .transcribe(AUDIO, InterviewLanguage.SPANISH_COLOMBIA);
+
+        assertThat(result.speechDuration()).isEqualTo(Duration.ofMillis(850));
+    }
+
+    @Test
+    void transcribe_shouldReportNoSpeechDuration_whenWordsAreMissing() {
+        Transcription result = adapter("llave", Duration.ofSeconds(5))
+                .transcribe(AUDIO, InterviewLanguage.SPANISH_COLOMBIA);
+
+        assertThat(result.speechDuration()).isNull();
+    }
+
+    @Test
+    void speechDuration_shouldIgnoreWordsWithoutNumericOrOrderedMarks() {
+        JsonNode words = json.readTree("""
+                [{"start":0,"end":1000},{"start":"x","end":2000},{"start":3000},{"start":5000,"end":4000},
+                 {"start":6000,"end":6500}]""");
+
+        assertThat(AssemblyAiTranscriptionAdapter.speechDuration(words)).isEqualTo(Duration.ofMillis(1500));
+        assertThat(AssemblyAiTranscriptionAdapter.speechDuration(json.readTree("[]"))).isEqualTo(Duration.ZERO);
+        assertThat(AssemblyAiTranscriptionAdapter.speechDuration(json.readTree("{}"))).isNull();
+    }
+
+    @Test
     void transcribe_shouldReturnEmptyText_whenProviderReturnsNullText() {
         finalStatusBody = "{\"id\":\"tr-1\",\"status\":\"completed\",\"text\":null,\"language_code\":\"es\"}";
 

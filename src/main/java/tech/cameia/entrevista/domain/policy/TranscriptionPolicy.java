@@ -1,8 +1,10 @@
 package tech.cameia.entrevista.domain.policy;
 
 import java.text.Normalizer;
+import java.time.Duration;
 import java.util.Locale;
 
+import tech.cameia.entrevista.domain.exception.AudioTooShortException;
 import tech.cameia.entrevista.domain.exception.TranscriptionEmptyException;
 import tech.cameia.entrevista.domain.exception.TranscriptionLanguageMismatchException;
 import tech.cameia.entrevista.domain.exception.TranscriptionTooLongException;
@@ -16,6 +18,8 @@ import tech.cameia.entrevista.domain.model.Transcription;
  *
  * <ol>
  *   <li>Vacía o solo con espacios: {@link TranscriptionEmptyException} (CA-5.12.7).</li>
+ *   <li>Menos de 1,5 s de voz, sumando lo que dura cada palabra reconocida: {@link AudioTooShortException}
+ *       (CA-5.8.10). La duración del archivo no basta: un audio de 3 s con un «Sí» trae medio segundo de voz.</li>
  *   <li>Idioma distinto al de la entrevista detectado con confianza igual o mayor al umbral:
  *       {@link TranscriptionLanguageMismatchException} (CA-5.12.10).</li>
  *   <li>Más de {@value AnswerAttempt#MAX_TEXT_LENGTH} caracteres: {@link TranscriptionTooLongException}
@@ -30,6 +34,13 @@ import tech.cameia.entrevista.domain.model.Transcription;
  * proveedor detecta el idioma dominante del audio, y la confianza sobre el umbral filtra las mezclas.</p>
  */
 public final class TranscriptionPolicy {
+
+    /**
+     * Voz mínima de una respuesta. La interfaz exige 2 s de voz detectada (CA-5.8.9); el servidor rechaza menos de
+     * 1,5 s medidos con las palabras que reconoce el proveedor (CA-5.8.10). El margen absorbe que el proveedor no
+     * cuenta el inicio y el final de cada palabra igual que el detector del navegador.
+     */
+    public static final Duration MIN_SPEECH = Duration.ofMillis(1500);
 
     private final double languageConfidenceThreshold;
 
@@ -53,6 +64,7 @@ public final class TranscriptionPolicy {
      * @param interviewLanguage idioma de la entrevista
      * @return el texto normalizado a NFC y sin espacios en los extremos, de 1 a 4000 caracteres
      * @throws TranscriptionEmptyException si no hay texto
+     * @throws AudioTooShortException si el proveedor reconoció menos de {@link #MIN_SPEECH} de voz
      * @throws TranscriptionLanguageMismatchException si el audio está en otro idioma
      * @throws TranscriptionTooLongException si supera los 4000 caracteres
      */
@@ -60,6 +72,10 @@ public final class TranscriptionPolicy {
         String text = Normalizer.normalize(transcription.text(), Normalizer.Form.NFC).strip();
         if (text.isEmpty()) {
             throw new TranscriptionEmptyException();
+        }
+        // Sin las palabras informadas no se puede medir la voz: decide la duración del archivo, ya comprobada.
+        if (transcription.speechDuration() != null && transcription.speechDuration().compareTo(MIN_SPEECH) < 0) {
+            throw new AudioTooShortException();
         }
         if (isOtherLanguage(transcription, interviewLanguage)) {
             throw new TranscriptionLanguageMismatchException(interviewLanguage);
