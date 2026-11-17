@@ -43,6 +43,7 @@ import tech.cameia.entrevista.domain.model.InterviewLanguage;
 import tech.cameia.entrevista.domain.model.LanguageModelResponse;
 import tech.cameia.entrevista.domain.model.ProfileReplica;
 import tech.cameia.entrevista.domain.model.ReplicatedProfileStatus;
+import tech.cameia.entrevista.domain.model.TimedWord;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.model.AiOperation;
 import tech.cameia.entrevista.domain.model.AiProvider;
@@ -167,6 +168,31 @@ class VoiceAnswerEndToEndTest {
 
     private int count(String sql, String sessionId) {
         return jdbc.queryForObject(sql, Integer.class, UUID.fromString(sessionId));
+    }
+
+    @Test
+    void answeringByVoice_shouldStoreVoiceDataAndNeverTheWords() {
+        String sessionId = startVoiceInterview("AUDIO");
+        String turnId = pendingTurn(sessionId);
+        transcriber.enqueue(() -> new Transcription("Eh, respuesta hablada", "es", 0.97, null,
+                java.util.List.of(new TimedWord("Eh,", 0, 200), new TimedWord("respuesta", 800, 1100),
+                        new TimedWord("hablada", 1150, 1500))));
+
+        ResponseEntity<String> response = answer(sessionId, turnId, realAudio(), null);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        var row = jdbc.queryForMap("""
+                SELECT respuesta_texto, voz_palabras, voz_tramo_ms, voz_pausas_ms, voz_muletillas
+                  FROM microentrevista.intento_respuesta WHERE turno_id = ?""", UUID.fromString(turnId));
+        assertThat(row).containsEntry("respuesta_texto", "Eh, respuesta hablada")
+                .containsEntry("voz_palabras", 3).containsEntry("voz_tramo_ms", 1500)
+                .containsEntry("voz_pausas_ms", 600).containsEntry("voz_muletillas", 1);
+        // Las palabras con sus tiempos nunca se guardan: la tabla de respuestas no tiene columnas de JSON ni de arreglo.
+        assertThat(jdbc.queryForList("""
+                SELECT column_name FROM information_schema.columns
+                 WHERE table_schema = 'microentrevista' AND table_name = 'intento_respuesta'
+                   AND data_type IN ('json', 'jsonb', 'ARRAY')""", String.class)).isEmpty();
+        assertThat(response.getBody()).doesNotContain("voz_").doesNotContain("Eh,");
     }
 
     @Test

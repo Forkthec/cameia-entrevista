@@ -14,10 +14,11 @@ import java.util.UUID;
  * @param text texto de la respuesta (transcrito si llegó por voz), de 1 a {@link #MAX_TEXT_LENGTH} caracteres
  * @param shownQuestion texto de la pregunta tal como se mostró, de hasta {@link #MAX_QUESTION_LENGTH} caracteres
  * @param detectedLanguage idioma detectado en el audio, o {@code null} si no se detectó o la respuesta fue escrita
+ * @param voice datos de voz de la respuesta, o {@code null} si la respuesta fue escrita o no se pudieron calcular
  * @param createdAt fecha de registro
  */
 public record AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String text, String shownQuestion,
-        String detectedLanguage, Instant createdAt) {
+        String detectedLanguage, VoiceSample voice, Instant createdAt) {
 
     /** Largo máximo de una respuesta, en caracteres; el mismo de la columna {@code respuesta_texto}. */
     public static final int MAX_TEXT_LENGTH = 4000;
@@ -41,6 +42,25 @@ public record AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String te
         if (text.isBlank()) {
             throw new IllegalArgumentException("La respuesta no puede estar vacía");
         }
+        if (origin == AnswerOrigin.TEXTO && voice != null) {
+            throw new IllegalArgumentException("Una respuesta escrita no tiene datos de voz");
+        }
+    }
+
+    /**
+     * Crea la respuesta sin datos de voz.
+     *
+     * @param id identificador del intento
+     * @param turnId turno al que responde
+     * @param origin origen de la respuesta
+     * @param text texto de la respuesta
+     * @param shownQuestion pregunta tal como se mostró
+     * @param detectedLanguage idioma detectado, o {@code null}
+     * @param createdAt fecha de registro
+     */
+    public AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String text, String shownQuestion,
+            String detectedLanguage, Instant createdAt) {
+        this(id, turnId, origin, text, shownQuestion, detectedLanguage, null, createdAt);
     }
 
     /**
@@ -53,7 +73,7 @@ public record AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String te
      * @return la respuesta nueva
      */
     public static AnswerAttempt written(UUID turnId, String text, String shownQuestion, Clock clock) {
-        return new AnswerAttempt(UUID.randomUUID(), turnId, AnswerOrigin.TEXTO, text, shownQuestion, null,
+        return new AnswerAttempt(UUID.randomUUID(), turnId, AnswerOrigin.TEXTO, text, shownQuestion, null, null,
                 clock.instant());
     }
 
@@ -66,16 +86,17 @@ public record AnswerAttempt(UUID id, UUID turnId, AnswerOrigin origin, String te
      * @param text texto transcrito
      * @param shownQuestion pregunta mostrada a la persona
      * @param detectedLanguage idioma que detectó el proveedor, o null
+     * @param voice datos de voz calculados con las palabras, o null si no se pudieron calcular
      * @param clock reloj que da la fecha
      * @return la respuesta lista para guardar
      */
     public static AnswerAttempt spoken(UUID turnId, String text, String shownQuestion, String detectedLanguage,
-            Clock clock) {
+            VoiceSample voice, Clock clock) {
         String language = detectedLanguage == null ? null : detectedLanguage.strip();
         if (language != null && (language.length() < 2 || language.length() > MAX_LANGUAGE_LENGTH)) {
             language = null;
         }
-        return new AnswerAttempt(UUID.randomUUID(), turnId, AnswerOrigin.AUDIO, text, shownQuestion, language,
+        return new AnswerAttempt(UUID.randomUUID(), turnId, AnswerOrigin.AUDIO, text, shownQuestion, language, voice,
                 clock.instant());
     }
 

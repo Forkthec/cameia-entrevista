@@ -57,9 +57,11 @@ import tech.cameia.entrevista.domain.model.SessionConfiguration;
 import tech.cameia.entrevista.domain.model.SessionSnapshot;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.Tone;
+import tech.cameia.entrevista.domain.model.TimedWord;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.model.TranscriptionExecution;
 import tech.cameia.entrevista.domain.model.TurnSnapshot;
+import tech.cameia.entrevista.domain.model.VoiceSample;
 import tech.cameia.entrevista.domain.model.TurnStatus;
 import tech.cameia.entrevista.domain.policy.AudioAnswerPolicy;
 import tech.cameia.entrevista.domain.policy.TranscriptionPolicy;
@@ -201,6 +203,49 @@ class SubmitAudioAnswerServiceTest {
         assertThat(attempt.getValue().text()).isEqualTo(SPANISH_TEXT);
         assertThat(attempt.getValue().detectedLanguage()).isEqualTo("es");
         assertThat(attempt.getValue().shownQuestion()).isEqualTo("Pregunta 2");
+    }
+
+    @Test
+    void submit_shouldPassVoiceSampleComputedFromTheWords() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        when(transcriber.transcribe(any(), any())).thenReturn(new Transcription(SPANISH_TEXT, "es", 0.98, null,
+                List.of(new TimedWord("Eh,", 0, 200), new TimedWord("hola", 800, 1000),
+                        new TimedWord("equipo", 1050, 1400))));
+
+        service.submit(command(turnId, audio(), null));
+
+        ArgumentCaptor<AnswerAttempt> attempt = ArgumentCaptor.forClass(AnswerAttempt.class);
+        verify(attempts).save(attempt.capture());
+        assertThat(attempt.getValue().voice()).isEqualTo(new VoiceSample(3, 1400, 600, 1));
+    }
+
+    @Test
+    void submit_shouldStoreNullVoiceWhenThereAreNoWords() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        when(transcriber.transcribe(any(), any())).thenReturn(new Transcription(SPANISH_TEXT, "es", 0.98));
+
+        service.submit(command(turnId, audio(), null));
+
+        ArgumentCaptor<AnswerAttempt> attempt = ArgumentCaptor.forClass(AnswerAttempt.class);
+        verify(attempts).save(attempt.capture());
+        assertThat(attempt.getValue().voice()).isNull();
+        assertThat(attempt.getValue().text()).isEqualTo(SPANISH_TEXT);
+    }
+
+    @Test
+    void submit_shouldStoreNullVoiceWhenTheSpokenSpanIsZero() {
+        sessionWith(AnswerMode.AUDIO, InterviewLanguage.SPANISH_COLOMBIA, SessionStatus.IN_PROGRESS);
+        UUID turnId = openTurnAt(1);
+        when(transcriber.transcribe(any(), any())).thenReturn(new Transcription(SPANISH_TEXT, "es", 0.98, null,
+                List.of(new TimedWord("eh", 500, 500))));
+
+        service.submit(command(turnId, audio(), null));
+
+        ArgumentCaptor<AnswerAttempt> attempt = ArgumentCaptor.forClass(AnswerAttempt.class);
+        verify(attempts).save(attempt.capture());
+        assertThat(attempt.getValue().voice()).isNull();
     }
 
     @Test

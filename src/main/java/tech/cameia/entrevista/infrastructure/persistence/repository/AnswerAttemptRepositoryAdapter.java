@@ -12,6 +12,7 @@ import tech.cameia.entrevista.domain.exception.AnswerAlreadyExistsException;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.model.AnswerAttempt.AnswerOrigin;
 import tech.cameia.entrevista.domain.model.AnsweredQuestion;
+import tech.cameia.entrevista.domain.model.VoiceSample;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.infrastructure.persistence.entity.AnswerAttemptEntity;
 
@@ -61,12 +62,17 @@ class AnswerAttemptRepositoryAdapter implements AnswerAttemptRepository {
     }
 
     private static AnswerAttemptEntity toEntity(AnswerAttempt a) {
+        VoiceSample voice = a.voice();
         return new AnswerAttemptEntity(a.id(), a.turnId(), INITIAL, true, a.origin().name(), a.text(),
-                a.shownQuestion(), a.detectedLanguage(), a.createdAt());
+                a.shownQuestion(), a.detectedLanguage(), a.createdAt(), voice == null ? null : voice.words(),
+                voice == null ? null : voice.spanMs(), voice == null ? null : voice.pauseMs(),
+                voice == null ? null : voice.fillers());
     }
 
     private static AnswerAttempt toDomain(AnswerAttemptEntity e) {
+        VoiceSample voice = e.getVoiceWords() == null ? null : new VoiceSample(e.getVoiceWords(),
+                e.getVoiceSpanMs(), e.getVoicePauseMs(), e.getVoiceFillers());
         return new AnswerAttempt(e.getId(), e.getTurnId(), AnswerOrigin.valueOf(e.getOrigin()), e.getText(),
-                e.getShownQuestion(), e.getDetectedLanguage(), e.getCreatedAt());
+                e.getShownQuestion(), e.getDetectedLanguage(), voice, e.getCreatedAt());
     }
 }

@@ -29,6 +29,7 @@ import tools.jackson.databind.json.JsonMapper;
 import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.model.AudioAnswer;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
+import tech.cameia.entrevista.domain.model.TimedWord;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.model.TranscriptionFailure;
 
@@ -145,6 +146,55 @@ class AssemblyAiTranscriptionAdapterTest {
                 .transcribe(AUDIO, InterviewLanguage.SPANISH_COLOMBIA);
 
         assertThat(result.speechDuration()).isNull();
+    }
+
+    @Test
+    void transcriptRequest_shouldAskForDisfluencies() {
+        adapter("llave", Duration.ofSeconds(5)).transcribe(AUDIO, InterviewLanguage.SPANISH_COLOMBIA);
+
+        JsonNode body = json.readTree(requestBodies.get("create"));
+        assertThat(body.path("disfluencies").asBoolean()).isTrue();
+        assertThat(body.path("audio_url").asString()).isEqualTo("https://cdn.example/audio-1");
+        assertThat(body.path("language_detection").asBoolean()).isTrue();
+    }
+
+    @Test
+    void transcribe_shouldReturnTimedWords_whenTheTranscriptHasWords() {
+        finalStatusBody = """
+                {"id":"tr-1","status":"completed","text":"Eh, soy yo.","language_code":"es",
+                 "language_confidence":0.93,
+                 "words":[{"text":"Eh,","start":120,"end":300},{"text":"soy","start":800,"end":1000}]}""";
+
+        Transcription result = adapter("llave", Duration.ofSeconds(5))
+                .transcribe(AUDIO, InterviewLanguage.SPANISH_COLOMBIA);
+
+        assertThat(result.words()).containsExactly(new TimedWord("Eh,", 120, 300), new TimedWord("soy", 800, 1000));
+    }
+
+    @Test
+    void timedWords_shouldKeepOrderAndTimes() {
+        JsonNode words = json.readTree(
+                "[{\"text\":\"Eh,\",\"start\":120,\"end\":300},{\"text\":\"soy\",\"start\":800,\"end\":1000}]");
+
+        assertThat(AssemblyAiTranscriptionAdapter.timedWords(words))
+                .containsExactly(new TimedWord("Eh,", 120, 300), new TimedWord("soy", 800, 1000));
+    }
+
+    @Test
+    void words_shouldSkipEntriesWithoutTimes() {
+        JsonNode words = json.readTree("""
+                [{"text":"eh"},{"text":"sí","start":"10","end":20},{"text":"no","start":30,"end":20},
+                 {"text":"ok","start":40,"end":90},{"start":50,"end":60},{"text":7,"start":50,"end":60},
+                 {"text":"neg","start":-5,"end":10}]""");
+
+        assertThat(AssemblyAiTranscriptionAdapter.timedWords(words)).containsExactly(new TimedWord("ok", 40, 90));
+    }
+
+    @Test
+    void timedWords_shouldBeEmptyWhenWordsIsMissing() {
+        assertThat(AssemblyAiTranscriptionAdapter.timedWords(null)).isEmpty();
+        assertThat(AssemblyAiTranscriptionAdapter.timedWords(json.readTree("{\"a\":1}"))).isEmpty();
+        assertThat(AssemblyAiTranscriptionAdapter.timedWords(json.readTree("[]"))).isEmpty();
     }
 
     @Test

@@ -24,6 +24,7 @@ import tools.jackson.databind.node.ObjectNode;
 import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.model.AudioAnswer;
 import tech.cameia.entrevista.domain.model.InterviewLanguage;
+import tech.cameia.entrevista.domain.model.TimedWord;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.model.TranscriptionFailure;
 import tech.cameia.entrevista.domain.policy.TranscriptionPolicy;
@@ -156,6 +157,8 @@ public class AssemblyAiTranscriptionAdapter implements SpeechTranscriptionPort {
                 : TranscriptionPolicy.baseLanguage(InterviewLanguage.ENGLISH.code());
         ObjectNode root = json.createObjectNode();
         root.put("audio_url", uploadUrl);
+        // Sin esta opción el servicio omite las muletillas y no se podrían contar.
+        root.put("disfluencies", true);
         root.put("language_detection", true);
         ObjectNode options = root.putObject("language_detection_options");
         ArrayNode languages = options.putArray("expected_languages");
@@ -202,7 +205,32 @@ public class AssemblyAiTranscriptionAdapter implements SpeechTranscriptionPort {
                 speech == null ? "-" : speech.toMillis());
         return new Transcription(text == null || text.isNull() ? "" : text.asString(),
                 language != null && language.isString() ? language.asString() : null,
-                confidence != null && confidence.isNumber() ? confidence.asDouble() : null, speech);
+                confidence != null && confidence.isNumber() ? confidence.asDouble() : null, speech,
+                timedWords(body.get("words")));
+    }
+
+    /**
+     * Extrae las palabras con su inicio y su fin. Una palabra sin texto o sin marcas numéricas coherentes
+     * ({@code 0 <= start <= end}) se ignora.
+     *
+     * @param words el arreglo {@code words} de la transcripción
+     * @return las palabras válidas en su orden, o una lista vacía si el arreglo no viene
+     */
+    static List<TimedWord> timedWords(JsonNode words) {
+        if (words == null || !words.isArray()) {
+            return List.of();
+        }
+        List<TimedWord> result = new java.util.ArrayList<>();
+        for (JsonNode word : words) {
+            JsonNode text = word.get("text");
+            JsonNode start = word.get("start");
+            JsonNode end = word.get("end");
+            if (text != null && text.isString() && start != null && end != null && start.isNumber()
+                    && end.isNumber() && start.asLong() >= 0 && end.asLong() >= start.asLong()) {
+                result.add(new TimedWord(text.asString(), start.asLong(), end.asLong()));
+            }
+        }
+        return result;
     }
 
     /**

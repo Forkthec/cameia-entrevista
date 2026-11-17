@@ -84,7 +84,7 @@ class InterviewSchemaMigrationTest {
 		assertThat(tables).containsExactlyInAnyOrder("tipo_pregunta", "sesion", "pregunta", "turno",
 				"intento_respuesta", "feedback_turno", "ejecucion_ia", "clave_idempotencia",
 				"contexto_profesional_replica", "evento_procesado", "rol_profesional", "uso_audio_pregunta",
-				"consumo_voz_mensual");
+				"consumo_voz_mensual", "reporte_evaluacion", "reporte_star");
 	}
 
 	@Test
