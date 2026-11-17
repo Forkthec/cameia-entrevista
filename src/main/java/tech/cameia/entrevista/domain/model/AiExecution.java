@@ -87,6 +87,24 @@ public record AiExecution(UUID id, UUID sessionId, AiOperation operation, UUID t
     }
 
     /**
+     * Abre la marca de la generación de un reporte: una ejecución {@code IN_PROGRESS} sin turno.
+     *
+     * @param sessionId sesión cuyo reporte se genera
+     * @param attempt número de intento, de 1 a 3
+     * @param model modelo configurado
+     * @param promptVersion versión del prompt que se enviará
+     * @param provider proveedor del modelo
+     * @param clock reloj que da la fecha de inicio
+     * @return la ejecución en curso, con identificador y clave nuevos
+     */
+    public static AiExecution reportStarted(UUID sessionId, int attempt, String model, String promptVersion,
+            String provider, Clock clock) {
+        return new AiExecution(UUID.randomUUID(), sessionId, AiOperation.REPORT, null, attempt, UUID.randomUUID(),
+                AiExecutionStatus.IN_PROGRESS, model, promptVersion, null, provider, null, null, clock.instant(),
+                null);
+    }
+
+    /**
      * Abre la marca de una evaluación: una ejecución {@code IN_PROGRESS} de un turno.
      *
      * @param sessionId sesión del turno

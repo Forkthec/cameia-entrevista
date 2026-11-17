@@ -113,6 +113,18 @@ class GroqLanguageModelAdapterTest {
     }
 
     @Test
+    @DisplayName("El reporte se llama con su operación y responde con el modelo de respaldo")
+    void reportOperation_shouldUseTheFallbackModel() {
+        respuesta = json(200, completion("OK"));
+
+        LanguageModelResponse resultado = ejecutar(adaptador -> adaptador.generate(
+                new LanguageModelPrompt("Reporte.", 16, AiOperation.REPORT)));
+
+        assertThat(resultado.text()).isEqualTo("OK");
+        assertThat(leer(cuerpos.get(0)).get("model").asString()).isEqualTo("qwen/qwen3.8-27b");
+    }
+
+    @Test
     @DisplayName("Una respuesta correcta devuelve el texto, los tokens y el modelo")
     void generate_shouldReturnText() {
         respuesta = json(200, completion("OK"));

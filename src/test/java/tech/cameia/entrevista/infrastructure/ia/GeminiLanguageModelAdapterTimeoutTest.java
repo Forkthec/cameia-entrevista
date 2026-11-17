@@ -109,6 +109,16 @@ class GeminiLanguageModelAdapterTimeoutTest {
     }
 
     @Test
+    @DisplayName("El reporte usa el tope de planificación y no el de evaluación")
+    void reportOperation_shouldUseThePlanningModel() {
+        demoraMs = 1900;
+
+        LanguageModelPrompt reporte = new LanguageModelPrompt("Reporte.", 16, AiOperation.REPORT);
+
+        assertThat(llamar(reporte, "2000ms", "1000ms").text()).isEqualTo("OK");
+    }
+
+    @Test
     @DisplayName("Una planificación que responde a los 19.900 ms con un tope de 20.000 ms se acepta en un intento")
     void generate_shouldAcceptPlanning_whenAnswerAt19900ms() {
         demoraMs = 19_900;

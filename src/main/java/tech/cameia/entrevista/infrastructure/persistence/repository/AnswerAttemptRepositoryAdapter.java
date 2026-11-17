@@ -12,6 +12,8 @@ import tech.cameia.entrevista.domain.exception.AnswerAlreadyExistsException;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.model.AnswerAttempt.AnswerOrigin;
 import tech.cameia.entrevista.domain.model.AnsweredQuestion;
+import tech.cameia.entrevista.domain.model.QuestionType;
+import tech.cameia.entrevista.domain.model.ReportQuestion;
 import tech.cameia.entrevista.domain.model.VoiceSample;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.infrastructure.persistence.entity.AnswerAttemptEntity;
@@ -59,6 +61,17 @@ class AnswerAttemptRepositoryAdapter implements AnswerAttemptRepository {
     public List<AnsweredQuestion> historyOf(UUID sessionId) {
         return jpa.historyOf(sessionId).stream()
                 .map(row -> new AnsweredQuestion(row.getNumber(), row.getQuestion(), row.getAnswer())).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReportQuestion> reportInputsOf(UUID sessionId) {
+        return jpa.reportInputsOf(sessionId).stream().map(row -> {
+            VoiceSample voice = row.getWords() == null ? null
+                    : new VoiceSample(row.getWords(), row.getSpanMs(), row.getPauseMs(), row.getFillers());
+            return new ReportQuestion(row.getNumber(), QuestionType.fromCode(row.getType()), row.getQuestion(),
+                    row.getAnswer(), AnswerOrigin.valueOf(row.getOrigin()), voice);
+        }).toList();
     }
 
     private static AnswerAttemptEntity toEntity(AnswerAttempt a) {

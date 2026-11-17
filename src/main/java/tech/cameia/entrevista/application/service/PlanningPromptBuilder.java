@@ -132,7 +132,7 @@ public class PlanningPromptBuilder {
     }
 
     /** Nombre del rol guardado en la copia del perfil al crear la sesión. */
-    private static String roleName(JsonNode snapshot, UUID roleId) {
+    static String roleName(JsonNode snapshot, UUID roleId) {
         for (JsonNode role : snapshot.path("rolesAspirados")) {
             String code = role.path("codigo").asString("");
             if (code.toLowerCase(Locale.ROOT).equals(roleId.toString())) {
