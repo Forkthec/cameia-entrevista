@@ -97,34 +97,34 @@ nueva `Reporte de Evaluación` de `postman/cameia-entrevista.postman_collection.
 |---|---|---|---|
 | CA-6.1.1 | REQ-GEN-01, REQ-GEN-05, REQ-DOC-01 | `ReportGeneratorTest.generate_shouldMakeOneCallWithTheReportOperation`; prueba en vivo manual con `medicion/llamada_reporte.py` y el prompt final (§9) | R-01 |
 | CA-6.1.2 | REQ-GEN-03, REQ-GEN-04 | `ContentScoresTest` (tabla), `ReportOutputReaderTest` | R-01 |
-| CA-6.1.3 | REQ-VOZ-02 a REQ-VOZ-05, REQ-GEN-07 | `VoiceSampleTest`, `VoiceMetricsTest` | R-02 |
+| CA-6.1.3 | REQ-VOZ-02 a REQ-VOZ-05, REQ-GEN-07 | `VoiceSampleTest`, `VoiceMetricsTest` | — |
 | CA-6.1.4 | REQ-VOZ-01, REQ-VOZ-04, REQ-DOC-01 | `FillerWordsTest`, `AssemblyAiTranscriptionAdapterTest.transcriptRequest_shouldAskForDisfluencies` | — |
 | CA-6.1.5 | REQ-GEN-08 | `EvaluationReportTest.enthusiasm_shouldAlwaysBeNull` | R-01 |
-| CA-6.1.6 | REQ-GEN-01, REQ-GEN-10, REQ-GEN-11 | `EvaluationReportConcurrencyTest`, `ReportPropertiesTest` | R-03 |
-| CA-6.1.7 | REQ-GEN-06, REQ-GEN-07, REQ-GEN-09 | `VoiceMetricsTest`, `ReportGeneratorTest` | R-01, R-02 |
+| CA-6.1.6 | REQ-GEN-01, REQ-GEN-10, REQ-GEN-11 | `EvaluationReportConcurrencyTest`, `ReportGeneratorTest.claimTtl_shouldExceedTheWorstCycle` | R-03 |
+| CA-6.1.7 | REQ-GEN-06, REQ-GEN-07, REQ-GEN-09 | `VoiceMetricsTest`, `ReportGeneratorTest` | R-01 |
 | CA-6.2.1 | REQ-GEN-02 a REQ-GEN-05, REQ-API-01 | `EvaluationReportEndToEndTest.textSession_shouldReturnContentAndStarAndNullVoice` | R-01 |
 | CA-6.2.2 | REQ-GEN-07 | `EvaluationReportEndToEndTest.textSession_shouldReturnContentAndStarAndNullVoice`, `VoiceMetricsTest.noVoiceAnswers_shouldGiveNullMetrics` | R-01 |
-| CA-6.2.3 | REQ-VOZ-01 a REQ-VOZ-06 | `VoiceSampleTest`, `VoiceAnswerPersistenceTest.save_shouldStoreTheFourVoiceNumbers`, `VoiceAnswerEndToEndTest.answeringByVoice_shouldStoreVoiceDataAndNeverTheWords` | R-02 (setup) |
-| CA-6.2.4 | REQ-GEN-07 | `VoiceMetricsTest.bookExample_shouldGive120WordsPerMinute12PercentAnd2Hesitation` | R-02 |
+| CA-6.2.3 | REQ-VOZ-01 a REQ-VOZ-06 | `VoiceSampleTest`, `VoiceAnswerPersistenceTest.save_shouldStoreTheFourVoiceNumbers`, `VoiceAnswerEndToEndTest.answeringByVoice_shouldStoreVoiceDataAndNeverTheWords` | — |
+| CA-6.2.4 | REQ-GEN-07 | `VoiceMetricsTest.bookExample_shouldGive120WordsPerMinute12PercentAnd2Hesitation` | — |
 | CA-6.2.5 | REQ-VOZ-05, REQ-GEN-07 | `VoiceSampleTest.zeroSpan_shouldGiveNoSample`, `VoiceSampleTest.oneTimedWord_shouldKeepItsSpan`, `VoiceMetricsTest.answersWithoutVoiceData_shouldNotCount` | — |
-| CA-6.2.6 | REQ-GEN-06, REQ-GEN-12 | `ReportGeneratorTest.exhaustedCycle_shouldEmitWithNullContentAndStarAndKeepVoice`, `EvaluationReportEndToEndTest.threeFailedAttempts_shouldEmitWithNullContent`, `ReportLogContentTest` | R-04 |
-| CA-6.2.7 | REQ-API-03, REQ-API-04 | `GetEvaluationReportServiceTest` (parametrizada por estado), `EvaluationReportEndToEndTest.notFinished_shouldReturn409` | R-05, R-06 |
-| CA-6.2.8 | REQ-GEN-13, REQ-DB-03 | `EvaluationReportEndToEndTest.secondRead_shouldReturnTheSameBodyWithoutCallingTheAi`, `ReportPersistenceTest.secondReport_shouldBeRejected` | R-07 |
+| CA-6.2.6 | REQ-GEN-06, REQ-GEN-12 | `ReportGeneratorTest.exhaustedCycle_shouldEmitWithNullContentAndStarAndKeepVoice`, `EvaluationReportEndToEndTest.threeFailedAttempts_shouldEmitWithNullContent`, `ReportLogContentTest` | R-11, R-12 |
+| CA-6.2.7 | REQ-API-03, REQ-API-04 | `GetEvaluationReportServiceTest` (parametrizada por estado), `EvaluationReportEndToEndTest.notFinished_shouldReturn409` | R-09, R-13 |
+| CA-6.2.8 | REQ-GEN-13, REQ-DB-03 | `EvaluationReportEndToEndTest.secondRead_shouldReturnTheSameBodyWithoutCallingTheAi`, `ReportPersistenceTest.secondReport_shouldBeRejected` | R-02, R-03 |
 | CA-6.2.9 | REQ-GEN-06 | `ReportGeneratorTest.onlyBehavioralQuestions_shouldGiveNullContentAndKeepStar` | — |
-| CA-6.2.10 | REQ-GEN-05 | `ReportGeneratorTest.invalidOutputThenValid_shouldUseTheSecondAttempt`, `EvaluationReportEndToEndTest.limitOnPrimary_shouldUseFallback` | R-04 |
-| CA-6.2.11 | REQ-GEN-10, REQ-GEN-11 | `EvaluationReportConcurrencyTest.twoReadsAtOnce_shouldCallTheAiOnceAndAnswer200And202`, `EvaluationReportConcurrencyTest.staleClaim_shouldBeTakenOver`, `EvaluationReportConcurrencyTest.liveClaim_shouldAnswer202` | R-03 |
+| CA-6.2.10 | REQ-GEN-05 | `ReportGeneratorTest.invalidOutputThenValid_shouldUseTheSecondAttempt`, `EvaluationReportEndToEndTest.limitOnPrimary_shouldUseFallback` | R-11 |
+| CA-6.2.11 | REQ-GEN-10, REQ-GEN-11 | `EvaluationReportConcurrencyTest.twoReadsAtOnce_shouldCallTheAiOnceAndAnswer200And202`, `EvaluationReportConcurrencyTest.staleClaim_shouldBeTakenOver`, `EvaluationReportConcurrencyTest.liveClaim_shouldAnswer202` | — |
 | CA-6.3.1 | REQ-GEN-04, REQ-API-01 | `EvaluationReportEndToEndTest.textSession_shouldReturnContentAndStarAndNullVoice` | R-01 |
 | CA-6.3.2 | REQ-GEN-03 | `ReportGeneratorTest.nonBehavioralQuestions_shouldNotAppearInStar` | R-01 |
 | CA-6.3.3 | REQ-GEN-04 | `StarResultTest.allFour_shouldGiveLevel4` | — |
 | CA-6.3.4 | REQ-GEN-04 | `StarResultTest.withoutResult_shouldGiveLevel3AndResultFalse` | R-01 |
 | CA-6.3.5 | REQ-GEN-04 | `StarResultTest.none_shouldGiveLevel0NotNull` | — |
-| CA-6.3.6 | REQ-GEN-06 | `ReportGeneratorTest.exhaustedCycle_shouldEmitWithNullContentAndStarAndKeepVoice` | R-04 |
+| CA-6.3.6 | REQ-GEN-06 | `ReportGeneratorTest.exhaustedCycle_shouldEmitWithNullContentAndStarAndKeepVoice` | R-11 |
 | CA-6.3.7 | Fuera de alcance (§1) | No aplica: hoy toda pregunta avanza sin seguimiento [H: CA-6.3.7, columna Técnico] | — |
-| CA-6.4.1 (B) | REQ-API-01, REQ-API-09, REQ-API-10 | `EvaluationReportControllerTest.ready_shouldMapTheContract`, `EvaluationReportEndToEndTest.questions_shouldListFiveAnswersWithOriginAndVoice` | R-01, R-02 |
+| CA-6.4.1 (B) | REQ-API-01, REQ-API-09, REQ-API-10 | `EvaluationReportControllerTest.ready_shouldMapTheContract`, `EvaluationReportEndToEndTest.questions_shouldListFiveAnswersWithOriginAndVoice` | R-01 |
 | CA-6.4.7 | Solo Frontend (textos y botón «?», DP-8) | — | — |
-| CA-6.4.3 (B) | REQ-API-02 | `EvaluationReportConcurrencyTest.twoReadsAtOnce_shouldCallTheAiOnceAndAnswer200And202` | R-03 |
-| CA-6.4.4 (B) | REQ-API-03, REQ-API-04 | `EvaluationReportEndToEndTest.abandoned_shouldReturn409`, `.notFinished_shouldReturn409` | R-05, R-06 |
-| CA-6.4.5 (B) | REQ-API-05 | `EvaluationReportEndToEndTest.foreignMissingAndMalformed_shouldReturnTheSame404` | R-08, R-09, R-10 |
+| CA-6.4.3 (B) | REQ-API-02 | `EvaluationReportConcurrencyTest.twoReadsAtOnce_shouldCallTheAiOnceAndAnswer200And202` | — |
+| CA-6.4.4 (B) | REQ-API-03, REQ-API-04 | `EvaluationReportEndToEndTest.abandoned_shouldReturn409`, `.notFinished_shouldReturn409` | R-09, R-13 |
+| CA-6.4.5 (B) | REQ-API-05 | `EvaluationReportEndToEndTest.foreignMissingAndMalformed_shouldReturnTheSame404` | R-04, R-05, R-06 |
 | CA-6.4.6 (B) | REQ-API-06 | `GetEvaluationReportServiceTest.databaseDown_shouldThrowDatabaseUnavailable` | — |
 
 CA-6.4.2 es solo de Frontend (columna Técnico `F`). El servicio lo cumple devolviendo `null` o `0` según REQ-GEN-06 y
@@ -488,12 +488,12 @@ preguntas como máximo); campos de entrada (el endpoint no tiene cuerpo).
 | Riesgo | Control | Prueba |
 |---|---|---|
 | API1 autorización por objeto (ASVS 8.2.2) | `findByIdAndOwner` con el `X-User-Id` del Gateway; ajena = inexistente = 404 | `EvaluationReportEndToEndTest.foreignMissingAndMalformed_...` |
-| API2 autenticación | Identidad solo de los encabezados del Gateway (ADR 0002) | `IdentityHeaderTest` (existente) + Postman R-11 |
+| API2 autenticación | Identidad solo de los encabezados del Gateway (ADR 0002) | `IdentityHeaderTest` (existente) + Postman R-07 |
 | API3 exposición de datos (ASVS 15.3.1) | Respuesta por DTO; las respuestas y sus datos de voz solo se devuelven a su dueño (mismo 404 para ajena); sin retroalimentación de la evaluación, sin salida del modelo, sin perfil ni oferta | `EvaluationReportControllerTest.ready_shouldMapTheContract` (compara el cuerpo completo) |
 | API4 consumo de recursos | Una sola llamada a la IA por sesión para siempre; marca contra dobles; tope de 1024 tokens | `EvaluationReportConcurrencyTest` |
 | API6 flujos sensibles | El reporte no se recalcula; nada lo dispara salvo la consulta del dueño | `EvaluationReportEndToEndTest.secondRead_...` |
 | API10 consumo inseguro de APIs | Salida de la IA validada por esquema y por el lector antes de guardar | `ReportOutputReaderTest` |
-| Privacidad en logs (ASVS 16.2.5) | Logs solo con `sessionId`, `executionId`, códigos y números | `ReportLogContentTest.generation_shouldNotLogQuestionOrAnswerText` |
+| Privacidad en logs (ASVS 16.2.5) | Logs solo con `sessionId`, `executionId`, códigos y números | `ReportLogContentTest.report_shouldNeverLogQuestionsAnswersOrModelOutput` |
 | Encabezado de contenido (ASVS 4.1.1) | `application/json;charset=UTF-8` | `EvaluationReportEndToEndTest` |
 
 **Atributos de calidad (anexo de restricciones y atributos de calidad, AC-0001 a AC-0006):**
@@ -524,12 +524,13 @@ final al terminar el commit 2, con el mismo script apuntando al archivo del repo
 **Cobertura:** ≥ 90 % de líneas y ramas en cada clase nueva o modificada, medida con
 `./mvnw.cmd -B clean verify` → `target/site/jacoco/jacoco.csv`.
 
-**Postman (carpeta `Reporte de Evaluación`)** — R-01 sesión por texto terminada → 200 con el cuerpo completo; R-02
-sesión por voz terminada → métricas de voz con valor; R-03 consulta con la marca viva (el simulador demora la IA 5 s y
-una segunda petición sale a la vez) → 202; R-04 simulador con 503, 503 y 503 → 200 con contenido nulo; R-05 sesión
-abandonada → 409; R-06 sesión en curso → 409 `SESSION_NOT_FINISHED`; R-07 segunda lectura → mismo cuerpo, sin llamada
-nueva (`GET /__calls`); R-08 sesión ajena, R-09 UUID inexistente y R-10 `no-es-uuid` → 404 idéntico; R-11 sin
-`X-User-Id` → 401; R-12 `POST` → 405; R-13 `Accept: application/xml` → 406.
+**Postman (carpeta `Reporte de Evaluación`)** — R-01 sesión por texto terminada → 200 con el cuerpo completo; R-02 segunda
+lectura → mismo cuerpo; R-03 la IA se llamó una sola vez para el reporte (`GET /__calls`); R-04 sesión ajena, R-05 UUID
+inexistente y R-06 identificador mal escrito → 404 idéntico; R-07 sin `X-User-Id` → 401; R-08 `POST` → 405; R-09 sesión en
+curso → 409 `SESSION_NOT_FINISHED`; R-10 reinicio del simulador; R-11 tres salidas inválidas de la IA → 200 con contenido
+y STAR nulos; R-12 releer el reporte sin resultado → mismo cuerpo, sin reintentar la IA; R-13 sesión abandonada → 409
+`SESSION_ABANDONED`. El 202 y las métricas de voz no tienen petición en la colección: los cubren
+`EvaluationReportConcurrencyTest` y `VoiceAnswerEndToEndTest`.
 
 ## 10. Dependencias
 
@@ -589,7 +590,7 @@ nueva (`GET /__calls`); R-08 sesión ajena, R-09 UUID inexistente y R-10 `no-es-
 | R13 atributos | §9 | Cada métrica con evidencia |
 | R14 sin inventar | Salidas reales en `ejecucion/evidencia/CM-380/` | — |
 | Adversarial: dos a la vez | `EvaluationReportConcurrencyTest` | 1 llamada, 200 y 202 |
-| Adversarial: ajeno | Postman R-08 | 404 |
+| Adversarial: ajeno | Postman R-04 | 404 |
 | Adversarial: datos hostiles | `answerWithClosingTag_...` | La salida se valida igual |
 | Adversarial: falla a medias | `saveFails_...` | 503 y marca cerrada |
 | Sin lista de palabras | `ReportSchemaMigrationTest.answerTable_shouldOnlyAddFourIntegerVoiceColumns` y `VoiceAnswerEndToEndTest.answeringByVoice_shouldStoreVoiceDataAndNeverTheWords` | Solo 4 enteros |

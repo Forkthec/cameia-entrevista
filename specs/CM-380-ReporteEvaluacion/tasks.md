@@ -521,6 +521,7 @@ Cada tarjeta se ejecuta sola, en orden, y se marca con la salida real de sus pru
 - `.env.example`: `REPORT_GENERATION_CLAIM_TTL=` con su comentario (opcional, `2m` por defecto).
 - `postman/README.md`: carpeta nueva y tabla de peticiones.
 - `docs/bitacora-ia/18_reporte-de-evaluacion_prompt.md`: la entrada (el prompt de este chat) que enlaza la spec.
+- **Resultado:** hecha el 17-nov. ADR 0018 (aprobado el 16-nov; ajustado para decir que el rol y la oferta viajan a la IA y con sus límites conocidos), `CLAUDE.md` del repo, `.env.example`, bitácora IA número 19 (el 18 ya existía) con su índice, `docs/verificaciones/V-03-reporte-de-evaluacion.md` y `postman/README.md` (ya en el commit 3).
 
 ### T14 — Verificación final sobre la punta (una vez)
 
@@ -530,3 +531,5 @@ Cada tarjeta se ejecuta sola, en orden, y se marca con la salida real de sus pru
 3. Newman (T12) sobre la punta.
 4. Peticiones reales a cada ruta de §6.2 con la aplicación levantada (ninguna en 500).
 5. Lista de verificación de spec §13, fila por fila, en `resumen.md`.
+
+- **Resultado:** hecha el 17-nov sobre la punta `17fe5c7`. `clean verify` 2432 pruebas, 0 fallos, 4 omitidas (`verify.log`); Newman de toda la colección 256 peticiones, 990 comprobaciones, 0 fallos (`newman.log`); peticiones reales a cada ruta sin ningún 500 (tabla en V-03); cobertura y lista §13 en `ejecucion/evidencia/CM-380/resumen.md`.
