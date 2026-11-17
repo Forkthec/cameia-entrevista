@@ -37,10 +37,14 @@ class ErrorCodeTest {
     private static final Set<ErrorCode> MODEL_CLIENT = EnumSet.of(ErrorCode.LLM_UNAVAILABLE,
             ErrorCode.LLM_LIMIT_REACHED, ErrorCode.LLM_INVALID_OUTPUT);
 
+    /** Códigos de una respuesta 202 que arma el controlador: no son errores y no pasan por el manejador. */
+    private static final Set<ErrorCode> ACCEPTED_RESPONSE = EnumSet.of(ErrorCode.REPORT_GENERATING);
+
     @ParameterizedTest
     @EnumSource(ErrorCode.class)
     void errorCode_shouldHaveAnEmitter_whenDeclared(ErrorCode code) {
         boolean covered = FRAMEWORK.contains(code) || FIELD_CODES.contains(code) || MODEL_CLIENT.contains(code)
+                || ACCEPTED_RESPONSE.contains(code)
                 || ProblemDetailTestSupport.businessCodes().contains(code);
 
         assertThat(covered).as("código sin quien lo responda: %s", code).isTrue();

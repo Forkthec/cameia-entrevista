@@ -152,6 +152,8 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.AUDIO_NOT_ALLOWED, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
             Map.entry(ErrorCode.TURN_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
             Map.entry(ErrorCode.SESSION_ABANDONED, new Definition(HttpStatus.CONFLICT, "Entrevista abandonada")),
+            Map.entry(ErrorCode.SESSION_NOT_FINISHED,
+                    new Definition(HttpStatus.CONFLICT, "Entrevista sin terminar")),
             Map.entry(ErrorCode.SESSION_ALREADY_CLOSED, new Definition(HttpStatus.CONFLICT, "Entrevista cerrada")),
             Map.entry(ErrorCode.ANSWER_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Respuesta existente")),
             Map.entry(ErrorCode.TURN_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo")),

@@ -43,7 +43,7 @@ public class RequestIdFilter extends OncePerRequestFilter {
      * Atributo de la petición donde el manejador de errores busca el identificador ya resuelto; es el
      * nombre que el manejador construye con su propia clase.
      */
-    static final String REQUEST_ID_ATTRIBUTE =
+    public static final String REQUEST_ID_ATTRIBUTE =
             "tech.cameia.entrevista.presentation.advice.BusinessExceptionHandler.requestId";
 
     private static final Pattern VALID_REQUEST_ID = Pattern.compile("^[A-Za-z0-9._-]{1,64}$");

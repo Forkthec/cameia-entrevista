@@ -89,6 +89,11 @@ class CreateSessionServiceTest {
             }
 
             @Override
+            public Optional<AiExecution> findReportInProgress(UUID sessionId) {
+                return Optional.empty();
+            }
+
+            @Override
             public Optional<AiExecution> findEvaluationInProgress(UUID turnId) {
                 throw new UnsupportedOperationException();
             }

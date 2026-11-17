@@ -43,6 +43,18 @@ public class AnswerAttemptEntity {
     @Column(name = "fecha_creacion", nullable = false)
     private Instant createdAt;
 
+    @Column(name = "voz_palabras")
+    private Integer voiceWords;
+
+    @Column(name = "voz_tramo_ms")
+    private Integer voiceSpanMs;
+
+    @Column(name = "voz_pausas_ms")
+    private Integer voicePauseMs;
+
+    @Column(name = "voz_muletillas")
+    private Integer voiceFillers;
+
     /** Constructor que exige JPA. */
     protected AnswerAttemptEntity() {
     }
@@ -59,9 +71,15 @@ public class AnswerAttemptEntity {
      * @param shownQuestion pregunta tal como se mostró
      * @param detectedLanguage idioma detectado; nulo si la respuesta fue escrita
      * @param createdAt fecha de registro
+     * @param voiceWords palabras con tiempos; nulo si la respuesta no tiene datos de voz
+     * @param voiceSpanMs milisegundos del primer inicio al último fin; nulo sin datos de voz
+     * @param voicePauseMs milisegundos de silencio de 500 ms o más; nulo sin datos de voz
+     * @param voiceFillers muletillas; nulo sin datos de voz
      */
+    @SuppressWarnings("java:S107")
     public AnswerAttemptEntity(UUID id, UUID turnId, String interactionType, boolean definitive, String origin,
-            String text, String shownQuestion, String detectedLanguage, Instant createdAt) {
+            String text, String shownQuestion, String detectedLanguage, Instant createdAt, Integer voiceWords,
+            Integer voiceSpanMs, Integer voicePauseMs, Integer voiceFillers) {
         this.id = id;
         this.turnId = turnId;
         this.interactionType = interactionType;
@@ -71,6 +89,10 @@ public class AnswerAttemptEntity {
         this.shownQuestion = shownQuestion;
         this.detectedLanguage = detectedLanguage;
         this.createdAt = createdAt;
+        this.voiceWords = voiceWords;
+        this.voiceSpanMs = voiceSpanMs;
+        this.voicePauseMs = voicePauseMs;
+        this.voiceFillers = voiceFillers;
     }
 
     /** @return identificador */
@@ -106,5 +128,25 @@ public class AnswerAttemptEntity {
     /** @return fecha de registro */
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    /** @return palabras con tiempos, o nulo */
+    public Integer getVoiceWords() {
+        return voiceWords;
+    }
+
+    /** @return tramo hablado en milisegundos, o nulo */
+    public Integer getVoiceSpanMs() {
+        return voiceSpanMs;
+    }
+
+    /** @return silencios en milisegundos, o nulo */
+    public Integer getVoicePauseMs() {
+        return voicePauseMs;
+    }
+
+    /** @return muletillas, o nulo */
+    public Integer getVoiceFillers() {
+        return voiceFillers;
     }
 }

@@ -25,11 +25,15 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
     /** Índice único parcial: una sola planificación en curso por sesión. */
     static final String UNIQUE_PLANNING_IN_PROGRESS = "uq_ejecucion_ia_planificacion_en_curso";
 
+    /** Índice único parcial: una sola generación del reporte en curso por sesión. */
+    static final String UNIQUE_REPORT_IN_PROGRESS = "uq_ejecucion_ia_reporte_en_curso";
+
     /** Índice único parcial: una sola evaluación en curso por turno. */
     static final String UNIQUE_EVALUATION_IN_PROGRESS = "uq_ejecucion_ia_evaluacion_en_curso";
 
     private static final String PLAN = "PLANIFICAR";
     private static final String EVALUATE = "EVALUAR";
+    private static final String REPORT = "GENERAR_REPORTE";
 
     private final AiExecutionJpaRepository jpa;
 
@@ -46,6 +50,9 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
             if (ConstraintNames.violates(e, UNIQUE_PLANNING_IN_PROGRESS)) {
                 throw new SessionConflictException();
             }
+            if (ConstraintNames.violates(e, UNIQUE_REPORT_IN_PROGRESS)) {
+                throw new SessionConflictException();
+            }
             if (ConstraintNames.violates(e, UNIQUE_EVALUATION_IN_PROGRESS)) {
                 throw new TurnConflictException();
             }
@@ -57,6 +64,13 @@ class AiExecutionRepositoryAdapter implements AiExecutionRepository {
     @Transactional(readOnly = true)
     public Optional<AiExecution> findPlanningInProgress(UUID sessionId) {
         return jpa.findFirstBySessionIdAndOperationAndStatus(sessionId, PLAN, AiExecutionStatus.IN_PROGRESS.code())
+                .map(AiExecutionRepositoryAdapter::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<AiExecution> findReportInProgress(UUID sessionId) {
+        return jpa.findFirstBySessionIdAndOperationAndStatus(sessionId, REPORT, AiExecutionStatus.IN_PROGRESS.code())
                 .map(AiExecutionRepositoryAdapter::toDomain);
     }
 

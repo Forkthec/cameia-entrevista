@@ -18,6 +18,7 @@ import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.model.AnswerAttempt;
 import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.TranscriptionExecution;
+import tech.cameia.entrevista.domain.model.VoiceSample;
 import tech.cameia.entrevista.domain.port.AnswerAttemptRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.TranscriptionExecutionRepository;
@@ -95,6 +96,43 @@ class VoiceAnswerPersistenceTest extends AbstractPersistenceTest {
                         + "/" + row.get("version_prompt") + "/" + row.get("error_codigo"))
                 .containsExactly("EXITOSA/1/assemblyai/null/null",
                         "FALLIDA/1/assemblyai/null/TRANSCRIPTION_UNAVAILABLE");
+    }
+
+    @Test
+    void save_shouldStoreTheFourVoiceNumbers() {
+        UUID turn = insertTurn(sessionId());
+
+        attempts.save(AnswerAttempt.spoken(turn, "Respuesta hablada", "Cuéntame sobre ti", "es",
+                new VoiceSample(65, 36310, 15734, 6), CLOCK));
+
+        assertThat(jdbc.queryForMap("SELECT voz_palabras, voz_tramo_ms, voz_pausas_ms, voz_muletillas FROM "
+                + "microentrevista.intento_respuesta WHERE turno_id = ?", turn))
+                .containsEntry("voz_palabras", 65).containsEntry("voz_tramo_ms", 36310)
+                .containsEntry("voz_pausas_ms", 15734).containsEntry("voz_muletillas", 6);
+        assertThat(attempts.findDefinitive(turn)).get().extracting(AnswerAttempt::voice)
+                .isEqualTo(new VoiceSample(65, 36310, 15734, 6));
+    }
+
+    @Test
+    void save_shouldStoreNullVoiceForWrittenAnswer() {
+        UUID turn = insertTurn(sessionId());
+
+        attempts.save(AnswerAttempt.written(turn, "Respuesta escrita", "Cuéntame sobre ti", CLOCK));
+
+        assertThat(jdbc.queryForMap("SELECT voz_palabras, voz_tramo_ms, voz_pausas_ms, voz_muletillas FROM "
+                + "microentrevista.intento_respuesta WHERE turno_id = ?", turn))
+                .containsEntry("voz_palabras", null).containsEntry("voz_tramo_ms", null)
+                .containsEntry("voz_pausas_ms", null).containsEntry("voz_muletillas", null);
+        assertThat(attempts.findDefinitive(turn)).get().extracting(AnswerAttempt::voice).isNull();
+    }
+
+    @Test
+    void save_shouldStoreAudioAnswerWithoutVoiceData() {
+        UUID turn = insertTurn(sessionId());
+
+        attempts.save(AnswerAttempt.spoken(turn, "Respuesta hablada", "Cuéntame sobre ti", "es", null, CLOCK));
+
+        assertThat(attempts.findDefinitive(turn)).get().extracting(AnswerAttempt::voice).isNull();
     }
 
     @Test

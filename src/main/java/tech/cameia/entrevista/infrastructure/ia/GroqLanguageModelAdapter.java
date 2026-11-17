@@ -102,7 +102,7 @@ class GroqLanguageModelAdapter {
     /** Hace la llamada y traduce todo fallo a la excepción de negocio que corresponde. */
     private ChatResponse llamar(LanguageModelPrompt prompt) {
         try {
-            ChatModel chatModel = prompt.operation() == AiOperation.PLAN ? modelos.planning() : modelos.evaluation();
+            ChatModel chatModel = prompt.operation() == AiOperation.EVALUATE ? modelos.evaluation() : modelos.planning();
             if (chatModel == null) {
                 throw new IllegalStateException("Respaldo no disponible");
             }

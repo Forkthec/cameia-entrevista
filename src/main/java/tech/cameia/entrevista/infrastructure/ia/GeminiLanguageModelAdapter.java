@@ -103,7 +103,7 @@ class GeminiLanguageModelAdapter {
     /** Hace la llamada y traduce su fallo a la excepción de negocio que corresponde. */
     private ChatResponse llamar(LanguageModelPrompt prompt) {
         try {
-            ChatModel chatModel = prompt.operation() == AiOperation.PLAN ? modelos.planning() : modelos.evaluation();
+            ChatModel chatModel = prompt.operation() == AiOperation.EVALUATE ? modelos.evaluation() : modelos.planning();
             return chatModel.call(new Prompt(prompt.text(), opciones(prompt)));
         } catch (RuntimeException fallo) {
             throw traducir(fallo);

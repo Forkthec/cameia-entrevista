@@ -39,6 +39,7 @@ import tech.cameia.entrevista.domain.model.InterviewSession;
 import tech.cameia.entrevista.domain.model.InterviewTurn;
 import tech.cameia.entrevista.domain.model.Transcription;
 import tech.cameia.entrevista.domain.model.TranscriptionExecution;
+import tech.cameia.entrevista.domain.model.VoiceSample;
 import tech.cameia.entrevista.domain.policy.AudioAnswerPolicy;
 import tech.cameia.entrevista.domain.policy.TranscriptionPolicy;
 import tech.cameia.entrevista.domain.policy.TranscriptionRetryPolicy;
@@ -206,9 +207,11 @@ public class SubmitAudioAnswerService {
         InterviewLanguage language = session.configuration().language();
         Transcription transcription;
         String text;
+        VoiceSample voice;
         try {
             transcription = transcribe(session.id(), turnId, audio, language);
             text = transcriptionPolicy.accept(transcription, language);
+            voice = VoiceSample.from(transcription.words(), language).orElse(null);
         } catch (RuntimeException failure) {
             registrar.release(claimed);
             throw failure;
@@ -217,7 +220,8 @@ public class SubmitAudioAnswerService {
         TurnEvaluator.EvaluationJob job;
         try {
             job = transaction.execute(status -> registrar.startEvaluation(session.id(), owner, claimed,
-                    pending.question(), text, transcription.detectedLanguage(), keyRecorder(owner, key, fingerprint)));
+                    pending.question(), new AcceptedSpeech(text, transcription.detectedLanguage(), voice),
+                    keyRecorder(owner, key, fingerprint)));
         } catch (RuntimeException failure) {
             registrar.release(claimed);
             throw failure;
@@ -226,8 +230,9 @@ public class SubmitAudioAnswerService {
         // POST .../turns/{turnId}/reprocess, como la respuesta escrita.
         AnswerResult result = evaluator.evaluate(job);
         log.info("Respuesta por voz registrada [sessionId={}, turnId={}, firebaseUid={}, formato={}, bytes={},"
-                + " audioMs={}, siguiente={}]", session.id(), turnId, owner.value(), inspection.format(),
-                audio.size(), inspection.duration().toMillis(),
+                + " audioMs={}, vozPalabras={}, vozTramoMs={}, siguiente={}]", session.id(), turnId, owner.value(),
+                inspection.format(), audio.size(), inspection.duration().toMillis(),
+                voice == null ? "-" : voice.words(), voice == null ? "-" : voice.spanMs(),
                 result.interviewFinished() ? "-" : result.currentQuestion());
         return result;
     }

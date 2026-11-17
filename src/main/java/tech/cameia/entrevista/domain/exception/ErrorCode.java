@@ -246,6 +246,12 @@ public enum ErrorCode {
     SPEECH_TEXT_EMPTY,
 
     /** Los caracteres enviados a la voz en el mes llegaron al tope configurado. */
-    SPEECH_MONTHLY_LIMIT_REACHED
+    SPEECH_MONTHLY_LIMIT_REACHED,
+
+    /** Se pidió el reporte de una entrevista que aún no terminó (configurada, en curso o evaluándose). */
+    SESSION_NOT_FINISHED,
+
+    /** Otra petición está generando el reporte; se responde 202 y se consulta de nuevo. */
+    REPORT_GENERATING
 
 }

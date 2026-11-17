@@ -144,7 +144,7 @@ public class AnswerRegistrar {
      */
     @SuppressWarnings("java:S107")
     public TurnEvaluator.EvaluationJob startEvaluation(UUID sessionId, FirebaseUid owner, InterviewTurn claimed,
-            InterviewQuestion question, String text, String detectedLanguage, TurnEvaluator.KeyRecorder recorder) {
+            InterviewQuestion question, AcceptedSpeech speech, TurnEvaluator.KeyRecorder recorder) {
         InterviewSession session = sessions.findByIdAndOwner(sessionId, owner)
                 .orElseThrow(SessionNotFoundException::new);
         session.requireAcceptsAnswers();
@@ -152,12 +152,13 @@ public class AnswerRegistrar {
         if (turn.status() != TurnStatus.PROCESSING || !Objects.equals(turn.version(), claimed.version())) {
             throw new TurnConflictException();
         }
-        answers.save(AnswerAttempt.spoken(turn.id(), text, question.originalText(), detectedLanguage, clock));
+        answers.save(AnswerAttempt.spoken(turn.id(), speech.text(), question.originalText(),
+                speech.detectedLanguage(), speech.voice(), clock));
         AiExecution mark = executions.save(AiExecution.evaluationStarted(session.id(), turn.id(), modelName,
                 EvaluationPromptBuilder.VERSION, PROVIDER, clock));
         session.registerActivity(clock);
         sessions.save(session);
-        return new TurnEvaluator.EvaluationJob(session, turn, question, text, mark, recorder);
+        return new TurnEvaluator.EvaluationJob(session, turn, question, speech.text(), mark, recorder);
     }
 
     private void requireClaimable(InterviewTurn turn, Duration claimMaxAge) {

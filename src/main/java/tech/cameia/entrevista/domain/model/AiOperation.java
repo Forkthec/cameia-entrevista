@@ -8,7 +8,9 @@ public enum AiOperation {
     /** Planificar las cinco preguntas de la sesión. */
     PLAN("PLANIFICAR"),
     /** Evaluar la respuesta de un turno. */
-    EVALUATE("EVALUAR");
+    EVALUATE("EVALUAR"),
+    /** Generar el Reporte de Evaluación de una sesión finalizada. */
+    REPORT("GENERAR_REPORTE");
 
     private final String code;
 
