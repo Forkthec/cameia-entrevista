@@ -21,6 +21,10 @@ Escenarios de /__script:
   eval_follow_up  evaluación con acción FOLLOW_UP y un texto de seguimiento (el servicio lo ignora y avanza).
   eval_invalid    evaluación con una acción fuera del esquema (la salida es inválida).
   eval_slow       evaluación válida que tarda 3,3 s (más que el tiempo de 3 s de cada intento de evaluar).
+  report_valid    reporte de evaluación válido: califica el contenido de las preguntas que no son conductuales y el STAR
+                  de las conductuales, con los números que encuentra en «Pregunta N (tipo X)» del prompt.
+  report_slow     el mismo reporte válido, pero tarda 5 s.
+  report_invalid  una salida que no es el JSON del reporte (la salida es inválida).
 
 Voz de las preguntas (CM-372): POST /v1/text:synthesize es Google Cloud Text-to-Speech y tiene su propia cola, que se
 programa con POST /__script_tts  cuerpo {"scenario": "...", "times": N}; con la cola vacía responde tts_valid.
@@ -31,6 +35,8 @@ programa con POST /__script_tts  cuerpo {"scenario": "...", "times": N}; con la 
   tts_bad_audio   200 con un audio que no es MP3 (un WAV).
   tts_slow        MP3 válido que tarda 11 s (más que SPEECH_TIMEOUT, 10 s por defecto).
 GET /__calls suma "tts" (llamadas a la voz) y "ttsVoice" y "ttsLanguage" (la voz y el idioma de la última).
+
+Un prompt con la marca <entrevista> es el del reporte de evaluación y, con la cola vacía, responde "report_valid".
 
 Cualquier otra ruta que termine en ":generateContent" (Gemini) o en "/chat/completions" (Groq) consume el siguiente escenario. Con la cola vacía, una petición cuyo
 prompt trae la marca <respuesta_del_candidato> (una evaluación) responde "eval_valid" y cualquier otra responde "valid".
@@ -100,6 +106,23 @@ def evaluation(scenario):
                        "follow_up_texto": follow_up, "feedback": "Buena estructura"}, ensure_ascii=False)
 
 
+def unescaped(body):
+    """El cuerpo de la petición es JSON: devuelve el texto con los saltos de línea y los signos < y > sin escapar."""
+    return body.replace("\\n", "\n").replace("\\u003c", "<").replace("\\u003e", ">")
+
+
+def report(scenario, body):
+    if scenario == "report_invalid":
+        return "esto no es el reporte"
+    text = unescaped(body)
+    questions = re.findall(r"Pregunta (\d+) \(tipo (\w+)\)", text[text.find("<entrevista>"):])
+    content = [{"numero": int(n), "precision_claridad": 4, "carisma_verbal": 3, "lenguaje_adecuado": 5}
+               for n, kind in questions if kind != "CONDUCTUAL"]
+    star = [{"numero": int(n), "situacion": True, "tarea": True, "accion": True, "resultado": False}
+            for n, kind in questions if kind == "CONDUCTUAL"]
+    return json.dumps({"contenido": content, "star": star}, ensure_ascii=False)
+
+
 def gemini_body(text):
     return {
         "candidates": [{"content": {"role": "model", "parts": [{"text": text}]}, "finishReason": "STOP"}],
@@ -159,7 +182,7 @@ class Handler(BaseHTTPRequestHandler):
             scenario = request.get("scenario")
             times = request.get("times", 1)
             if scenario not in ("valid", "bad_type", "limit", "unavailable", "eval_valid", "eval_follow_up",
-                                "eval_invalid", "eval_slow") or not isinstance(times, int) or not 1 <= times <= 20:
+                                "eval_invalid", "eval_slow", "report_valid", "report_slow", "report_invalid") or not isinstance(times, int) or not 1 <= times <= 20:
                 self._send(400, {"error": "escenario o cantidad desconocidos"})
                 return
             with lock:
@@ -199,16 +222,26 @@ class Handler(BaseHTTPRequestHandler):
             with lock:
                 calls += 1
                 by_provider["groq" if groq else "gemini"] += 1
-                default = "eval_valid" if "respuesta_del_candidato" in body else "valid"
+                if "<entrevista>" in unescaped(body):
+                    default = "report_valid"
+                else:
+                    default = "eval_valid" if "respuesta_del_candidato" in body else "valid"
                 scenario = queue.popleft() if queue else default
             if scenario == "eval_slow":
                 time.sleep(3.3)
+            if scenario == "report_slow":
+                time.sleep(5)
             if scenario == "limit":
                 self._send(429, {"error": {"code": 429, "message": "agotado", "status": "RESOURCE_EXHAUSTED"}})
             elif scenario == "unavailable":
                 self._send(503, {"error": {"code": 503, "message": "no disponible", "status": "UNAVAILABLE"}})
             else:
-                text = evaluation(scenario) if scenario.startswith("eval_") else plan(bad_type=scenario == "bad_type")
+                if scenario.startswith("report_"):
+                    text = report(scenario, body)
+                elif scenario.startswith("eval_"):
+                    text = evaluation(scenario)
+                else:
+                    text = plan(bad_type=scenario == "bad_type")
                 self._send(200, groq_body(text) if groq else gemini_body(text))
         else:
             self._send(404, {"error": "ruta desconocida"})

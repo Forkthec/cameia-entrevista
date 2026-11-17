@@ -32,6 +32,8 @@ class BusinessExceptionsTest {
                         ErrorCode.DATABASE_UNAVAILABLE, "Ocurrió un error. Inténtalo de nuevo."),
                 Arguments.of(new SessionAbandonedException(), ErrorCode.SESSION_ABANDONED,
                         "Sesión abandonada: no genera evaluación."),
+                Arguments.of(new SessionNotFinishedException(), ErrorCode.SESSION_NOT_FINISHED,
+                        "Tu entrevista aún no ha terminado."),
                 Arguments.of(new SessionAlreadyClosedException(), ErrorCode.SESSION_ALREADY_CLOSED,
                         "Esta entrevista ya no admite esa acción."),
                 Arguments.of(new TurnNotFoundException(), ErrorCode.TURN_NOT_FOUND, "No encontramos lo que buscabas."),

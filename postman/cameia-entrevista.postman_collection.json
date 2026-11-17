@@ -10134,6 +10134,1615 @@
           }
         }
       ]
+    },
+    {
+      "name": "Reporte de Evaluación",
+      "item": [
+        {
+          "name": "200 preparar catálogo de roles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('repMessageId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.collectionVariables.set('repUid', 'rep' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('repOtherUid', 'otr' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));",
+                  "pm.collectionVariables.set('repProfileId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.collectionVariables.set('repKeyPrefix', 'a' + pm.variables.replaceIn('{{$guid}}').replace(/-/g, ''));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{repMessageId}}\", \"type\": \"perfil.catalogo-roles-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rep\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.catalogo-roles-actualizado\", \"payload\": \"{\\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\", \\\"roles\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombreEs\\\": \\\"Desarrollador Backend\\\", \\\"nombreEn\\\": \\\"Backend Developer\\\", \\\"estado\\\": \\\"ACTIVE\\\"}]}\", \"payload_encoding\": \"string\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 preparar perfil completo",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('repMessageId', pm.variables.replaceIn('{{$guid}}'));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('El broker enruta el mensaje a una cola', () => pm.expect(pm.response.json().routed).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{rabbitManagementUrl}}/api/exchanges/%2F/perfil.events/publish",
+              "host": [
+                "{{rabbitManagementUrl}}"
+              ],
+              "path": [
+                "api",
+                "exchanges",
+                "%2F",
+                "perfil.events",
+                "publish"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"properties\": {\"message_id\": \"{{repMessageId}}\", \"type\": \"perfil.profesional-actualizado\", \"content_type\": \"application/json\", \"correlation_id\": \"postman-rep\", \"headers\": {\"x-event-version\": 1}}, \"routing_key\": \"perfil.profesional-actualizado\", \"payload\": \"{\\\"usuarioId\\\": \\\"{{repUid}}\\\", \\\"contextoProfesional\\\": {\\\"id\\\": \\\"{{repProfileId}}\\\", \\\"nombre\\\": \\\"Analista de datos\\\", \\\"estado\\\": \\\"COMPLETED\\\", \\\"fecha_archivado\\\": null, \\\"resumen\\\": \\\"Analista con tres a\\\\u00f1os de experiencia en SQL y Python.\\\", \\\"experiencias\\\": [{\\\"empresa\\\": \\\"ACME\\\", \\\"cargo\\\": \\\"Analista\\\", \\\"descripcion\\\": null, \\\"inicio\\\": \\\"2022-01\\\", \\\"fin\\\": null, \\\"estadoEmpleo\\\": \\\"CURRENT\\\"}], \\\"formaciones\\\": [{\\\"institucion\\\": \\\"Universidad del Cauca\\\", \\\"titulo\\\": \\\"Ingenier\\\\u00eda de Sistemas\\\", \\\"nivel\\\": \\\"UNDERGRADUATE\\\", \\\"inicio\\\": \\\"2017-02\\\", \\\"fin\\\": \\\"2021-12\\\", \\\"enCurso\\\": false}], \\\"habilidades\\\": [{\\\"nombre\\\": \\\"Python\\\", \\\"nivel\\\": \\\"INTERMEDIATE\\\"}]}, \\\"rolesAspirados\\\": [{\\\"codigo\\\": \\\"a0000001-0000-0000-0000-000000000002\\\", \\\"nombre\\\": \\\"Desarrollador Backend\\\"}], \\\"actualizadoEn\\\": \\\"2026-10-15T12:00:00.123Z\\\"}\", \"payload_encoding\": \"string\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "guest",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "guest",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 reiniciar el simulador de la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__reset",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión A",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Los consumidores son asíncronos: se espera a que la copia del perfil exista.",
+                  "setTimeout(function () {}, 3000);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('repSessionA', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{repProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la sesión A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 1 de la sesión A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-A1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 2 de la sesión A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-A2"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 3 de la sesión A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-A3"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 4 de la sesión A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-A4"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 5 de la sesión A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Entrevista terminada', () => pm.expect(pm.response.json().interviewFinished).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-A5"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 cuenta las llamadas a la IA antes del reporte",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repCallsBefore', pm.response.json().calls);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 R-01 consulta el reporte de una entrevista terminada por texto: lo genera",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content-Type application/json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "const r = pm.response.json();",
+                  "pm.test('Siete métricas en el orden fijo', () => pm.expect(r.metrics.map(m => m.code)).to.eql([\"PRECISION_CLARITY\", \"VERBAL_CHARISMA\", \"INCLUSIVE_LANGUAGE\", \"SPEECH_RATE\", \"PAUSE_TIME\", \"HESITATION_RATE\", \"ENTHUSIASM\"]));",
+                  "pm.test('Contenido: 4,00 / 3,00 / 5,00 con dos decimales como mucho', () => { pm.expect(r.metrics[0].value).to.eql(4); pm.expect(r.metrics[1].value).to.eql(3); pm.expect(r.metrics[2].value).to.eql(5); });",
+                  "pm.test('Voz y entusiasmo sin resultado (la sesión es por texto): value null', () => { [3, 4, 5, 6].forEach(i => pm.expect(r.metrics[i].value).to.eql(null)); });",
+                  "pm.test('STAR de la pregunta 3: nivel 3 (sin resultado)', () => { pm.expect(r.star.length).to.eql(1); pm.expect(r.star[0]).to.include({questionNumber: 3, level: 3, situation: true, task: true, action: true, result: false}); });",
+                  "pm.test('Cinco preguntas con su origen TEXT y sin voz', () => { pm.expect(r.questions.map(q => q.number)).to.eql([1, 2, 3, 4, 5]); r.questions.forEach(q => { pm.expect(q.answerOrigin).to.eql('TEXT'); pm.expect(q.voice).to.eql(null); pm.expect(q.answerText).to.eql(\"Usé colas para desacoplar el envío de correos.\"); }); });",
+                  "pm.test('Fecha de la entrevista, tono e idioma', () => { pm.expect(r.interviewDate).to.be.a('string').and.not.empty; pm.expect(r.tone).to.eql('CALIDO'); pm.expect(r.sessionLanguage).to.eql('es-CO'); });",
+                  "pm.test('Sin campos internos', () => pm.expect(pm.response.text()).to.not.match(/firebase|prompt|promptVersion|modelo|idempotency/i));",
+                  "pm.collectionVariables.set('repReportBody', pm.response.text());"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 cuenta las llamadas a la IA después del reporte",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repCallsAfter', pm.response.json().calls);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 R-02 segunda lectura: el mismo cuerpo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Cuerpo idéntico al de la primera lectura', () => pm.expect(pm.response.text()).to.eql(pm.collectionVariables.get('repReportBody')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 R-03 la IA se llamó una sola vez para el reporte",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Una llamada para generar el reporte y ninguna al releerlo', () => { pm.expect(pm.collectionVariables.get('repCallsAfter') - pm.collectionVariables.get('repCallsBefore')).to.eql(1); pm.expect(pm.response.json().calls).to.eql(pm.collectionVariables.get('repCallsAfter')); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{simuladorUrl}}/__calls",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__calls"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 R-04 reporte de la entrevista de otra persona",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repOtherUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 R-05 reporte de una sesión inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/00000000-0000-4000-8000-000000000000/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "00000000-0000-4000-8000-000000000000",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "404 R-06 reporte con un identificador mal escrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code SESSION_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FOUND'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/no-es-un-uuid/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "no-es-un-uuid",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "401 R-07 reporte sin identidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 401', () => pm.response.to.have.status(401));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code IDENTITY_REQUIRED', () => pm.expect(pm.response.json().code).to.eql('IDENTITY_REQUIRED'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "405 R-08 POST sobre el reporte",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 405', () => pm.response.to.have.status(405));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().code).to.eql('METHOD_NOT_ALLOWED'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionA}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionA}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('repSessionB', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{repProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().pendingQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 R-09 reporte de una entrevista en curso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code SESSION_NOT_FINISHED', () => pm.expect(pm.response.json().code).to.eql('SESSION_NOT_FINISHED'));",
+                  "pm.test('Mensaje literal', () => pm.expect(pm.response.json().detail).to.eql(\"Tu entrevista aún no ha terminado.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 R-10 reinicia el simulador",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__reset",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 1 de la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-B1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 2 de la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-B2"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 3 de la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-B3"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 4 de la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('repTurnId', pm.response.json().nextQuestion.turnId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-B4"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 respuesta 5 de la sesión B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Entrevista terminada', () => pm.expect(pm.response.json().interviewFinished).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{repKeyPrefix}}-B5"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/answers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "answers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"turnId\": \"{{repTurnId}}\", \"answerText\": \"Usé colas para desacoplar el envío de correos.\"}"
+            }
+          }
+        },
+        {
+          "name": "200 programa el simulador: report_invalid ×3",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{simuladorUrl}}/__script",
+              "host": [
+                "{{simuladorUrl}}"
+              ],
+              "path": [
+                "__script"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"scenario\": \"report_invalid\", \"times\": 3}"
+            }
+          }
+        },
+        {
+          "name": "200 R-11 la IA entrega tres salidas inválidas: el reporte sale con el contenido y el STAR en null",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.test('Contenido sin resultado (null, nunca 0)', () => [0, 1, 2].forEach(i => pm.expect(r.metrics[i].value).to.eql(null)));",
+                  "pm.test('STAR sin nivel', () => { pm.expect(r.star.length).to.eql(1); pm.expect(r.star[0].level).to.eql(null); pm.expect(r.star[0].situation).to.eql(null); });",
+                  "pm.test('Las cinco preguntas siguen', () => pm.expect(r.questions.length).to.eql(5));",
+                  "pm.collectionVariables.set('repReportBodyB', pm.response.text());"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "200 R-12 releer el reporte sin resultado: el mismo cuerpo, sin reintentar la IA",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Cuerpo idéntico', () => pm.expect(pm.response.text()).to.eql(pm.collectionVariables.get('repReportBodyB')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionB}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionB}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('repSessionC', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{repProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la sesión C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionC}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionC}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "201 crea la sesión D",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('repSessionD', pm.response.json().sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"profileId\":\"{{repProfileId}}\",\"targetRoleId\":\"a0000001-0000-0000-0000-000000000002\",\"jobOffer\":\"Buscamos analista de datos\",\"mode\":\"SIMULACION\",\"tone\":\"CALIDO\",\"answerFormat\":\"TEXTO\",\"sessionLanguage\":\"es-CO\"}"
+            }
+          }
+        },
+        {
+          "name": "200 inicia la sesión D (abandona la C)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionD}}/start",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionD}}",
+                "start"
+              ]
+            }
+          }
+        },
+        {
+          "name": "409 R-13 reporte de una entrevista abandonada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Content-Type problem+json con charset UTF-8', () => { const t = (pm.response.headers.get('Content-Type') || '').toLowerCase(); pm.expect(t).to.include('application/problem+json'); pm.expect(t).to.include('charset=utf-8'); });",
+                  "pm.test('Con requestId y sin trace ni exception', () => { pm.expect(pm.response.json().requestId).to.be.a('string').and.not.empty; pm.expect(pm.response.text()).to.not.match(/trace|exception/i); });",
+                  "pm.test('code SESSION_ABANDONED', () => pm.expect(pm.response.json().code).to.eql('SESSION_ABANDONED'));",
+                  "pm.test('Mensaje literal', () => pm.expect(pm.response.json().detail).to.eql(\"Sesión abandonada: no genera evaluación.\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "{{repUid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/interviews/sessions/{{repSessionC}}/evaluation-report",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "interviews",
+                "sessions",
+                "{{repSessionC}}",
+                "evaluation-report"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
