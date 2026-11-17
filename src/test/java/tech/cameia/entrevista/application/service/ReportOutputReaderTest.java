@@ -112,7 +112,12 @@ class ReportOutputReaderTest {
                 Arguments.of("campo extra en star", VALID.replace("\"resultado\":false", "\"resultado\":false,\"x\":1"),
                         false),
                 Arguments.of("star repite el 5", VALID.replace("\"numero\":3", "\"numero\":5"), false),
-                Arguments.of("número no entero", VALID.replace("\"numero\":1,", "\"numero\":1.5,"), false));
+                Arguments.of("número no entero", VALID.replace("\"numero\":1,", "\"numero\":1.5,"), false),
+                Arguments.of("contenido no es una lista", "{\"contenido\":5," + STAR_OK + "}", false),
+                Arguments.of("star no es una lista", "{\"contenido\":[" + String.join(",", c1, c2, c4)
+                        + "],\"star\":5}", false),
+                Arguments.of("un elemento de contenido no es un objeto", withContent(c1, c2, "7"), false),
+                Arguments.of("el JSON es null", "null", false));
     }
 
     @ParameterizedTest(name = "{0}")

@@ -90,8 +90,8 @@ public class ReportPromptBuilder {
         Matcher matcher = PLACEHOLDER.matcher(template);
         StringBuilder out = new StringBuilder();
         while (matcher.find()) {
-            String value = values.get(matcher.group(1));
-            matcher.appendReplacement(out, Matcher.quoteReplacement(value == null ? matcher.group() : value));
+            String value = values.getOrDefault(matcher.group(1), matcher.group());
+            matcher.appendReplacement(out, Matcher.quoteReplacement(value));
         }
         matcher.appendTail(out);
         return out.toString();

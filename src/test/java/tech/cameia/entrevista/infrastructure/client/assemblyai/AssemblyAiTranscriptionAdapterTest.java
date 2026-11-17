@@ -185,7 +185,7 @@ class AssemblyAiTranscriptionAdapterTest {
         JsonNode words = json.readTree("""
                 [{"text":"eh"},{"text":"sí","start":"10","end":20},{"text":"no","start":30,"end":20},
                  {"text":"ok","start":40,"end":90},{"start":50,"end":60},{"text":7,"start":50,"end":60},
-                 {"text":"neg","start":-5,"end":10}]""");
+                 {"text":"neg","start":-5,"end":10},{"text":"sinfin","start":10},{"text":"finTexto","start":10,"end":"20"}]""");
 
         assertThat(AssemblyAiTranscriptionAdapter.timedWords(words)).containsExactly(new TimedWord("ok", 40, 90));
     }

@@ -37,6 +37,7 @@ import tools.jackson.databind.json.JsonMapper;
 import tech.cameia.entrevista.domain.exception.DatabaseUnavailableException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.exception.ProfileSnapshotInvalidException;
 import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.model.AiExecution;
 import tech.cameia.entrevista.domain.model.AiExecutionStatus;
@@ -302,8 +303,8 @@ class ReportGeneratorTest {
         assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
 
         ArgumentCaptor<AiExecution> closed = ArgumentCaptor.forClass(AiExecution.class);
-        verify(executions).failIfInProgress(closed.capture());
-        assertThat(closed.getValue().errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
+        verify(executions, org.mockito.Mockito.atLeastOnce()).failIfInProgress(closed.capture());
+        assertThat(closed.getAllValues().get(closed.getAllValues().size() - 1).errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
     }
 
     @Test
@@ -362,6 +363,147 @@ class ReportGeneratorTest {
         assertThatThrownBy(() -> newGenerator(Duration.ofMillis(61_500))).isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("REPORT_GENERATION_CLAIM_TTL");
         assertThat(newGenerator(Duration.ofMillis(61_501))).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Si la base falla al leer las respuestas se responde que no está disponible, sin llamar a la IA")
+    void readInputsFails_shouldThrowDatabaseUnavailable() {
+        when(attempts.reportInputsOf(session.id())).thenThrow(new DataAccessResourceFailureException("caída"));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+
+        assertThat(port.prompts).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Si la base falla al reservar la marca se responde que no está disponible, sin llamar a la IA")
+    void reserveFails_shouldThrowDatabaseUnavailable() {
+        when(reports.findBySession(session.id())).thenThrow(new DataAccessResourceFailureException("caída"));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+
+        assertThat(port.prompts).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Una indisponibilidad ya clasificada se propaga tal cual, sin envolverla de nuevo")
+    void knownUnavailability_shouldBePropagatedAsIs() {
+        DatabaseUnavailableException known = new DatabaseUnavailableException(new IllegalStateException("caída"));
+        when(reports.findBySession(session.id())).thenThrow(known);
+
+        assertThatThrownBy(() -> generator.generate(session)).isSameAs(known);
+    }
+
+    @Test
+    @DisplayName("Si la base falla al abrir el segundo intento responde que no está disponible, no emite el reporte y deja la marca fallida")
+    void attemptSwitchFails_shouldThrowDatabaseUnavailableWithoutIssuing() {
+        when(executions.save(any())).thenAnswer(call -> call.getArgument(0))
+                .thenThrow(new DataAccessResourceFailureException("caída"));
+        port.script(new LlmUnavailableException(null));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+
+        assertThat(port.prompts).hasSize(1);
+        verify(reports, never()).saveIssued(any());
+        ArgumentCaptor<AiExecution> closed = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions, org.mockito.Mockito.atLeastOnce()).failIfInProgress(closed.capture());
+        assertThat(closed.getAllValues().get(closed.getAllValues().size() - 1).status()).isEqualTo(AiExecutionStatus.FAILED);
+        assertThat(closed.getAllValues().get(closed.getAllValues().size() - 1).errorCode()).isEqualTo(ErrorCode.DATABASE_UNAVAILABLE.name());
+    }
+
+    @Test
+    @DisplayName("Si el servicio se apaga durante la espera entre intentos no emite el reporte y cierra la marca como fallida")
+    void interruptedCycle_shouldNotIssue() {
+        AiCallRunner runner = new AiCallRunner(port, duration -> Thread.currentThread().interrupt(),
+                Duration.ofMillis(500), Duration.ofSeconds(1), CLOCK);
+        ReportGenerator interrupted = new ReportGenerator(executions, attempts, reports, runner,
+                new ReportPromptBuilder(), new ReportOutputReader(json),
+                new TransactionTemplate(new NoopTransactions()), json, CLOCK, "modelo", "respaldo",
+                Duration.ofSeconds(20), Duration.ofMillis(500), Duration.ofSeconds(1), Duration.ofMinutes(2));
+        port.script(new LlmUnavailableException(null));
+        try {
+            assertThatThrownBy(() -> interrupted.generate(session)).isInstanceOf(LlmUnavailableException.class);
+        } finally {
+            Thread.interrupted();
+        }
+
+        assertThat(port.prompts).hasSize(1);
+        verify(reports, never()).saveIssued(any());
+        ArgumentCaptor<AiExecution> closed = ArgumentCaptor.forClass(AiExecution.class);
+        verify(executions, org.mockito.Mockito.atLeastOnce()).failIfInProgress(closed.capture());
+        assertThat(closed.getAllValues().get(closed.getAllValues().size() - 1).status()).isEqualTo(AiExecutionStatus.FAILED);
+        assertThat(closed.getAllValues().get(closed.getAllValues().size() - 1).errorCode()).isEqualTo(ErrorCode.LLM_UNAVAILABLE.name());
+    }
+
+    @Test
+    @DisplayName("Si ganó la carrera otro proceso y su reporte no se puede leer, se responde que la base no está disponible")
+    void lostRaceAndStoredReportMissing_shouldThrowDatabaseUnavailable() {
+        when(reports.findBySession(session.id())).thenReturn(Optional.empty());
+        when(reports.saveIssued(any())).thenThrow(new EvaluationReportRepository.AlreadyIssuedException());
+        port.script(response(VALID));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+    }
+
+    @Test
+    @DisplayName("Si ganó la carrera otro proceso y la base falla al leer su reporte, se responde que no está disponible")
+    void lostRaceAndReadFails_shouldThrowDatabaseUnavailable() {
+        when(reports.findBySession(session.id())).thenReturn(Optional.empty())
+                .thenThrow(new DataAccessResourceFailureException("caída"));
+        when(reports.saveIssued(any())).thenThrow(new EvaluationReportRepository.AlreadyIssuedException());
+        port.script(response(VALID));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+    }
+
+    @Test
+    @DisplayName("Sin preguntas respondidas y una carrera perdida, se devuelve el reporte que otro guardó")
+    void noAnsweredQuestionsAndLostRace_shouldReturnTheStoredReport() {
+        EvaluationReport stored = new EvaluationReport(session.id(), InterviewLanguage.ENGLISH, ContentScores.NONE,
+                VoiceMetrics.NONE, List.of(), CLOCK.instant().minusSeconds(5));
+        when(attempts.reportInputsOf(session.id())).thenReturn(List.of());
+        when(reports.saveIssued(any())).thenThrow(new EvaluationReportRepository.AlreadyIssuedException());
+        when(reports.findBySession(session.id())).thenReturn(Optional.of(stored));
+
+        assertThat(generator.generate(session)).contains(stored);
+
+        verify(executions, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Sin preguntas respondidas, si guardar falla no hay marca que cerrar y se responde que la base no está disponible")
+    void noAnsweredQuestionsAndSaveFails_shouldThrowWithoutClosingAMark() {
+        when(attempts.reportInputsOf(session.id())).thenReturn(List.of());
+        when(reports.saveIssued(any())).thenThrow(new DataAccessResourceFailureException("caída"));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+
+        verify(executions, never()).failIfInProgress(any());
+    }
+
+    @Test
+    @DisplayName("Si ni siquiera se puede cerrar la marca tras fallar al guardar, igual se responde que la base no está disponible")
+    void markCannotBeClosed_shouldStillThrowDatabaseUnavailable() {
+        port.script(response(VALID));
+        when(reports.saveIssued(any())).thenThrow(new DataAccessResourceFailureException("caída"));
+        when(executions.failIfInProgress(any())).thenThrow(new DataAccessResourceFailureException("sigue caída"));
+
+        assertThatThrownBy(() -> generator.generate(session)).isInstanceOf(DatabaseUnavailableException.class);
+    }
+
+    @Test
+    @DisplayName("Una copia del perfil que no es JSON responde la excepción de copia inválida, sin llamar a la IA")
+    void unreadableSnapshot_shouldThrowProfileSnapshotInvalid() {
+        SessionConfiguration configuration = new SessionConfiguration(UUID.randomUUID(), ROLE_ID, "oferta",
+                "esto no es json", Modality.SIMULATION, Tone.WARM, AnswerMode.TEXT, InterviewLanguage.ENGLISH);
+        InterviewSession broken = InterviewSession.configure(UUID.randomUUID(), new FirebaseUid("uid-roto"),
+                configuration, CLOCK);
+        when(attempts.reportInputsOf(broken.id())).thenReturn(inputs(null));
+
+        assertThatThrownBy(() -> generator.generate(broken)).isInstanceOf(ProfileSnapshotInvalidException.class);
+
+        assertThat(port.prompts).isEmpty();
+        verify(executions, never()).save(any());
     }
 
     /** Transacciones que no hacen nada: la prueba comprueba la lógica, no el motor de la base. */

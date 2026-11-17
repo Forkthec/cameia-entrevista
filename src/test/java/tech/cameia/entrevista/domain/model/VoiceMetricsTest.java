@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /** Las tres métricas de voz se calculan sumando los datos de todas las respuestas por voz de la sesión. */
 class VoiceMetricsTest {
@@ -99,6 +101,15 @@ class VoiceMetricsTest {
     @DisplayName("Los tres valores nulos o los tres presentes; nunca una mezcla")
     void mixedNulls_shouldBeRejected() {
         org.assertj.core.api.Assertions.assertThatThrownBy(() -> new VoiceMetrics(100, null, null))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest(name = "ritmo={0}, pausas={1}, vacilación={2}")
+    @DisplayName("Toda mezcla de valores con resultado y sin él se rechaza")
+    @CsvSource(value = {"1,NULL,NULL", "NULL,1,NULL", "NULL,NULL,1", "1,1,NULL", "1,NULL,1", "NULL,1,1"},
+            nullValues = "NULL")
+    void everyMixture_shouldBeRejected(Integer rate, BigDecimal pauses, BigDecimal hesitation) {
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> new VoiceMetrics(rate, pauses, hesitation))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

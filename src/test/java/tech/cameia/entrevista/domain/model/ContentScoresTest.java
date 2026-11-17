@@ -57,6 +57,15 @@ class ContentScoresTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @ParameterizedTest(name = "precisión={0}, carisma={1}, lenguaje={2}")
+    @DisplayName("Toda mezcla de métricas con valor y sin él se rechaza")
+    @CsvSource(value = {"1,NULL,NULL", "NULL,1,NULL", "NULL,NULL,1", "1,1,NULL", "1,NULL,1", "NULL,1,1"},
+            nullValues = "NULL")
+    void everyMixture_shouldBeRejected(BigDecimal precision, BigDecimal charisma, BigDecimal language) {
+        assertThatThrownBy(() -> new ContentScores(precision, charisma, language))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @ParameterizedTest(name = "nota {0} es inválida")
     @DisplayName("Una nota fuera de 1 a 5 se rechaza")
     @CsvSource({"0", "6", "-1", "2147483647"})

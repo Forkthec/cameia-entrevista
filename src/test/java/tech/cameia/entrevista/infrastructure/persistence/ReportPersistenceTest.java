@@ -231,4 +231,21 @@ class ReportPersistenceTest extends AbstractPersistenceTest {
         assertThat(executions.findReportInProgress(session[0])).hasValueSatisfying(
                 found -> assertThat(found.promptVersion()).isEqualTo("reporte.v1"));
     }
+
+    @Test
+    void secondReportMark_shouldBeRejectedAsConflict() {
+        UUID[] session = new UUID[1];
+        sessionWithFiveQuestions(session);
+        executions.save(AiExecution.reportStarted(session[0], 1, "modelo", "reporte.v1", "gemini", CLOCK));
+
+        assertThatThrownBy(() -> executions.save(AiExecution.reportStarted(session[0], 1, "modelo", "reporte.v1",
+                "gemini", CLOCK))).isInstanceOf(tech.cameia.entrevista.domain.exception.SessionConflictException.class);
+    }
+
+    @Test
+    void markOfAnUnknownSession_shouldRethrowTheForeignKeyViolation() {
+        assertThatThrownBy(() -> executions.save(AiExecution.reportStarted(UUID.randomUUID(), 1, "modelo",
+                "reporte.v1", "gemini", CLOCK)))
+                .isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
+    }
 }
