@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P2-B",
+  "corrida" : 1,
+  "ms" : 944,
+  "tokensEntrada" : 658,
+  "tokensSalida" : 131,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general, carece de precisión técnica y no explica los mecanismos ni los casos de uso específicos.\",\n  \"follow_up_texto\": \"Puedes profundizar en cómo funciona técnicamente el bloqueo optimista a nivel de base de datos o de aplicación (por ejemplo, usando una columna de versión) y contrastarlo con el aislamiento de transacciones estándar?\",\n  \"feedback\": \"La respuesta se queda en generalidades y no explica los conceptos fundamentales ni los mecanismos de concurrencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P1-A",
+  "corrida" : 1,
+  "ms" : 1139,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 70,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde con precision sobre su experiencia en backend, menciona tecnologias relevantes y justifica claramente su interes en la posicion.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena sintesis de experiencia previa y motivacion tecnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

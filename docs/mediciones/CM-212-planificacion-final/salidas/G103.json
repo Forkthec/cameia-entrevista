@@ -1,0 +1,57 @@
+{
+  "id" : "G103",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T18:57:48.468124600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4391,
+  "fallosDelProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 798,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  } ],
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1846,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1159,
+  "tokensSalida" : 227,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse y contarnos qué le motiva a postularse como Analista de Calidad en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructuraría el diseño de un conjunto básico de casos de prueba basados en requisitos funcionales?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Piense en un proyecto académico donde haya tenido que aplicar el diseño de casos de prueba; descríbanos la situación, qué tarea asumió, la acción que realizó y cuál fue el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera utiliza herramientas como Selenium y Jira durante el proceso de pruebas y gestión de defectos?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la ejecución de pruebas de regresión encuentra un defecto crítico justo el día programado para el paso a producción, ¿cómo decidiría actuar?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 110, 105, 191, 109, 151 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3, 5]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

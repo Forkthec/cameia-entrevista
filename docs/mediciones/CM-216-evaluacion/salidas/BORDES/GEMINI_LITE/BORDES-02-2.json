@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-02",
+  "corrida" : 2,
+  "ms" : 2922,
+  "tokensEntrada" : 666,
+  "tokensSalida" : 67,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato ha demostrado un entendimiento correcto y se ha indicado seguir adelante.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta aceptada.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

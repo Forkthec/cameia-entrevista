@@ -1,0 +1,144 @@
+{
+  "id" : "B14",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3896,
+  "inicio" : "2026-11-08T16:08:30.269313100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 962,
+  "tokensEntrada" : 1008,
+  "tokensSalida" : 318,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"text\": \"¡Hola, qué gusto tenerte aquí! Cuéntame un poco sobre tu trayectoria en Spring Boot y qué es lo que más te motiva de buscar crecer hacia el diseño de arquitectura.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"text\": \"Me gustaría que me contaras cómo abordas la modelación de bases de datos en PostgreSQL para garantizar el rendimiento de las consultas en un entorno con Spring Boot.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"text\": \"¿Podrías compartirme una experiencia concreta donde hayas utilizado RabbitMQ para resolver un problema de integración entre servicios?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"¿Qué estrategia sigues con las pruebas automatizadas para asegurar la estabilidad de tu código antes de hacer los despliegues en la nube?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"text\": \"Y para cerrar, imaginemos que detectemos un bug crítico en una API REST de Andina Ficticia S.A.S. durante un lanzamiento ágil; ¿cómo manejarías la situación para resolverlo de forma rápida y colaborativa?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "957",
+    "x-ratelimit-remaining-tokens" : "6398",
+    "x-ratelimit-reset-requests" : "1h1m55.2s",
+    "x-ratelimit-reset-tokens" : "35.64s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 978,
+    "tokensEntrada" : 1008,
+    "tokensSalida" : 319,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\"posicion\": 1, \"tipo\": \"APERTURA\", \"texto\": \"Hola, qué gusto tenerte aquí; me encantaría que me contaras un poco sobre tu motivación para aspirar a este rol de Desarrollador Backend en donde puedes crecer hacia el diseño de arquitectura.\"},\n{\"posicion\": 2, \"tipo\": \"TECNICA\", \"texto\": \"Me gustaría que me contaras cómo abordas el diseño de las capas de acceso a datos cuando necesitas modelar una base de datos PostgreSQL compleja para un servicio en Spring Boot.\"},\n{\"posicion\": 3, \"tipo\": \"CONDUCTUAL\", \"texto\": \"¿Puedes describirme una experiencia pasada en la que hayas tenido que resolver un problema crítico de rendimiento o disponibilidad en un servicio web que estabas desarrollando?\"},\n{\"posicion\": 4, \"tipo\": \"TECNICA\", \"texto\": \"¿Cómo configuras y monitoreas las colas de mensajes en RabbitMQ para garantizar la confiabilidad de la comunicación asíncrona entre microservicios?\"},\n{\"posicion\": 5, \"tipo\": \"SITUACIONAL\", \"texto\": \"Te comento que esta es la última pregunta: si en el trabajo identificaras una tendencia a no cumplir con los plazos en la entrega de pruebas automatizadas dentro del equipo ágil, ¿cómo actuarías para mejorar esa situación?\"}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "956",
+      "x-ratelimit-remaining-tokens" : "5234",
+      "x-ratelimit-reset-requests" : "1h3m21.6s",
+      "x-ratelimit-reset-tokens" : "51.72s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 222 caracteres"
+      }
+    },
+    "largos" : [ 192, 177, 176, 147, 222 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "CALIDO",
+      "preguntasConAcogida" : 1,
+      "preguntasConExigencia" : 0,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: servicios web y Spring en las preguntas [2, 3]"
+    }
+  },
+  "validoTrasReintento" : true
+}

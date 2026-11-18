@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P5-C",
+  "corrida" : 1,
+  "ms" : 1425,
+  "tokensEntrada" : 654,
+  "tokensSalida" : 110,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder la pregunta y adopta una postura no profesional.\",\n  \"follow_up_texto\": \"Por favor, responde la pregunta técnica asumiendo que estás de guardia y debes seguir el protocolo de resolución de incidentes en producción.\",\n  \"feedback\": \"Es necesario mantener la profesionalidad y abordar los incidentes de producción siguiendo un proceso estructurado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

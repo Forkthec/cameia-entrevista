@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-B",
+  "corrida" : 3,
+  "ms" : 590,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 144,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general. Se requiere especificar los criterios concretos (requisitos, UX, métricas) para justificar la posición técnica y el proceso de escalado.\", \"follow_up_texto\": \"Especifica qué evidencia técnica o de producto usarías para validar tu postura. Si el desacuerdo persiste, ¿a quién escalarías la decisión y bajo qué criterios se tomaría la resolución final?\", \"motivo\": \"La respuesta indica la intención de dialogar pero carece de los mecanismos concretos, criterios objetivos o procedimientos de resolución que espera un perfil senior.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

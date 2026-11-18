@@ -1,0 +1,112 @@
+{
+  "id" : "A02",
+  "grupo" : "A",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2834,
+  "inicio" : "2026-11-07T11:06:40.436902400-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 3132,
+  "tokensEntrada" : 726,
+  "tokensSalida" : 236,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "el texto no es un JSON válido"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : false,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 4620,
+    "tokensEntrada" : 726,
+    "tokensSalida" : 240,
+    "modelo" : "gemini-3.5-flash-lite",
+    "textoCrudo" : "{\"idi",
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "el texto no es un JSON válido"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ]
+  },
+  "validoTrasReintento" : false
+}

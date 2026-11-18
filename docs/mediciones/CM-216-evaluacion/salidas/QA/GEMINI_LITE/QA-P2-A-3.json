@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P2-A",
+  "corrida" : 3,
+  "ms" : 993,
+  "tokensEntrada" : 717,
+  "tokensSalida" : 92,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato define claramente ambos conceptos, explica su propósito y detalla cuándo se ejecuta cada uno con precisión.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y bien estructurada, diferenciando adecuadamente el alcance y momento de ejecución de cada tipo de prueba.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

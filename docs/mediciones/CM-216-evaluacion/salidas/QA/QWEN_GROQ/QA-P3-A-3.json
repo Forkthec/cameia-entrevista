@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-A",
+  "corrida" : 3,
+  "ms" : 825,
+  "tokensEntrada" : 724,
+  "tokensSalida" : 94,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta clara y directa que cubre la detección, la contención y la raíz técnica de forma concisa.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta es concreta, describe mecanismos específicos (reproducción, pruebas de regresión) y destaca el resultado tangible sin caer en generalidades innecesarias.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

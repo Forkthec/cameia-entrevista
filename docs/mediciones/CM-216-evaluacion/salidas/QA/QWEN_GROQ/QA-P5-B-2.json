@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-B",
+  "corrida" : 2,
+  "ms" : 647,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 143,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta se queda en generalidades. Falta el proceso concreto de validación técnica y la gestión del desacuerdo profesional.\", \"follow_up_texto\": \"¿Cuáles son los pasos concretos que seguirías para validar si es un error o un defecto de diseño? ¿Qué evidencia técnica presentaría para respaldar tu postura ante el equipo de desarrollo y el producto?\", \"motivo\": \"El candidato indica que hablaría y discutiría, pero omite el método para demostrar técnicamente que es un error (logs, specs, reproducción) y la jerarquía de decisión.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

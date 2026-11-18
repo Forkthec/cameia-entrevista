@@ -1,0 +1,51 @@
+{
+  "id" : "G145",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, en, sin oferta, DATOS",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:29:52.468912200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 4894,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1570,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1286,
+  "tokensSalida" : 232,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you state exactly why you are applying for this Data Analyst role, citing a specific metric or professional milestone from your four years of experience that qualifies you?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding SQL, describe a specific complex query you wrote, naming the exact database environment used and citing the exact execution time reduction achieved.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation at Fictitious Retail Ltd. where you had to clean messy customer data; cite the exact volume of records processed and the specific Python library or function you used.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding KPI dashboards, name the exact BI tool you used and cite the precise number of automated reports you built and maintained concurrently.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose stakeholders disagree on the key metrics for a new sales dashboard; how would you resolve this conflict, and what specific quantitative result would you use to justify your final decision?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 178, 158, 196, 145, 196 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

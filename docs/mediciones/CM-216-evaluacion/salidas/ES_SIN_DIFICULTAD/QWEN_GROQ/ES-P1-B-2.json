@@ -1,0 +1,13 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-B",
+  "corrida" : 2,
+  "ms" : 797,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 150,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y no refleja competencias técnicas ni motivos concretos de interés en el rol específico.\", \"follow_up_texto\": \"Puedes ser más específico: ¿Qué aspectos concretos del desarrollo backend (escalabilidad, APIs, base de datos, arquitecturas) te atraen y por qué crees que tus habilidades actuales se alinean con las necesidades de este puesto?\", \"motivo\": \"El candidato propone ideas generales ('me gusta la tecnología', 'seguir aprendiendo') sin entrar en detalles técnicos, áreas concretas de interés o valoradding específico para el rol de backend solicitado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

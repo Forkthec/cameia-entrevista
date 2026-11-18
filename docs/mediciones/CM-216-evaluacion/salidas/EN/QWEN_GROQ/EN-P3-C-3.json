@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-C",
+  "corrida" : 3,
+  "ms" : 818,
+  "tokensEntrada" : 658,
+  "tokensSalida" : 201,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Nueces conductuales requieren evidencia concreta. 'No recordar' es una respuesta evasiva que impide evaluar tus habilidades de colaboración. Si realmente no hubo desacuerdos, describe un reto técnico donde tu solución inicial fue cuestionada o donde tuviste que defender una decisión arquitectónica frente a un compañero.\", \"follow_up_texto\": \"Entiendo, pero es raro no haber tenido discrepancias técnicas en una carrera. Recuerdo un caso donde tu planteamiento inicial fue cuestionado por un compañero o donde hubo dos enfoques viables para un mismo problema. ¿Cuál era la situación, cuáles eran los argumentos de ambos y cómo se resolvió?\", \"motivo\": \"El candidato evita responder la pregunta conductual al declarar que no recuerda conflictos, lo cual se interpreta como evasión o falta de autoconciencia dinámica, no como hecho objetivo verificable.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

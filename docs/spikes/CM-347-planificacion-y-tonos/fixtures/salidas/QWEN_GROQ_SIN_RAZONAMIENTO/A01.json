@@ -1,0 +1,69 @@
+{
+  "id" : "A01",
+  "grupo" : "A",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:46:26.794324500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1549,
+  "tokensEntrada" : 611,
+  "tokensSalida" : 412,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Describa brevemente su trayectoria y las razones específicas que le motivan a postularse al rol de Desarrollador Backend en la empresa Andina Ficticia S.A.S. para trabajar en la arquitectura de servicios.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo estructuraría la persistencia de datos en PostgreSQL para una API REST en Spring Boot que requiere manejar transacciones distribuidas al coordinar operaciones con una cola de mensajes de RabbitMQ?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Cuenteme sobre una ocasión específica en la que detectó un error crítico en la lógica de una cola de mensajes o en un servicio micro-desplegado; describa la situación, su tarea, las acciones técnicas que tomó y el resultado final.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategias de diseño de estrategia de reintentos y manejo de errores (dead letter queues) implementaría al integrar la comunicación asíncrona mediante RabbitMQ para garantizar la confiabilidad del sistema?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si durante el ciclo de despliegue un cambio en la base de datos PostgreSQL provocara que las pruebas automatizadas fallaran y el servicio principal se detuviera, ¿cuál sería su procedimiento inmediato para diagnosticar, revertir y comunicar la incidencia al equipo?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "981",
+    "x-ratelimit-remaining-tokens" : "6875",
+    "x-ratelimit-reset-requests" : "27m21.6s",
+    "x-ratelimit-reset-tokens" : "8.437s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 265 caracteres"
+    }
+  },
+  "largos" : [ 204, 202, 230, 211, 265 ]
+}

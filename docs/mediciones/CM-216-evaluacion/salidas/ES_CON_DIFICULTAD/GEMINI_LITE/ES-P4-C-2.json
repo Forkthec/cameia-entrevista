@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-C",
+  "corrida" : 2,
+  "ms" : 1222,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 129,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato habla sobre la historia del correo y su uso personal en lugar de diseñar el servicio asíncrono solicitado.\",\n  \"follow_up_texto\": \"Por favor, céntrate en el diseño técnico del servicio. ¿Qué componentes utilizarías para encolar los correos de forma asíncrona y asegurar que no se pierdan ante un reinicio del servidor?\",\n  \"feedback\": \"La respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

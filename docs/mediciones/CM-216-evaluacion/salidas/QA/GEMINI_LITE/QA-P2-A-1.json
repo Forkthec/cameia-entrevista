@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P2-A",
+  "corrida" : 1,
+  "ms" : 808,
+  "tokensEntrada" : 717,
+  "tokensSalida" : 81,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica con precisión las definiciones, objetivos y momentos de ejecución tanto de las pruebas de humo como de las de regresión.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y bien estructurada.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

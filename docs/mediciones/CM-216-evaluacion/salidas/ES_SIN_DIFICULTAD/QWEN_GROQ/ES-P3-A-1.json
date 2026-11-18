@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 1,
+  "ms" : 791,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 118,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta coherente y realista. El candidato describe bien el conflicto, el proceso de decisión basado en datos y el resultado objetivo, mostrando madurez técnica y capacidad de colaboración sin caer en generalidades.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta responde directamente a la pregunta con un ejemplo concreto, detalla el proceso de solución (medición, análisis) y el resultado final, cumpliendo con los criterios de una respuesta completa.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

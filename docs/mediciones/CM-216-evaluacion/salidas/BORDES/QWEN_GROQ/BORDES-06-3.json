@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-06",
+  "corrida" : 3,
+  "ms" : 910,
+  "tokensEntrada" : 1605,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta está fuera de tema y no aborda la pregunta técnica sobre transacciones y bloqueo optimista.\", \"follow_up_texto\": \"Responde a la pregunta original: cuál es la diferencia esencial entre una transacción SQL estándar y un mecanismo de bloqueo optimista (como versionado), y en qué escenarios preferirías usar cada uno.\", \"motivo\": \"La respuesta del candidato describe cómo cocinar arroz, lo cual es completamente ajeno al tema técnico de bases de datos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

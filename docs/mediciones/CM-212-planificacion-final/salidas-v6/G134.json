@@ -1,0 +1,51 @@
+{
+  "id" : "G134",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, sin experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:28:05.089988200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 4688,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4120,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1222,
+  "tokensSalida" : 284,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Explíqueme detalladamente por qué aspira al rol de Analista de Datos y cite exactamente un resultado medible o una cifra de sus cursos universitarios de Estadística que justifique su postulación.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Describa cómo utiliza la sentencia SQL GROUP BY y cite una consulta exacta con la métrica precisa que calculó en un análisis reciente.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación vivida en sus cursos o en su análisis de encuestas donde enfrentó un problema con datos faltantes; detalle la acción exacta que tomó y el porcentaje exacto de datos que logró recuperar o limpiar.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explique cómo maneja estructuras de datos en Python, específicamente diccionarios o listas, y cite un ejemplo concreto de línea de código exacta o función utilizada para transformar un conjunto de datos en un proyecto académico.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que al preparar un reporte en Excel para la gerencia nota una discrepancia numérica significativa en los datos consolidados; detalle exactamente qué pasos y qué fórmula específica aplicará para verificar la exactitud del resultado antes de entregarlo.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 195, 134, 218, 228, 259 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

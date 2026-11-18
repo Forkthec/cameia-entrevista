@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-C",
+  "corrida" : 2,
+  "ms" : 733,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 126,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Has evitado la sección inicial de la entrevista solicitando cambiar de tema. Es necesario abordar la introducción antes de continuar con los aspectos técnicos.\", \"follow_up_texto\": \"Entiendo que prefieres ir al grano técnico, pero la introducción es parte obligatoria del proceso. Por favor, responde brevemente: cuéntame en dos o tres frases por qué quieres este puesto de backend.\", \"motivo\": \"El candidato esquiva explícitamente la pregunta y cambia de tema a Docker.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

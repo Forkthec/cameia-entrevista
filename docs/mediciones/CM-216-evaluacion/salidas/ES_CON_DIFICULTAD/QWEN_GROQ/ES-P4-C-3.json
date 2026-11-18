@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-C",
+  "corrida" : 3,
+  "ms" : 1068,
+  "tokensEntrada" : 678,
+  "tokensSalida" : 155,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"He respondido sobre la historia de las comunicaciones en lugar del problema técnico planteado. Necesito que enfoces la respuesta en la arquitectura técnica del servicio.\", \"follow_up_texto\": \"Por favor, describe específicamente qué mecanismo de cola de mensajes o persistencia usarías para garantizar que los correos no se pierdan cuando el servidor se reinicia, y cómo manejarías los consumidores de dicha cola.\", \"motivo\": \"La respuesta habla de la historia de los correos electrónicos y del uso personal de Gmail, ignorando por completo la solicitud de diseño técnico de un servicio asíncrono con garantías de no pérdida de mensajes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

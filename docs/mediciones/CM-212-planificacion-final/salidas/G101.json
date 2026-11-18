@@ -1,0 +1,51 @@
+{
+  "id" : "G101",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, es-CO, sin oferta, BACKEND",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T18:57:26.790620500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4117,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5078,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1095,
+  "tokensSalida" : 210,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, cuéntenos cuáles son sus motivaciones para postularse a este rol de desarrolladora backend.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo diseñó los modelos y las consultas en PostgreSQL para su proyecto de grado?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en su paso por la Universidad Ficticia del Valle en la que haya tenido que resolver un problema complejo en equipo durante un proyecto de ingeniería.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza las ramas y los flujos de trabajo en Git para colaborar en el desarrollo de software?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que una consulta a la base de datos en PostgreSQL presenta problemas de rendimiento en un entorno de producción; ¿qué pasos seguiría para identificar y solucionar el inconveniente?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 97, 81, 172, 99, 188 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

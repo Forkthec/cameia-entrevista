@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-C",
+  "corrida" : 3,
+  "ms" : 469,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 120,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La pregunta de apertura evalúa comunicación y motivación, no es una trampa. Responde directamente sin esquivar.\", \"follow_up_texto\": \"Responde a la pregunta original: cuéntame brevemente sobre tu experiencia y qué aspecto específico del desarrollo backend te motiva de este puesto.\", \"motivo\": \"El candidato evade la pregunta personal a propósito, pidiendo cambiar el tema a un asunto técnico, lo cual no cumple con la solicitud inicial.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

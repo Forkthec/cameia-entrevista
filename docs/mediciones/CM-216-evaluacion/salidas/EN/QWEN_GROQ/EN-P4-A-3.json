@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-A",
+  "corrida" : 3,
+  "ms" : 1663,
+  "tokensEntrada" : 732,
+  "tokensSalida" : 148,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta es sólida: cubre la persistencia (outbox), la encolado durable, el ack correcto del consumidor y la corrección mediante ID único e idempotencia. Es un diseño estándar y robusto para este escenario.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta aborda todos los puntos críticos de la pregunta: cómo se garantiza que el mensaje no se pierda al reiniciar el servidor (outbox + cola durable) y cómo se manejan los fallos y duplicados (retries, DLQ, idempotencia). Es específica y técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

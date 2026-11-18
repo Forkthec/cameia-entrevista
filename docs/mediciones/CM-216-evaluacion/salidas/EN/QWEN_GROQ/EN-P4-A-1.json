@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-A",
+  "corrida" : 1,
+  "ms" : 657,
+  "tokensEntrada" : 732,
+  "tokensSalida" : 109,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"El diseño descrito cubre la persistencia, la confiabilidad frente a reinicios y el manejo de duplicados de forma precisa y adecuada para la dificultad solicitada.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta es técnica, concreta y aborda todos los aspectos clave de la solicitud (cola duradera, mecanismo de envío, reintentos y manejo de estados) sin omitir componentes esenciales.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

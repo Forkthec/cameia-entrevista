@@ -1,0 +1,51 @@
+{
+  "id" : "G815",
+  "grupo" : "G8",
+  "descripcion" : "Backend con experiencia, cálido, español, con oferta",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 5,
+  "inicio" : "2026-11-10T19:27:52.473925500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5076,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4516,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1332,
+  "tokensSalida" : 260,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy; cuéntame, ¿qué es lo que más te llama la atención de este rol de desarrollador backend en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo has utilizado Spring Boot para desarrollar y mantener APIs REST en tus proyectos anteriores.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"¿Podrías compartirme una situación en la que hayas tenido que resolver un problema complejo trabajando en equipo, detallando qué hiciste y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo sueles modelar las relaciones y optimizar las consultas en bases de datos relacionales usando PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás integrando una cola de mensajes con RabbitMQ y notas que los mensajes se están quedando retenidos sin procesarse, ¿cómo actuarías para identificar y solucionar este inconveniente? Y con esto terminamos nuestra charla de hoy, muchas gracias por tu tiempo.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 162, 125, 161, 111, 272 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 2,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

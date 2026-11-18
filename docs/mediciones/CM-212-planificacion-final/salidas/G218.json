@@ -1,0 +1,51 @@
+{
+  "id" : "G218",
+  "grupo" : "G2",
+  "descripcion" : "perfil Analista Contable (en)",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:10:13.430507200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4194,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1104,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1110,
+  "tokensSalida" : 208,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your background in accounting and share what interests you about returning to this field as an Accounting Analyst?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically approach a monthly bank reconciliation to ensure all discrepancies between the general ledger and bank statements are resolved?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you had to manage a high volume of invoices or financial records under a tight deadline; what specific steps did you take and what was the outcome?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific intermediate Excel functions or features do you use when analyzing large datasets for general accounting reports?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you discover a recurring recording error in an invoice entry from a past accounting period during a routine review; how would you handle and correct this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 140, 148, 168, 127, 172 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

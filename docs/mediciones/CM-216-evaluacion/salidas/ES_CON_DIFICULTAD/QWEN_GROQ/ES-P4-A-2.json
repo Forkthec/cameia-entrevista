@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 2,
+  "ms" : 1166,
+  "tokensEntrada" : 762,
+  "tokensSalida" : 143,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Sólido uso del patrón transactional outbox para garantizar consistencia y durabilidad en reinicios. La mención a idempotencia y reintentos cierra bien el diseño a grandes rasgos.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre los puntos clave de la dificultad: persistencia previa al envío (outbox), proceso de publicación, gestión de fallos con reintentos y DLS, y el establecimiento de idempotencia mediante identificadores, logrando un diseño robusto y sin errores técnicos relevantes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

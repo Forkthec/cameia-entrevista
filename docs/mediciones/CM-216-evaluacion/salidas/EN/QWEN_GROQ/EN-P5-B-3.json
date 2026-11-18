@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P5-B",
+  "corrida" : 3,
+  "ms" : 932,
+  "tokensEntrada" : 675,
+  "tokensSalida" : 147,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado generalista y carece de un plan estructurado para un incidente de producción.\", \"follow_up_texto\": \"Detalla un procedimiento paso a paso específico: desde la verificación del monitoreo y la recolección de métricas hasta el aislamiento del problema, la comunicación a los stakeholders y la implementación de una solución (rollback o fix). No te limites a 'mirar logs'.\", \"motivo\": \"El candidato menciona acciones básicas (ver logs, reiniciar) sin estructura, sin priorización ni detalles técnicos sobre diagnóstico, comunicación o mitigación, quedándose en generalidades.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,98 @@
+{
+  "id" : "B08",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2414,
+  "inicio" : "2026-11-07T10:41:56.321281-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 157,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 941, Requested 165. Please try again in 6.359999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "7",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "986",
+      "x-ratelimit-remaining-tokens" : "6817",
+      "x-ratelimit-reset-requests" : "20m9.6s",
+      "x-ratelimit-reset-tokens" : "56.459s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 152,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 806, Requested 766. Please try again in 34.32s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "35",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "986",
+      "x-ratelimit-remaining-tokens" : "7194",
+      "x-ratelimit-reset-requests" : "20m9.6s",
+      "x-ratelimit-reset-tokens" : "48.36s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1489,
+  "tokensEntrada" : 619,
+  "tokensSalida" : 514,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Para comenzar, queríamos que te sintieras como en casa, así que cuéntanos con confianza: ¿qué es lo que más te atrae de pasar del desarrollo funcional al diseño de arquitectura y por qué sientes que Andina Ficticia S.A.S. es el lugar ideal para lograr ese crecimiento?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Sabemos que has trabajado extensamente con Spring Boot, una tecnología que amamos por su versatilidad, pero nos interesaría saber cómo estructuras las dependencias del entorno de pruebas para que las pruebas de integración de tus microservicios sean estables y rápidas, incluso cuando se conectan a instancias de PostgreSQL.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Dado que valoramos mucho el trabajo en equipo, nos encantaría que nos compartas una experiencia concreta en la que tu solución técnica fuera desafiada por un colega o un stakeholder; ¿cómo manejaste esa situación, qué acciones tomaste para llegar a un consenso y qué resultó finalmente del debate?\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Me alegra saber que tienes experiencia con colas de mensajes, una pieza clave en lo que haremos aquí, así que me gustaría que me explicaras con calma: ¿qué estrategia de reconexión o reintentos implements habitualmente en RabbitMQ para garantizar la durabilidad de los mensajes ante caídas temporales del servicio consumidor?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagina que durante una ventana de despliegue, las pruebas automatizadas de las APIs REST nuevas empiezan a fallar de forma intermitente porque la carga de datos iniciales está saturando la base de datos; ¿cómo abordarías esa situación para diagnosticar el problema sin romper el flujo de trabajo del equipo ni retrasar la entrega?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "985",
+    "x-ratelimit-remaining-tokens" : "6763",
+    "x-ratelimit-reset-requests" : "21m36s",
+    "x-ratelimit-reset-tokens" : "37.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 331 caracteres"
+    }
+  },
+  "largos" : [ 268, 324, 297, 325, 331 ]
+}

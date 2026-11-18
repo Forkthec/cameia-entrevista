@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-C",
+  "corrida" : 1,
+  "ms" : 1106,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 106,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"motivo\": \"El candidato esquiva la pregunta afirmando que no recuerda ninguna situacion de desacuerdo.\", \"follow_up_texto\": \"Entiendo. Piensa en cualquier proyecto anterior donde las prioridades de arquitectura o diseno no coincidieran con las de otro desarrollador. ¿Como manejaste esa diferencia?\", \"feedback\": \"Evitar la pregunta no es una opcion valida en este tipo de situaciones de comportamiento.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

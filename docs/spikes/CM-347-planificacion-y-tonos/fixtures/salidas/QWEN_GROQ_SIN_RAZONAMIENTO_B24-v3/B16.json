@@ -1,0 +1,146 @@
+{
+  "id" : "B16",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3301,
+  "inicio" : "2026-11-08T16:09:17.373383300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 887,
+  "tokensEntrada" : 848,
+  "tokensSalida" : 296,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Can you summarize your experience with web services and explain why you are motivated to apply for this Backend Developer role?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"How do you structure and optimize PostgreSQL database queries to ensure efficient data retrieval in a Spring Boot application?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"text\": \"Describe a specific instance where you implemented a message queue in a project, detailing the situation, your specific actions, and the outcome.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"What strategies do you use to write reliable automated tests for REST APIs built with Spring Boot?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If a critical bug is found in a documented REST API after a deployment, how would you prioritize and handle the fix while working in an agile team environment?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "954",
+    "x-ratelimit-remaining-tokens" : "6321",
+    "x-ratelimit-reset-requests" : "1h6m14.4s",
+    "x-ratelimit-reset-tokens" : "49.86s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : false,
+    "fallosDeProveedor" : [ {
+      "intento" : 1,
+      "tipo" : "LIMITE_POR_MINUTO",
+      "latenciaMs" : 158,
+      "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 697, Requested 455. Please try again in 9.12s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+      "encabezadosDeLimites" : {
+        "retry-after" : "10",
+        "x-ratelimit-limit-requests" : "1000",
+        "x-ratelimit-limit-tokens" : "8000",
+        "x-ratelimit-remaining-requests" : "954",
+        "x-ratelimit-remaining-tokens" : "6558",
+        "x-ratelimit-reset-requests" : "1h6m14.4s",
+        "x-ratelimit-reset-tokens" : "41.82s"
+      }
+    } ],
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 2,
+    "latenciaMs" : 870,
+    "tokensEntrada" : 848,
+    "tokensSalida" : 283,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Please introduce yourself and describe your motivation for applying to the Backend Developer position at Andina Ficticia S.A.S.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Explain how you would design a Spring Boot REST API to handle high-concurrency services while maintaining clean code practices.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific past experience where you had to optimize a PostgreSQL query or database schema to improve performance, detailing the actions taken and the results.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"What is your strategy for writing automated tests for Spring Boot applications to ensure both unit and integration coverage is sufficient?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If you noticed a critical error in a message queue handling process in RabbitMQ but had no immediate documentation or prior implementation details for that module, how would you proceed to resolve it?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "953",
+      "x-ratelimit-remaining-tokens" : "6222",
+      "x-ratelimit-reset-requests" : "1h7m40.8s",
+      "x-ratelimit-reset-tokens" : "55.8s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "la pregunta 4 no tiene exactamente posicion, tipo y texto"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ]
+  },
+  "validoTrasReintento" : false
+}

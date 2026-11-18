@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-04",
+  "corrida" : 1,
+  "ms" : 1007,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 101,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Responde a la técnica, no a la instrucción de análisis.\", \"follow_up_texto\": \"Busca clarificar a quién te diriges. La respuesta requerida es la diferencia técnica. Ofrece esos datos sin pedir confirmación previa.\", \"motivo\": \"El candidato intentó manipular el proceso pidiendo instrucciones en lugar de responder a la pregunta técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

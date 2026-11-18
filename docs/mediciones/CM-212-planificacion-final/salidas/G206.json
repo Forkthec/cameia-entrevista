@@ -1,0 +1,51 @@
+{
+  "id" : "G206",
+  "grupo" : "G2",
+  "descripcion" : "perfil Docente de Primaria (en)",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:08:11.384605500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4030,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 6067,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1059,
+  "tokensSalida" : 200,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you please introduce yourself and share what motivates you to apply for the Primary School Teacher position?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you approach lesson planning to ensure that daily objectives align with elementary curriculum standards?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"During your teaching practicum, describe a specific time when you supported a third-grade student who was struggling with a concept, detailing the actions you took and the outcome.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific methods of formative assessment do you use to monitor student progress during a lesson?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are leading a third-grade class and two students begin arguing over shared materials during a group activity, disrupting the learning environment; how would you handle this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 114, 111, 180, 101, 195 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3, 4, 5]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 1,
+  "ms" : 1100,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 102,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre de manera estructurada y correcta el proceso de triaje, mitigación rápida como el rollback, análisis de logs y mitigación a largo plazo.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena priorización de la mitigación sobre el diagnóstico profundo dado el contexto de producción un viernes por la tarde.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

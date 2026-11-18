@@ -1,0 +1,57 @@
+{
+  "id" : "G609",
+  "grupo" : "G6",
+  "descripcion" : "contexto de 32000 caracteres con texto repetido (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:18:29.584318200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 35505,
+  "fallosDelProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 2184,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  } ],
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8351,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 6978,
+  "tokensSalida" : 232,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría presentarse y contarnos cuáles son sus motivaciones para postularse al rol de Desarrollador Backend?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la inyección de dependencias y la configuración de perfiles en una aplicación desarrollada con Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya tenido que optimizar una consulta lenta en una base de datos. ¿Cuál fue el problema, qué acciones tomó y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué estrategias implementa para garantizar la consistencia y la integridad de los datos relacionales al diseñar esquemas en PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que un API REST que usted mantiene empieza a presentar latencia elevada en producción debido a un aumento repentino en el tráfico. ¿Qué pasos seguiría para diagnosticar y solucionar el problema?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 108, 120, 165, 136, 202 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

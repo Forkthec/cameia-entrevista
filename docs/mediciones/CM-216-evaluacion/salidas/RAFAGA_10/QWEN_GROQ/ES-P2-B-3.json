@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-B",
+  "corrida" : 3,
+  "ms" : 511,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 141,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta se queda en generalidades básicas. Debes detallar los mecanismos técnicos: ACID, versionado de datos, manejo de conflictos y criterios de selección.\", \"follow_up_texto\": \"Explica con precisión cómo se implementa el bloqueo optimista (por ejemplo, mediante columnas de versión) y detalla cuándo elegir una transacción con aislamiento fuerte sobre un bloqueo optimista en un escenario concreto.\", \"motivo\": \"El candidato define de forma superficial ambos conceptos sin explicar el mecanismo de versionado del bloqueo optimista ni los criterios técnicos específicos para elegir entre ambos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

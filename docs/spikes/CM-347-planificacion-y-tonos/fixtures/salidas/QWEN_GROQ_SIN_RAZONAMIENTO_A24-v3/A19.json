@@ -1,0 +1,144 @@
+{
+  "id" : "A19",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3288,
+  "inicio" : "2026-11-08T16:00:59.320555200-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 946,
+  "tokensEntrada" : 851,
+  "tokensSalida" : 269,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Can you present yourself and explain why you want to move into a role that focuses on specializing automation?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you structure your Selenium test scripts to ensure they are maintainable and efficient for regression testing?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONVENTUAL\",\n\"texto\": \"Describe a specific time when you identified a defect during manual testing; what was the situation, what actions did you take, and what was the result?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"How do you use Jira to track automated test failures and link them back to specific requirements or user stories?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"If a stakeholder asks to skip a set of regression tests to meet a tight release deadline, how would you handle the situation?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "979",
+    "x-ratelimit-remaining-tokens" : "6497",
+    "x-ratelimit-reset-requests" : "30m14.4s",
+    "x-ratelimit-reset-tokens" : "39.12s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 3 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 4]; gestión de defectos en las preguntas [3, 4]"
+  },
+  "reintento" : {
+    "planValido" : false,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1164,
+    "tokensEntrada" : 851,
+    "tokensSalida" : 264,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"text\": \"Please introduce yourself and explain why you want to specialize in automation for this Software Quality Analyst role.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"text\": \"How do you design and implement Selenium-automated tests to ensure the regression suite is reliable and maintainable?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"text\": \"Describe a specific occasion where you had to report a critical defect in Jira; what was the situation, what actions did you take, and what was the result?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"What is your approach to ensuring requirements traceability when designing test plans and test cases for web applications?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"text\": \"If a severe bug is found in the production environment after a release, how would you handle the response and analysis process?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "978",
+      "x-ratelimit-remaining-tokens" : "5900",
+      "x-ratelimit-reset-requests" : "31m40.8s",
+      "x-ratelimit-reset-tokens" : "32.76s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ]
+  },
+  "validoTrasReintento" : false
+}

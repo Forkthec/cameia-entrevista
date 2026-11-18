@@ -1,0 +1,144 @@
+{
+  "id" : "A17",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3101,
+  "inicio" : "2026-11-08T16:00:12.621832700-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 943,
+  "tokensEntrada" : 819,
+  "tokensSalida" : 318,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"text\": \"Cuénteme brevemente su experiencia previa como analista de calidad en aplicaciones web y lo que le motiva a buscar especializarse en automatización para este rol.\"\n},\n{\n\"posccion\": 2,\n\"tipo\": \"TECNICA\",\n\"text\": \"Al utilizar Selenium para pruebas automatizadas, ¿cómo determina qué estrategia de locate WebElement es la más estable para evitar fallas intermitentes en las pruebas?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"text\": \"Describa una situación específica en la que tuvo que diseñar casos de prueba para una funcionalidad con un alcance inicial ambiguo o incompleto.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"¿Qué criterios específicos utiliza al reportar defectos en Jira para que el desarrollo pueda reproducir el problema de manera exacta sin necesidad de aclaraciones adicionales?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"text\": \"Si detecta un defecto crítico en el entorno de pruebas justo antes del despliegue programado para horas, ¿cómo manejaría esta situación para equilibrar la calidad con los plazos del proyecto?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "982",
+    "x-ratelimit-remaining-tokens" : "6825",
+    "x-ratelimit-reset-requests" : "25m55.199s",
+    "x-ratelimit-reset-tokens" : "8.812s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 765,
+    "tokensEntrada" : 819,
+    "tokensSalida" : 226,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuénteme brevemente sobre su perfil profesional y qué lo motiva a aplicar al rol de Analista de Calidad de Software.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura sus scripts al usar Selenium para garantizar la mantenibilidad del código de automatización?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya reportado un defecto crítico usando Jira; ¿cuál era el problema, qué acciones tomó al registrarlo y cuál fue el resultado final?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué criterios utiliza para definir si un escenario de prueba en una aplicación web debe ejecutarse manualmente o si conviene automatizarlo?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si detectara durante una ejecución de pruebas que el ambiente de pruebas no está estable y no puede continuar, ¿qué pasos seguiría para manejar la situación?\"}]}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "981",
+      "x-ratelimit-remaining-tokens" : "5821",
+      "x-ratelimit-reset-requests" : "27m21.6s",
+      "x-ratelimit-reset-tokens" : "16.342s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "no se envió oferta: no aplica"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 166 caracteres"
+      }
+    },
+    "largos" : [ 116, 109, 166, 140, 157 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 0,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 4]"
+    }
+  },
+  "validoTrasReintento" : true
+}

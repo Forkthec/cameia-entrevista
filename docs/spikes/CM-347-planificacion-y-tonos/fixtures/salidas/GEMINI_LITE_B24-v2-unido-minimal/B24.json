@@ -1,0 +1,64 @@
+{
+  "id" : "B24",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-07T11:28:55.048809-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1352,
+  "tokensEntrada" : 771,
+  "tokensSalida" : 297,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your three years of experience building web services in Java with Spring Boot and PostgreSQL, how does joining Andina Ficticia S.A.S. to maintain REST APIs and integrate message queues align with your specific goal of growing toward architecture design?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"In the context of maintaining REST APIs with Spring Boot and PostgreSQL, walk me through the exact indexing and transaction management strategies you use to ensure data consistency and high performance under heavy loads.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific past situation where you deployed web services to the cloud and integrated message queues; walk me through the exact tasks you performed, the actions you took to resolve bottlenecks, and the measurable results you achieved.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"When integrating message queues using RabbitMQ within a Spring Boot architecture, how do you handle message acknowledgments, dead-letter exchanges, and consumer retries to prevent data loss?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working in an agile team at Andina Ficticia S.A.S. where a critical PostgreSQL database migration required for a REST API breaks a downstream RabbitMQ consumer; exactly how would you diagnose, communicate, and resolve this issue under a tight deadline?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 268 caracteres"
+    }
+  },
+  "largos" : [ 265, 220, 243, 190, 268 ],
+  "validoTrasReintento" : true
+}

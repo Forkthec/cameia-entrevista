@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cameia-entrevista/spikes/CM-347/plan-preguntas.v1",
+  "title": "Plan de 5 preguntas principales",
+  "description": "Salida de la IA al planificar una entrevista. No hay ningún campo para reformular una pregunta ya planificada.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["idioma", "preguntas"],
+  "properties": {
+    "idioma": {
+      "description": "Idioma de la entrevista, igual al pedido.",
+      "enum": ["es-CO", "en"]
+    },
+    "preguntas": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["posicion", "tipo", "texto"],
+        "properties": {
+          "posicion": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "tipo": { "enum": ["APERTURA", "TECNICA", "CONDUCTUAL", "SITUACIONAL"] },
+          "texto": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

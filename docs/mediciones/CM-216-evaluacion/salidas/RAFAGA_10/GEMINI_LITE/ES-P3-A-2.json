@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-A",
+  "corrida" : 2,
+  "ms" : 1045,
+  "tokensEntrada" : 728,
+  "tokensSalida" : 90,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica con claridad el desacuerdo técnico, el enfoque basado en datos utilizado para resolverlo y el resultado medible obtenido.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena estructuración del caso y uso de datos objetivos para llegar a un consenso.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

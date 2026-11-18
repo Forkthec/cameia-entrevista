@@ -1,0 +1,60 @@
+{
+  "id" : "B01",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:44:19.496145400-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2094,
+  "tokensEntrada" : 595,
+  "tokensSalida" : 260,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría resumir su experiencia en el desarrollo de servicios web y qué le motiva a postularse como Desarrollador Backend en Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona las transacciones y la concurrencia al modelar bases de datos relacionales en PostgreSQL utilizando Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre una ocasión en la que tuvo que implementar una cola de mensajes con RabbitMQ para resolver un problema de integración; describa la situación, la tarea que asumió, la acción que realizó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TEcnICA\",\"texto\":\"¿Cuál es su estrategia para garantizar una alta cobertura de pruebas automatizadas en las APIs REST que desarrolla?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que se presenta un fallo crítico en producción debido a un despliegue reciente en la nube y el equipo ágil está próximo a la entrega del sprint; ¿cómo actuaría para resolver la incidencia y comunicarse con el equipo?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 4 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}

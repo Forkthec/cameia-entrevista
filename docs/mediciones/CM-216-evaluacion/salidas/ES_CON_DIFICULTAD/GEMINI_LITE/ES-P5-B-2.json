@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-B",
+  "corrida" : 2,
+  "ms" : 1207,
+  "tokensEntrada" : 684,
+  "tokensSalida" : 157,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es superficial, carece de un proceso estructurado de troubleshooting y menciona soluciones destructivas como reiniciar sin antes aislar el problema.\",\n  \"follow_up_texto\": \"Mencionas mirar logs y reiniciar, pero necesitamos un plan estructurado. ¿Qué métricas revisarías primero para aislar la causa raíz antes de reiniciar, y cómo asegurarías que el tráfico no se vea afectado durante tu intervención?\",\n  \"feedback\": \"En un entorno de producción ante un error 500 se requiere un proceso metódico de observabilidad y mitigación, no acciones apresuradas como reiniciar sin diagnóstico.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

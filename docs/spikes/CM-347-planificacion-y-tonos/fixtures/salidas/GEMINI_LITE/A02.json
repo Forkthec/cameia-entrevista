@@ -1,0 +1,60 @@
+{
+  "id" : "A02",
+  "grupo" : "A",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2053,
+  "inicio" : "2026-11-07T10:38:56.749882-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1270,
+  "tokensEntrada" : 523,
+  "tokensSalida" : 220,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Podría contarme sobre su trayectoria y qué le motiva a postularse como desarrollador backend en nuestra organización?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo maneja la gestión de transacciones y la optimización de consultas complejas al trabajar con Spring Boot y PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Hábleme de alguna ocasión en la que haya tenido que solucionar un problema crítico de rendimiento en producción; ¿cuál fue la situación, qué acción tomó y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TEcnica\",\"texto\":\"¿De qué manera implementa y asegura la comunicación asíncrona utilizando colas de mensajes en sus desarrollos?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se le asigna el diseño inicial de un nuevo componente que debe soportar un alto tráfico, ¿cómo abordaría la propuesta arquitectónica inicial?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 4 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}

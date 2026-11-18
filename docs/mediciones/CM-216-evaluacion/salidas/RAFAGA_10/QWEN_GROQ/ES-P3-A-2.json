@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 2,
+  "ms" : 509,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 87,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta es directa, concreta y muestra una resolución de conflictos basada en datos y acuerdos intermedios.\", \"follow_up_texto\": \"\", \"motivo\": \"Respuesta completa que detalla la situación, la acción (usar métricas para decisiones) y el resultado (mejora tangible y acuerdo).\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-B",
+  "corrida" : 3,
+  "ms" : 879,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 136,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Tu respuesta carece de detalles técnicos y experiencia concreta. Necesitas estructurar tu argumento con hechos específicos.\", \"follow_up_texto\": \"Hablemos de esos errores que encontraste: ¿qué herramientas específicas utilizaste para la ejecución de pruebas? ¿Qué técnica de diseño de casos de prueba seguiste para identificarlos y cómo documentaste el defecto reportado al equipo de desarrollo?\", \"motivo\": \"La respuesta es una generalidad absoluta sin mencionar herramientas, metodologías ni ejemplos concretos de experiencia, como se espera en una entrevista técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

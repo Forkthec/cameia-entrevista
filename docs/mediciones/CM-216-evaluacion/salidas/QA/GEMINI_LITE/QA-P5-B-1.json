@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-B",
+  "corrida" : 1,
+  "ms" : 1031,
+  "tokensEntrada" : 677,
+  "tokensSalida" : 124,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta carece de un proceso estructurado para resolver desacuerdos técnicos y se queda en generalidades superficiales.\",\n  \"follow_up_texto\": \"¿Podrías detallar qué criterios o evidencias objetivas utilizarías para fundamentar tu postura frente a los desarrolladores y qué pasos seguirías si no logran un acuerdo inicial?\",\n  \"feedback\": \"La respuesta es demasiado general y no detalla un proceso técnico o de colaboración estructurado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

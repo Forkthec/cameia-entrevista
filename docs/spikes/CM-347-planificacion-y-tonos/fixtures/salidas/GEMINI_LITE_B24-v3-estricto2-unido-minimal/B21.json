@@ -1,0 +1,78 @@
+{
+  "id" : "B21",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3797,
+  "inicio" : "2026-11-09T01:30:36.563743200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1632,
+  "tokensEntrada" : 953,
+  "tokensSalida" : 332,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Partiendo de su experiencia con servicios web en Java con Spring Boot y PostgreSQL, cuente exactamente qué métrica de rendimiento mejoró en sus proyectos anteriores y cite un ejemplo concreto de cómo eso impulsó su interés por crecer hacia el diseño de arquitectura en Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Explicando su manejo de bases de datos PostgreSQL, detalle exactamente qué índice o estrategia de consulta implementó y cite un resultado medido en milisegundos que compruebe la optimización del rendimiento.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación pasada en la que haya tenido que integrar colas de mensajes; mencione exactamente qué herramienta usó, qué tarea realizó, qué acción específica tomó para resolver un fallo y qué resultado cuantificable obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Abordando el desarrollo de APIs REST en Spring Boot, indique exactamente qué versión del framework utiliza y cite un ejemplo concreto de una herramienta de prueba automatizada con la que valide su código.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que en Andina Ficticia S.A.S. se presenta un fallo crítico en el despliegue en la nube que afecta el procesamiento de mensajes; detalle exactamente qué procedimiento técnico aplicaría, qué herramienta usaría para rastrear el error y qué métrica de tiempo de recuperación objetivo mediría.\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 296 caracteres"
+    }
+  },
+  "largos" : [ 291, 207, 232, 204, 296 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+  },
+  "validoTrasReintento" : true
+}

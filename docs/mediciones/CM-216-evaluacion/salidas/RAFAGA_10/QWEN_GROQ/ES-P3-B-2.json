@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-B",
+  "corrida" : 2,
+  "ms" : 766,
+  "tokensEntrada" : 683,
+  "tokensSalida" : 130,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de detalles específicos sobre el desacuerdo técnico, la metodología aplicada y el resultado concreto.\", \"follow_up_texto\": \"Especifica el problema técnico concreto, ¿cuáles eran las dos soluciones planteadas? ¿Qué criterios técnicos u objetivos de negocio usaste para defenderte o llegar a un acuerdo? ¿Cómo se resolvió la situación finalmente?\", \"motivo\": \"El candidato responde con generalidades excesivas, utilizando frases hechas sin aportar contexto técnico, mecanismos de negociación ni resultados medibles.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

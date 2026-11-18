@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-C",
+  "corrida" : 1,
+  "ms" : 1017,
+  "tokensEntrada" : 672,
+  "tokensSalida" : 115,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato no responde a la pregunta técnica y habla de la historia de las bases de datos e interfaces gráficas.\",\n  \"follow_up_texto\": \"Por favor, vuelve a la pregunta original: explica la diferencia técnica entre una transacción y un bloqueo optimista, y detalla en qué escenarios usarías cada uno.\",\n  \"feedback\": \"La respuesta no aborda los conceptos solicitados.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

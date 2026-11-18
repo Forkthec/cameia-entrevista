@@ -1,0 +1,144 @@
+{
+  "id" : "B08",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3896,
+  "inicio" : "2026-11-08T16:06:10.495515500-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1027,
+  "tokensEntrada" : 1008,
+  "tokensSalida" : 342,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"text\": \"Hola, qué gusto saludarte, me alegra mucho que estés aquí; me gustaría que me contaras un poco sobre tu motivación para buscar crecer hacia el diseño de arquitectura tras tu experiencia con Spring Boot y bases de datos.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"text\": \"Me gustaría que me contaras cómo podrías estructurar el modelado de una base de datos PostgreSQL para garantizar la consistencia de los datos en una aplicación de alta concurrencia.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"text\": \"¿Podrías describirme una situación específica en la que hayas tenido que resolver un problema de rendimiento relacionado con colas de mensajes, qué acciones toma y con qué resultado? \"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"text\": \"¿Cómo abordarías la estrategia de tests unitarios e integrados para asegurar la calidad de código en servicios construidos con Java y Spring Boot?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"text\": \"Para cerrar, imagina que en un equipo ágil detectan una caída crítica en la integración con RabbitMQ que afecta la producción; ¿cómo actuarías inicialmente para diagnosticar y comunicar la situación al equipo?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "964",
+    "x-ratelimit-remaining-tokens" : "6609",
+    "x-ratelimit-reset-requests" : "51m50.399s",
+    "x-ratelimit-reset-tokens" : "10.432s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 1 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1106,
+    "tokensEntrada" : 1008,
+    "tokensSalida" : 369,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cálido bienvenida, me alegra mucho que estemos aquí; me encantaría que me contaras qué es lo que más te motiva de la transición hacia el diseño de arquitectura que estás buscando.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Me gustaría que me contaras cómo sueles estructurar las capas de una aplicación en Spring Boot para garantizar que separen claramente las responsabilidades del negocio y la persistencia de datos.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Recuérdame alguna ocasión en la que trabajaste con colas de mensajes para resolver un problema de procesamiento asíncrono, detallando qué hiciste y qué resultado obtuviste.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué criterios técnicos tienes en cuenta al momento de modelar esquemas de base de datos en PostgreSQL para optimizar las lecturas y escrituras frecuente?s?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si durante el lanzamiento detectaras que las pruebas automatizadas de integración fallan repetidamente por un cambio en la comunicación con RabbitMQ, ¿cómo procederías para diagnosticar y resolver la situación?\"\n    }\n  ]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "963",
+      "x-ratelimit-remaining-tokens" : "5394",
+      "x-ratelimit-reset-requests" : "53m16.799s",
+      "x-ratelimit-reset-tokens" : "42.54s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 210 caracteres"
+      }
+    },
+    "largos" : [ 179, 195, 172, 156, 210 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "CALIDO",
+      "preguntasConAcogida" : 1,
+      "preguntasConExigencia" : 1,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+    }
+  },
+  "validoTrasReintento" : true
+}

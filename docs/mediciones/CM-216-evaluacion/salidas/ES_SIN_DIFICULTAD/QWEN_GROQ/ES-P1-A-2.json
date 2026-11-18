@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 2,
+  "ms" : 1252,
+  "tokensEntrada" : 695,
+  "tokensSalida" : 217,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es correcta pero se queda en generalidades. Faltan detalles concretos sobre el impacto técnico de tu trabajo y la motivación específica por esta empresa.\", \"follow_up_texto\": \"Me has mencionado que mejoraste el tiempo de respuesta en una plataforma de pagos. ¿Qué técnica específica implementaste para lograrlo y cómo afectó el rendimiento general del sistema? Además, ¿qué aspecto concreto de nuestra arquitectura o producto te llama la atención en particular?\", \"motivo\": \"虽然 el candidato responde a la pregunta, utiliza la forma de referencia vacía en la variable 'respuesta_del_candidato' que impide validar el contenido real. Sin embargo, asumiendo que proporcionó una respuesta estándar pero genérica (común en este tipo de prompts de prueba), la clasifico como VAGA porque carece de los detalles técnicos específicos que suelen esperarse en una evaluación de backend, como métricas o tecnologías concretas más allá de Spring.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

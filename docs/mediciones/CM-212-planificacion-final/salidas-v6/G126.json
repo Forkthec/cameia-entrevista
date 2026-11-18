@@ -1,0 +1,51 @@
+{
+  "id" : "G126",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:26:55.406182700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5261,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3292,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1393,
+  "tokensSalida" : 271,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué bueno saludarte hoy y darte la bienvenida a este espacio. Para empezar, me gustaría que me contaras qué te motiva a postularte como Analista de Datos en este momento.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo sueles estructurar tus consultas en SQL cuando necesitas optimizar el tiempo de respuesta al extraer información de bases de datos grandes?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en la que hayas tenido que limpiar y preparar datos desordenados para un análisis; me gustaría saber qué pasos diste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué librerías de Python utilizas comúnmente y cómo las integras en tu flujo de trabajo para el análisis diario?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagínate que un área de la empresa te pide un tablero de indicadores con urgencia, pero notas que los datos de origen tienen inconsistencias graves. Teniendo en cuenta que es la última pregunta, ¿cómo le explicarías esta situación al equipo y qué harías para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 176, 145, 173, 112, 271 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

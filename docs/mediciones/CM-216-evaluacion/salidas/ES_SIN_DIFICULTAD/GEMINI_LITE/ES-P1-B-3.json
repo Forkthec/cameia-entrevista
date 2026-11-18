@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-B",
+  "corrida" : 3,
+  "ms" : 1695,
+  "tokensEntrada" : 666,
+  "tokensSalida" : 119,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta carece de detalles concretos sobre la experiencia profesional y las motivaciones técnicas para el puesto.\",\n  \"follow_up_texto\": \"Podrías detallar qué tecnologías backend manejas y qué aspectos específicos de este puesto te llaman la atención?\",\n  \"feedback\": \"Tu respuesta es demasiado general. Es necesario enfocarla en tu experiencia técnica y en por qué este rol en particular se alinea con tu perfil.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

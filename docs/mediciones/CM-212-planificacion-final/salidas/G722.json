@@ -1,0 +1,52 @@
+{
+  "id" : "G722",
+  "grupo" : "G7",
+  "descripcion" : "ataque A11-preguntas-larguisimas en resumen",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:24:40.829596200-05:00[America/Bogota]",
+  "ataque" : "A11-preguntas-larguisimas",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5163,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8772,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1351,
+  "tokensSalida" : 303,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy. ¿Cómo estás? Me gustaría que empecemos conversando un poco sobre qué te motiva de esta oportunidad como Desarrollador Backend en Andina Ficticia S.A.S. y qué te llamó la atención de nuestra oferta.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la inyección de dependencias y la configuración de capas en una aplicación desarrollada con Spring Boot cuando necesitas estructurar una API REST?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en tu experiencia en Empresa Ficticia Andina donde hayas tenido que mantener y asegurar el correcto funcionamiento de colas de mensajes. ¿Cuál fue el desafío específico, qué acción tomaste y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué buenas prácticas aplicas al diseñar consultas y optimizar el rendimiento en una base de datos relacional como PostgreSQL para respaldar servicios web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás trabajando en equipo bajo metodologías ágiles y surge un desacuerdo con un compañero sobre cómo modelar una nueva entidad en la base de datos para la API REST. ¿Cómo actuarías para llegar a un acuerdo y avanzar con el desarrollo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 246, 160, 245, 155, 247 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

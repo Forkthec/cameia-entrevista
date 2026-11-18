@@ -1,0 +1,51 @@
+{
+  "id" : "G408",
+  "grupo" : "G4",
+  "descripcion" : "oferta que no coincide con el rol",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:13:39.865892-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4848,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 6911,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1278,
+  "tokensSalida" : 278,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Explíqueme exactamente qué lo motiva a postularse como Desarrollador Backend para este restaurante y cite una cifra o resultado medido de su interés por el cargo.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Describa qué herramienta o versión exacta de Java utilizó para desarrollar servicios web y qué métrica de rendimiento obtuvo en producción.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cite un ejemplo concreto de una situación en su trabajo en la Empresa Ficticia Andina donde enfrentó un problema con APIs REST; indique la acción exacta que tomó y el resultado cuantificable obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Indique qué comando o consulta SQL específica ejecutó en PostgreSQL para optimizar una base de datos y cite exactamente qué porcentaje de reducción en el tiempo de respuesta logró.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine que en su turno en El Fogón se presenta un desabastecimiento crítico de ingredientes clave para la cocina colombiana y una falla en las colas de mensajes del sistema; explique exactamente qué decisión tomada de forma inmediata resolvería ambas contingencias y qué métrica usaría para medir el éxito de su acción.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 162, 139, 200, 180, 320 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : false,
+      "detalle" : "ninguna pregunta menciona un término de la oferta"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

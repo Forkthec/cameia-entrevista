@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-C",
+  "corrida" : 1,
+  "ms" : 676,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 148,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Eses una postura inaceptable para un QA o líder técnico. Abandona tu responsabilidad sobre la calidad del producto y genera fricción innecesaria. Debes saber que hay una base objetiva para validar defectos, no solo opiniones.\", \"follow_up_texto\": \"Explica el proceso técnico y de colaboración que seguirías para validar si es un bug o funcionalidad, usando como evidencia las especificaciones o los requisitos del cliente, sin señalar a nadie.\", \"motivo\": \"El candidato esquiva la responsabilidad y cambia de tema, en lugar de ofrecer una solución profesional al conflicto.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

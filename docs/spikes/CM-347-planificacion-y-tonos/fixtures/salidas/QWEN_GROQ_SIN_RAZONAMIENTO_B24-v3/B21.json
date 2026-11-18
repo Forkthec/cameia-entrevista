@@ -1,0 +1,86 @@
+{
+  "id" : "B21",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3390,
+  "inicio" : "2026-11-08T16:11:24.204978500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1136,
+  "tokensEntrada" : 881,
+  "tokensSalida" : 371,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Dado que usted posee tres años de experiencia en desarrollo de servicios web, ¿con qué métricas específicas de su desempeño actual respalda su capacidad para escalar hacia un rol de diseño de arquitectura y no solo mantenimiento?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"En Spring Boot, ¿cuál es la estrategia concreta que usted implementa para optimizar el rendimiento de las consultas a PostgreSQL cuando maneja volúmenes de datos altos, y cuánta reducción de latencia logró?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describa una situación donde integró una cola de mensajes en un proyecto anterior, detallando la tarea específica, las acciones técnicas que tomó para garantizar el procesamiento de eventos y el resultado cuantitativo obtenido.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Qué framework específico de pruebas automatizadas ha utilizado en sus deslues en la nube, y cuál es el porcentaje exacto de cobertura de código que logra mantener en sus módulos críticos?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si durante una iteración ágil detecta un cuello de botella en la plataforma RabbitMQ que está afectando criticamente a la colaboración del equipo, ¿cuáles son los tres primeros pasos técnicos y de comunicación que ejecutaría para resolverlo?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "948",
+    "x-ratelimit-remaining-tokens" : "6607",
+    "x-ratelimit-reset-requests" : "1h14m52.8s",
+    "x-ratelimit-reset-tokens" : "30.72s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 241 caracteres"
+    }
+  },
+  "largos" : [ 229, 206, 227, 188, 241 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+  },
+  "validoTrasReintento" : true
+}

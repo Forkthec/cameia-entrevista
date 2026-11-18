@@ -1,0 +1,51 @@
+{
+  "id" : "G304",
+  "grupo" : "G3",
+  "descripcion" : "experiencia con descripción nula (en)",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:11:01.945972400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4861,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1935,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1259,
+  "tokensSalida" : 282,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your background in Java, Spring Boot, and PostgreSQL with three years of experience, state the exact number of production releases you deployed personally and cite one specific metric regarding system uptime that you achieved.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When configuring database connection pools in PostgreSQL with Spring Boot, what exact maximum pool size configuration parameter did you set in production and what was the measured response time improvement under load?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation in your current role at Fictitious Andean Company where you resolved a critical bug in a web service, detailing the exact tool you used for debugging and the measured reduction in error rate after your fix.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding the integration of message queues with RabbitMQ as required by the role, cite the exact exchange type you implemented and provide a measurable throughput metric in messages per second that your consumer handled.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a REST API endpoint developed in Spring Boot experiences a sudden traffic spike causing latency to exceed exactly two thousand milliseconds; what specific tool will you use to trace the bottleneck and what precise action will you take to reduce the response time below the threshold?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 238, 217, 236, 221, 291 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

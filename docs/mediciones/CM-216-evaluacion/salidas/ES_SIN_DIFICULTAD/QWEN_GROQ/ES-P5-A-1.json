@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 1,
+  "ms" : 1032,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 112,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida que prioriza el impacto y la seguridad del sistema (rollback) antes que la investigación detallada, lo cual es correcto en un contexto de fin de semana.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato cubre la triaje, la mitigación inmediata (rollback), la comunicación, la resolución y la post-mortem, demostrando un proceso de incidentes maduro y realista.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

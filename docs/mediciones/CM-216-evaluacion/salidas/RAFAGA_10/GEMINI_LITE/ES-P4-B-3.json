@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 3,
+  "ms" : 1304,
+  "tokensEntrada" : 662,
+  "tokensSalida" : 129,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"El candidato menciona conceptos generales como cola y base de datos pero carece de detalles sobre la arquitectura y la persistencia.\",\n  \"follow_up_texto\": \"Especifica qué tecnología usarías para la cola y cómo asegurarías la atomicidad entre el guardado en la base de datos y el encolado para evitar perder mensajes ante un reinicio.\",\n  \"feedback\": \"La respuesta es demasiado general. Debes profundizar en los mecanismos de persistencia y encolamiento.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

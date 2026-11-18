@@ -1,0 +1,60 @@
+{
+  "id" : "B12",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2297,
+  "inicio" : "2026-11-07T10:46:09.987971200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1910,
+  "tokensEntrada" : 569,
+  "tokensSalida" : 270,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you walk me through your three years of experience building web services with Java and Spring Boot, and specifically what motivates you to join Andina Ficticia S.A.S. as a Backend Developer?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When designing REST APIs in Spring Boot, how do you handle database transaction management and concurrency control in PostgreSQL to ensure data integrity under high traffic?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you had to integrate a message queue like RabbitMQ into an existing architecture; what was the specific challenge, what actions did you take, and what quantifiable result did you achieve in system performance or reliability?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific strategies and design patterns do you apply when writing comprehensive automated tests for complex business logic in Spring Boot applications?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you deploy a new microservice to the cloud that suddenly experiences a 500 error spike due to a sudden failure in the PostgreSQL connection pool; walk me through your exact troubleshooting steps and how you would resolve it under pressure while working with your agile team.\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 282 caracteres"
+    }
+  },
+  "largos" : [ 196, 173, 260, 156, 282 ]
+}

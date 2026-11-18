@@ -1,0 +1,69 @@
+{
+  "id" : "B07",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2361,
+  "inicio" : "2026-11-07T10:41:52.327573700-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 977,
+  "tokensEntrada" : 611,
+  "tokensSalida" : 231,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Puede presentarse brevemente y explicarnos qué motivos lo llevan a buscar este rol de Desarrollador Backend en Andina Ficticia S.A.S.\"},{\"posicion\":2\",\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructura y modela las relaciones en una base de datos PostgreSQL para garantizar la integridad de los datos en una API REST?\n\n\n\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntenos una situación específica en la que haya tenido que resolver un error crítico en uno de sus servicios web.\n\n\n\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo implementa la comunicación asíncrona entre microservicios utilizando RabbitMQ para asegurar la entrega de mensajes?\n\n\n\"},{\"posicion\":5\",\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la revisión de un código usted detecta que una implementación actual no sigue las mejores prácticas de la empresa, ¿cómo procedería para abordarlo con el equipo?\n\n\n\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "986",
+    "x-ratelimit-remaining-tokens" : "6383",
+    "x-ratelimit-reset-requests" : "20m9.6s",
+    "x-ratelimit-reset-tokens" : "54.54s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "el texto no es un JSON válido"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}

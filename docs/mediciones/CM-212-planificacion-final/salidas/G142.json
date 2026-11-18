@@ -1,0 +1,51 @@
+{
+  "id" : "G142",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T19:05:43.126090500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4775,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1735,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1276,
+  "tokensSalida" : 244,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué aspira exactamente al cargo de Analista de Datos en esta empresa y qué resultado cuantificable de su trayectoria reciente lo respalda?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Indique exactamente qué consulta SQL y qué métrica específica utilizó para optimizar el rendimiento de las consultas en su experiencia en Comercio Ficticio Ltda.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cite un ejemplo concreto de un proyecto de limpieza de datos en Consultora Ficticia donde deba detallar qué herramienta empleó y qué porcentaje exacto de registros erróneos corrigió.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Especifique exactamente qué librería de Python empleó para construir tableros de indicadores y cite una métrica exacta que haya presentado a la gerencia.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si los datos de ventas semanales presentan inconsistencias críticas, ¿qué paso exacto sigue para validarlos y qué herramienta o comando utiliza para verificar el resultado?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 143, 161, 182, 153, 172 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-05",
+  "corrida" : 3,
+  "ms" : 1848,
+  "tokensEntrada" : 1497,
+  "tokensSalida" : 264,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta contiene texto duplicado masivo, lo que impide una evaluación clara y sugiere un fallo en la entrada o una falta de atención. Además, asume incorrectamente que las transacciones usan bloqueos de forma inherente por defecto en todos los niveles de aislamiento, y no explica la distinction entre lock-mode y versioning. Por favor, reformula la respuesta limpiamente.\", \"follow_up_texto\": \"Reformula tu respuesta sin los errores de formato repetidos. Especifica: 1) Qué mecanismos de aislamiento (bloqueos vs. multiversión) utiliza una transacción típica. 2) Cuál es el mecanismo exacto del bloqueo optimista (columna de versión o timestamp). 3) Da un ejemplo concreto de SQL o código para cada caso.\", \"motivo\": \"La respuesta es VAGA porque, aunque menciona los conceptos básicos, se basa en una premisa técnica imprecisa (transacciones = bloqueos automáticos) y carece de detalles sobre los mecanismos subyacentes (locking vs. MVCC), además de estar contaminada por un error de repitición grave que dificulta la valoración objetiva.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

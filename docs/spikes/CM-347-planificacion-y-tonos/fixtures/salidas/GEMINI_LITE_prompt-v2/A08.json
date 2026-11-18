@@ -1,0 +1,112 @@
+{
+  "id" : "A08",
+  "grupo" : "A",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2799,
+  "inicio" : "2026-11-07T11:07:32.730709800-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 5194,
+  "tokensEntrada" : 714,
+  "tokensSalida" : 194,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "el texto no es un JSON válido"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : false,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 4567,
+    "tokensEntrada" : 714,
+    "tokensSalida" : 182,
+    "modelo" : "gemini-3.5-flash-lite",
+    "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you walk me through your background and what motivates you to pursue a role as a Software Quality Analyst?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you design test cases for web applications when requirements are updated frequently?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a situation where you found a critical defect in Jira and explain how you reported and tracked it through resolution.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Can you explain how you implement Selenium-automated tests in your current workflow to ensure web application quality?\"},{\"posicion\":5",
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "el texto no es un JSON válido"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ]
+  },
+  "validoTrasReintento" : false
+}

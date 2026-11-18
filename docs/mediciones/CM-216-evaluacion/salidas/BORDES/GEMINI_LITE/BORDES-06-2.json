@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-06",
+  "corrida" : 2,
+  "ms" : 1289,
+  "tokensEntrada" : 1533,
+  "tokensSalida" : 100,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"La respuesta no aborda conceptos de bases de datos y habla sobre cocina.\",\n  \"follow_up_texto\": \"Por favor, enfócate en la pregunta técnica sobre transacciones y bloqueo optimista en bases de datos relacionales.\",\n  \"feedback\": \"La respuesta no tiene relación con el tema técnico consultado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

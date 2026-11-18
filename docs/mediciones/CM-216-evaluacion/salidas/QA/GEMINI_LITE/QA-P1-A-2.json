@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P1-A",
+  "corrida" : 2,
+  "ms" : 1375,
+  "tokensEntrada" : 712,
+  "tokensSalida" : 79,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato responde con ejemplos concretos de su experiencia y explica claramente su motivación.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena descripción de la experiencia y del impacto medible de la automatización.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G129",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, sin oferta, DATOS",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:27:19.837346800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5188,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1520,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1360,
+  "tokensSalida" : 249,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, and thank you for taking the time to chat with us; I would love it if you could start by telling me a little bit about yourself and what drew you to apply for this Data Analyst role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through how you typically write complex SQL queries and join large datasets to extract the metrics we need.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"I'd love it if you could share a specific time from your past experience when you had to clean and prepare messy customer data before starting your analysis.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could tell me about your experience using Python libraries to build KPI dashboards and present your findings.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine that stakeholders ask you to deliver a sales dashboard by tomorrow morning, but you notice a significant discrepancy in the underlying data; since this is our last question, how would you handle this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 214, 140, 157, 128, 218 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

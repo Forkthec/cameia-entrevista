@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-A",
+  "corrida" : 2,
+  "ms" : 1138,
+  "tokensEntrada" : 752,
+  "tokensSalida" : 102,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre la persistencia, el patrón transactional outbox, el manejo de reintentos con backoff, la cola de mensajes muertos y la idempotencia.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"La solución propuesta cubre de forma correcta la persistencia, la idempotencia y la tolerancia a fallos.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

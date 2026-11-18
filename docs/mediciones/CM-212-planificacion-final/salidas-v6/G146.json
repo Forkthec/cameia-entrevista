@@ -1,0 +1,51 @@
+{
+  "id" : "G146",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:30:00.063728500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 4814,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 9223,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1251,
+  "tokensSalida" : 253,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"State your exact reasons for applying to this Backend Developer role and cite one specific metric regarding your current throughput or efficiency in your role at Fictitious Andean Company.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding your experience with Java and Spring Boot, cite one specific version of Spring Boot you have used in production and provide the exact measurable performance result or response time metric you achieved.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation at Fictitious Andean Company where you had to maintain REST APIs under pressure; state the exact tool or library you used and the precise quantitative result you delivered.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explain how you handle data persistence with PostgreSQL in your current role; cite the exact optimization technique or indexing strategy you implemented, along with the precise query execution time reduction you measured.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a message queue you maintain experiences a critical backlog in production; specify the exact diagnostic tool you would use first and state the precise quantitative threshold at which you would escalate the issue.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 188, 211, 202, 221, 220 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

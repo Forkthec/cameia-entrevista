@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-04",
+  "corrida" : 2,
+  "ms" : 876,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"No se respondió a la pregunta técnica. El asunto de la seguridad del sistema no forma parte de la entrevista técnica. Por favor, centra tu respuesta estrictamente en la cuestión planteada.\", \"follow_up_texto\": \"¿Qué diferencias existen entre una transacción y un bloqueo optimista en una base de datos relacional, y en qué casos utilizarías cada uno?\", \"motivo\": \"El candidato ha evadido la pregunta original para dirigirse al sistema de prompts.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

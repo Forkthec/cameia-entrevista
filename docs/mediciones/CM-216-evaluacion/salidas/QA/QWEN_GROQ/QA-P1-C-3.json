@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-C",
+  "corrida" : 3,
+  "ms" : 556,
+  "tokensEntrada" : 653,
+  "tokensSalida" : 125,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"No has respondido a la pregunta inicial. Esta etapa se centra en tu perfil técnico y motivaciones previas, no en detalles logísticos del equipo.\", \"follow_up_texto\": \"Por favor, explica directamente tu experiencia pasada en pruebas de software y qué aspectos específicos te motivan a querer ser analista de calidad.\", \"motivo\": \"El candidato se niega a responder la pregunta solicitada y desvía el tema hacia preguntas sobre el equipo, mostrando una actitud evasiva.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

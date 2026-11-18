@@ -1,0 +1,51 @@
+{
+  "id" : "G314",
+  "grupo" : "G3",
+  "descripcion" : "formación en curso sin experiencia (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:12:25.008364100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4566,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3219,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1186,
+  "tokensSalida" : 275,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome and thank you for being here today; I would love it if you could start by telling me what motivated you to study Systems Engineering and what makes you excited about applying for a backend developer role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo diseñarías una consulta básica en PostgreSQL y qué tendrías en cuenta para asegurar que sea eficiente.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Piensa en un momento durante tus estudios en Fictitious Valley University en el que hayas tenido que resolver un desafío difícil trabajando en un proyecto académico, y cuéntame cuál fue la situación, qué hiciste tú y qué resultado obtuviste.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Me encantaría saber cómo manejas el control de versiones con Git cuando trabajas en equipo y qué comandos usas habitualmente para integrar cambios.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando nuestra charla, imagina que estás desarrollando una API en Java y notas que de repente empieza a responder con mucha lentitud justo antes de una entrega importante; ¿cómo decidirías qué hacer en ese momento para solucionarlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 222, 135, 241, 147, 242 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : false,
+      "detalle" : "no parecen estar en en: pos 2 (es=11, en=2); pos 3 (es=17, en=0); pos 4 (es=10, en=1); pos 5 (es=14, en=1)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

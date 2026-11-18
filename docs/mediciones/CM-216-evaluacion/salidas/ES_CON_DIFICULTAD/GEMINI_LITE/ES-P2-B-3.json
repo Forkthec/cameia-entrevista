@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-B",
+  "corrida" : 3,
+  "ms" : 1245,
+  "tokensEntrada" : 678,
+  "tokensSalida" : 127,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es demasiado general y no explica los mecanismos técnicos ni las diferencias reales entre transacciones y bloqueo optimista.\",\n  \"follow_up_texto\": \"Podrías detallar cómo funciona el mecanismo de control de concurrencia en el bloqueo optimista mediante versiones o marcas de tiempo, y en qué escenarios específicos elegirías este enfoque frente a una transacción estándar.\",\n  \"feedback\": \"La respuesta carece de los detalles técnicos necesarios para el nivel de dificultad esperado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

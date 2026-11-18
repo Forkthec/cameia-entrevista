@@ -1,0 +1,84 @@
+{
+  "id" : "A05",
+  "grupo" : "A",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2354,
+  "inicio" : "2026-11-07T10:36:47.759900100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 156,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 878, Requested 354. Please try again in 13.92s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "14",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "996",
+      "x-ratelimit-remaining-tokens" : "7061",
+      "x-ratelimit-reset-requests" : "5m45.6s",
+      "x-ratelimit-reset-tokens" : "52.68s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 1157,
+  "tokensEntrada" : 612,
+  "tokensSalida" : 405,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Puede presentar brevemente su perfil profesional y explicar qué motiva específicamente a postularse para el puesto de Analista de Calidad de Software en Andina Ficticia S.A.S.?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"En el marco de las pruebas automatizadas con Selenium, ¿cuál es la estrategia que utiliza para asegurar que los identificadores de elementos de la interfaz sean estables y no provoque fragilidad en las pruebas de regresión?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Describa una situación en la que detectó un defecto crítico que no estaba contemplado en los casos de prueba originales; explique su tarea, las acciones que tomó para reproducir el error y el resultado final en la gestión del requerimiento.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo define y aplica la trazabilidad de requisitos para garantizar que cada funcionalidad del producto cuenta con al menos un caso de prueba asociado en el plan de prueba?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Supongamos que durante la ejecución de una ronda de pruebas, encuentra una discrepancia significativa entre el requerimiento funcional aprobado y el comportamiento real de la aplicación; ¿cómo procedería usted para gestionar esta situación con el equipo de desarrollo y aseguramiento de la calidad?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "995",
+    "x-ratelimit-remaining-tokens" : "6408",
+    "x-ratelimit-reset-requests" : "7m12s",
+    "x-ratelimit-reset-tokens" : "58.8s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 298 caracteres"
+    }
+  },
+  "largos" : [ 176, 223, 240, 172, 298 ]
+}

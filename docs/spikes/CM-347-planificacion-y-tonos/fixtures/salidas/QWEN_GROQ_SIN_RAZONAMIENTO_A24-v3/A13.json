@@ -1,0 +1,86 @@
+{
+  "id" : "A13",
+  "grupo" : "A24",
+  "rol" : "Analista de Calidad de Software",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3372,
+  "inicio" : "2026-11-08T15:58:39.901937500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1232,
+  "tokensEntrada" : 880,
+  "tokensSalida" : 341,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Cuáles son las razones específicas que lo motivan para buscar especializarse en automatización dentro del rol de Analista de Calidad de Software en Andina Ficticia S.A.S.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Cómo estructura técnicamente sus scripts para garantizar que las pruebas de regresión ejecutadas con Selenium mantengan la trazabilidad con los requisitos funcionales de las aplicaciones web.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describa una experiencia concreta en la que haya diseñado y ejecutado casos de prueba manuales que revelaran defectos críticos, detallando la situación, la acción tomada y el resultado final reportado.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Qué criterios técnicos utiliza para clasificar y priorizar los defectos que registra en Jira durante el proceso de aseguramiento de la calidad.\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si durante la ejecución de una suite de pruebas automatizadas con Selenium se presenta una falla ininteligible que no está relacionada con el código de la aplicación, cómo procedería para determinar si es un fallo del script o del entorno de pruebas?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "986",
+    "x-ratelimit-remaining-tokens" : "6766",
+    "x-ratelimit-reset-requests" : "20m9.6s",
+    "x-ratelimit-reset-tokens" : "9.254s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 250 caracteres"
+    }
+  },
+  "largos" : [ 170, 191, 201, 143, 250 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 5]; gestión de defectos en las preguntas [3, 4]; trazabilidad y requisitos en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

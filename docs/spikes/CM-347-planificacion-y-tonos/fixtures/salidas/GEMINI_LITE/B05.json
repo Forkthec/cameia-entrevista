@@ -1,0 +1,60 @@
+{
+  "id" : "B05",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2339,
+  "inicio" : "2026-11-07T10:44:58.233110300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 2674,
+  "tokensEntrada" : 572,
+  "tokensSalida" : 266,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome! It is great to have you here today, so to get us started, could you share a bit about what motivates you to join our team at Andina Ficticia S.A.S. as a Backend Developer?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Since you have solid experience with Java and Spring Boot, could you explain how you typically handle database transactions and ensure data consistency in PostgreSQL when building REST APIs?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you tell me about a time when you had to integrate a message queue like RabbitMQ into an existing system, describing the specific situation, the task you faced, the actions you took, and the final result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Looking at our need for robust automated testing, what is your preferred approach or framework for writing unit and integration tests in your Spring Boot services?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you deploy a new web service to the cloud and suddenly notice a significant spike in latency related to database queries; how would you approach troubleshooting and resolving this issue under pressure?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 210 caracteres"
+    }
+  },
+  "largos" : [ 190, 190, 210, 163, 209 ]
+}

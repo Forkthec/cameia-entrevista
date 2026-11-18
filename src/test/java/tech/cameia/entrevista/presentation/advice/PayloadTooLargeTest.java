@@ -28,7 +28,7 @@ import tech.cameia.entrevista.support.WithLanguageModelProperties;
  * Comprueba con servidor real que un {@code multipart/form-data} más grande que el máximo de la
  * petición responde con el formato común del servicio y no con un 413 sin cuerpo.
  *
- * <p>El máximo se baja a 1 KB para enviar solo 2 KB: con el valor de producción (10 MB) el
+ * <p>El máximo se baja a 1 KB para enviar solo 2 KB: con el valor de producción (12 MiB) el
  * contenedor cierra la conexión sin leer el resto del cuerpo y el cliente puede perder la
  * respuesta, lo que haría la prueba inestable sin probar nada más.</p>
  */

@@ -1,0 +1,51 @@
+{
+  "id" : "G110",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, con experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:24:34.770101400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4549,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4374,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1225,
+  "tokensSalida" : 202,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Cuéntenos sobre su trayectoria como analista de datos y qué le motiva a postularse a este rol.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo optimiza consultas SQL complejas para mejorar el rendimiento en la extracción de información?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que haya tenido que limpiar un conjunto de datos desordenados. ¿Qué pasos siguió y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué buenas prácticas aplica al estructurar scripts en Python para el procesamiento de datos?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que los resultados de un tablero de indicadores no coinciden con las cifras que espera un área de la empresa. ¿Cómo manejaría esta revisión con ellos?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 94, 99, 134, 93, 158 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

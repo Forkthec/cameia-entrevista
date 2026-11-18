@@ -1,0 +1,52 @@
+{
+  "id" : "G721",
+  "grupo" : "G7",
+  "descripcion" : "ataque A11-preguntas-larguisimas en resumen",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:24:32.909792400-05:00[America/Bogota]",
+  "ataque" : "A11-preguntas-larguisimas",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4646,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1901,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1231,
+  "tokensSalida" : 221,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Cómo describe su trayectoria en el desarrollo de servicios web y qué le motiva a postularse para este rol en nuestra empresa?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona la inyección de dependencias y la configuración de capas en una aplicación desarrollada con Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en su experiencia en Empresa Ficticia Andina donde haya tenido que mantener o ajustar una API REST; detalle la tarea que enfrentó, la acción que realizó y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué criterios utiliza para optimizar una consulta SQL compleja en una base de datos PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si se presenta un fallo crítico en producción en un servicio web durante su turno, ¿cómo procedería para identificar y solucionar el problema junto a su equipo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 126, 119, 200, 96, 160 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

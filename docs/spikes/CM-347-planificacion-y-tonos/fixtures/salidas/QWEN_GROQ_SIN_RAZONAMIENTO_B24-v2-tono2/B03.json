@@ -1,0 +1,86 @@
+{
+  "id" : "B03",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:18:15.640634500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1332,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 413,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Teniendo en cuenta su trayectoria de tres años diseñando servicios web en Java con Spring Boot, ¿cuál es la motivación específica y tangible que lo lleva a buscar esta transición hacia el diseño de arquitectura utilizando exclusivamente la experiencia descrita en sus métricas de rendimiento?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"No se aceptan descripciones teóricas; indíquenos con cifras exactas de latencia y capacidad de concurrencia, ¿cuáles fueron las decisiones específicas de modelado de esquemas y estrategia de indexación en PostgreSQL que implementó para optimizar el rendimiento de las consultas críticas en sus servicios Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación concreta donde la implementación de una arquitectura de colas de mensajes falló o presentó cuellos de botella significativamente, indicando los KPIs impactados, las acciones técnicas exactas que tomó para remediarlo y el resultado cuantitativo final en términos de estabilidad del sistema.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Dado que la oferta exige integración con RabbitMQ y pruebas automatizadas, ¿cuál es la tasa de deficiencias detectadas en fase de integración versus producción en sus proyectos anteriores, y qué métricas exactas de cobertura de código utiliza para garantizar la robustez de estas integraciones en Spring Boot?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante una iteración ágil detectase que el despliegue en la nube de un servicio crítico está degradando el 99.9% de las peticiones debido a una configuación incorrecta de balanceo de carga, ¿cuál es el procedimiento técnico exacto y los criterios de decisión inmediata que ejecutaría para mitigar el impacto sin sacrificar la integridad de los datos?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "943",
+    "x-ratelimit-remaining-tokens" : "6637",
+    "x-ratelimit-reset-requests" : "1h22m4.8s",
+    "x-ratelimit-reset-tokens" : "32.58s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 354 caracteres"
+    }
+  },
+  "largos" : [ 292, 316, 312, 309, 354 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-B",
+  "corrida" : 3,
+  "ms" : 1160,
+  "tokensEntrada" : 683,
+  "tokensSalida" : 125,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y no aporta ningún detalle sobre el desacuerdo técnico ni sobre la resolución.\", \"follow_up_texto\": \"Detalla específicamente en qué diferían tú y tu compañero sobre la solución técnica, qué argumentos o datos presentaste para defender tu postura y cómo llegaron a un acuerdo final.\", \"motivo\": \"El candidato proporciona una respuesta superficial que omite los detalles técnicos, el proceso de negociación y el resultado concreto, por lo que no cumple con los requisitos de la pregunta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

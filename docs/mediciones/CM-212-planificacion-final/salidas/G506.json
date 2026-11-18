@@ -1,0 +1,51 @@
+{
+  "id" : "G506",
+  "grupo" : "G5",
+  "descripcion" : "tildes descompuestas y otros alfabetos (en)",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:15:44.663596900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4231,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5247,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1132,
+  "tokensSalida" : 185,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce your background and explain your interest in this Backend Developer role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle dependency injection and configure application properties using Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time when you had to maintain or troubleshoot existing REST APIs under a tight deadline. What was the situation and what actions did you take?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies do you use in PostgreSQL to optimize query performance for large datasets?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you notice that a message queue is backing up and messages are not being processed in a timely manner. How would you investigate and resolve this issue?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 101, 94, 158, 90, 160 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

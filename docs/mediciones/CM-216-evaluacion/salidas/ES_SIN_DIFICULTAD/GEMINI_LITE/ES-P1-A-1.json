@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-A",
+  "corrida" : 1,
+  "ms" : 2978,
+  "tokensEntrada" : 689,
+  "tokensSalida" : 82,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato resume su experiencia técnica relevante y explica claramente su motivación para el puesto.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta clara y directa que cubre tanto la experiencia en backend como el encargo motivacional.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

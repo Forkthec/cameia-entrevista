@@ -1,0 +1,51 @@
+{
+  "id" : "G135",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, sin experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:04:33.234052600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4809,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2061,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1253,
+  "tokensSalida" : 283,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa específicamente el rol de Analista de Calidad en Andina Ficticia S.A.S. y qué resultado cuantificable espera lograr en sus primeros tres meses? Cite un ejemplo concreto.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Mencione exactamente qué versión de Selenium utilizó y cite un ejemplo concreto de un script de prueba de regresión que haya automatizado con esta herramienta.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Durante su formación en el Instituto Técnico Ficticio del Norte, describa una situación exacta en la que haya diseñado casos de prueba; indique qué métrica usó para medir la cobertura y qué resultado obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explique detalladamente cómo configuró y utilizó Jira para la gestión de defectos en sus prácticas académicas, especificando qué campos obligatorios estableció para garantizar la trazabilidad.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la ejecución de las pruebas encuentra un defecto crítico que bloquea el despliegue a producción, ¿cuál es el procedimiento exacto que sigue para reportarlo y qué métrica utiliza para evaluar su gravedad? Cite un caso hipotético concreto.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 190, 159, 207, 192, 248 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

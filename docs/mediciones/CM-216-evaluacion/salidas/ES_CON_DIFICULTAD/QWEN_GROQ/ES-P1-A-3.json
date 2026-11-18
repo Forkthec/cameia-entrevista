@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 3,
+  "ms" : 768,
+  "tokensEntrada" : 701,
+  "tokensSalida" : 137,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta es concisa y menciona stack, contexto y motivaciones concretas, apropiado para una pregunta de introducción de dificultad fácil, aunque podría añadir un logro más específico si fuera para una entrevista técnica avanzada.\", \"follow_up_texto\": \"\", \"motivo\": \"Responde directamente a la pregunta solicitada por el entrevistador (cuentame sobre ti y por qué te interesa), proporciona información relevante (experiencia técnica, logro específico, motivaciones) está bien adaptada al nivel de dificultad de la pregunta (facil).\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

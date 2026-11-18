@@ -1,0 +1,13 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 2,
+  "ms" : 775,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 96,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Responde bien a la petición con concreción técnica (métricas de despliegue y acoplamiento) y un desenlace constructivo.\", \"follow_up_texto\": \"\", \"motivo\": \"Describe una situación específica, las acciones concretas con base en datos y el resultado final, cumpliendo con el nivel de detalle requerido.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

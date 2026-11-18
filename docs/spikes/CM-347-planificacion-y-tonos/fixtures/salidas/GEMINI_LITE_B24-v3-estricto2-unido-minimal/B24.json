@@ -1,0 +1,78 @@
+{
+  "id" : "B24",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3719,
+  "inicio" : "2026-11-09T01:30:49.470752200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1548,
+  "tokensEntrada" : 924,
+  "tokensSalida" : 304,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your 3 years of experience building web services, what exact motivation led you to apply for this Backend Developer role at Andina Ficticia S.A.S., and what specific metric or result do you expect to achieve in your architectural growth within the first year?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding your experience with PostgreSQL, cite an exact database modeling decision you made for a Spring Boot application, specifying the exact tool or query optimization technique used and the exact performance metric improved.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific past situation where you integrated message queues with RabbitMQ in a Java project; detail the exact action you took to handle delivery failures and state the exact quantifiable result measured in message throughput or error rate reduction.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Focusing on cloud deployments and REST APIs, specify the exact tool or framework you used for containerization and automated testing, and provide a concrete metric regarding test coverage or deployment time.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are maintaining REST APIs in Spring Boot for Andina Ficticia S.A.S. and an urgent database deadlock occurs in PostgreSQL during peak traffic; exactly what step-by-step troubleshooting action will you take and what precise recovery time objective will you guarantee?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 277 caracteres"
+    }
+  },
+  "largos" : [ 271, 229, 260, 207, 277 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 5]; Spring Boot en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}

@@ -1,0 +1,1 @@
+{"type":"object","properties":{"idioma":{"type":"string"},"preguntas":{"type":"array","items":{"type":"object","properties":{"posicion":{"type":"integer"},"tipo":{"type":"string"},"texto":{"type":"string"}},"required":["posicion","tipo","texto"],"additionalProperties":false}}},"required":["idioma","preguntas"],"additionalProperties":false}

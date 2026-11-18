@@ -1,0 +1,51 @@
+{
+  "id" : "G913",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G302)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:40:37.592457700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5103,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1486,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1322,
+  "tokensSalida" : 239,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today; I’d love it if you could start by telling me a bit about yourself and what motivates you to apply for this Backend Developer position.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could walk me through how you build and maintain REST APIs using Java and Spring Boot.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation from your experience maintaining REST APIs where you had to troubleshoot a performance issue in a message queue, and what steps you took to resolve it?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could explain how you typically handle database migrations and query optimization when working with PostgreSQL.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you notice a sudden spike in error rates on a production endpoint right before you finish your workday; how would you approach handling this situation? That’s our last question for today, thank you so much for your time.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 166, 105, 188, 130, 228 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 2,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G130",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T21:30:42.354739500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5491,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1406,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1428,
+  "tokensSalida" : 192,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, and to start things off, could you tell me what drew you to this Backend Developer position?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle dependency injection and configure beans when building a web service with Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific time when you had to troubleshoot and fix a persistent bug in a REST API you were maintaining?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies do you use in PostgreSQL to optimize query performance for tables with large amounts of data?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our final question for today, so what would you do if a message queue started dropping incoming events right before a major deployment?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 124, 104, 121, 109, 143 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

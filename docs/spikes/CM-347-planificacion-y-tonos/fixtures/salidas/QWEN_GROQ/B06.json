@@ -1,0 +1,98 @@
+{
+  "id" : "B06",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2297,
+  "inicio" : "2026-11-07T10:41:20.829415300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 132,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 887, Requested 416. Please try again in 18.18s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "19",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "988",
+      "x-ratelimit-remaining-tokens" : "6996",
+      "x-ratelimit-reset-requests" : "17m16.8s",
+      "x-ratelimit-reset-tokens" : "53.22s"
+    }
+  }, {
+    "intento" : 2,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 146,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 552, Requested 535. Please try again in 5.22s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "6",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "988",
+      "x-ratelimit-remaining-tokens" : "7448",
+      "x-ratelimit-reset-requests" : "17m16.8s",
+      "x-ratelimit-reset-tokens" : "33.12s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 3,
+  "latenciaMs" : 1182,
+  "tokensEntrada" : 584,
+  "tokensSalida" : 413,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"en\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Given your three years of experience with Java and Spring Boot, provide specific metrics from your previous projects that demonstrate why you are uniquely qualified for this Backend Developer role at Andina Ficticia S.A.S. and how your interest in architecture design aligns with our current infrastructure goals.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"text\": \"Describe a specific optimization you performed on a PostgreSQL database query in a high-traffic Spring Boot application, citing the exact indexing strategy used and the measurable reduction in response time or resource consumption.\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Recall a specific instance where a production incident related to a REST API failure occurred in your last role; detail the exact technical steps you took to diagnose the root cause, the immediate mitigation you implemented, and the permanent architectural change you introduced to prevent recurrence.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Explain how you would implement an end-to-end test suite for a transactional flow involving Spring Boot services and RabbitMQ message consumption, specifying the mocking strategies used for external dependencies and the coverage metrics you achieved.\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"If you were tasked with migrating a legacy monolithic module to a microservices architecture using RabbitMQ for communication within a two-week sprint, what specific technical trade-offs would you make regarding database consistency and service boundaries to ensure delivery without compromising performance?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "987",
+    "x-ratelimit-remaining-tokens" : "6806",
+    "x-ratelimit-reset-requests" : "18m43.2s",
+    "x-ratelimit-reset-tokens" : "36.6s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 2 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-C",
+  "corrida" : 1,
+  "ms" : 741,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 108,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"No se respondió la pregunta técnica planteada sobre diseño de casos de prueba.\", \"follow_up_texto\": \"Por favor, indica detalladamente las clases de equivalencia (válidas e inválidas) y los valores límite para los campos de correo, contraseña y fecha de nacimiento.\", \"motivo\": \"El candidato cambió de tema y no proporcionó ninguna información sobre el diseño de casos de prueba solicitado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

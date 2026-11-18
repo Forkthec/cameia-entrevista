@@ -1,0 +1,72 @@
+{
+  "id" : "A10",
+  "grupo" : "A24",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2783,
+  "inicio" : "2026-11-07T11:33:01.095668600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 745,
+  "tokensEntrada" : 729,
+  "tokensSalida" : 205,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you briefly introduce yourself and explain why you are motivated to move from backend development toward architecture design?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle transaction management in a Spring Boot application that interacts with PostgreSQL when dealing with high-volume data operations?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific instance where you implemented or integrated message queues in a previous project, detailing the situation, your role, the actions you took, and the outcome.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies do you employ to optimize database query performance in PostgreSQL when scaling a Java-based web service?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a critical backend service experiencing latency spikes is deployed to the cloud, what is your immediate approach to diagnosing and mitigating the issue?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "991",
+    "x-ratelimit-remaining-tokens" : "5124",
+    "x-ratelimit-reset-requests" : "12m57.599s",
+    "x-ratelimit-reset-tokens" : "46.08s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 177 caracteres"
+    }
+  },
+  "largos" : [ 129, 147, 177, 121, 155 ],
+  "validoTrasReintento" : true
+}

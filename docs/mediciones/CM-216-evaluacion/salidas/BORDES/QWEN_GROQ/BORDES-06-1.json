@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-06",
+  "corrida" : 1,
+  "ms" : 626,
+  "tokensEntrada" : 1605,
+  "tokensSalida" : 106,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"Tu respuesta no aborda el tema técnico planteado.\", \"follow_up_texto\": \"Por favor, explica la diferencia técnica entre una transacción y un bloqueo optimista en una base de datos relacional, y cuándo usarías cada uno.\", \"motivo\": \"El candidato no respondió a la pregunta técnica, sino que proporcionó un texto repetitivo e irrelevante sobre cómo cocinar arroz.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

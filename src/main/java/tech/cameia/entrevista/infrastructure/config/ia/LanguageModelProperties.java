@@ -22,7 +22,9 @@ import org.springframework.validation.annotation.Validated;
  *
  * @param apiKey llave del proveedor; llega por {@code GOOGLE_GENAI_API_KEY}
  * @param model identificador del modelo en la API del proveedor; llega por {@code LLM_MODEL}
- * @param timeout tiempo máximo de espera de cada llamada; llega por {@code LLM_TIMEOUT}
+ * @param timeout tiempo máximo de espera de cada llamada de planificación; llega por {@code LLM_TIMEOUT}
+ * @param evaluationTimeout tiempo máximo de espera de cada llamada de evaluación; llega por
+ *        {@code LLM_EVALUATION_TIMEOUT}
  * @param temperature temperatura del modelo, entre {@code 0.0} y {@code 2.0}
  * @param thinkingLevel nivel de pensamiento del modelo
  */
@@ -32,6 +34,8 @@ public record LanguageModelProperties(
         @NotBlank(message = "cameia.llm.api-key (GOOGLE_GENAI_API_KEY) es obligatoria") String apiKey,
         @NotBlank(message = "cameia.llm.model (LLM_MODEL) es obligatorio") String model,
         @NotNull(message = "cameia.llm.timeout (LLM_TIMEOUT) es obligatorio") Duration timeout,
+        @NotNull(message = "cameia.llm.evaluation-timeout (LLM_EVALUATION_TIMEOUT) es obligatorio")
+        Duration evaluationTimeout,
         @NotNull(message = "cameia.llm.temperature es obligatoria")
         @DecimalMin(value = "0.0", message = "cameia.llm.temperature debe estar entre 0.0 y 2.0")
         @DecimalMax(value = "2.0", message = "cameia.llm.temperature debe estar entre 0.0 y 2.0") Double temperature,
@@ -48,6 +52,16 @@ public record LanguageModelProperties(
     }
 
     /**
+     * Indica si el tiempo de espera de la evaluación es mayor que cero. Un valor nulo lo reporta {@code @NotNull}.
+     *
+     * @return {@code true} si el tiempo de espera falta o es positivo
+     */
+    @AssertTrue(message = "cameia.llm.evaluation-timeout (LLM_EVALUATION_TIMEOUT) debe ser mayor que cero")
+    public boolean isEvaluationTimeoutPositive() {
+        return evaluationTimeout == null || evaluationTimeout.isPositive();
+    }
+
+    /**
      * Representación con la llave enmascarada.
      *
      * @return los valores de la configuración, con {@code apiKey=****}
@@ -55,6 +69,7 @@ public record LanguageModelProperties(
     @Override
     public String toString() {
         return "LanguageModelProperties[apiKey=****, model=" + model + ", timeout=" + timeout
-                + ", temperature=" + temperature + ", thinkingLevel=" + thinkingLevel + "]";
+                + ", evaluationTimeout=" + evaluationTimeout + ", temperature=" + temperature
+                + ", thinkingLevel=" + thinkingLevel + "]";
     }
 }

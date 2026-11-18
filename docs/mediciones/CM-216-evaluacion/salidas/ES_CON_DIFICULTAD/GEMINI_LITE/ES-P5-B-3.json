@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-B",
+  "corrida" : 3,
+  "ms" : 1383,
+  "tokensEntrada" : 684,
+  "tokensSalida" : 117,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"motivo\": \"La respuesta es demasiado general, menciona acciones superficiales sin explicar un proceso estructurado de troubleshooting ni mitigacion.\", \"follow_up_texto\": \"Especifica el proceso paso a paso. ¿Cómo accedes a los logs, qué métricas revisas primero y qué estrategia de rollback o mitigación rápida aplicarías si el reinicio no soluciona el problema?\", \"feedback\": \"El procedimiento inicial carece de estructura técnica y profundidad para un entorno de producción crítico.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

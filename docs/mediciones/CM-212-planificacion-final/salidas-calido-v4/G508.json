@@ -1,0 +1,51 @@
+{
+  "id" : "G508",
+  "grupo" : "G5",
+  "descripcion" : "caracteres invisibles y de control (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:33:33.814168100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5470,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2171,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1435,
+  "tokensSalida" : 205,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to the interview, it is great to have you here today. Could you tell me a bit about what motivates you to work as a backend developer?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically handle dependency injection and configuration management when building an application with Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time when you had to troubleshoot and fix a performance bottleneck or slow query in a PostgreSQL database.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Could you walk me through your approach to designing and maintaining REST APIs so they remain reliable and easy to consume?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"As this is our final question, imagine a message queue starts dropping incoming events during peak traffic hours; what steps would you take to diagnose and resolve the issue?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 142, 124, 122, 123, 174 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

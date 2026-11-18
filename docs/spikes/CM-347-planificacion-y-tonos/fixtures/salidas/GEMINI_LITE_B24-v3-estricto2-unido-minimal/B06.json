@@ -1,0 +1,78 @@
+{
+  "id" : "B06",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3719,
+  "inicio" : "2026-11-09T01:29:27.637685200-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1559,
+  "tokensEntrada" : 924,
+  "tokensSalida" : 299,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your three years of experience building web services, what specific architectural goal drove your interest in applying for this Backend Developer position at Andina Ficticia S.A.S., and cite an exact metric or result achieved in your past work that qualifies you for this role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"In a Spring Boot application connecting to a PostgreSQL database, what exact performance tuning decision or indexing strategy did you implement, and state the exact query execution time reduction measured after applying it.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you integrated a message queue like RabbitMQ into a project, detailing the task, the exact queue configuration or routing key used, the action you took, and the measured throughput or message processing rate result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"When writing automated tests for REST APIs in Java, what exact testing framework and assertion library did you use, and cite the exact code coverage percentage achieved in your last deployment.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine that during a cloud deployment at Andina Ficticia S.A.S., a sudden spike in traffic causes message consumption delays in RabbitMQ; exactly what step-by-step diagnostic tool and scaling action would you execute to resolve it?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 289 caracteres"
+    }
+  },
+  "largos" : [ 289, 223, 251, 193, 232 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; despliegue y nube en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}

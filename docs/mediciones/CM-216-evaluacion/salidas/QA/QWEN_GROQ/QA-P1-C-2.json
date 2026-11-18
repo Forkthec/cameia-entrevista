@@ -1,0 +1,13 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-C",
+  "corrida" : 2,
+  "ms" : 757,
+  "tokensEntrada" : 653,
+  "tokensSalida" : 103,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Estas evaluando tu perfil para el puesto; tus respuestas son necesarias para la decisión.\", \"follow_up_texto\": \"Directo a la pregunta: describe una prueba de software específica que hayas realizado o supervisado y explica por qué disfrutas la calidad.\", \"motivo\": \"El candidato rechaza responder la pregunta inicial y desvía la conversación hacia otra no solicitada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

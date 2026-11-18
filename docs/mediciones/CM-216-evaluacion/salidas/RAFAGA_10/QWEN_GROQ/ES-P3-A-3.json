@@ -1,0 +1,13 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 3,
+  "ms" : 939,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 119,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta estructurada y concreta. Demuestra capacidad para gestionar conflictos técnicos mediante el análisis de datos y acuerdos prácticos, alcanzando un resultado medible.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un conflicto técnico específico, detalla la estrategia basada en datos (medición de despliegues y cambios), explica el compromiso adoptado (validación progresiva) y presenta un resultado cuantificable que satisface a ambas partes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : "",
+  "fallos" : [ "LIMITE_POR_MINUTO" ]
+}

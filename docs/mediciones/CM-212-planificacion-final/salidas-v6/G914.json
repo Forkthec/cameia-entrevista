@@ -1,0 +1,51 @@
+{
+  "id" : "G914",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G308)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:40:45.111711200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 11797,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2794,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 2706,
+  "tokensSalida" : 227,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, I'd love it if you could start by telling me what excites you most about the Backend Developer role with us.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through how you design REST APIs using Spring Boot and manage database schemas in PostgreSQL.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"I'd love it if you could share a specific time from your past experience when you published events using RabbitMQ to handle messaging between services, and how you ensured message delivery.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could explain your approach to writing automated tests for backend services to maintain high code quality.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our final question: imagine you discover a performance bottleneck in a critical REST endpoint right before a major release, how would you approach handling and resolving it?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 140, 126, 189, 125, 181 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

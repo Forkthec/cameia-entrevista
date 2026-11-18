@@ -1,0 +1,51 @@
+{
+  "id" : "G107",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, en, con oferta, FRONTEND",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T18:58:49.935179500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4263,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5415,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1107,
+  "tokensSalida" : 206,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce yourself and explain what motivated you to apply for the Frontend Developer position at North Pixel Inc.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How would you use JavaScript to consume data from a REST API and render it on a webpage?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a situation during your studies at Fictitious Southern Technical Institute when you had to manage a project with a tight deadline, and explain how you handled the tasks and what the result was.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your experience with HTML and CSS in building accessible web interfaces?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are assigned to build a new component using React and TypeScript, technologies you have not used before; how would you approach learning them while meeting the delivery timeline?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 133, 88, 202, 80, 190 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

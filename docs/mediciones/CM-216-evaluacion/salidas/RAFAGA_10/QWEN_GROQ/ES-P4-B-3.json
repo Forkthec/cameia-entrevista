@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-B",
+  "corrida" : 3,
+  "ms" : 873,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 149,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La dirección es correcta, pero falta definir el mecanismo concreto de persistencia y el flujo de reenvío para cumplir con el requisito de no pérdida de datos.\", \"follow_up_texto\": \"¿Qué mecanismo específico usarías para persistir los mensajes antes de confirmar al cliente y cómo garantizarías que, tras un reinicio, el consumidor reemplace o relee los mensajes pendientes sin duplicarlos innecesariamente?\", \"motivo\": \"La respuesta identifica la necesidad de una cola y persistencia, pero se queda en generalidades sin detallar los componentes críticos (broker, estrategia de confirmaciones, idempotencia).\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

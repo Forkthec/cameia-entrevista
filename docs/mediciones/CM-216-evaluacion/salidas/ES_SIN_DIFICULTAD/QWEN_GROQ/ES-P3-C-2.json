@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-C",
+  "corrida" : 2,
+  "ms" : 1205,
+  "tokensEntrada" : 659,
+  "tokensSalida" : 183,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Minimizar la existencia de diferencias técnicas en un equipo es un indicador de alerta. Es improbable que nunca haya habido desacuerdos; más bien, probablemente se resolvieron con una dinámica de complacencia o falta asertividad. Necesito evidencia concreta de capacidad de negociación técnica.\", \"follow_up_texto\": \"Es estadísticamente improbable que no recuerdes ningún desacuerdo técnico en toda tu carrera. ¿Podes describir una situación donde compartiste una opinión contraria, aunque fuera menor, sobre un diseño o una implementación específica? ¿Como llegaste a la decisión final?\", \"motivo\": \"El candidato esquiva la pregunta afirmando falsamente que no recuerda ninguna situación, lo cual indica evasiva del objetivo de evaluar habilidades de colaboración y resolución de conflictos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

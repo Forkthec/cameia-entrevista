@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 2,
+  "ms" : 8792,
+  "tokensEntrada" : 662,
+  "tokensSalida" : 132,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"El candidato menciona conceptos generales como cola y base de datos, pero carece de detalles concretos sobre arquitectura y persistencia.\",\n  \"follow_up_texto\": \"¿Qué tipo de sistema de colas utilizarías y cómo garantizarías la transaccionalidad entre la base de datos y la cola para evitar la pérdida de mensajes ante un reinicio?\",\n  \"feedback\": \"La respuesta menciona los componentes correctos de manera muy general, pero falta especificar los mecanismos técnicos de persistencia y entrega.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

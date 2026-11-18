@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 2,
+  "ms" : 641,
+  "tokensEntrada" : 687,
+  "tokensSalida" : 171,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Ansiedad descontrolada y falta de procedimiento. En producción no se reinicia sin diagnóstico previo.\", \"follow_up_texto\": \"Detalla el protocolo exacto: 1) Verificar el error específico en los logs (stack trace, correlación ID). 2) Consultar dashboards de métricas (latencia, CPU, conexions a DB) para identificar la causa raíz. 3) Escalar o mitigar (feature flag, rollback) según el hallazgo. ¿Por qué el primer instinto sería reiniciar?\", \"motivo\": \"La respuesta es una mera lista de acciones genéricas y potencialmente peligrosas (reiniciar) sin observar síntomas ni diagnóstico, careciendo de cualquier mecanismo técnico.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

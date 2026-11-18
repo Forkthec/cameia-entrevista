@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-B",
+  "corrida" : 3,
+  "ms" : 925,
+  "tokensEntrada" : 669,
+  "tokensSalida" : 125,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general y no aporta detalles sobre tu experiencia ni motivación real. Se espera конкретነta justification.\", \"follow_up_texto\": \"Citas que prefieres programar y que te interesa el backend, pero ¿qué experiencia técnica tienes actualmente (lenguajes, frameworks, bases de datos) y qué problema técnico específico te impulsa a buscar este cambio?\", \"motivo\": \"El candidato habla en generalidades sin mencionar habilidades técnicas, experiencia relevante ni razones específicas para el puesto.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

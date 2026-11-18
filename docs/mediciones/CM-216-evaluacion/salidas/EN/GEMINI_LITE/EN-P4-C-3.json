@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P4-C",
+  "corrida" : 3,
+  "ms" : 3482,
+  "tokensEntrada" : 652,
+  "tokensSalida" : 127,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato no responde a la pregunta sobre el diseño del servicio y habla sobre la historia del email y su uso personal.\",\n  \"follow_up_texto\": \"Por favor, vuelve a la pregunta original y explica a alto nivel cómo diseñarías un servicio para enviar correos de manera asíncrona asegurando que no se pierdan mensajes si el servidor se reinicia.\",\n  \"feedback\": \"Tu respuesta no aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

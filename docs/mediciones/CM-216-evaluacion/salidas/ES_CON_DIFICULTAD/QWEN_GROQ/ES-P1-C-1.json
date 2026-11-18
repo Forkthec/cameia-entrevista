@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-C",
+  "corrida" : 1,
+  "ms" : 801,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 93,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Debes responder a las preguntas directas, incluyendo las de presentación inicial.\", \"follow_up_texto\": \"Por favor, responde la pregunta original: cuéntame sobre ti y por qué te interesa este puesto de desarrollador backend.\", \"motivo\": \"El candidato esquiva deliberadamente la pregunta solicitada y pide cambiar de tema.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

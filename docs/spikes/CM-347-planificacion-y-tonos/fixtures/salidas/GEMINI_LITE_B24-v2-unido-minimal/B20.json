@@ -1,0 +1,64 @@
+{
+  "id" : "B20",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3195,
+  "inicio" : "2026-11-07T11:28:37.637362-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1548,
+  "tokensEntrada" : 803,
+  "tokensSalida" : 300,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¡Hola! Qué gusto saludarte hoy y tenerte por acá en Andina Ficticia S.A.S.; cuéntame, por favor, qué es lo que más te motiva de este rol de Desarrollador Backend y de hacer parte de nuestro equipo.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Para ir entrando en materia y conociendo tu recorrido, ¿cómo manejas la gestión de transacciones y el rendimiento de consultas al modelar bases de datos con PostgreSQL en tus desarrollos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Me gustaría que me contaras de alguna situación en la que hayas trabajado en equipo usando metodologías ágiles; dime cuál era la tarea, qué acción tomaste tú específicamente y cuál fue el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Pensando en las tecnologías que usamos, ¿podrías explicarme cómo implementas la integración de colas de mensajes con RabbitMQ en tus servicios web construidos con Spring Boot?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estamos a punto de hacer un despliegue importante en la nube y justo en ese momento detectamos una falla inesperada en una de nuestras APIs REST; ¿cómo actuarías para resolverlo junto al equipo?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 207 caracteres"
+    }
+  },
+  "largos" : [ 197, 187, 207, 175, 206 ],
+  "validoTrasReintento" : true
+}

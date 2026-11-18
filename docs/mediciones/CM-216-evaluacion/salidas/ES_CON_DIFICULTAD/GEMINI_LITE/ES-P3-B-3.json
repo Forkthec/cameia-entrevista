@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-B",
+  "corrida" : 3,
+  "ms" : 1662,
+  "tokensEntrada" : 686,
+  "tokensSalida" : 120,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"motivo\": \"La respuesta es demasiado general y no detalla el problema técnico específico, los argumentos de cada parte ni el proceso exacto que usaron para llegar a un acuerdo.\", \"follow_up_texto\": \"¿Cuál era el problema técnico específico y qué argumentos usó cada uno para defender su postura? Explica cómo llegaron a un acuerdo y qué métricas o criterios técnicos usaron para decidir.\", \"feedback\": \"La respuesta carece de detalles concretos sobre el conflicto y la resolución técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

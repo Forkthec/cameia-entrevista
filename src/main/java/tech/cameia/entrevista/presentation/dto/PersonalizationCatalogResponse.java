@@ -20,7 +20,7 @@ import tech.cameia.entrevista.domain.policy.PersonalizationCatalog;
 public record PersonalizationCatalogResponse(
         @ArraySchema(arraySchema = @Schema(description = "Modalidades en orden. Valores: SIMULACION, ENTRENO (hoy no disponible)"))
         List<CatalogOptionResponse> modes,
-        @ArraySchema(arraySchema = @Schema(description = "Tonos del entrevistador en orden. Valores: PROFESIONAL_NEUTRO, CALIDO, ESTRICTO, MOTIVADOR"))
+        @ArraySchema(arraySchema = @Schema(description = "Tonos del entrevistador en orden. Valores: PROFESIONAL_NEUTRO, CALIDO, ESTRICTO"))
         List<CatalogOptionResponse> tones,
         @ArraySchema(arraySchema = @Schema(description = "Formas de respuesta en orden. Valores: AUDIO, TEXTO"))
         List<CatalogOptionResponse> answerFormats,

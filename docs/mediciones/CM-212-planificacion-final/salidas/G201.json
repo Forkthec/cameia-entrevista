@@ -1,0 +1,51 @@
+{
+  "id" : "G201",
+  "grupo" : "G2",
+  "descripcion" : "perfil Asesor Comercial (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:07:24.189186300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4045,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8195,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1076,
+  "tokensSalida" : 235,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse como Asesor Comercial y qué lo motivó a postularse para este rol tras graduarse en Administración de Empresas?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Durante sus estudios en la Universidad Ficticia del Caribe, ¿cómo aplicó conceptos de negociación para concretar ventas en las ferias universitarias?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en el marco de su proyecto de curso donde haya enfrentado un desacuerdo con un compañero al intentar vender los productos y cómo resolvió el problema.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera utiliza tablas dinámicas en Excel para analizar el registro de ventas y el inventario de productos?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si un cliente potencial se muestra interesado en los productos pero duda en realizar la compra debido a la competencia en el mercado, ¿cómo abordaría la situación para cerrar la venta?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 144, 149, 173, 114, 184 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

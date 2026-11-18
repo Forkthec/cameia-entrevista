@@ -2,11 +2,15 @@ package tech.cameia.entrevista.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -153,6 +157,35 @@ class CreateSessionEndToEndTest {
             headers.set("Idempotency-Key", key);
         }
         return client.exchange(PATH, HttpMethod.POST, new HttpEntity<>(json, headers), String.class);
+    }
+
+    /**
+     * Guarda una clave anti-duplicados como la dejó la versión anterior: la huella se calcula con el código del
+     * tono que viajó en la petición y el cuerpo guardado lleva el nombre del tono ya reescrito por la migración.
+     */
+    private void insertOldKey(String key, String toneCode, String storedToneName) {
+        String canonical = String.join("\n", PROFILE_A.toString(), ROLE, "0:", "SIMULACION", toneCode, "TEXTO",
+                "es-CO");
+        String fingerprint = sha256(canonical);
+        String stored = """
+                {"status":"CONFIGURED","ongoing":null,"sessionId":"%s","configuration":{"mode":"SIMULATION",
+                 "tone":"%s","jobOffer":null,"profileId":"%s","answerFormat":"TEXT","targetRoleId":"%s",
+                 "idempotencyKey":"%s","sessionLanguage":"SPANISH_COLOMBIA"}}""".formatted(UUID.randomUUID(),
+                storedToneName, PROFILE_A, ROLE, key);
+        jdbc.update("""
+                INSERT INTO microentrevista.clave_idempotencia (id, firebase_uid, operacion, clave, huella_peticion,
+                    estado_respuesta, cuerpo_respuesta, fecha_creacion)
+                VALUES (?, ?, 'CREAR_SESION', ?, ?, 201, ?::jsonb, now())
+                """, UUID.randomUUID(), UID_A, key, fingerprint, stored);
+    }
+
+    private static String sha256(String text) {
+        try {
+            return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
+                    .digest(text.getBytes(StandardCharsets.UTF_8)));
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private static String field(ResponseEntity<String> response, String path) {
@@ -460,13 +493,73 @@ class CreateSessionEndToEndTest {
         headers.set("X-User-Plan", "FREE");
 
         ResponseEntity<String> response = client.exchange(PATH, HttpMethod.POST,
-                new HttpEntity<>(body(PROFILE_A, ROLE, null, "SIMULACION", "MOTIVADOR", "TEXTO", "en"), headers),
+                new HttpEntity<>(body(PROFILE_A, ROLE, null, "SIMULACION", "ESTRICTO", "TEXTO", "en"), headers),
                 String.class);
 
         assertThat(response.getStatusCode().value()).isEqualTo(201);
     }
 
     // ---- validación ----
+
+    @Test
+    @DisplayName("Crear con el tono retirado Motivador da 422 TONE_INVALID_VALUE y no guarda nada")
+    void create_shouldReturn422_whenToneIsRemovedMotivating() {
+        ResponseEntity<String> response = post(UID_A, KEY,
+                body(PROFILE_A, ROLE, null, "SIMULACION", "MOTIVADOR", "TEXTO", "es-CO"));
+
+        assertThat(response.getStatusCode().value()).isEqualTo(422);
+        assertThat(field(response, "$.code")).isEqualTo("VALIDATION_FAILED");
+        assertThat(field(response, "$.errors[0].field")).isEqualTo("tone");
+        assertThat(field(response, "$.errors[0].code")).isEqualTo("TONE_INVALID_VALUE");
+        assertThat(field(response, "$.errors[0].message")).isEqualTo("Elige un tono de la lista.");
+        assertThat(response.getBody()).doesNotContain("IllegalArgument").doesNotContain("Tone");
+        assertThat(count("SELECT count(*) FROM microentrevista.sesion")).isZero();
+        assertThat(count("SELECT count(*) FROM microentrevista.clave_idempotencia")).isZero();
+    }
+
+    @Test
+    @DisplayName("Repetir con Motivador una clave guardada antes de retirarlo da 422, no 500")
+    void create_shouldReturn422_whenReplayingOldMotivatingRequest() {
+        insertOldKey(KEY, "MOTIVADOR", "PROFESSIONAL_NEUTRAL");
+
+        ResponseEntity<String> response = post(UID_A, KEY,
+                body(PROFILE_A, ROLE, null, "SIMULACION", "MOTIVADOR", "TEXTO", "es-CO"));
+
+        assertThat(response.getStatusCode().value()).isEqualTo(422);
+        assertThat(field(response, "$.errors[0].code")).isEqualTo("TONE_INVALID_VALUE");
+        assertThat(count("SELECT count(*) FROM microentrevista.sesion")).isZero();
+    }
+
+    @Test
+    @DisplayName("Repetir con Profesional y neutro una clave guardada con Motivador da 409, no 500")
+    void create_shouldReturn409_whenOldMotivatingKeyReusedWithNeutral() {
+        insertOldKey(KEY, "MOTIVADOR", "PROFESSIONAL_NEUTRAL");
+
+        ResponseEntity<String> response = post(UID_A, KEY,
+                body(PROFILE_A, ROLE, null, "SIMULACION", "PROFESIONAL_NEUTRO", "TEXTO", "es-CO"));
+
+        assertThat(response.getStatusCode().value()).isEqualTo(409);
+        assertThat(field(response, "$.code")).isEqualTo("IDEMPOTENCY_KEY_CONFLICT");
+        assertThat(count("SELECT count(*) FROM microentrevista.sesion")).isZero();
+        // El conflicto no toca lo guardado: sigue una sola clave y con el tono ya reescrito.
+        assertThat(count("SELECT count(*) FROM microentrevista.clave_idempotencia")).isEqualTo(1);
+        assertThat(jdbc.queryForObject(
+                "SELECT cuerpo_respuesta->'configuration'->>'tone' FROM microentrevista.clave_idempotencia",
+                String.class)).isEqualTo("PROFESSIONAL_NEUTRAL");
+    }
+
+    @Test
+    @DisplayName("Una clave guardada con otro tono se sigue repitiendo igual y no crea otra sesión")
+    void create_shouldReplay_whenOldKeyHasOtherTone() {
+        insertOldKey(KEY, "CALIDO", "WARM");
+
+        ResponseEntity<String> response = post(UID_A, KEY,
+                body(PROFILE_A, ROLE, null, "SIMULACION", "CALIDO", "TEXTO", "es-CO"));
+
+        assertThat(response.getStatusCode().value()).isEqualTo(201);
+        assertThat(field(response, "$.configuration.tone")).isEqualTo("CALIDO");
+        assertThat(count("SELECT count(*) FROM microentrevista.sesion")).isZero();
+    }
 
     @Test
     @DisplayName("Un rol inactivo o que no existe da TARGET_ROLE_ID_INVALID_VALUE")

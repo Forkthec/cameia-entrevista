@@ -1,0 +1,51 @@
+{
+  "id" : "G301",
+  "grupo" : "G3",
+  "descripcion" : "un solo empleo (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:10:36.200321800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4246,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1428,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1137,
+  "tokensSalida" : 218,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Cómo describe su trayectoria profesional y qué le motiva a postularse como desarrollador backend?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona la inyección de dependencias y la configuración de seguridad en una aplicación con Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de una situación en la que haya tenido que optimizar el rendimiento de una consulta lenta en PostgreSQL; describa la tarea, qué acción realizó y cuál fue el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué criterios utiliza para diseñar y mantener contratos de APIs REST eficientes y escalables?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la integración de un nuevo servicio web se presenta una caída en la cola de mensajes que interrumpe la sincronización, ¿cómo procedería para identificar la causa y restablecer el flujo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 98, 110, 185, 94, 196 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-A",
+  "corrida" : 2,
+  "ms" : 465,
+  "tokensEntrada" : 774,
+  "tokensSalida" : 94,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta aplica correctamente las técnicas solicitadas para los tres campos, incluyendo límites específicos y casos de borde relevantes.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato identifica con precisión las clases de equivalencia y los valores límite para cada campo del formulario, cubriendo tanto aspectos de formato como de lógica de negocio y seguridad.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

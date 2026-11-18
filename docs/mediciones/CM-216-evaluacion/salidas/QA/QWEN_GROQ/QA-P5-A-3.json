@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-A",
+  "corrida" : 3,
+  "ms" : 656,
+  "tokensEntrada" : 740,
+  "tokensSalida" : 155,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es correcta pero genérica. Falta profundizar en cómo definir los criterios técnicos o de usuario objetivamente cuando la especificación está ausente.\", \"follow_up_texto\": \"Si la especificación original no existe o es ambigua, ¿qué criterios objetivos o principios (como usabilidad, consistencia o estándares de la industria) aplicarías para sustentar tu posición ante el equipo?\", \"motivo\": \"El candidato responde bien a nivel proceso general (revisar specs, escalar a product), pero se queda en generalidades sobre cómo demostrar que es un error si no hay un requisito escrito claro, que es el caso más complejo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

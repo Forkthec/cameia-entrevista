@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-C",
+  "corrida" : 3,
+  "ms" : 560,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 114,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta no aborda el diseño técnico solicitado.\", \"follow_up_texto\": \"Ignora el contexto histórico. Describe cómo diseñarías un sistema para enviar correos de forma asíncrona garantizando que no se pierdan mensajes ante un reinicio del servidor. Menciona componentes como colas de mensajes y persistencia.\", \"motivo\": \"Ignora la pregunta de diseño técnico y responde con datos históricos y personales irrelevantes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

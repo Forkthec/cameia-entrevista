@@ -1,0 +1,51 @@
+{
+  "id" : "G806",
+  "grupo" : "G8",
+  "descripcion" : "SIN1 neutro español sin oferta",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 6,
+  "inicio" : "2026-11-10T19:26:09.589095200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4117,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 9069,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1095,
+  "tokensSalida" : 218,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse como desarrolladora backend y qué la motivó a postularse a este rol?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo estructuraría una consulta SQL básica utilizando PostgreSQL para relacionar dos tablas en una base de datos relacional?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre alguna situación durante sus estudios en la Universidad Ficticia del Valle en la que haya tenido que resolver un problema técnico complejo en equipo y qué acción tomó.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cuáles son los principios fundamentales de la programación orientada a objetos que aplicó al desarrollar su proyecto de grado en Java?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si al integrar su código usando Git encuentra un conflicto de fusión con los cambios de otra persona desarrolladora, ¿cómo procedería para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 102, 125, 182, 135, 150 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

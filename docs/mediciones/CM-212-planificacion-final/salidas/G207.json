@@ -1,0 +1,51 @@
+{
+  "id" : "G207",
+  "grupo" : "G2",
+  "descripcion" : "perfil Agente de Atención al Cliente (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:08:23.466943600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1",
+  "caracteresDelPrompt" : 4204,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4820,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1129,
+  "tokensSalida" : 212,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué le interesa desempeñarse como Agente de Atención al Cliente?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Qué conceptos sobre los canales de comunicación y la escucha activa aprendió en su curso de servicio al cliente que aplica al interactuar con un usuario?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de alguna situación en su voluntariado en la biblioteca comunitaria en la que haya tenido que atender a un visitante inconforme; explique qué hizo y qué resultado obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo aplica técnicas básicas de manejo de quejas para gestionar una solicitud difícil por parte de un usuario?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que llega un visitante molesto porque no encuentra un libro y además hay mucha fila; ¿cómo actuaría para resolver la situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 69, 154, 179, 111, 135 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

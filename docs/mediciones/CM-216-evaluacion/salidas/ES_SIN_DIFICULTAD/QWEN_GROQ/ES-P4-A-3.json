@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 3,
+  "ms" : 759,
+  "tokensEntrada" : 755,
+  "tokensSalida" : 124,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Diseño sólido. Cubres la persistencia en disco, el acoplamiento transaccional (table pattern), la idempotencia y el manejo de errores.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta es completa: detalla la persistencia en la base de datos dentro de la misma transacción (outbox pattern), el uso de colas durables, la recepción manual para evitar pérdida en reintentos y el control de duplicados.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

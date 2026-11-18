@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 3,
+  "ms" : 1086,
+  "tokensEntrada" : 662,
+  "tokensSalida" : 142,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"El candidato menciona conceptos generales como cola y base de datos, pero carece de detalles sobre la arquitectura, persistencia y mecanismos de reintento.\",\n  \"follow_up_texto\": \"Mencionas el uso de una cola y una base de datos. Podrías detallar qué tecnología usarías y cómo garantizarías la transaccionalidad entre ambos sistemas para evitar la pérdida de mensajes ante un reinicio abrupto.\",\n  \"feedback\": \"La respuesta es demasiado general. Es necesario profundizar en los componentes y mecanismos de persistencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

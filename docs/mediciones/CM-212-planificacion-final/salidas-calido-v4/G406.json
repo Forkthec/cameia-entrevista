@@ -1,0 +1,51 @@
+{
+  "id" : "G406",
+  "grupo" : "G4",
+  "descripcion" : "oferta en español con entrevista en inglés",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T21:33:10.676905100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5799,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 9705,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1500,
+  "tokensSalida" : 203,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our chat today, it is really great to meet you. Could you share what initially drew you to apply for this Backend Developer position with us?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically structure a REST API using Spring Boot to ensure proper separation of concerns?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time when you had to troubleshoot and resolve a performance issue in a web service you were maintaining.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What strategies do you follow when designing database schemas in PostgreSQL to optimize query performance?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our final question for today, so imagine a scenario where a message queue starts dropping messages during a high-traffic event; how would you approach diagnosing and fixing this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 152, 100, 120, 106, 196 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

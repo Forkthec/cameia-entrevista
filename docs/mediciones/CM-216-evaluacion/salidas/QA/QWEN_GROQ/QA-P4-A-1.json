@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-A",
+  "corrida" : 1,
+  "ms" : 1237,
+  "tokensEntrada" : 774,
+  "tokensSalida" : 132,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta correcta y detallada. La mención de la longitud local de 64 caracteres para el correo es técnicamente más precisa que los 255 totales, pero la estructura general de partición y límites es sólida.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre los tres campos solicitados aplicando correctamente la partición de equivalencia (válidos/inválidos) y los valores límite, incluyendo casos específicos de negocio como la edad mínima y las fechas límite.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

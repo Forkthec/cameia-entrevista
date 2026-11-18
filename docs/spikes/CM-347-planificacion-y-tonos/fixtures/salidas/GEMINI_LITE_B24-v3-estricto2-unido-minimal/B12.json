@@ -1,0 +1,78 @@
+{
+  "id" : "B12",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3719,
+  "inicio" : "2026-11-09T01:29:56.225861600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1706,
+  "tokensEntrada" : 924,
+  "tokensSalida" : 300,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your 3 years of experience building web services, what specific architectural design responsibility do you want to take on at Andina Ficticia S.A.S. and what exact percentage of your current daily tasks is dedicated to that goal?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When configuring connection pools and transaction management in a Spring Boot application connecting to a PostgreSQL database, what exact parameter do you adjust to prevent connection leaks and what specific metric do you monitor to verify its success?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific occasion when you integrated a message queue using RabbitMQ into a Java web service; cite the exact number of messages processed per second and the specific tool you used to measure that throughput.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Regarding cloud deployments and maintaining REST APIs, what precise CI/CD tool do you use to deploy your application and what specific command or script do you execute to ensure automated tests pass before the deployment?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you join our agile team at Andina Ficticia S.A.S. and a critical PostgreSQL query causes a timeout in a REST API during peak load; what precise diagnostic tool will you use first and what exact result must you obtain to justify the fix?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 252 caracteres"
+    }
+  },
+  "largos" : [ 241, 252, 218, 221, 244 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: base de datos en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}

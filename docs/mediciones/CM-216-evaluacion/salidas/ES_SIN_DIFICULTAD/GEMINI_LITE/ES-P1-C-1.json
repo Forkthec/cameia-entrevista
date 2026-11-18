@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-C",
+  "corrida" : 1,
+  "ms" : 1286,
+  "tokensEntrada" : 647,
+  "tokensSalida" : 127,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder sobre su perfil personal y profesional, intentando desviar la conversación.\",\n  \"follow_up_texto\": \"Entiendo tu preferencia por los temas técnicos, pero esta pregunta es relevante para conocer tu trayectoria. Por favor, cuéntame brevemente sobre tu experiencia y tu interés en el rol de backend.\",\n  \"feedback\": \"Por favor, responde a las preguntas del entrevistador en lugar de intentar redirigir la entrevista.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

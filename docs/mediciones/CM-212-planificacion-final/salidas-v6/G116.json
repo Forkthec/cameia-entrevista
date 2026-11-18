@@ -1,0 +1,51 @@
+{
+  "id" : "G116",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, con experiencia, en, con oferta, QA",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:25:28.251099300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4615,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 9673,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1200,
+  "tokensSalida" : 203,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce your background as a QA Analyst and explain your motivation for applying to this role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you handle locating web elements and managing dynamic waits when writing automated test scripts in Selenium?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation in your past experience where you identified a defect in Jira and had to collaborate with developers to resolve it; what was the task, what action did you take, and what was the result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What is your process for creating test cases and ensuring requirements traceability from initial software specifications?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you find a critical defect just one day before a major release; how would you evaluate the risk and communicate with the team?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 114, 115, 215, 121, 134 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

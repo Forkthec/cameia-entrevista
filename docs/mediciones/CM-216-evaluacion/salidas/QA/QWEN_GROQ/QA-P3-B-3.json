@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-B",
+  "corrida" : 3,
+  "ms" : 1320,
+  "tokensEntrada" : 677,
+  "tokensSalida" : 198,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Respuesta superficial carece del detalle técnico y de gestión requerido para un candidato senior. Omites el análisis de impacto y las acciones concretas.\", \"follow_up_texto\": \"El relato es demasiado genérico. Por favor, describe específicamente: ¿cuál era el defecto técnico? ¿Cuánto tiempo había para la entrega? ¿Bajaste la versión, pediste un hotfix o improvisaste? ¿Cómo comunicaste el riesgo a los stakeholders y por qué decidió el equipo proceder de esa manera? Explica el impacto en el timeline y la calidad.\", \"motivo\": \"La respuesta confirma la dirección general de los hechos pero se queda en generalidades absolutas, sin mencionar qué defecto era, el contexto de tiempo, las acciones específicas tomadas ni el análisis de riesgo, elementos esenciales en una pregunta conductual de nivel senior.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

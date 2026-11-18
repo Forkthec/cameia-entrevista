@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-B",
+  "corrida" : 3,
+  "ms" : 1634,
+  "tokensEntrada" : 667,
+  "tokensSalida" : 116,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Menciona una cola y un guardado, pero sin detalles técnicos ni mecanismo de garantía.\", \"follow_up_texto\": \"¿Qué mecanismo específico aseguraría la entrega si el proceso de consumo falla o se reinicia? Describe el estado del mensaje y cómo se decide reintentar o descartar.\", \"motivo\": \"La respuesta va en la dirección correcta pero se queda en generalidades sin explicar el mecanismo de persistencia ni el flujo de entrega.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

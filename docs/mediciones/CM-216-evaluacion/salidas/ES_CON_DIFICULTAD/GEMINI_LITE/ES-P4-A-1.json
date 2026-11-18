@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-A",
+  "corrida" : 1,
+  "ms" : 1064,
+  "tokensEntrada" : 760,
+  "tokensSalida" : 91,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato aborda correctamente la persistencia con patron transactional outbox, uso de cola durable, gestion de reintentos con backoff exponencial, DLQ e idempotencia.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta completa y bien estructurada que cubre los aspectos clave de resiliencia y entrega garantizada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

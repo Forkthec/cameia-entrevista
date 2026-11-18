@@ -27,4 +27,29 @@ public interface InterviewTurnRepository {
      * @return el turno, o vacío si no existe
      */
     Optional<InterviewTurn> findById(UUID id);
+
+    /**
+     * Busca el turno abierto de una sesión: el de la primera pregunta cuyo turno no está completado.
+     *
+     * @param sessionId identificador de la sesión
+     * @return el turno abierto, o vacío si la sesión no tiene turnos o todos están completados
+     */
+    Optional<InterviewTurn> findOpenBySession(UUID sessionId);
+
+    /**
+     * Busca un turno por su identificador solo si pertenece a la sesión.
+     *
+     * @param turnId identificador del turno
+     * @param sessionId identificador de la sesión
+     * @return el turno, o vacío si no existe o es de otra sesión
+     */
+    Optional<InterviewTurn> findByIdAndSession(UUID turnId, UUID sessionId);
+
+    /**
+     * Cuenta los turnos completados de una sesión.
+     *
+     * @param sessionId identificador de la sesión
+     * @return cantidad de turnos completados
+     */
+    int countCompleted(UUID sessionId);
 }

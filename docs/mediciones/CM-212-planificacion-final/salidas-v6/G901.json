@@ -1,0 +1,51 @@
+{
+  "id" : "G901",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G121)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:38:26.579081100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4915,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3365,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1274,
+  "tokensSalida" : 253,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, I am really glad you could join us! I'd love it if you could start by telling me what inspired you to pursue a career as a Data Analyst and why you are interested in this role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could explain how you typically write a SQL query to join multiple tables and filter specific aggregated data.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you tell me about a time during your coursework or survey analysis project when you had to work with messy or incomplete data, and how you handled it?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could describe how you use Python pandas dataframes to clean and prepare a dataset for analysis.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are given a new dataset with conflicting information right before a deadline, and you are asked to present insights; how would you approach this situation? That will be our final question, thank you so much for your time!\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 208, 129, 156, 115, 233 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 2,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

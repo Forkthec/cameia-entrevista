@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-B",
+  "corrida" : 3,
+  "ms" : 592,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 143,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Respuesta demasiado genérica y falta de precisión técnica requerida para esta pregunta.\", \"follow_up_texto\": \"Detalla las clases de equivalencia para cada campo y los valores límite específicos (por ejemplo, longitud mínima/máxima de la contraseña o formato de fecha) que utilizarías para diseñar los casos de prueba.\", \"motivo\": \"El candidato menciona las generalidades ('buenos y malos', 'cortas y largas') pero omite el mecanismo de diseño solicitado: no define las clases de equivalencia concretas ni los valores límite específicos para cada campo.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

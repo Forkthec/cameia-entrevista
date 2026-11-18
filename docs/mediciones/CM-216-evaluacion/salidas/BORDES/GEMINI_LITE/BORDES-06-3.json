@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-06",
+  "corrida" : 3,
+  "ms" : 1118,
+  "tokensEntrada" : 1533,
+  "tokensSalida" : 123,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato respondio con una receta de cocina en lugar de abordar conceptos de bases de datos.\",\n  \"follow_up_texto\": \"La respuesta proporcionada no guarda relación con la pregunta técnica sobre transacciones y bloqueo optimista. Por favor, vuelve a centrarte en la pregunta original y explica las diferencias entre ambos conceptos y sus casos de uso.\",\n  \"feedback\": \"La respuesta no aborda el tema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

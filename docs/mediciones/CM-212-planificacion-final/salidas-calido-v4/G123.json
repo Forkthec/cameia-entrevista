@@ -1,0 +1,51 @@
+{
+  "id" : "G123",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, en, con oferta, FRONTEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:29:27.399751900-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5550,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1472,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1421,
+  "tokensSalida" : 256,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome, it is great to meet you today. Could you share what initially sparked your interest in applying for this Frontend Developer role at North Pixel Inc.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Since the position involves building accessible interfaces with React, how would you approach creating a component that is fully accessible to screen reader users?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Thinking back to your time studying at Fictitious Southern Technical Institute, could you describe a specific group project where you had to coordinate with others to build web pages using HTML and CSS, what your role was, and what the final outcome looked like?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically handle consuming a REST API within a JavaScript application to display dynamic data on the screen?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are asked to write component tests for a new user interface element, but the requirements are slightly ambiguous; how would you decide what to test first, and this is our final question, is there anything else you would need before getting started?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 158, 163, 262, 119, 260 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G133",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, sin experiencia, es-CO, sin oferta, BACKEND",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:04:03.700770500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4535,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3822,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1189,
+  "tokensSalida" : 252,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué aspira exactamente a este rol de desarrolladora backend y cite un resultado medible obtenido en su proyecto de grado?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Explique detalladamente qué versión de Java utilizó y qué métrica exacta de rendimiento evaluó al optimizar sus consultas en PostgreSQL.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación específica durante su formación en la Universidad Ficticia del Valle donde enfrentó un bloqueo técnico con Git; indique el flujo exacto que usó y el resultado cuantificable obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Mencione qué herramienta específica utilizó para documentar las rutas de su API en Java y cite una decisión técnica exacta que tomó en ese proceso.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que al desplegar su API con Java y PostgreSQL en producción se presenta una caída del servicio; detalle exactamente qué herramienta usaría para diagnosticar el fallo y qué resultado medible exigiría antes de dar por solucionado el incidente.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 126, 136, 205, 147, 249 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

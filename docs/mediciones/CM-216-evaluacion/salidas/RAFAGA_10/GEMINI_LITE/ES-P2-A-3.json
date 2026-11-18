@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-A",
+  "corrida" : 3,
+  "ms" : 1161,
+  "tokensEntrada" : 734,
+  "tokensSalida" : 76,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde correctamente a ambos conceptos, explica el mecanismo de versionado del bloqueo optimista y aclara los casos de uso segun el nivel de contencion.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta correcta y bien fundamentada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

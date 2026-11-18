@@ -1,0 +1,84 @@
+{
+  "id" : "A07",
+  "grupo" : "A",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2273,
+  "inicio" : "2026-11-07T10:47:46.957847300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 134,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_****` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 760, Requested 514. Please try again in 16.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "17",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "976",
+      "x-ratelimit-remaining-tokens" : "7160",
+      "x-ratelimit-reset-requests" : "34m33.6s",
+      "x-ratelimit-reset-tokens" : "45.6s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 782,
+  "tokensEntrada" : 585,
+  "tokensSalida" : 231,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Please introduce yourself and explain your motivation for applying to the Software Quality Analyst position at Andina Ficticia S.A.S.\"},{\"posicion\":2\",\"tipo\":\"TECNICA\",\"texto\":\"How do you approach requirements traceability to ensure that all functional requirements are covered by test cases?\"},{\"posicion\":3\",\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you identified a critical defect that was not captured in the initial test plan, and explain the actions you took to address it.\"},{\"posicion\":4\",\"tipo\":\"TECNICA\",\"texto\":\"In the context of the job offer, which specific Selenium WebDriver methods do you use to locate dynamic elements, and how do you handle synchronization issues in your test scripts?\"},{\"posicion\":5\",\"tipo\":\"SITUACIONAL\",\"texto\":\"You are executing a regression test suite automation and a test fails due to an environment configuration error rather than an application defect. How would you proceed with defect reporting in Jira and communicate this to the development team?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "975",
+    "x-ratelimit-remaining-tokens" : "6453",
+    "x-ratelimit-reset-requests" : "36m0s",
+    "x-ratelimit-reset-tokens" : "57.72s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "el texto no es un JSON válido"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ]
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 2,
+  "ms" : 1232,
+  "tokensEntrada" : 670,
+  "tokensSalida" : 178,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona conceptos generales como usar una cola y una base de datos, pero carece de detalles sobre la persistencia, el mecanismo de reintentos y cómo se garantiza la entrega exacta ante un reinicio.\",\n  \"follow_up_texto\": \"Mencionas el uso de una cola y la base de datos, lo cual es correcto a grandes rasgos. ¿Podrías detallar cómo se coordina el estado del mensaje entre la base de datos y la cola para evitar perder mensajes o enviarlos duplicados si el servidor se reinicia abruptamente?\",\n  \"feedback\": \"La respuesta es demasiado general para una pregunta de diseño de nivel difícil. Es necesario explicar los mecanismos específicos de persistencia y consistencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

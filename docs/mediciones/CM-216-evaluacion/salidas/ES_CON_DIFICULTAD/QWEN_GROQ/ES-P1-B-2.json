@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-B",
+  "corrida" : 2,
+  "ms" : 711,
+  "tokensEntrada" : 675,
+  "tokensSalida" : 102,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Tu respuesta es demasiado genérica y no aporta información útil sobre tu candidatura.\", \"follow_up_texto\": \"Sé más específico: ¿qué tecnologías o desafíos técnicos del backend te motivan y qué experiencia relevante tienes que aportes al equipo?\", \"motivo\": \"La respuesta carece de detalles concretos sobre competencias, experiencia o motivos específicos de interés, limitándose a declaraciones generales.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,86 @@
+{
+  "id" : "B20",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3659,
+  "inicio" : "2026-11-08T16:24:52.900432400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1195,
+  "tokensEntrada" : 947,
+  "tokensSalida" : 347,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"¡Hola! Qué gusto tenerte aquí. Me encantaría que nos hablaras un poco sobre qué es lo que más te motiva de la posibilidad de enfocarte en el diseño de arquitectura a partir de tu experiencia con servicios web en Java.\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Me gustaría que me contaras cómo has optimizado las consultas a bases de datos PostgreSQL en las APIs REST que has desarrollado con Spring Boot para garantizar un buen rendimiento.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Cuéntame sobre una ocasión específica en la que tuvieras que implementar un sistema de colas de mensajes donde tu papel fue clave para asegurar la estabilidad del servicio.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Qué prácticas específicas de integración de RabbitMQ has utilizado y cómo has abordado el despliegue de estos componentes en entornos de nube?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Para cerrar, te pongo en esta situación: si detectaras que una de las APIs en la que trabajas tiene problemas de latencia justo en pleno despliegue, ¿cómo procederías para resolverlo manteniendo el equilibrio del equipo?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "924",
+    "x-ratelimit-remaining-tokens" : "6442",
+    "x-ratelimit-reset-requests" : "1h49m26.4s",
+    "x-ratelimit-reset-tokens" : "36.66s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 220 caracteres"
+    }
+  },
+  "largos" : [ 217, 180, 172, 143, 220 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]; despliegue y nube en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}

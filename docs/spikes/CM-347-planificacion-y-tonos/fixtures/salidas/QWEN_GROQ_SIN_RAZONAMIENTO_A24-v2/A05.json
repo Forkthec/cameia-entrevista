@@ -1,0 +1,160 @@
+{
+  "id" : "A05",
+  "grupo" : "A24",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2834,
+  "inicio" : "2026-11-07T11:39:30.005248100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "fallosDeProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "LIMITE_POR_MINUTO",
+    "latenciaMs" : 138,
+    "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 925, Requested 354. Please try again in 16.74s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+    "encabezadosDeLimites" : {
+      "retry-after" : "17",
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "969",
+      "x-ratelimit-remaining-tokens" : "6800",
+      "x-ratelimit-reset-requests" : "44m38.4s",
+      "x-ratelimit-reset-tokens" : "55.5s"
+    }
+  } ],
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 2,
+  "latenciaMs" : 936,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 315,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Cuéntame qué aspectos del rol de Desarrollador Backend te motivan para postularte a esta posición.\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Cómo abordas el diseño de esquemas de base de datos en PostgreSQL para optimizar las consultas en servicios construidos con Spring Boot?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbeme una experiencia concreta en la que implementaste un sistema de colas de mensajes para gestionar asincronía en uno de tus proyectos anteriores.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué estrategias de estabilidad y monitoreas utilizas al desplegar aplicaciones en la nube?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si te asignaran el diseño de una nueva arquitectura de servicios distribuidos, ¿cuáles serían los primeros pasos que darías para asegurar su escalabilidad?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "968",
+    "x-ratelimit-remaining-tokens" : "6263",
+    "x-ratelimit-reset-requests" : "46m4.8s",
+    "x-ratelimit-reset-tokens" : "59.28s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 155 caracteres"
+    }
+  },
+  "largos" : [ 98, 137, 153, 91, 155 ],
+  "reintento" : {
+    "planValido" : true,
+    "fallosDeProveedor" : [ {
+      "intento" : 1,
+      "tipo" : "LIMITE_POR_MINUTO",
+      "latenciaMs" : 192,
+      "causa" : "HTTP 429: Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m6v9s93seq3sekwy06yj8f0z` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Used 922, Requested 366. Please try again in 17.279999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing",
+      "encabezadosDeLimites" : {
+        "retry-after" : "18",
+        "x-ratelimit-limit-requests" : "1000",
+        "x-ratelimit-limit-tokens" : "8000",
+        "x-ratelimit-remaining-requests" : "968",
+        "x-ratelimit-remaining-tokens" : "6442",
+        "x-ratelimit-reset-requests" : "46m4.8s",
+        "x-ratelimit-reset-tokens" : "55.32s"
+      }
+    } ],
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 2,
+    "latenciaMs" : 1238,
+    "tokensEntrada" : 749,
+    "tokensSalida" : 310,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"es-CO\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"¿Qué motivación específica tiene para pasar de una posición de desarrollo de servicios web hacia el diseño de arquitectura en el rol de Desarrollador Backend?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Cómo gestiona el rendimiento y las transacciones en aplicaciones construidas con Spring Boot que interactúan intensivamente con bases de datos PostgreSQL?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describa una experiencia concreta en la que haya implementado un sistema de colas de mensajes, especificando la situación, la tarea asignada, las acciones tomadas y el resultado obtenido.\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"¿Qué prácticas sigue para garantizar la fiabilidad y el escalado de servicios cuando realiza despliegues en la nube?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Si se encuentra con un cuello de botella en el rendimiento al escalar un servicio en la nube, ¿cómo determinaría la causa raíz y qué acciones tomaría para resolverlo?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "967",
+      "x-ratelimit-remaining-tokens" : "6295",
+      "x-ratelimit-reset-requests" : "47m31.2s",
+      "x-ratelimit-reset-tokens" : "57.36s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "no se envió oferta: no aplica"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 187 caracteres"
+      }
+    },
+    "largos" : [ 158, 155, 187, 116, 166 ]
+  },
+  "validoTrasReintento" : true
+}

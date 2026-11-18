@@ -53,9 +53,12 @@ import tech.cameia.entrevista.domain.exception.BusinessException;
 import tech.cameia.entrevista.domain.exception.ErrorCode;
 import tech.cameia.entrevista.domain.exception.IdentityRequiredException;
 import tech.cameia.entrevista.domain.exception.InvalidRequestException;
+import tech.cameia.entrevista.domain.exception.LlmInvalidOutputException;
 import tech.cameia.entrevista.domain.exception.LlmLimitReachedException;
 import tech.cameia.entrevista.domain.exception.LlmUnavailableException;
+import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.exception.RequestPayloadTooLargeException;
+import tech.cameia.entrevista.domain.exception.TranscriptionUnavailableException;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 
 /**
@@ -125,7 +128,56 @@ class BusinessExceptionHandler {
             Map.entry(ErrorCode.REQUEST_PAYLOAD_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Datos demasiado grandes")),
             Map.entry(ErrorCode.PROFILE_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Perfil no encontrado")),
             Map.entry(ErrorCode.PROFILE_SYNC_PENDING, new Definition(HttpStatus.CONFLICT, "Perfil en actualización")),
-            Map.entry(ErrorCode.IDEMPOTENCY_KEY_CONFLICT, new Definition(HttpStatus.CONFLICT, "Solicitud distinta")));
+            Map.entry(ErrorCode.IDEMPOTENCY_KEY_CONFLICT, new Definition(HttpStatus.CONFLICT, "Solicitud distinta")),
+            Map.entry(ErrorCode.SESSION_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Entrevista no encontrada")),
+            Map.entry(ErrorCode.PLANNING_RETRIES_EXHAUSTED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Preparación no disponible")),
+            Map.entry(ErrorCode.PROFILE_SNAPSHOT_INVALID,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Perfil no utilizable")),
+            Map.entry(ErrorCode.TRANSCRIPTION_EMPTY,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Transcripción no válida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_TOO_LONG,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Transcripción no válida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_LANGUAGE_MISMATCH,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Transcripción no válida")),
+            Map.entry(ErrorCode.TRANSCRIPTION_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Transcripción no disponible")),
+            Map.entry(ErrorCode.DATABASE_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Servicio no disponible")),
+            Map.entry(ErrorCode.AUDIO_TOO_LARGE, new Definition(HttpStatus.PAYLOAD_TOO_LARGE, "Audio demasiado grande")),
+            Map.entry(ErrorCode.AUDIO_INVALID_FORMAT,
+                    new Definition(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Formato de audio no admitido")),
+            Map.entry(ErrorCode.AUDIO_TOO_LONG, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_TOO_SHORT, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.AUDIO_NOT_ALLOWED, new Definition(HttpStatus.UNPROCESSABLE_ENTITY, TITLE_VALIDATION)),
+            Map.entry(ErrorCode.TURN_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
+            Map.entry(ErrorCode.SESSION_ABANDONED, new Definition(HttpStatus.CONFLICT, "Entrevista abandonada")),
+            Map.entry(ErrorCode.SESSION_NOT_FINISHED,
+                    new Definition(HttpStatus.CONFLICT, "Entrevista sin terminar")),
+            Map.entry(ErrorCode.SESSION_ALREADY_CLOSED, new Definition(HttpStatus.CONFLICT, "Entrevista cerrada")),
+            Map.entry(ErrorCode.ANSWER_ALREADY_EXISTS, new Definition(HttpStatus.CONFLICT, "Respuesta existente")),
+            Map.entry(ErrorCode.TURN_CONFLICT, new Definition(HttpStatus.CONFLICT, "Cambio simultáneo")),
+            Map.entry(ErrorCode.TURN_NOT_RETRYABLE, new Definition(HttpStatus.CONFLICT, "Acción no permitida")),
+            Map.entry(ErrorCode.TURN_RETRY_LIMIT_REACHED,
+                    new Definition(HttpStatus.CONFLICT, "Reintentos agotados")),
+            Map.entry(ErrorCode.SESSION_CONSOLIDATION_FAILED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Cierre pendiente")),
+            Map.entry(ErrorCode.QUESTION_NOT_FOUND, new Definition(HttpStatus.NOT_FOUND, "Pregunta no encontrada")),
+            Map.entry(ErrorCode.QUESTION_NOT_AVAILABLE,
+                    new Definition(HttpStatus.CONFLICT, "Pregunta no disponible")),
+            Map.entry(ErrorCode.QUESTION_AUDIO_LIMIT_REACHED,
+                    new Definition(HttpStatus.CONFLICT, "Usos de audio agotados")),
+            Map.entry(ErrorCode.SPEECH_DISABLED, new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_UNAVAILABLE,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_TIMEOUT, new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_BUSY, new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz ocupada")),
+            Map.entry(ErrorCode.SPEECH_MONTHLY_LIMIT_REACHED,
+                    new Definition(HttpStatus.SERVICE_UNAVAILABLE, "Voz no disponible")),
+            Map.entry(ErrorCode.SPEECH_TEXT_EMPTY,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Pregunta no reproducible")),
+            Map.entry(ErrorCode.SPEECH_TEXT_TOO_LONG,
+                    new Definition(HttpStatus.UNPROCESSABLE_ENTITY, "Pregunta no reproducible")));
 
     /** Un campo rechazado: su nombre, el código estable y el mensaje para la persona. */
     record RejectedField(String field, String code, String message) {
@@ -186,6 +238,43 @@ class BusinessExceptionHandler {
     ProblemDetail modelLimitReached(LlmLimitReachedException error) {
         return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
                 "Límite de uso del modelo de lenguaje agotado", error);
+    }
+
+    /**
+     * El modelo respondió con un plan que no cumple el formato exigido.
+     *
+     * <p>Se registra en {@code ERROR} con la regla incumplida (nunca texto del modelo) y la respuesta
+     * solo dice que puede reintentar.</p>
+     *
+     * @param error excepción con la regla incumplida
+     * @return {@code 503 Service Unavailable} con el código {@code LLM_INVALID_OUTPUT}
+     */
+    @ExceptionHandler(LlmInvalidOutputException.class)
+    ProblemDetail modelInvalidOutput(LlmInvalidOutputException error) {
+        return serviceFailure(HttpStatus.SERVICE_UNAVAILABLE, TITLE_UNAVAILABLE, error.getErrorCode(),
+                "Salida del modelo de lenguaje inválida: " + error.getReason(), error);
+    }
+
+    /**
+     * El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido (CA-5.12.8).
+     *
+     * <p>Es un fallo de una dependencia, no de la persona: se registra en {@code ERROR} con la razón técnica
+     * (nunca el audio ni el texto) y la respuesta lleva el mensaje literal del criterio, que pide grabar de nuevo o
+     * responder por texto.</p>
+     *
+     * @param error excepción con la razón técnica
+     * @return {@code 503 Service Unavailable} con el código {@code TRANSCRIPTION_UNAVAILABLE}
+     */
+    @ExceptionHandler(TranscriptionUnavailableException.class)
+    ProblemDetail transcriptionUnavailable(TranscriptionUnavailableException error) {
+        Definition definition = DEFINITIONS.get(ErrorCode.TRANSCRIPTION_UNAVAILABLE);
+        ProblemDetail problem = problem(definition.status(), definition.title(), error.getMessage(),
+                error.getErrorCode());
+        if (shouldLog()) {
+            logger.error("Transcripción no disponible: {} [code={}, requestId={}]", error.getReason(),
+                    error.getErrorCode(), problem.getProperties().get("requestId"), error);
+        }
+        return problem;
     }
 
     /**

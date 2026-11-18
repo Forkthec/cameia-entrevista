@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-C",
+  "corrida" : 3,
+  "ms" : 1163,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 111,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La falta de interés no justifica la evasión. Responde la pregunta sobre diseño de pruebas.\", \"follow_up_texto\": \"Deja de lado tus preferencias y responde: ¿Qué conjuntos de equivalencia y valores límite definirías para el campo de fecha de nacimiento?\", \"motivo\": \"El candidato evade la pregunta citando desinterés y sugiriendo otro tema, en vez de abordar la solicitud técnica.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

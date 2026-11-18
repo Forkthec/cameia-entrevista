@@ -1,0 +1,51 @@
+{
+  "id" : "G924",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés, repetición (copia de G131)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:42:42.667715400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5250,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5262,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1347,
+  "tokensSalida" : 253,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome and thank you for taking the time to chat with us today; I would love it if you could start by telling me a little bit about yourself and what excites you about this Frontend Developer position.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through how you typically build accessible interfaces using React and TypeScript in your daily work.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you tell me about a time when you had to consume a REST API under a tight deadline, what specific steps you took, and what the final result was?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I would like you to share how you usually approach writing component tests to ensure your code is reliable.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working on a new feature and realize that the API data structure you receive doesn't match the component's expected types in TypeScript; how would you handle this situation, and as this is our last question, what steps would you take first?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 212, 133, 150, 107, 256 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

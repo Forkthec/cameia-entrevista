@@ -1,0 +1,51 @@
+{
+  "id" : "G125",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, es-CO, sin oferta, BACKEND",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:02:41.084189300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4768,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2365,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1260,
+  "tokensSalida" : 244,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy, me alegra mucho conocerte; cuéntame, ¿qué es lo que más te motiva de postularte a este rol de Desarrollador Backend?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo has aplicado Spring Boot para la creación y gestión de servicios web en tus proyectos.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"¿Podrías contarme sobre alguna situación en tu trabajo actual en Empresa Ficticia Andina donde hayas tenido que mantener o solucionar un inconveniente con una API REST?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Cuéntame cómo manejas las consultas y el rendimiento en bases de datos relacionales usando PostgreSQL.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando nuestra conversación, imagínate que notas una falla inesperada en una de las colas de mensajes en producción, ¿cómo actuarías para resolverlo en el menor tiempo posible?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 165, 119, 168, 102, 186 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[3]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

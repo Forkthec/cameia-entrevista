@@ -1,0 +1,141 @@
+{
+  "id" : "A19",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3288,
+  "inicio" : "2026-11-08T15:50:53.777256600-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1338,
+  "tokensEntrada" : 829,
+  "tokensSalida" : 208,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce yourself and explain your motivation for applying for this Software Quality Analyst role at Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TEcnICA\",\"texto\":\"How do you approach designing comprehensive test cases and ensuring requirements traceability for web applications?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you describe a specific situation where you found a critical defect in Jira during manual testing, what action you took, and what the final result was?\"},{\"posicion\":4,\"tipo\":\"TEcnICA\",\"texto\":\"How do you structure and execute your Selenium-automated regression tests to maintain reliability over time?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine that a major requirement changes just before the release of a new test plan for a web application; how would you handle updating your test cases and ensuring quality before the deadline?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 2 trae un tipo fuera del catálogo"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: diseño de casos y planes en las preguntas [2, 5]; trazabilidad y requisitos en las preguntas [2, 5]"
+  },
+  "reintento" : {
+    "planValido" : false,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1147,
+    "tokensEntrada" : 829,
+    "tokensSalida" : 197,
+    "modelo" : "gemini-3.5-flash-lite",
+    "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Could you briefly introduce your background in web application quality analysis and explain your interest in joining Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TEcnICA\",\"texto\":\"How do you approach designing test cases and executing Selenium-automated tests for web applications?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation where you identified and reported a defect in Jira during your two years of experience, detailing the task, your action, and the result.\"},{\"posicion\":4,\"tipo\":\"TEcnICA\",\"texto\":\"How do you manage requirements traceability to ensure that test plans and test cases cover all specifications?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"If a critical defect is discovered right before a scheduled regression test run using Selenium, how would you handle the situation?\"}]}",
+    "motivoDeCorte" : "partes=1; motivo=STOP",
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "la pregunta 2 trae un tipo fuera del catálogo"
+      },
+      "b" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "c" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "d" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "e" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "f" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      },
+      "g" : {
+        "cumple" : false,
+        "aproximado" : false,
+        "detalle" : "no evaluable: falla la forma (a)"
+      }
+    },
+    "largos" : [ ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 2,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: automatización y regresión en las preguntas [2, 5]; gestión de defectos en las preguntas [3, 5]; diseño de casos y planes en las preguntas [2, 4]"
+    }
+  },
+  "validoTrasReintento" : false
+}

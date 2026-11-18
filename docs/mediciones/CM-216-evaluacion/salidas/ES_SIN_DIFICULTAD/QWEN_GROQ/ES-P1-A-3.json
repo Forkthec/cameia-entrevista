@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 3,
+  "ms" : 799,
+  "tokensEntrada" : 695,
+  "tokensSalida" : 145,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general. Mencionas una mejora en el tiempo de respuesta pero no explicas cómo lo lograste.\", \"follow_up_texto\": \"Mencionas que mejoraste el tiempo de respuesta de las consultas más lentas en tu plataforma de pagos. ¿Qué técnicas específicas aplicaste para lograrlo y cómo verificaste la mejora?\", \"motivo\": \"El candidato va por buen camino pero se queda en generalidades. No aporta detalles técnicos específicos sobre su experiencia ni sobre la mejora mencionada, por lo que se considera una respuesta vaga a pesar de ser una pregunta introductoria.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

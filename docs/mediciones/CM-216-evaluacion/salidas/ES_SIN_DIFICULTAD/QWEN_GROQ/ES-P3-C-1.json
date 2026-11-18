@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-C",
+  "corrida" : 1,
+  "ms" : 852,
+  "tokensEntrada" : 659,
+  "tokensSalida" : 158,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La falta de conflicto no es necesariamente un problema, pero afirmar 'casi nunca' en un entorno de ingeniería es improbable. Evitar la pregunta impide evaluar tu capacidad de negociación técnica.\", \"follow_up_texto\": \"Es improbable que hayas tenido cero desacuerdos técnicos. Piensa en un caso donde propusiste una solución que tu equipo inicialmente rechazó o con la que no estaba de acuerdo. ¿Cuál fue el desacuerdo concreto y cómo lo gestionaste?\", \"motivo\": \"El candidato esquiva la pregunta asserting una inexistencia improbable de conflictos técnicos, impidiendo evaluar su habilidad para el manejo de desacuerdos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

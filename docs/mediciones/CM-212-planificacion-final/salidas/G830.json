@@ -1,0 +1,57 @@
+{
+  "id" : "G830",
+  "grupo" : "G8",
+  "descripcion" : "Frontend sin experiencia, estricto, inglés, sin oferta",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 10,
+  "inicio" : "2026-11-10T19:31:34.313128400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4477,
+  "fallosDelProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 9355,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  } ],
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 7348,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1161,
+  "tokensSalida" : 260,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Why do you want this specific Frontend Developer role and what exact metric or quantifiable milestone convinced you to apply today? Cite an example concrete of your motivation.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Explain how you handle CSS specificity and cascade issues; state exactly what specific tool or feature you use to debug layout conflicts and cite an exact result measured in your portfolio.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation during your Web Programming Technician studies at Fictitious Southern Technical Institute where you faced a deadline challenge, detailing the exact task, the specific action you took, and a concrete measurable result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Detail how you implement DOM manipulation using vanilla JavaScript; specify exactly what browser API or method you rely on and provide a precise, verifiable performance metric from a project you built.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a critical CSS rendering bug appears in production affecting user interface layout; explain exactly how you would diagnose the issue, what specific tool you would use first, and what concrete metric you would measure to confirm the fix.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 176, 189, 247, 201, 244 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G214",
+  "grupo" : "G2",
+  "descripcion" : "perfil Analista de Datos Junior (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:09:38.750170100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4500,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1604,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1169,
+  "tokensSalida" : 222,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome and thank you for being here today; could you tell me a little bit about yourself and what motivates you to apply for this Junior Data Analyst role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I would love for you to explain how you would write a basic SQL query to filter and sort data from a specific table.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a time during your Industrial Engineering studies when you had to work on a team project, what task you faced, what action you took, and what the final result was?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Could you walk me through how you typically use Excel formulas or functions to organize and analyze a dataset?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you receive a dataset with missing values right before a presentation; as this is our final question, how would you handle this situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 166, 116, 179, 110, 146 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

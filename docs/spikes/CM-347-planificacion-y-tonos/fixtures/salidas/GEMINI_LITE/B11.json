@@ -1,0 +1,60 @@
+{
+  "id" : "B11",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 2339,
+  "inicio" : "2026-11-07T10:46:00.733751400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1227,
+  "tokensEntrada" : 572,
+  "tokensSalida" : 272,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hi there, welcome! It's great to meet you today; could you please tell me a little bit about yourself and what excites you about joining Andina Ficticia S.A.S. as our new Backend Developer?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Since a big part of this role involves maintaining and scaling our REST APIs, how do you usually approach designing robust services using Spring Boot and PostgreSQL?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific time when you had to troubleshoot a challenging issue with a message queue like RabbitMQ in one of your previous projects, walking me through the situation, the task you faced, the actions you took, and the final result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Looking at how we ensure high quality in our codebase, what is your preferred strategy for writing effective automated tests for your backend components?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine we are in the middle of an agile sprint and a critical production bug appears while you are right in the middle of designing a new cloud deployment; how would you prioritize your tasks to handle both situations effectively?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 247 caracteres"
+    }
+  },
+  "largos" : [ 189, 165, 247, 153, 231 ]
+}

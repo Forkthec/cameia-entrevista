@@ -1,0 +1,51 @@
+{
+  "id" : "G104",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, es-CO, con oferta, FRONTEND",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:23:38.523753300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4502,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1523,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1183,
+  "tokensSalida" : 220,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Buenos días, para iniciar cuénteme qué le motiva a postularse como Desarrollador Frontend en Pixel Norte S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza las funciones de JavaScript para manipular el DOM en una página web?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Piense en un proyecto o actividad académica realizada en el Instituto Técnico Ficticio del Sur donde haya tenido que trabajar con HTML y CSS. ¿Cómo se organizó para cumplir con los objetivos del trabajo y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera estructuraría un componente reutilizable utilizando React y TypeScript?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que está desarrollando una interfaz y el diseño requiere que sea accesible para personas con daltonismo. ¿Cómo procedería para verificar y solucionar este requisito?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 111, 82, 227, 86, 173 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

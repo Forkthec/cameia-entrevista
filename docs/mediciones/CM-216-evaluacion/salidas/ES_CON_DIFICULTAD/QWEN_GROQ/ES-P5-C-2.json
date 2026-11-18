@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-C",
+  "corrida" : 2,
+  "ms" : 863,
+  "tokensEntrada" : 670,
+  "tokensSalida" : 149,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La gestión de incidentes en producción es responsabilidad directa del equipo que posee el servicio, sin importar el día o la hora; la evasión es inaceptable.\", \"follow_up_texto\": \"Deja de lado la actitud defensiva. Describe el proceso técnico exacto de triage que ejecutarías al detectar esos errores 500 en producción: desde la confirmación del fallo hasta la comunicación inicial.\", \"motivo\": \"El candidato no responde a la pregunta técnica, sino que se niega a abordar la situaciones, argumentando que no es su responsabilidad por ser viernes por la tarde.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

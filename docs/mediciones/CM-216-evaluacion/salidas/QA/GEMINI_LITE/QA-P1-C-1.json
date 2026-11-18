@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P1-C",
+  "corrida" : 1,
+  "ms" : 1213,
+  "tokensEntrada" : 650,
+  "tokensSalida" : 112,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta de la entrevista y desvía la atención hacia otro tema.\",\n  \"follow_up_texto\": \"Por favor, responde a la pregunta original sobre tu experiencia en pruebas de software y tu motivación para el rol de QA antes de hablar sobre la estructura del equipo.\",\n  \"feedback\": \"Es necesario abordar las preguntas planteadas para poder avanzar en el proceso.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

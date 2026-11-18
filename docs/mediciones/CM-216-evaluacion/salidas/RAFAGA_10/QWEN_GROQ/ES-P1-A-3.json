@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 3,
+  "ms" : 789,
+  "tokensEntrada" : 695,
+  "tokensSalida" : 89,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La respuesta es directa y conecta tu experiencia técnica con la motivación del puesto.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato responde a ambos puntos de la pregunta (experiencia y motivación) de forma concreta, mencionando herramientas específicas y un logro relevante que justifica su interés.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

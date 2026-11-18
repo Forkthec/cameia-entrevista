@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P1-A",
+  "corrida" : 2,
+  "ms" : 1209,
+  "tokensEntrada" : 682,
+  "tokensSalida" : 73,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato cubre su experiencia relevante en backend y explica claramente su motivación para el puesto.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena síntesis de experiencia y motivación.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "G827",
+  "grupo" : "G8",
+  "descripcion" : "Frontend sin experiencia, estricto, inglés, sin oferta",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 7,
+  "inicio" : "2026-11-10T19:31:01.933917400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4477,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2017,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1161,
+  "tokensSalida" : 235,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Considering your Web Programming Technician credential from Fictitious Southern Technical Institute, state exactly what specific metric or measurable academic outcome demonstrated your readiness for this Frontend Developer role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding HTML and CSS implementation, cite an exact tool or specific layout technique you used to build your portfolio, including the exact number of pages created.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific project situation from your technical studies where you applied JavaScript; state the exact file or component where you implemented it and the exact result measured.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Focusing on basic JavaScript functionality, name the exact method or syntax feature you utilized and state the exact quantitative output or behavior it produced.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose a CSS styling update breaks the layout across different viewports; state the exact tool you would use to inspect the DOM and cite a specific measurable metric you would track to verify the fix.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 228, 165, 185, 161, 201 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

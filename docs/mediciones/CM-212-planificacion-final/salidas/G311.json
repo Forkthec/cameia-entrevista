@@ -1,0 +1,51 @@
+{
+  "id" : "G311",
+  "grupo" : "G3",
+  "descripcion" : "habilidades ausentes (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:12:00.948548200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4824,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2821,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1267,
+  "tokensSalida" : 318,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué postula exactamente a este rol de Desarrollador Backend y qué métrica de desempeño personal espera alcanzar en sus primeros noventa días en Andina Ficticia S.A.S., citando un ejemplo concreto de su motivación?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Al mantener APIs REST con Spring Boot, ¿qué métrica específica de rendimiento o tiempo de respuesta logró mejorar exactamente en sus desarrollos anteriores y qué herramienta o tecnología usó para medirlo?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación exacta en su experiencia laboral en Empresa Ficticia Andina donde haya tenido que sincronizar colas de mensajes con RabbitMQ; detalle la acción que usted tomó y el resultado cuantificable que obtuvo en el sistema.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Para el modelado de bases de datos en PostgreSQL, cite un ejemplo concreto de una consulta compleja que haya optimizado, indicando exactamente qué índice o función implementó y qué porcentaje exacto redujo en el tiempo de ejecución.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante un despliegue en equipo bajo metodologías ágiles se detecta que las pruebas automatizadas fallan en el último momento, ¿qué paso exacto seguiría para resolverlo y qué resultado medible garantizaría antes de aprobar el pase a producción?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 218, 204, 236, 232, 247 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[3]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

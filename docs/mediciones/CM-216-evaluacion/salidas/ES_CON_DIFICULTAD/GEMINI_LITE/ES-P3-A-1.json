@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-A",
+  "corrida" : 1,
+  "ms" : 1064,
+  "tokensEntrada" : 735,
+  "tokensSalida" : 88,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde con una situacion clara, describe el desacuerdo tecnico, explica los criterios objetivos usados para resolverlo y detalla un resultado cuantificable.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena respuesta. El uso de datos objetivos para resolver una discrepancia tecnica es la aproximacion correcta.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

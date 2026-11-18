@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-B",
+  "corrida" : 3,
+  "ms" : 1089,
+  "tokensEntrada" : 655,
+  "tokensSalida" : 139,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado general. Necesito detalles concretos sobre el mecanismo de persistencia y el procesamiento asíncrono.\", \"follow_up_texto\": \"¿Qué tecnología específica usarías para la cola de trabajo? ¿Cómo garantizarías que un mensaje no se pierda si el consumidor falla o si se reinicia el servidor en medio del procesamiento?\", \"motivo\": \"El candidato menciona una cola y una base de datos, pero no proporciona detalles sobre la arquitectura, la fiabilidad o el mecanismo exacto de persistencia necesario para un diseño a alto nivel.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

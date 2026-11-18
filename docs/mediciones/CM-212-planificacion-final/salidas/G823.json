@@ -1,0 +1,51 @@
+{
+  "id" : "G823",
+  "grupo" : "G8",
+  "descripcion" : "Frontend sin experiencia, estricto, inglés, sin oferta",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 3,
+  "inicio" : "2026-11-10T19:29:20.245328600-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4477,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3851,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1161,
+  "tokensSalida" : 290,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"As a recent Web Programming Technician graduate from Fictitious Southern Technical Institute, why are you applying for this Frontend Developer role and what exact project from your studies demonstrates your readiness, citing the exact number of pages built?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Regarding your intermediate CSS skills, what exact layout property or framework feature did you use to achieve responsive design, and what specific metric did you measure to verify cross-browser compatibility?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation during your studies at Fictitious Southern Technical Institute where you had to manage a collaborative HTML or JavaScript project; detail the exact task you performed, the precise action you took to resolve a coding conflict, and the concrete measurable result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Considering your basic JavaScript skill level, cite a specific function or method you implemented in your portfolio pages, and state the exact tool or browser console metric you used to debug errors.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suppose you are given a task to update a legacy HTML and CSS page under a strict deadline of exactly two hours; how would you prioritize your actions and what exact metric would you use to verify that your changes did not break the existing layout?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 257, 209, 291, 199, 248 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P2-C",
+  "corrida" : 3,
+  "ms" : 1182,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 129,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"motivo\": \"El candidato esquiva por completo la pregunta técnica sobre transacciones y bloqueo optimista, hablando de la historia de las bases de datos y herramientas gráficas.\", \"follow_up_texto\": \"No has respondido a la pregunta. Por favor, explica concretamente cuál es la diferencia conceptual entre una transacción y un bloqueo optimista, y en qué escenarios aplicarías cada uno.\", \"feedback\": \"Evita desviar la conversación hacia datos históricos o interfaces gráficas cuando se te consulta por conceptos técnicos específicos de bases de datos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

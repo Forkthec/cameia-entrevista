@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P2-C",
+  "corrida" : 2,
+  "ms" : 1176,
+  "tokensEntrada" : 660,
+  "tokensSalida" : 117,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"motivo\": \"El candidato no responde sobre pruebas de regresión ni de humo, desviándose completamente del tema técnico.\", \"follow_up_texto\": \"Por favor, centrémonos en la pregunta. Explique cuál es la diferencia entre una prueba de regresión y una prueba de humo, y en qué momento se ejecuta cada una.\", \"feedback\": \"Evita divagar con comentarios ajenos al ámbito técnico y céntrate en responder la pregunta planteada.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

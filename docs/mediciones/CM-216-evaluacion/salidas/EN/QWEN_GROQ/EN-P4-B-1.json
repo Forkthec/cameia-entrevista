@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-B",
+  "corrida" : 1,
+  "ms" : 700,
+  "tokensEntrada" : 655,
+  "tokensSalida" : 154,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica. Falta definir el mecanismo específico para garantizar la durabilidad y la consistencia entre la persistencia y la cola.\", \"follow_up_texto\": \"Explica cómo garantizarías que un email no se pierda si la aplicación crashea justo después de registrar el evento pero antes de enviarlo a la cola. ¿Qué esquema de transaccionalidad usarías?\", \"motivo\": \"El candidato menciona el uso de una cola y una base de datos, pero no detalla el mecanismo para evitar la pérdida de mensajes durante un reinicio o crash, ni aborda la coherencia entre ambos componentes.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 2,
+  "ms" : 929,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 141,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Es un enfoque de principiante. No detalla cómo inspeccionar los logs ni justifica por qué reiniciar antes de diagnosticar. Falta estructura.\", \"follow_up_texto\": \"Explica específicamente qué mirarías en los logs para identificar la causa raíz de los 500.¿Por qué sugerirías reiniciar el servicio antes de resolver la causa raíz real?\", \"motivo\": \"La respuesta es extremadamente genérica y carece de los pasos concretos de diagnóstico (stack traces, métricas, dependencias) y gestión del incidente.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

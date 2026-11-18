@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 1,
+  "ms" : 830,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 86,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre el proceso completo de gestión de incidentes con criterio técnico adecuado para producción.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena priorización al mitigar primero con un rollback ante un despliegue reciente en horario crítico.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,86 @@
+{
+  "id" : "B03",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3390,
+  "inicio" : "2026-11-08T16:04:14.864295500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1126,
+  "tokensEntrada" : 881,
+  "tokensSalida" : 420,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Teniendo en cuenta tus tres años de experiencia en servicios web con Java, ¿cuál es el elemento técnico específico que más motivación te genera de la oferta de Andina Ficticia S.A.S. para crecer hacia el diseño de arquitectura?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Al modelar la base de datos en PostgreSQL para esta API REST, ¿qué estrategia concreta de indexación o optimización de consultas has implementado previamente para garantizar tiempos de respuesta bajos bajo carga?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Descríbeme una experiencia pasada en la que implementaste un despliegue en la nube con colas de mensajes, indicando la situación, la tarea asignada, las acciones técnicas que tomaste y el resultado medible en términos de estabilidad o rendimiento.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"¿Qué marco de trabajo de pruebas automatizadas y qué nivel de cobertura mínima has exigido en tus proyectos previos con Spring Boot para validar la integridad de las transacciones antes del despliegue?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Si durante el trabajo en equipo con metodologías ágiles detectas que una integración con RabbitMQ está generando cuellos de botella no planificados, ¿cuál es la primera decisión técnica que tomarías y cómo priorizarías su resolución frente a otras tareas del sprint?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "970",
+    "x-ratelimit-remaining-tokens" : "6772",
+    "x-ratelimit-reset-requests" : "43m12s",
+    "x-ratelimit-reset-tokens" : "9.21s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 266 caracteres"
+    }
+  },
+  "largos" : [ 227, 212, 247, 201, 266 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 3,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 5]; base de datos en las preguntas [2, 4]; despliegue y nube en las preguntas [3, 4]; servicios web y Spring en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

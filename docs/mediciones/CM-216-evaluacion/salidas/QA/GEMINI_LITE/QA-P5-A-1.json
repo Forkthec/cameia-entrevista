@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-A",
+  "corrida" : 1,
+  "ms" : 895,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 81,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"La respuesta aborda de forma estructurada y profesional el manejo del desacuerdo, revisando especificaciones y escalando correctamente sin confrontacion.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena aproximacion metodologica y colaborativa para la resolucion de conflictos tecnicos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,13 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-01",
+  "corrida" : 1,
+  "ms" : 3668,
+  "tokensEntrada" : -1,
+  "tokensSalida" : -1,
+  "texto" : "",
+  "tipoDeFallo" : "SOBRECARGA",
+  "causa" : "LLM_UNAVAILABLE | ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "fallos" : [ "SOBRECARGA" ]
+}

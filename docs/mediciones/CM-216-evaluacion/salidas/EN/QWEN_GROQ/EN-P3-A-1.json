@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P3-A",
+  "corrida" : 1,
+  "ms" : 624,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 96,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta precisa y estructurada. Incluyes el contexto, la metodología de resolución (datos medibles) y un resultado concreto.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta aborda directamente la pregunta con un ejemplo técnico específico, describe la dinámica de trabajo en equipo para resolver el conflicto y concluye con un resultado medible.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

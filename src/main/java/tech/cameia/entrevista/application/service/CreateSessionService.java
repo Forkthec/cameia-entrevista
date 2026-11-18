@@ -1,11 +1,13 @@
 package tech.cameia.entrevista.application.service;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -14,6 +16,7 @@ import tech.cameia.entrevista.domain.exception.IdempotencyKeyAlreadyExistsExcept
 import tech.cameia.entrevista.domain.exception.IdempotencyKeyConflictException;
 import tech.cameia.entrevista.domain.exception.ProfileNotFoundException;
 import tech.cameia.entrevista.domain.exception.ProfileSyncPendingException;
+import tech.cameia.entrevista.domain.exception.SessionConflictException;
 import tech.cameia.entrevista.domain.exception.SessionAlreadyExistsException;
 import tech.cameia.entrevista.domain.model.FirebaseUid;
 import tech.cameia.entrevista.domain.model.IdempotencyKey;
@@ -22,7 +25,9 @@ import tech.cameia.entrevista.domain.model.ProfileReplica;
 import tech.cameia.entrevista.domain.model.SessionConfiguration;
 import tech.cameia.entrevista.domain.model.SessionStatus;
 import tech.cameia.entrevista.domain.model.ValidatedSessionRequest;
+import tech.cameia.entrevista.domain.policy.PlanningClaim;
 import tech.cameia.entrevista.domain.policy.SessionConfigurationPolicy;
+import tech.cameia.entrevista.domain.port.AiExecutionRepository;
 import tech.cameia.entrevista.domain.port.IdempotencyKeyRepository;
 import tech.cameia.entrevista.domain.port.InterviewSessionRepository;
 import tech.cameia.entrevista.domain.port.ProfileReplicaRepository;
@@ -54,20 +59,25 @@ public class CreateSessionService {
     private final ProfileReplicaRepository profiles;
     private final InterviewSessionRepository sessions;
     private final IdempotencyKeyRepository keys;
+    private final AiExecutionRepository executions;
     private final TransactionTemplate transaction;
     private final JsonMapper json;
     private final Clock clock;
+    private final PlanningClaim claim;
 
     CreateSessionService(SessionConfigurationPolicy policy, ProfileReplicaRepository profiles,
-            InterviewSessionRepository sessions, IdempotencyKeyRepository keys, TransactionTemplate transaction,
-            JsonMapper json, Clock clock) {
+            InterviewSessionRepository sessions, IdempotencyKeyRepository keys, AiExecutionRepository executions,
+            TransactionTemplate transaction, JsonMapper json, Clock clock,
+            @Value("${cameia.llm.timeout}") Duration llmTimeout) {
         this.policy = policy;
         this.profiles = profiles;
         this.sessions = sessions;
         this.keys = keys;
+        this.executions = executions;
         this.transaction = transaction;
         this.json = json;
         this.clock = clock;
+        this.claim = new PlanningClaim(llmTimeout);
     }
 
     /**
@@ -79,6 +89,7 @@ public class CreateSessionService {
      * @throws ProfileSyncPendingException si la copia del perfil falta o todavía no sirve
      * @throws ProfileNotFoundException si el perfil es de otra persona
      * @throws IdempotencyKeyConflictException si la clave ya se usó con otra configuración
+     * @throws SessionConflictException si la IA está preparando las preguntas de la sesión que se reutilizaría
      */
     public CreateSessionResult create(CreateSessionCommand command) {
         ValidatedSessionRequest request = policy.validate(command.draft());
@@ -123,7 +134,10 @@ public class CreateSessionService {
         int httpStatus;
         if (configured.isPresent()) {
             InterviewSession session = configured.get();
+            rejectWhilePlanning(session.id());
             session.reconfigure(configuration, clock);
+            // El contador vuelve a 0, así que los intentos fallidos de la configuración anterior dejan de contar.
+            executions.deletePlanningOf(session.id());
             saved = sessions.save(session);
             httpStatus = REUSED;
         } else {
@@ -137,6 +151,15 @@ public class CreateSessionService {
                     httpStatus, toJson(result), clock.instant()));
         }
         return result;
+    }
+
+    // Mientras la IA prepara las preguntas la configuración no cambia: reconfigurar borraría la marca y dejaría
+    // pasar un segundo inicio, o guardaría preguntas de la configuración vieja.
+    private void rejectWhilePlanning(UUID sessionId) {
+        executions.findPlanningInProgress(sessionId).filter(mark -> claim.isLive(mark, clock.instant()))
+                .ifPresent(mark -> {
+                    throw new SessionConflictException();
+                });
     }
 
     // El dueño se comprueba antes que el uso: un perfil ajeno nunca revela que existe.

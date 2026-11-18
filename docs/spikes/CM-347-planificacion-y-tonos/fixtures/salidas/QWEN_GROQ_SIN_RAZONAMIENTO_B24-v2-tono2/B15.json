@@ -1,0 +1,157 @@
+{
+  "id" : "B15",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-08T16:22:54.575603100-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1155,
+  "tokensEntrada" : 820,
+  "tokensSalida" : 399,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"es-CO\",\n\"preguntas\":[\n{\n\"posicion\":1,\n\"tipo\":\"APERTURA\",\n\"texto\":\"Con tres años de experiencia y un interés declarado en arquitectura, diseñe en una frase la transición exacta que necesita para dar el salto y justifique por qué sus métricas actuales de desempeño lo posicionan para asumir este rol de mantenimiento y diseño en Andina Ficticia S.A.S.\"\n},\n{\n\"posicion\":2,\n\"type\":\"TECNICA\",\n\"texto\":\"Describa la estrategia de indexación y modelado que implementó en PostgreSQL para soportar su carga de trabajo más intensa, especificando el número de consultas por segundo que procesaba y la reducción de latencia lograda.\"\n},\n{\n\"posicion\":3,\n\"tipo\":\"CONDUCTUAL\",\n\"texto\":\"Cuéntenos de una experiencia específica en la que enfrentó problemas de rendimiento o consistencia al usar colas de mensajes, detallando la tarea que debía resolver, la acción técnica que tomó y el resultado medible en términos de disponibilidad del sistema.\"\n},\n{\n\"posicion\":4,\n\"type\":\"TECNICA\",\n\"texto\":\"Detalle el flujo completo de una integración con RabbitMQ que haya desplegado, especificando las políticas de reconexión configuradas y el número de pruebas automatizadas que escribió para validar la tolerancia a fallos de esa conexión.\"\n},\n{\n\"posicion\":5,\n\"tipo\":\"SITUACIONAL\",\n\"texto\":\"Si al desplegar una nueva versión de nuestra API REST en Spring Boot detecta que el tiempo de respuesta se triplica y el equipo ágil exige una solución inmediata, explique paso a paso su plan de acción para diagnosticar el cuello de botella y restaurar los niveles de servicio en cuatro horas.\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "930",
+    "x-ratelimit-remaining-tokens" : "6675",
+    "x-ratelimit-reset-requests" : "1h40m48s",
+    "x-ratelimit-reset-tokens" : "30.3s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 2 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]"
+  },
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1688,
+    "tokensEntrada" : 820,
+    "tokensSalida" : 318,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Con tres años de experiencia específica en servicios web con Java y Spring Boot, qué métricas concretas ha logrado mejorar en su tránsito hacia el diseño de arquitectura y por qué considera que Andina Ficticia S.A.S. es el lugar para consolidar esas competencias.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Detalle la estrategia de indexación y particionamiento que ha implementado en PostgreSQL para reducir la latencia de consultas en sus APIs REST, citando los tiempos de respuesta antes y después del cambio.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en la que una integración con colas de mensajes falló en producción; ¿cuál fue la acción técnica inmediata, cómo decidió la solución y qué resultado alcanzó en términos de disponibilidad del servicio?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Cuál es su enfoque para ampliar la cobertura de pruebas automatizadas en proyectos con Spring Boot y RabbitMQ, indicando los tipos de pruebas que prioriza y la ganancia porcentual en detección de incidencias que ha obtenido.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si descubriera que una API crítica en producción presenta una fuga de memoria que incrementa el tiempo de respuesta un 40%, ¿cuáles son los tres pasos de diagnóstico y mitigación que ejecutaría de inmediato para restablecer el servicio?\"}]}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "929",
+      "x-ratelimit-remaining-tokens" : "5608",
+      "x-ratelimit-reset-requests" : "1h42m14.4s",
+      "x-ratelimit-reset-tokens" : "53.16s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 263 caracteres"
+      }
+    },
+    "largos" : [ 263, 205, 223, 224, 236 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "PROFESIONAL_NEUTRO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 2,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: mensajería en las preguntas [3, 4]"
+    }
+  },
+  "validoTrasReintento" : true
+}

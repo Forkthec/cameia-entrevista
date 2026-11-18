@@ -1,0 +1,51 @@
+{
+  "id" : "G118",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T21:28:27.011777100-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5365,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 7763,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1399,
+  "tokensSalida" : 265,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy. Cuéntame qué te motivó a postularte como analista de datos y cómo ves tu paso por la estadística para llegar a este rol.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas las consultas complejas y los cruces de tablas usando SQL cuando necesitas extraer información de varias bases de datos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Háblame de alguna situación en tus cursos universitarios donde hayas tenido que analizar una base de datos grande o compleja; explícitamente, cuál era el reto, qué hiciste tú con Python y qué resultado obtuviste al final.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera aprovechas las funciones avanzadas de Excel para limpiar y resumir conjuntos de datos antes de presentarlos?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para cerrar nuestra charla, imagínate que encuentras una inconsistencia importante en los datos de un informe que debes entregar muy pronto a tu equipo; ¿qué harías en ese momento para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 169, 134, 221, 123, 196 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

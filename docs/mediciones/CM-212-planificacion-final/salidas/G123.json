@@ -1,0 +1,51 @@
+{
+  "id" : "G123",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, en, con oferta, FRONTEND",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:02:22.117213800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4780,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5159,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1227,
+  "tokensSalida" : 300,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome and congratulations on graduating from the Web Programming Technician program at Fictitious Southern Technical Institute, it is great to have you here; I would love for you to tell me a little bit about what first drew you to frontend development and why you are excited about this role with us.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Since you have built pages using HTML, CSS, and JavaScript, I would like you to explain how you structure your CSS stylesheets and what approach you use to keep your styles organized across different elements.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"During your studies at Fictitious Southern Technical Institute, could you share a time when you faced a difficult coding challenge while building a portfolio page, what specific steps you took to solve it, and how that affected the final result?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Given that North Pixel Inc. works with React and TypeScript, how would you define the main benefits of using TypeScript when building interactive user interfaces compared to plain JavaScript?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working on a new accessible interface for North Pixel Inc. and you realize that a component you built does not fully meet keyboard navigation standards right before a deadline; how would you handle that situation and what steps would you take?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 303, 209, 245, 191, 259 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

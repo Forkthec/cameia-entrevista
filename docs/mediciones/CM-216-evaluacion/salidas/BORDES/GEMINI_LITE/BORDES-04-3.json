@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-04",
+  "corrida" : 3,
+  "ms" : 3936,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 107,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato esquivó la pregunta técnica solicitando que se repitan las instrucciones.\",\n  \"follow_up_texto\": \"Por favor, responde a la pregunta original sobre la diferencia entre una transacción y un bloqueo optimista, y cuándo usarías cada uno.\",\n  \"feedback\": \"No desvíes la atención con solicitudes fuera del contexto técnico de la entrevista.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

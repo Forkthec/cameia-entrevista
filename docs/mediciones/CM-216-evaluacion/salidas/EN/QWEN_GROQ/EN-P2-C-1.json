@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P2-C",
+  "corrida" : 1,
+  "ms" : 889,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 117,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"Tu respuesta no aborda la cuestión técnica planteada.\", \"follow_up_texto\": \"Vuelve a la pregunta: ¿cuál es la diferencia fundamental entre una transacción de base de datos y el bloqueo optimista, y en qué escenarios específicos aplicarías cada uno?\", \"motivo\": \"La respuesta del candidato habla sobre el origen de las bases de datos y su experiencia en interfaces gráficas, ignorando por completo las definiciones y usos solicitados.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

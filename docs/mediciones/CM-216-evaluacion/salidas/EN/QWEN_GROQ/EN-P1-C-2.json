@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P1-C",
+  "corrida" : 2,
+  "ms" : 546,
+  "tokensEntrada" : 646,
+  "tokensSalida" : 118,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La presentación inicial es necesaria para conocer tu contexto y fit cultural. No es opcional.\", \"follow_up_texto\": \"Entiendo que prefieres centrarte en lo técnico, pero necesito entender tu fondo. Dame una breve resección de tu experiencia más relevante y por qué te interesa este rol específico.\", \"motivo\": \"El candidato evitó deliberadamente la pregunta solicitando directamente una técnica, lo cual constituye una evasión del objetivo de la entrevista.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

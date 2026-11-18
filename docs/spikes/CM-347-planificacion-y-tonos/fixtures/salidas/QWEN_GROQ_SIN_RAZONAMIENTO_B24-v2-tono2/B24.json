@@ -1,0 +1,86 @@
+{
+  "id" : "B24",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-08T16:26:25.589997100-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1542,
+  "tokensEntrada" : 789,
+  "tokensSalida" : 411,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Given your three years of experience building web services in Java with Spring Boot and PostgreSQL, and your specific interest in growing toward architecture design, what concrete alignment does this Backend Developer role at Andina Ficticia S.A.S. offer that justifies your application over other structural positions?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"In one of your recent projects using Spring Boot and PostgreSQL, how did you optimize a slow-performing query by analyzing the execution plan and implementing specific indexing strategies, and what was the measured reduction in response time?\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you implemented a message queue to handle high throughput or decouple services; what was the exact architectural problem you were solving, how did you manage failure scenarios, and what quantifiable improvement in system reliability or latency did you achieve?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"When designing the integration between Spring Boot services and RabbitMQ, which specific configuration parameters did you adjust to ensure messages are not lost during consumer restarts, and how did you verify the reliability of these settings in your testing environment?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Imagine you discover that a critical RabbitMQ consumer in the production environment is dead-lettering messages due to a unhandled exception, and the team is currently in a tight agile sprint with no spare capacity; what immediate steps would you take to mitigate the impact, and how would you propose a long-term fix without disrupting the current sprint goals?\"\n}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "920",
+    "x-ratelimit-remaining-tokens" : "6722",
+    "x-ratelimit-reset-requests" : "1h55m12s",
+    "x-ratelimit-reset-tokens" : "29.34s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 362 caracteres"
+    }
+  },
+  "largos" : [ 319, 242, 295, 272, 362 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 4,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4, 5]; Spring Boot en las preguntas [2, 4]"
+  },
+  "validoTrasReintento" : true
+}

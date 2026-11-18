@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-A",
+  "corrida" : 2,
+  "ms" : 17604,
+  "tokensEntrada" : 689,
+  "tokensSalida" : 86,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato resume su experiencia técnica relevante en Java y Spring, y explica claramente su motivación para el puesto.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta clara y directa que cubre tanto la experiencia previa como el interés en el rol.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

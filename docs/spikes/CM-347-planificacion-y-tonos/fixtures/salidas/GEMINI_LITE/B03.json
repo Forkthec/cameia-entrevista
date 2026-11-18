@@ -1,0 +1,60 @@
+{
+  "id" : "B03",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2372,
+  "inicio" : "2026-11-07T10:44:39.174258400-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1765,
+  "tokensEntrada" : 597,
+  "tokensSalida" : 374,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Buenas tardes. Teniendo en cuenta tus tres años de experiencia en Java y Spring Boot, cuéntame específicamente qué te motiva a postularte hoy a la vacante de Desarrollador Backend en Andina Ficticia S.A.S. y cómo se alinea esto con tu interés de crecer hacia el diseño de arquitectura.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Para garantizar la escalabilidad de nuestras APIs REST en Spring Boot, explícame con un ejemplo métrico o de rendimiento cómo has optimizado consultas complejas y la gestión de conexiones en PostgreSQL durante tus proyectos anteriores.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Háblame de una ocasión en la que hayas tenido que integrar una cola de mensajes en un sistema de producción bajo alta presión; detalla cuál era la situación, qué tarea asumiste, la acción exacta que implementaste para evitar la pérdida de datos y el resultado cuantitativo obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Mencionas experiencia con despliegues en la nube y manejo de colas; detalla cómo garantizas la idempotencia y el manejo de mensajes duplicados al consumir eventos desde RabbitMQ en una arquitectura distribuida.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estamos a dos días de un despliegue crítico a producción en Andina Ficticia S.A.S., detectas que las pruebas automatizadas fallan de manera intermitente debido a un cuellorazón en la base de datos y el equipo ágil está dividido sobre si posponer la entrega o arriesgarse; ¿qué acción concreta tomarías para resolverlo?\"}]}",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 330 caracteres"
+    }
+  },
+  "largos" : [ 285, 235, 282, 210, 330 ]
+}

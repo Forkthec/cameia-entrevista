@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P2-A",
+  "corrida" : 2,
+  "ms" : 778,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 93,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta correcta y concisa. Distingue bien ambos conceptos y justifica la elección basándose en la tasa de conflictos.\", \"follow_up_texto\": \"\", \"motivo\": \"Define claramente la diferencia mecánica (bloqueo vs versión) y proporciona criterios sólidos para la selección basados en el nivel de contención.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

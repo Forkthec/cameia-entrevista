@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 3,
+  "ms" : 973,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 96,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Plan de actuación coherente para un entorno de producción, con énfasis correcto en la contención (rollback) antes que en la causa raíz.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre sistemáticamente la identificación del problema, la mitigación prioritaria y la comunicación, cumpliendo con el nivel de detalle esperado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

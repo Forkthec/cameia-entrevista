@@ -24,7 +24,8 @@ class EnumeratedValuesTest {
         assertThat(Tone.PROFESSIONAL_NEUTRAL.code()).isEqualTo("PROFESIONAL_NEUTRO");
         assertThat(Tone.fromCode("CALIDO")).isEqualTo(Tone.WARM);
         assertThat(Tone.fromCode("ESTRICTO")).isEqualTo(Tone.STRICT);
-        assertThat(Tone.fromCode("MOTIVADOR")).isEqualTo(Tone.MOTIVATING);
+        assertThat(Tone.values()).hasSize(3);
+        assertThatThrownBy(() -> Tone.fromCode("MOTIVADOR")).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> Tone.fromCode("AMABLE")).isInstanceOf(IllegalArgumentException.class);
     }
 

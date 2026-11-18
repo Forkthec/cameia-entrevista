@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P3-A",
+  "corrida" : 2,
+  "ms" : 1089,
+  "tokensEntrada" : 717,
+  "tokensSalida" : 78,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato responde con un ejemplo claro, describe la accioÌn tomada ante el defecto grave y el resultado obtenido.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena descripcion del proceso de deteccion, comunicacion y resolucion del incidente bajo presion.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

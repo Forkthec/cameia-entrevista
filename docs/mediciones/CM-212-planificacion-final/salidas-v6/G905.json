@@ -1,0 +1,51 @@
+{
+  "id" : "G905",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G129)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:39:08.435647800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5188,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2719,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1360,
+  "tokensSalida" : 248,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to the interview, it's great to meet you, and I would love it if you could start by telling me a bit about yourself and what motivates you to pursue a Data Analyst role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could walk me through how you write complex SQL queries to extract and aggregate sales data from large databases.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you tell me about a time when you had to clean and prepare a messy dataset before doing your analysis, specifically describing the steps you took and the outcome?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I'd be interested to hear about your experience using Python, particularly how you use specific libraries to analyze data and build KPI dashboards.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are working on a dashboard and a stakeholder asks you to include a new metric that requires data you know is currently inaccurate, and as this is our last question for today, how would you handle that situation?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 177, 132, 168, 147, 223 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 3,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

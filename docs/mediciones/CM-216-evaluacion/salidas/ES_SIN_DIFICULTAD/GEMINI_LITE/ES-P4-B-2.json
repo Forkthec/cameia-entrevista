@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 2,
+  "ms" : 1579,
+  "tokensEntrada" : 662,
+  "tokensSalida" : 140,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"motivo\": \"La respuesta menciona el uso de una cola y base de datos de forma general, pero carece de detalles sobre la persistencia y el mecanismo de reintento.\", \"follow_up_texto\": \"Mencionas el uso de una cola y base de datos. Podrías detallar qué tecnología usarías y cómo garantizas la atomicidad entre guardar en la base de datos y encolar el mensaje para evitar pérdidas ante un reinicio.\", \"feedback\": \"La dirección general es correcta al mencionar persistencia y colas, pero faltan detalles técnicos concretos de arquitectura.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

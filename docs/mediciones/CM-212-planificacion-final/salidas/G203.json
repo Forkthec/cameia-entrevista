@@ -1,0 +1,51 @@
+{
+  "id" : "G203",
+  "grupo" : "G2",
+  "descripcion" : "perfil Auxiliar de Enfermería (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:07:46.922140200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4573,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1735,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1206,
+  "tokensSalida" : 284,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, bienvenida a esta entrevista, me alegra mucho saludarte y me gustaría que me contaras qué te motivó a formarte como auxiliar de enfermería y a buscar tu primera oportunidad en este campo.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Teniendo en cuenta lo que aprendiste en tu paso por el Instituto Ficticio de Salud, ¿cómo realizas de manera correcta la toma de signos vitales en un paciente que ingresa por urgencias?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Piensa en alguna situación difícil o de alta exigencia que hayas vivido durante tus prácticas formativas en el centro de salud y cuéntame qué hiciste exactamente para resolverla y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Pensando en los protocolos de primeros auxilios, ¿cuáles son los pasos clave que sigues al brindar atención inicial a una persona que presenta una lesión o herida abierta?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para terminar, imagina que estás en tu turno y un paciente se muestra muy ansioso y se niega a recibir los medicamentos que le corresponden; cuéntame, ¿cómo actuarías en esa situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 193, 185, 202, 171, 184 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

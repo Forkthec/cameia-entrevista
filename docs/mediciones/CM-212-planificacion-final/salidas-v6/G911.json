@@ -1,0 +1,51 @@
+{
+  "id" : "G911",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G214)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:40:12.534182300-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4887,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 7677,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1260,
+  "tokensSalida" : 311,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our interview today, and thank you for taking the time to chat with us; I would love it if you could start by telling me a little bit about yourself and what has motivated you to apply for this Junior Data Analyst role while you are still studying Industrial Engineering.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I would love it if you could share how you use SQL to filter and query datasets, and what specific functions or clauses you find most helpful when working with relational databases.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Thinking about your time studying Industrial Engineering, I'd love it if you could tell me about a specific academic project where you faced a tough challenge with data, and walk me through the situation, what your task was, the actions you took to solve it, and the final result.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I’d love it if you could walk me through how you use Excel functions, such as VLOOKUP or pivot tables, to organize and analyze data sets in your coursework.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are given a dataset with missing values right before a project deadline for your engineering studies, and before we wrap up our conversation today, I would love it if you could tell me how you would handle this situation to ensure your analysis remains accurate.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 282, 181, 280, 156, 274 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3, 4, 5]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

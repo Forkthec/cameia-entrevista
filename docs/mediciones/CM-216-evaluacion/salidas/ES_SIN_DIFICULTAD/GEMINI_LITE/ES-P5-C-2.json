@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-C",
+  "corrida" : 2,
+  "ms" : 959,
+  "tokensEntrada" : 660,
+  "tokensSalida" : 102,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder y adopta una postura no profesional.\",\n  \"follow_up_texto\": \"Deja de lado la actitud y responde con el procedimiento técnico que seguirías para diagnosticar y resolver errores 500 en producción.\",\n  \"feedback\": \"La respuesta no es profesional y evade por completo la pregunta técnica.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

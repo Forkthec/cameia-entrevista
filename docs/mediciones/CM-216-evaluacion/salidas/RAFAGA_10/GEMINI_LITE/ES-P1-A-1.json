@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-A",
+  "corrida" : 1,
+  "ms" : 8342,
+  "tokensEntrada" : 689,
+  "tokensSalida" : 78,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato responde con claridad sobre su experiencia relevante en backend y sus motivaciones técnicas para el puesto.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Experiencia clara y alineada con el perfil requerido.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

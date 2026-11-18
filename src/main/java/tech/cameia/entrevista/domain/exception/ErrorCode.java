@@ -53,7 +53,7 @@ public enum ErrorCode {
     /** La petición no se pudo interpretar, por ejemplo por una ruta con codificación inválida. */
     REQUEST_PATH_INVALID_FORMAT,
 
-    /** Los datos enviados superan el tamaño que la petición admite (más de 10 MB en un multipart). */
+    /** Los datos enviados superan el tamaño que la petición admite (más de 12 MiB en un multipart). */
     REQUEST_PAYLOAD_TOO_LARGE,
 
     /** La base de datos no respondió; la persona puede reintentar. */
@@ -132,5 +132,126 @@ public enum ErrorCode {
     SESSION_LANGUAGE_INVALID_VALUE,
 
     /** El encabezado de la clave anti-duplicados no cumple el formato. */
-    IDEMPOTENCY_KEY_INVALID_FORMAT
+    IDEMPOTENCY_KEY_INVALID_FORMAT,
+
+    /** Falta el turno al que se responde. */
+    TURN_ID_REQUIRED,
+
+    /** El identificador del turno no tiene formato de UUID. */
+    TURN_ID_INVALID_FORMAT,
+
+    /** Falta el audio de la respuesta, o llegó vacío. */
+    AUDIO_REQUIRED,
+
+    /** El audio se transcribió vacío o solo con espacios: no se detectó voz. */
+    TRANSCRIPTION_EMPTY,
+
+    /** La transcripción supera los 4000 caracteres. */
+    TRANSCRIPTION_TOO_LONG,
+
+    /** Se detectó, con confianza suficiente, que el audio está en otro idioma que el de la entrevista. */
+    TRANSCRIPTION_LANGUAGE_MISMATCH,
+
+    /** El servicio de transcripción falló, no respondió a tiempo o respondió algo inválido. */
+    TRANSCRIPTION_UNAVAILABLE,
+
+    /** La sesión no existe, es de otra persona o su identificador no es válido; no se distingue. */
+    SESSION_NOT_FOUND,
+
+    /** El modelo de lenguaje respondió con un plan de preguntas que no cumple el formato exigido. */
+    LLM_INVALID_OUTPUT,
+
+    /** La sesión agotó el intento inicial y los dos reintentos de preparar sus preguntas. */
+    PLANNING_RETRIES_EXHAUSTED,
+
+    /** La copia del perfil congelada en la sesión es demasiado grande, ilegible o no trae el rol de la sesión. */
+    PROFILE_SNAPSHOT_INVALID,
+
+    /** El audio supera los 10 MiB que admite una respuesta por voz. */
+    AUDIO_TOO_LARGE,
+
+    /** El contenido real del audio no es un formato admitido (WebM con Opus o MP4 con AAC, solo audio). */
+    AUDIO_INVALID_FORMAT,
+
+    /** El audio dura más de 3 minutos. */
+    AUDIO_TOO_LONG,
+
+    /** El audio dura menos de lo mínimo para contener la voz que exige la interfaz. */
+    AUDIO_TOO_SHORT,
+
+    /** La entrevista se configuró con respuesta por texto y no admite audio. */
+    AUDIO_NOT_ALLOWED,
+
+    /** La entrevista quedó abandonada y no admite respuestas. */
+    SESSION_ABANDONED,
+
+    /** La entrevista está en evaluación o finalizada y no admite respuestas. */
+    SESSION_ALREADY_CLOSED,
+
+    /** El turno no existe, no es de la sesión o su identificador no es válido; no se distingue. */
+    TURN_NOT_FOUND,
+
+    /** Falta la respuesta escrita, o llegó vacía o solo con espacios. */
+    ANSWER_TEXT_REQUIRED,
+
+    /** La respuesta escrita supera los 4000 caracteres. */
+    ANSWER_TEXT_TOO_LONG,
+
+    /** La respuesta escrita contiene el carácter nulo o un carácter Unicode incompleto. */
+    ANSWER_TEXT_INVALID_CHARACTERS,
+
+    /** Falta el encabezado de la clave anti-duplicados. */
+    IDEMPOTENCY_KEY_REQUIRED,
+
+    /** La pregunta ya tiene una respuesta registrada o ya no está pendiente. */
+    ANSWER_ALREADY_EXISTS,
+
+    /** La respuesta de ese turno se está procesando o cambió al mismo tiempo. */
+    TURN_CONFLICT,
+
+    /** El turno no está esperando un reintento. */
+    TURN_NOT_RETRYABLE,
+
+    /** La persona ya usó todos los reintentos manuales del turno. */
+    TURN_RETRY_LIMIT_REACHED,
+
+    /** La evaluación de la entrevista no se pudo reunir; la sesión sigue en evaluación con sus respuestas. */
+    SESSION_CONSOLIDATION_FAILED,
+
+    /** El número de pregunta pedido para escuchar no es un entero de 1 a 5. */
+    QUESTION_NOT_FOUND,
+
+    /** La pregunta pedida para escuchar todavía no se ha mostrado. */
+    QUESTION_NOT_AVAILABLE,
+
+    /** La pregunta ya gastó sus usos de audio. */
+    QUESTION_AUDIO_LIMIT_REACHED,
+
+    /** La función de escuchar la pregunta está apagada por configuración. */
+    SPEECH_DISABLED,
+
+    /** El servicio de voz falló, no entregó un audio válido o no hay credencial. */
+    SPEECH_UNAVAILABLE,
+
+    /** El servicio de voz no respondió dentro del tiempo máximo. */
+    SPEECH_TIMEOUT,
+
+    /** La instancia ya atiende el máximo de síntesis de voz simultáneas. */
+    SPEECH_BUSY,
+
+    /** El texto de la pregunta supera el máximo que se envía a la voz. */
+    SPEECH_TEXT_TOO_LONG,
+
+    /** El texto de la pregunta está vacío o solo tiene espacios. */
+    SPEECH_TEXT_EMPTY,
+
+    /** Los caracteres enviados a la voz en el mes llegaron al tope configurado. */
+    SPEECH_MONTHLY_LIMIT_REACHED,
+
+    /** Se pidió el reporte de una entrevista que aún no terminó (configurada, en curso o evaluándose). */
+    SESSION_NOT_FINISHED,
+
+    /** Otra petición está generando el reporte; se responde 202 y se consulta de nuevo. */
+    REPORT_GENERATING
+
 }

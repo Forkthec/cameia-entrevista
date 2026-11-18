@@ -1,0 +1,51 @@
+{
+  "id" : "G141",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, es-CO, sin oferta, BACKEND",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:05:34.528935400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2",
+  "caracteresDelPrompt" : 4669,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2577,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1234,
+  "tokensSalida" : 296,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Por qué postula usted a este rol de Desarrollador Backend y qué resultado cuantificable de su desempeño en la Universidad Ficticia del Valle demuestra que está preparado para asumir esta responsabilidad?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Trabajando con Java y Spring Boot, cite un ejemplo concreto y exacto de una API REST donde haya optimizado las consultas a PostgreSQL, especificando qué métrica exacta de tiempo de respuesta midió antes y después de su cambio.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación en Empresa Ficticia Andina donde se le encomendó mantener colas de mensajes; detalle exactamente qué herramienta o tecnología usó y qué resultado medible obtuvo tras su intervención.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"En relación con la gestión de bases de datos relacionales en PostgreSQL, indique exactamente qué herramienta o comando específico utilizó para diagnosticar una consulta lenta y cite el resultado medible de esa optimización.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si durante la operación en producción de los servicios web que usted mantiene se presenta una caída crítica por alto tráfico, ¿qué pasos exactos seguiría, qué métrica revisará primero y en cuánto tiempo estimado resolverá el incidente?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 204, 226, 205, 223, 235 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

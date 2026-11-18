@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-A",
+  "corrida" : 2,
+  "ms" : 750,
+  "tokensEntrada" : 739,
+  "tokensSalida" : 95,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta estructurada y concreta. Demuestra capacidad de negociación basada en datos y orientación a resultados.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta describe claramente el conflicto, la acción de mediación basada en métricas y el resultado positivo, cumpliendo con el nivel de detalle requerido para una pregunta de dificultad media.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

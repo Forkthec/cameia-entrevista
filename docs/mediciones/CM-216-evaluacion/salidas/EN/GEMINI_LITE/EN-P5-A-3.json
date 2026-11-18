@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P5-A",
+  "corrida" : 3,
+  "ms" : 1237,
+  "tokensEntrada" : 731,
+  "tokensSalida" : 87,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"El candidato proporciona un proceso estructurado, cubriendo verificación de impacto, mitigación rápida mediante rollback, análisis de logs, reproducción y comunicación.\", \"follow_up_texto\": \"\", \"feedback\": \"Buena estructuración de la respuesta, priorizando la mitigación rápida antes del análisis profundo en un escenario de producción.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-A",
+  "corrida" : 1,
+  "ms" : 653,
+  "tokensEntrada" : 701,
+  "tokensSalida" : 102,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Presentación concisa y relevante. Buen nivel de detalle para una fase de acogida, se ve claridad en el historial y la motivación.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato responde directa y correctamente a las dos partes de la pregunta (experiencia y motivación) con un nivel de detalle apropiado para una dificultad fácil.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

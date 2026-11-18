@@ -1,0 +1,144 @@
+{
+  "id" : "B06",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 3075,
+  "inicio" : "2026-11-08T16:19:25.255310300-05:00[America/Bogota]",
+  "planValido" : false,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 841,
+  "tokensEntrada" : 789,
+  "tokensSalida" : 287,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Given your three years of experience building web services in Java and Spring Boot, what specific technical challenges in architectural design have driven your decision to apply for this Backend Developer role at Andina Ficticia S.A.S.?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"When designing a high-throughput REST API in Spring Boot connected to PostgreSQL, what specific indexing strategies and query optimization techniques have you implemented to sub-50ms response times for complex data models?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific instance where you had to refactor a complex module in your previous Spring Boot project; detail the technical obstacles you faced, the exact architectural changes you made, and the measurable impact on system reliability or performance.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"How have you specifically used RabbitMQ in your past projects to decouple services, including the exact message acknowledgement mechanisms you adopted to ensure data integrity during transient network failures?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texts\":\"If you detect a critical performance bottleneck in a production PostgreSQL endpoint that is also the target of an imminent automated test suite update, what are the precise first three steps you would take to isolate the issue without disrupting ongoing agile sprints?\"}]}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "940",
+    "x-ratelimit-remaining-tokens" : "7035",
+    "x-ratelimit-reset-requests" : "1h26m24s",
+    "x-ratelimit-reset-tokens" : "10.559s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "la pregunta 5 no tiene exactamente posicion, tipo y texto"
+    },
+    "b" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "c" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "d" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "e" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "f" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    },
+    "g" : {
+      "cumple" : false,
+      "aproximado" : false,
+      "detalle" : "no evaluable: falla la forma (a)"
+    }
+  },
+  "largos" : [ ],
+  "reintento" : {
+    "planValido" : true,
+    "estado" : "EJECUTADA",
+    "intentoDeProveedor" : 1,
+    "latenciaMs" : 1157,
+    "tokensEntrada" : 789,
+    "tokensSalida" : 368,
+    "modelo" : "qwen/qwen3.8-27b",
+    "textoCrudo" : "{\n\"idioma\": \"en\",\n\"preguntas\": [\n{\n\"posicion\": 1,\n\"tipo\": \"APERTURA\",\n\"texto\": \"Given your three years of experience with Spring Boot and PostgreSQL, as well your stated goal to grow toward architecture design, what specific technical responsibilities in this Backend Developer role at Andina Ficticia S.A.S. will most effectively advance that objective?\"\n},\n{\n\"posicion\": 2,\n\"tipo\": \"TECNICA\",\n\"texto\": \"Provide a specific calculation or configuration detail from a past project where you optimized PostgreSQL query performance, including the initial response time, the optimization applied, and the final measured latency.\"\n},\n{\n\"posicion\": 3,\n\"tipo\": \"CONDUCTUAL\",\n\"texto\": \"Describe a specific instance where you encountered a critical bug in a message queue integration; what was the system state, what specific debugging steps did you take to isolate the issue, and what was the final resolution with the resulting system stability metrics?\"\n},\n{\n\"posicion\": 4,\n\"tipo\": \"TECNICA\",\n\"texto\": \"In the context of the job offer's requirement for automated tests, how do you structure your unit testing strategy for Spring Boot services, specifically regarding the isolation of dependencies and the target coverage percentage you enforce for critical business logic?\"\n},\n{\n\"posicion\": 5,\n\"tipo\": \"SITUACIONAL\",\n\"texto\": \"Hypothetically, if a new feature requires integrating a legacy system that does not support synchronous REST calls, how would you design the communication pattern using RabbitMQ within our agile team to ensure resilience and maintainability?\"\n}\n]\n}",
+    "motivoDeCorte" : "stop",
+    "encabezadosDeLimites" : {
+      "x-ratelimit-limit-requests" : "1000",
+      "x-ratelimit-limit-tokens" : "8000",
+      "x-ratelimit-remaining-requests" : "939",
+      "x-ratelimit-remaining-tokens" : "5894",
+      "x-ratelimit-reset-requests" : "1h27m50.4s",
+      "x-ratelimit-reset-tokens" : "37.32s"
+    },
+    "razonamientoDelante" : false,
+    "lista" : {
+      "a" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "5 preguntas y forma conforme al esquema"
+      },
+      "b" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "los 5 tipos coinciden con la plantilla"
+      },
+      "c" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+      },
+      "d" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+      },
+      "e" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+      },
+      "f" : {
+        "cumple" : true,
+        "aproximado" : true,
+        "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+      },
+      "g" : {
+        "cumple" : true,
+        "aproximado" : false,
+        "detalle" : "todas tienen texto; la más larga mide 274 caracteres"
+      }
+    },
+    "largos" : [ 274, 219, 268, 269, 241 ],
+    "lecturaDelTono" : {
+      "tonoDeducido" : "ESTRICTO",
+      "preguntasConAcogida" : 0,
+      "preguntasConExigencia" : 4,
+      "acogidaEnPreguntas2a4" : 0,
+      "preguntasQueSuponenRespuestaPrevia" : 0,
+      "calidezNatural" : true
+    },
+    "temasDistintos" : {
+      "cumple" : false,
+      "aproximado" : true,
+      "detalle" : "tema repetido: mensajería en las preguntas [3, 5]"
+    }
+  },
+  "validoTrasReintento" : true
+}

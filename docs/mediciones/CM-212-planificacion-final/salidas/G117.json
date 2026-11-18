@@ -1,0 +1,57 @@
+{
+  "id" : "G117",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, sin experiencia, es-CO, sin oferta, BACKEND",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:00:58.455046500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 4634,
+  "fallosDelProveedor" : [ {
+    "intento" : 1,
+    "tipo" : "SOBRECARGA",
+    "latenciaMs" : 5104,
+    "causa" : "ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  } ],
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4527,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1215,
+  "tokensSalida" : 240,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, bienvenida y qué gusto saludarte, me gustaría que me contaras qué te motiva a postularte como desarrolladora backend y cómo ha sido tu camino hasta ahora.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo has utilizado Java en tus proyectos académicos y qué conceptos básicos de este lenguaje recuerdas mejor.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en la universidad donde hayas tenido que trabajar con tus compañeros en un proyecto y cómo resolvieron los desacuerdos que se presentaron.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me explicaras cómo has diseñado consultas básicas o cómo has manejado bases de datos usando PostgreSQL en tus prácticas o trabajos universitarios.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando, imagina que estás trabajando en una API y notas que una consulta a la base de datos está muy lenta; ¿qué pasos seguirías para identificar y solucionar el problema?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 160, 137, 170, 162, 181 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[2, 3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

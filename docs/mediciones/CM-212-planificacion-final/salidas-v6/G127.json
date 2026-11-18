@@ -1,0 +1,51 @@
+{
+  "id" : "G127",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:27:04.737933700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5420,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1679,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1411,
+  "tokensSalida" : 242,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy; me gustaría que me contaras qué te motivó a postularte como Analista de Calidad en Andina Ficticia.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo has utilizado Selenium para automatizar tus pruebas de regresión en los proyectos que has manejado.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre una situación en la que hayas tenido que diseñar casos de prueba complejos en Software Ficticio S.A.S., qué pasos seguiste y cuál fue el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me explicaras de qué manera gestionas y haces seguimiento a los defectos utilizando Jira en tu día a día.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que estás a punto de liberar una nueva aplicación web y descubres un defecto crítico de último momento, ¿cómo actuarías frente a esta situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 148, 132, 171, 121, 152 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

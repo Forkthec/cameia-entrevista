@@ -1,0 +1,69 @@
+{
+  "id" : "B02",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 1,
+  "caracteresDelPrompt" : 2414,
+  "inicio" : "2026-11-07T10:40:33.110507500-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1182,
+  "tokensEntrada" : 619,
+  "tokensSalida" : 416,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n  \"idioma\": \"es-CO\",\n  \"preguntas\": [\n    {\n      \"posicion\": 1,\n      \"tipo\": \"APERTURA\",\n      \"texto\": \"Qué gusto tenerte aquí, me alegra mucho que hayas aplicado; ¿qué es lo que más te atrae de la oportunidad de continuar creciendo en el diseño de arquitecturas dentro de nuestra empresa?\"\n    },\n    {\n      \"posicion\": 2,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Dado tu manejo con PostgreSQL, ¿cómo optimizas la gestión de transacciones y conectores en Spring Boot para asegurar la integridad de los datos en escenarios de alta concurrencencia?\"\n    },\n    {\n      \"posicion\": 3,\n      \"tipo\": \"CONDUCTUAL\",\n      \"texto\": \"Comentamos que el trabajo en equipo con metodologías ágiles es clave para nosotros; cuéntame sobre una situación específica donde tu propuesta técnica entró en conflicto con las prioridades del colectivo y cómo gestionaste ambos pensamientos para llegar a una solución efectiva.\"\n    },\n    {\n      \"posicion\": 4,\n      \"tipo\": \"TECNICA\",\n      \"texto\": \"Viendo que valoramos la fiabilidad de los sistemas, ¿qué estrategias de testing automatizado habías implementado previamente para garantizar la estabilidad de integraciones asíncronas mediante colas de mensajes como RabbitMQ?\"\n    },\n    {\n      \"posicion\": 5,\n      \"tipo\": \"SITUACIONAL\",\n      \"texto\": \"Imagina que mientras estás en medio del ciclo de desarrollo detectas un error crítico en una API microservicio que está causando que se acumule tráfico en RabbitMQ; ¿cómo priorizarías tus acciones y qué pasos seguirías para resolverlo sin detener el flujo general del equipo?\"\n    }\n  ]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "991",
+    "x-ratelimit-remaining-tokens" : "6604",
+    "x-ratelimit-reset-requests" : "12m57.599s",
+    "x-ratelimit-reset-tokens" : "10.469s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 278 caracteres"
+    }
+  },
+  "largos" : [ 185, 182, 278, 225, 275 ]
+}

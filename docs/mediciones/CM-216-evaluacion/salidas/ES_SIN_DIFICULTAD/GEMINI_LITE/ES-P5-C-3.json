@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-C",
+  "corrida" : 3,
+  "ms" : 1138,
+  "tokensEntrada" : 660,
+  "tokensSalida" : 117,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato se niega a responder la pregunta y adopta una postura displicente ante una incidencia en producción.\",\n  \"follow_up_texto\": \"Deja de lado esa postura y responde técnicamente qué pasos seguirías para mitigar un error 500 en producción un viernes por la tarde.\",\n  \"feedback\": \"La actitud mostrada no es profesional ni adecuada para un entorno de ingeniería de software.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

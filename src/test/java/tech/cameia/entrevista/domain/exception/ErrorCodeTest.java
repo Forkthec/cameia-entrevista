@@ -30,15 +30,21 @@ class ErrorCodeTest {
             ErrorCode.MODE_NOT_ALLOWED, ErrorCode.TONE_REQUIRED, ErrorCode.TONE_INVALID_VALUE,
             ErrorCode.ANSWER_FORMAT_REQUIRED, ErrorCode.ANSWER_FORMAT_INVALID_VALUE,
             ErrorCode.SESSION_LANGUAGE_REQUIRED, ErrorCode.SESSION_LANGUAGE_INVALID_VALUE,
-            ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT);
+            ErrorCode.IDEMPOTENCY_KEY_INVALID_FORMAT, ErrorCode.TURN_ID_REQUIRED, ErrorCode.TURN_ID_INVALID_FORMAT,
+            ErrorCode.AUDIO_REQUIRED, ErrorCode.ANSWER_TEXT_REQUIRED, ErrorCode.ANSWER_TEXT_TOO_LONG, ErrorCode.ANSWER_TEXT_INVALID_CHARACTERS,
+            ErrorCode.IDEMPOTENCY_KEY_REQUIRED);
 
     private static final Set<ErrorCode> MODEL_CLIENT = EnumSet.of(ErrorCode.LLM_UNAVAILABLE,
-            ErrorCode.LLM_LIMIT_REACHED);
+            ErrorCode.LLM_LIMIT_REACHED, ErrorCode.LLM_INVALID_OUTPUT);
+
+    /** Códigos de una respuesta 202 que arma el controlador: no son errores y no pasan por el manejador. */
+    private static final Set<ErrorCode> ACCEPTED_RESPONSE = EnumSet.of(ErrorCode.REPORT_GENERATING);
 
     @ParameterizedTest
     @EnumSource(ErrorCode.class)
     void errorCode_shouldHaveAnEmitter_whenDeclared(ErrorCode code) {
         boolean covered = FRAMEWORK.contains(code) || FIELD_CODES.contains(code) || MODEL_CLIENT.contains(code)
+                || ACCEPTED_RESPONSE.contains(code)
                 || ProblemDetailTestSupport.businessCodes().contains(code);
 
         assertThat(covered).as("código sin quien lo responda: %s", code).isTrue();

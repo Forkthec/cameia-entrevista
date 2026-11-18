@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 2,
+  "ms" : 1060,
+  "tokensEntrada" : 749,
+  "tokensSalida" : 90,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato cubre un proceso de respuesta a incidentes sólido, incluyendo contención, análisis y remediación.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena estructuración en el manejo del incidente, priorizando la mitigación rápida en un escenario de viernes.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

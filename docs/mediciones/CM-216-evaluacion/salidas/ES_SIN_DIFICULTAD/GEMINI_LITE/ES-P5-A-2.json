@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 2,
+  "ms" : 1027,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 92,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato cubre el proceso completo de gestión de incidentes en producción, desde la validación del impacto y mitigación rápida hasta el análisis y remediación definitiva.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta estructurada y adecuada para una situación crítica en producción.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

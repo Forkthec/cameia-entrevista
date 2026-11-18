@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P5-A",
+  "corrida" : 2,
+  "ms" : 476,
+  "tokensEntrada" : 734,
+  "tokensSalida" : 94,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"A direct and pragmatic approach appropriate for a Friday incident.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta sigue un flujo lógico completo: confirmación del alcance, mitigación rápida (rollback al ser viernes), diagnóstico técnico (logs), solución y comunicación. Cubre todos los aspectos esperados para una pregunta de dificultad media.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

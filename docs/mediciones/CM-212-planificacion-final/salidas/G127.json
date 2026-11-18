@@ -1,0 +1,51 @@
+{
+  "id" : "G127",
+  "grupo" : "G1",
+  "descripcion" : "tono CALIDO, con experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:03:01.824160-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5033,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 2959,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1320,
+  "tokensSalida" : 249,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué gusto saludarte y tenerte por acá hoy; para empezar nuestra conversación, me gustaría que me contaras qué te motiva a postularte como Analista de Calidad en Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la creación de casos de prueba y de qué manera garantizas que cubran los requerimientos necesarios utilizando Selenium?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre una ocasión en la que hayas tenido que reportar y hacer seguimiento a un defecto complejo en Jira, describiendo qué hiciste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué forma aseguras la trazabilidad de los requisitos al momento de diseñar y estructurar un plan de pruebas?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando nuestra entrevista, imagina que encuentras un defecto crítico justo el día del lanzamiento a producción; cuéntame, ¿cómo actuarías en esa situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 189, 133, 163, 112, 165 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

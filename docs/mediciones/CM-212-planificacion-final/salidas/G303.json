@@ -1,0 +1,51 @@
+{
+  "id" : "G303",
+  "grupo" : "G3",
+  "descripcion" : "experiencia con descripción nula (es-CO)",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:10:50.838813800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5034,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 5098,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1320,
+  "tokensSalida" : 235,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué bueno saludarte; cuéntame, por favor, qué te motivó a postularte como desarrollador backend en Andina Ficticia.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Me gustaría que me contaras cómo has utilizado Spring Boot para el desarrollo y mantenimiento de APIs REST en tus proyectos.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"¿Podrías compartirme una situación en la que hayas tenido que resolver un problema complejo trabajando en equipo, detallando qué hiciste y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo sueles estructurar y optimizar el modelado de bases de datos relacionales usando PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para ir cerrando, imagínate que se presenta un fallo crítico en la integración con las colas de mensajes en RabbitMQ justo antes de un despliegue importante; ¿cómo actuarías para solucionar esta situación?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 121, 124, 161, 98, 205 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

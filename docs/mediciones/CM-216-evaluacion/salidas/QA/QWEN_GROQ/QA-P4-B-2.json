@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-B",
+  "corrida" : 2,
+  "ms" : 649,
+  "tokensEntrada" : 668,
+  "tokensSalida" : 180,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de la especificidad técnica requerida por la dificultad del tema. Debes definir explícitamente las clases de equivalencia y los valores umbral para cada campo.\", \"follow_up_texto\": \"Especifica las clases de equivalencia válidas e inválidas para el correo (ej. formato, longitud) y la contraseña (ej. longitud mínima/máxima, tipos de caracteres). Define también los valores límite exactos para la fecha de nacimiento según las reglas de negocio (ej. edad mínima/máxima). Muestra al menos un caso de prueba concreto para cada categoría.\", \"motivo\": \"El candidato menciona las categorías generales pero no define las clases de equivalencia ni los valores límite concretos, quedándose en generalidades.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

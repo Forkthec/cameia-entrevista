@@ -1,0 +1,51 @@
+{
+  "id" : "G926",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés, repetición (copia de G314)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:43:07.757468500-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 4953,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 6773,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1277,
+  "tokensSalida" : 234,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome! To get us started, I'd love to hear what motivated you to study Systems Engineering at Fictitious Valley University and what draws you to this backend developer role.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Could you walk me through how you designed your API using Java and PostgreSQL during your capstone project?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Thinking about your time studying at Fictitious Valley University, could you tell me about a time when you faced a challenging academic project, what you did, and what the final outcome was?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I would love it if you could share how you use Git to manage your branches and handle version control in your projects.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Just as a final question, suppose you notice that a query to your PostgreSQL database is running very slowly while working on a new feature; how would you approach investigating and resolving that issue?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 175, 107, 190, 119, 203 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : false,
+      "detalle" : "la pregunta técnica de la posición 4 no menciona ningún término del rol"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 2, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

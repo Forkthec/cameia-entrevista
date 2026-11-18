@@ -1,0 +1,13 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P3-A",
+  "corrida" : 2,
+  "ms" : 1656,
+  "tokensEntrada" : -1,
+  "tokensSalida" : -1,
+  "texto" : "",
+  "tipoDeFallo" : "SOBRECARGA",
+  "causa" : "LLM_UNAVAILABLE | ServerException: 503 . This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "fallos" : [ "SOBRECARGA" ]
+}

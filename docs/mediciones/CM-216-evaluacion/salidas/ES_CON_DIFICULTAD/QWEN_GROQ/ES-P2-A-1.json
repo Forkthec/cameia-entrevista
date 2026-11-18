@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 1,
+  "ms" : 375,
+  "tokensEntrada" : 746,
+  "tokensSalida" : 76,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta clara y precisa.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato define correctamente ambos conceptos, explica el mecanismo de detección de conflictos en el bloqueo optimista y establece criterios de uso basados en la contención.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

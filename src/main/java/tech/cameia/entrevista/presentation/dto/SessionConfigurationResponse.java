@@ -24,7 +24,7 @@ public record SessionConfigurationResponse(
         @Schema(description = "Oferta laboral normalizada; null si no se envió", nullable = true,
                 example = "Buscamos desarrollador backend con Java") String jobOffer,
         @Schema(allowableValues = {"SIMULACION"}, example = "SIMULACION") String mode,
-        @Schema(allowableValues = {"PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO", "MOTIVADOR"},
+        @Schema(allowableValues = {"PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO"},
                 example = "PROFESIONAL_NEUTRO") String tone,
         @Schema(allowableValues = {"AUDIO", "TEXTO"}, example = "AUDIO") String answerFormat,
         @Schema(allowableValues = {"es-CO", "en"}, example = "es-CO") String sessionLanguage) {

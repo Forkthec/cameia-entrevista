@@ -1,0 +1,51 @@
+{
+  "id" : "G102",
+  "grupo" : "G1",
+  "descripcion" : "tono PROFESIONAL_NEUTRO, sin experiencia, es-CO, sin oferta, DATOS",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:23:20.620541400-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4270,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1817,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1128,
+  "tokensSalida" : 222,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Cómo se relaciona su formación en estadística con su interés en desempeñarse como analista de datos?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo utiliza las consultas SQL para realizar cruces de tablas y agregaciones en bases de datos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme sobre alguna situación en sus cursos o en su trabajo de análisis de encuestas en la que haya tenido que depurar un conjunto de datos complejo. ¿Qué hizo y cuál fue el resultado?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera emplea librerías de Python para la limpieza y manipulación de datos?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Si un área de la empresa le solicita un informe urgente con datos incompletos y con inconsistencias evidentes, ¿cómo actuaría para entregar la información a tiempo sin comprometer la calidad del análisis?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 101, 96, 186, 83, 204 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

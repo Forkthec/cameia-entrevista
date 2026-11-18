@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P2-A",
+  "corrida" : 2,
+  "ms" : 1090,
+  "tokensEntrada" : 718,
+  "tokensSalida" : 98,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato explica con precisión ambos conceptos, detalla los mecanismos subyacentes como control de versiones y ofrece un criterio claro de uso según la concurrencia.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta correcta y bien estructurada que cubre tanto las definiciones como los escenarios de uso.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

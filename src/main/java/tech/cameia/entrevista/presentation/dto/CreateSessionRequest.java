@@ -33,8 +33,9 @@ public record CreateSessionRequest(
                 allowableValues = {"SIMULACION", "ENTRENO"}, example = "SIMULACION",
                 requiredMode = Schema.RequiredMode.REQUIRED)
         String mode,
-        @Schema(description = "Tono del entrevistador", allowableValues = {"PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO",
-                "MOTIVADOR"}, example = "PROFESIONAL_NEUTRO", requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "Tono del entrevistador: uno de los tres tonos del catálogo",
+                allowableValues = {"PROFESIONAL_NEUTRO", "CALIDO", "ESTRICTO"}, example = "PROFESIONAL_NEUTRO",
+                requiredMode = Schema.RequiredMode.REQUIRED)
         String tone,
         @Schema(description = "Forma de respuesta", allowableValues = {"AUDIO", "TEXTO"}, example = "AUDIO",
                 requiredMode = Schema.RequiredMode.REQUIRED)

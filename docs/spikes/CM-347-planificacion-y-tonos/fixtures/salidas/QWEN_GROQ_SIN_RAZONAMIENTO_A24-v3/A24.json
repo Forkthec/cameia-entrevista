@@ -1,0 +1,86 @@
+{
+  "id" : "A24",
+  "grupo" : "A24",
+  "rol" : "Software Quality Analyst",
+  "idioma" : "en",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : false,
+  "repeticion" : 3,
+  "caracteresDelPrompt" : 3036,
+  "inicio" : "2026-11-08T16:02:55.001691300-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "QWEN_GROQ",
+  "modeloSolicitado" : "qwen/qwen3.8-27b",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1048,
+  "tokensEntrada" : 798,
+  "tokensSalida" : 217,
+  "modelo" : "qwen/qwen3.8-27b",
+  "textoCrudo" : "{\n\"idioma\":\"en\",\n\"preguntas\":[\n{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Can you briefly describe your current experience as a quality analyst and explain why you are seeking this specific opportunity?\"},\n{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you structure your Selenium test scripts to ensure they are both maintainable and independent from one another?\"},\n{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a time when you identified a significant defect during manual testing; what was the situation, what actions did you take, and what was the result?\"},\n{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific fields do you prioritize populating in Jira to ensure a defect report provides developers with all necessary information for reproduction?\"},\n{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you discover a critical bug in a production web application release; what is your immediate course of action?\"}\n]\n}",
+  "motivoDeCorte" : "stop",
+  "encabezadosDeLimites" : {
+    "x-ratelimit-limit-requests" : "1000",
+    "x-ratelimit-limit-tokens" : "8000",
+    "x-ratelimit-remaining-requests" : "973",
+    "x-ratelimit-remaining-tokens" : "6855",
+    "x-ratelimit-reset-requests" : "38m52.8s",
+    "x-ratelimit-reset-tokens" : "8.587s"
+  },
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "no se envió oferta: no aplica"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 155 caracteres"
+    }
+  },
+  "largos" : [ 128, 118, 155, 152, 117 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: gestión de defectos en las preguntas [3, 4, 5]"
+  },
+  "validoTrasReintento" : true
+}

@@ -280,8 +280,8 @@ class SessionConfigurationPolicyTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"AMABLE", "calido"})
-    @DisplayName("tone desconocido")
+    @ValueSource(strings = {"AMABLE", "calido", "MOTIVADOR", "motivador"})
+    @DisplayName("tone desconocido, incluido el retirado Motivador")
     void validate_shouldReject_whenToneInvalid(String value) {
         assertSingleRejection(with(PROFILE, ROLE, null, "SIMULACION", value, "TEXTO", "es-CO", null), "tone",
                 ErrorCode.TONE_INVALID_VALUE, "Elige un tono de la lista.");

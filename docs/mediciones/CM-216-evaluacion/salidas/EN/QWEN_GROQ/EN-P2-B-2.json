@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P2-B",
+  "corrida" : 2,
+  "ms" : 1193,
+  "tokensEntrada" : 661,
+  "tokensSalida" : 143,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"Respuesta demasiado generalista. Falta definir los mecanismos específicos y las implicaciones de concurrencia.\", \"follow_up_texto\": \"Detalla el mecanismo técnico por el cual el bloqueo optimista detecta conflictos (por ejemplo, versionado) y explica qué ocurre a nivel de commit si dos usuarios modifican el mismo registro simultáneamente usando cada uno de estos enfoques.\", \"motivo\": \"El candidato menciona los términos pero no explica el mecanismo del bloqueo optimista ni la diferencia fundamental en el manejo de la concurrencia y los conflictos, quedándose en generalidades.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

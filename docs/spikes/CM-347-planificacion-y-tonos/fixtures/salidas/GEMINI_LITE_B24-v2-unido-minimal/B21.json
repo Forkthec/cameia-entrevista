@@ -1,0 +1,64 @@
+{
+  "id" : "B21",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 4,
+  "caracteresDelPrompt" : 3153,
+  "inicio" : "2026-11-07T11:28:42.198718700-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1372,
+  "tokensEntrada" : 800,
+  "tokensSalida" : 273,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Qué le motiva específicamente de la vacante en Andina Ficticia S.A.S. y cómo planea usar sus tres años de experiencia para aportar al equipo desde el primer día?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Explíqueme detalladamente cómo ha implementado transacciones y manejo de concurrencia en bases de datos PostgreSQL utilizando Spring Boot en sus desarrollos anteriores.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describa una situación concreta donde haya tenido que optimizar un servicio web lento en Spring Boot; detalle la métrica inicial, la acción exacta que tomó y el resultado numérico que obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo gestiona el desacoplamiento y el manejo de reintentos o mensajes fallidos al integrar RabbitMQ en la arquitectura de sus servicios web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine que se acerca una fecha límite crítica para desplegar una nueva API REST y el equipo detecta un fallo grave en la integración con la cola de mensajes; ¿cómo procedería exactamente para resolverlo sin comprometer la estabilidad del sistema en la nube?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 258 caracteres"
+    }
+  },
+  "largos" : [ 162, 168, 191, 141, 258 ],
+  "validoTrasReintento" : true
+}

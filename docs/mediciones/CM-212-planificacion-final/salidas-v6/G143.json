@@ -1,0 +1,51 @@
+{
+  "id" : "G143",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, con experiencia, es-CO, con oferta, QA",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:29:25.210237-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 5126,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 10327,
+  "superaLosNueveYMedio" : true,
+  "tokensEntrada" : 1337,
+  "tokensSalida" : 340,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Para evaluar su motivación y encaje en el cargo de analista de calidad en Andina Ficticia S.A.S., cite un ejemplo concreto de una tarea en su experiencia previa que justifique su postulación y mencione exactamente qué porcentaje de mejora o resultado cuantificable obtuvo.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Respecto al uso de Selenium para automatización de pruebas de regresión, indique exactamente qué framework o lenguaje complementario utilizó, qué arquitectura implementó y qué métrica exacta midió en la ejecución de las pruebas.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Basándose en su experiencia diseñando casos de prueba en Software Ficticio S.A.S., describa una situación exacta donde haya encontrado discrepancias en los requisitos, indique qué acción tomó paso a paso y qué resultado medible obtuvo en el reporte de Jira.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"En cuanto a la gestión de defectos y trazabilidad de requisitos, detalle exactamente qué campos y flujos de trabajo específicos configuró en Jira y cite un caso concreto donde haya medido la reducción del tiempo de resolución de dichos defectos.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que debe asegurar la trazabilidad de requisitos para una nueva aplicación web antes de liberar a producción; indique exactamente qué herramienta o matriz emplearía, qué criterio usaría para declarar una prueba como fallida y qué resultado cuantitativo presentaría a los interesados para justificar su decisión.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 272, 228, 257, 245, 318 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

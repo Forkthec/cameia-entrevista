@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P2-A",
+  "corrida" : 3,
+  "ms" : 917,
+  "tokensEntrada" : 746,
+  "tokensSalida" : 140,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta correcta y bien estructurada. Asegúrate de clarificar que las transacciones y los bloqueos son mecanismos distintos: la transacción garantiza atomicidad/aislamiento/inconsistencia (ACID) y los bloqueos (o optimismo) gestionan la concurrencia.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta diferencia con precisión los mecanismos (versión vs bloqueo), identifica los momentos de uso (riesgo de conflicto vs. rendimiento) y explica las consecuencias (conexiones retenidas, reintentos, rechazo).\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

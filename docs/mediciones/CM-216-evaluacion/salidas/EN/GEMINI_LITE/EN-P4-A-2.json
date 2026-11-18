@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P4-A",
+  "corrida" : 2,
+  "ms" : 1238,
+  "tokensEntrada" : 729,
+  "tokensSalida" : 94,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"motivo\": \"La respuesta aborda correctamente la arquitectura de alto nivel utilizando un patrón outbox, colas duraderas, reintentos con backoff, dead-letter queues e idempotencia.\", \"follow_up_texto\": \"\", \"feedback\": \"Respuesta correcta y bien estructurada que cubre la persistencia, la tolerancia a fallos y la idempotencia.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

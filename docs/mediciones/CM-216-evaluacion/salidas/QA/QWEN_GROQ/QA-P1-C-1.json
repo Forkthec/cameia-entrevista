@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-C",
+  "corrida" : 1,
+  "ms" : 724,
+  "tokensEntrada" : 653,
+  "tokensSalida" : 127,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La entrevista requiere respuestas a las preguntas formuladas. No se aceptan cambios de tema espontáneos.\", \"follow_up_texto\": \"No se puede ignorar la pregunta. Por favor, describe brevemente tu experiencia en pruebas de software y menciona al menos un aspecto específico del rol de analista de calidad que te motive.\", \"motivo\": \"El candidato ha evitado explícitamente responder a la pregunta solicitada y ha intentado cambiar de tema hacia lo que él cree que debe responder.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

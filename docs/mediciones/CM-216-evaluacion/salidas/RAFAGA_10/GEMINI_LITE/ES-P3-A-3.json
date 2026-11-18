@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-A",
+  "corrida" : 3,
+  "ms" : 1366,
+  "tokensEntrada" : 728,
+  "tokensSalida" : 88,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato aborda el desacuerdo técnico con argumentos basados en datos, propone una solución intermedia y comparte resultados medibles.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena aproximación al uso de métricas objetivas para resolver discrepancias técnicas.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

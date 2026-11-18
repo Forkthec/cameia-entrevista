@@ -1,0 +1,51 @@
+{
+  "id" : "G917",
+  "grupo" : "G9",
+  "descripcion" : "calido en inglés (copia de G502)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T19:41:19.228868-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2>v6",
+  "caracteresDelPrompt" : 5060,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 8194,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1322,
+  "tokensSalida" : 227,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to our chat today, and I would love to hear a bit about what drew you to apply for this Backend Developer position.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"I'd love it if you could tell me how you handle dependency injection and build application contexts using Spring Boot in your daily work.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you walk me through a specific time when you had to maintain or update existing REST APIs in a project, detailing the steps you took and the outcome?\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"I would love for you to explain how you design relational schemas and write queries in PostgreSQL to ensure optimal performance for your services.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you notice a sudden spike in latency on one of your message queues during peak hours, and I'd love to know how you would approach troubleshooting and resolving this issue as our final question.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 123, 137, 155, 146, 201 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

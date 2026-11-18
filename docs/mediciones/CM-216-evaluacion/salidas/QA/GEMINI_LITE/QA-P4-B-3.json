@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P4-B",
+  "corrida" : 3,
+  "ms" : 1403,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 130,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"El candidato menciona los conceptos generales pero no define las particiones de equivalencia ni los valores límite específicos para cada campo.\",\n  \"follow_up_texto\": \"Por favor, detalla las particiones de equivalencia (válidas e inválidas) y los valores límite específicos que aplicarías al menos para el campo de la contraseña.\",\n  \"feedback\": \"La respuesta es demasiado general y no demuestra cómo aplicarías formalmente las técnicas de partición de equivalencia y valores límite.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

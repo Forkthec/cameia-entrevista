@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-C",
+  "corrida" : 1,
+  "ms" : 649,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 130,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta no aborda el diseño del servicio ni los requisitos de persistencia de mensajes solicitados.\", \"follow_up_texto\": \"Por favor, describes cómo diseñarías una arquitectura de procesamiento asíncrono de correos electrónicos que garantice la no pérdida de mensajes durante reinicios del servidor, mencionando componentes clave como colas de persistencia y confirmaciones de entrega.\", \"motivo\": \"El candidato divaga sobre historia y herramientas de correo en vez de responder a la pregunta técnica de diseño de sistemas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

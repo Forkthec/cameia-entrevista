@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P1-A",
+  "corrida" : 3,
+  "ms" : 906,
+  "tokensEntrada" : 712,
+  "tokensSalida" : 89,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato detalla su experiencia práctica, herramientas utilizadas y métricas de impacto, respondiendo con precisión a ambos aspectos de la pregunta.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena descripción del impacto de la automatización en los tiempos de entrega.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

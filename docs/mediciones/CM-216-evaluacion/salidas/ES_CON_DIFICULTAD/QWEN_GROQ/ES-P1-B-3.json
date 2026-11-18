@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P1-B",
+  "corrida" : 3,
+  "ms" : 781,
+  "tokensEntrada" : 675,
+  "tokensSalida" : 123,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y carece de sustancia técnica o motivacional concreta.\", \"follow_up_texto\": \"Especifica qué aspecto técnico del backend te interesa específicamente (ej. manejo de concurrencia, diseño de APIs, bases de datos) y cita alguna experiencia propia o proyecto que te lleve a ello.\", \"motivo\": \"El candidato no ofrece detalles concretos, ejemplos de experiencia ni una motivación específica para el puesto, limitándose a generalidades vagas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

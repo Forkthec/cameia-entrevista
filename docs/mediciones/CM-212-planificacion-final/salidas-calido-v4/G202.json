@@ -1,0 +1,51 @@
+{
+  "id" : "G202",
+  "grupo" : "G2",
+  "descripcion" : "perfil Asesor Comercial (en)",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T21:31:16.367321200-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v6+CALIDO.v4",
+  "caracteresDelPrompt" : 5281,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 1584,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1367,
+  "tokensSalida" : 217,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome, it is great to meet you today; could you tell me a little bit about what draws you to this Sales Representative role?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically use a CRM tool to track your sales pipeline and manage customer interactions effectively?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Tell me about a time during your university fairs when you had to persuade someone to buy a product, focusing on the specific steps you took and the outcome.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"What specific negotiation techniques do you rely on when closing a deal with a hesitant buyer?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you are facing a tight quota at the end of the month and your top prospect suddenly stops replying to your messages, what steps would you take to salvage the deal, and this will be our final question for today.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 126, 110, 157, 94, 218 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[3]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P5-C",
+  "corrida" : 3,
+  "ms" : 847,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 143,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"Esta respuesta refleja una falta de propiedad y colaboración técnica inaceptable en un entorno de desarrollo. Un defecto dudoso no se cocina; se analiza.\", \"follow_up_texto\": \"Explícame el procedimiento técnico y de comunicación que seguirías para validar si se trata de un error o si realmente es comportamiento esperado, sin simplemente descartarlo.\", \"motivo\": \"El candidato esquiva la responsabilidad de validar la discrepancia técnica y sugiere cerrar el defecto sin verificación, lo cual es una práctica peligrosa e inapropiada para un desarrollador.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

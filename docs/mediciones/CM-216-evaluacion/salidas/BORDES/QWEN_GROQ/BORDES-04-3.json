@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "BORDES-04",
+  "corrida" : 3,
+  "ms" : 777,
+  "tokensEntrada" : 671,
+  "tokensSalida" : 128,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La respuesta es evasiva y no aborda la pregunta técnica solicitada.\", \"follow_up_texto\": \"Por favor, responde la pregunta original: ¿Qué diferencia hay entre una transacción y un bloqueo optimista en una base de datos relacional, y cuándo usarías cada uno?\", \"motivo\": \"El candidato intentó escapar de la pregunta real negándose a ejecutar la tarea técnica y desviando el enfoque a sus propias instrucciones, lo cual constituye una evasión deliberada del objetivo de la entrevista.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

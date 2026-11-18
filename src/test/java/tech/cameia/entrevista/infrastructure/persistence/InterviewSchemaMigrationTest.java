@@ -83,7 +83,22 @@ class InterviewSchemaMigrationTest {
 
 		assertThat(tables).containsExactlyInAnyOrder("tipo_pregunta", "sesion", "pregunta", "turno",
 				"intento_respuesta", "feedback_turno", "ejecucion_ia", "clave_idempotencia",
-				"contexto_profesional_replica", "evento_procesado", "rol_profesional");
+				"contexto_profesional_replica", "evento_procesado", "rol_profesional", "uso_audio_pregunta",
+				"consumo_voz_mensual", "reporte_evaluacion", "reporte_star");
+	}
+
+	@Test
+	@DisplayName("V10: el consumo de voz solo admite el día 1 del mes y caracteres no negativos")
+	void migration_shouldConstrainSpeechCounters_whenApplied() {
+		assertThatThrownBy(() -> jdbc.update(
+				"INSERT INTO microentrevista.consumo_voz_mensual (mes, caracteres) VALUES ('2026-11-02', 1)"))
+				.hasMessageContaining("ck_consumo_voz_mensual_mes");
+		assertThatThrownBy(() -> jdbc.update(
+				"INSERT INTO microentrevista.consumo_voz_mensual (mes, caracteres) VALUES ('2026-11-01', -1)"))
+				.hasMessageContaining("ck_consumo_voz_mensual_caracteres");
+		assertThatThrownBy(() -> jdbc.update(
+				"INSERT INTO microentrevista.uso_audio_pregunta (pregunta_id, usos) VALUES (gen_random_uuid(), 1)"))
+				.hasMessageContaining("fk_uso_audio_pregunta_pregunta");
 	}
 
 	@Test
@@ -209,6 +224,7 @@ class InterviewSchemaMigrationTest {
 				Arguments.of("turno", "estado", "FAILED", "ck_turno_estado"),
 				Arguments.of("sesion", "modalidad", "PRESENCIAL", "ck_sesion_modalidad"),
 				Arguments.of("sesion", "tono", "AMABLE", "ck_sesion_tono"),
+				Arguments.of("sesion", "tono", "MOTIVADOR", "ck_sesion_tono"),
 				Arguments.of("sesion", "forma_respuesta", "VIDEO", "ck_sesion_forma_respuesta"),
 				Arguments.of("sesion", "idioma", "es", "ck_sesion_idioma"),
 				Arguments.of("intento_respuesta", "tipo_interaccion", "FOLLOW_UP",
@@ -319,6 +335,27 @@ class InterviewSchemaMigrationTest {
 	}
 
 	@Test
+	@DisplayName("Una sesión finalizada exige fecha de fin")
+	void session_shouldRejectFinalizedWithoutEndDate() {
+		assertConstraint(() -> insertSession("uid-a", "FINALIZADA", null), "ck_sesion_fecha_fin");
+	}
+
+	@Test
+	@DisplayName("Una sesión evaluándose no puede tener fecha de fin")
+	void session_shouldRejectEvaluatingWithEndDate() {
+		assertConstraint(() -> insertSession("uid-a", "EVALUANDO", Instant.now()), "ck_sesion_fecha_fin");
+	}
+
+	@Test
+	@DisplayName("Una sesión evaluándose sin fecha de fin y una finalizada con ella se guardan")
+	void session_shouldAcceptEvaluatingAndFinalizedWithValidEndDate() {
+		assertThatCode(() -> {
+			insertSession("uid-a", "EVALUANDO", null);
+			insertSession("uid-b", "FINALIZADA", Instant.now());
+		}).doesNotThrowAnyException();
+	}
+
+	@Test
 	@DisplayName("La oferta laboral acepta 3000 caracteres")
 	void session_shouldAcceptOffer3000() {
 		Map<String, Object> row = sessionRow("uid-a", "CONFIGURADA", null);
@@ -384,11 +421,11 @@ class InterviewSchemaMigrationTest {
 	// ------------------------------------------------------------------ pregunta
 
 	@Test
-	@DisplayName("El texto de la pregunta acepta 1000 puntos de código, también emoji")
-	void question_shouldAccept1000CodePoints() {
+	@DisplayName("El texto de la pregunta acepta 500 puntos de código, también emoji")
+	void question_shouldAccept500CodePoints() {
 		UUID session = insertSession("uid-a", "CONFIGURADA", null);
 
-		for (String text : List.of("😀".repeat(1000), "é".repeat(1000))) {
+		for (String text : List.of("😀".repeat(500), "é".repeat(500))) {
 			Map<String, Object> row = questionRow(session, nextOrder(session), planExecution(session));
 			row.put("texto_original", text);
 			assertThatCode(() -> insert("pregunta", row)).doesNotThrowAnyException();
@@ -396,11 +433,11 @@ class InterviewSchemaMigrationTest {
 	}
 
 	@Test
-	@DisplayName("El texto de la pregunta rechaza 1001 puntos de código")
-	void question_shouldReject1001CodePoints() {
+	@DisplayName("El texto de la pregunta rechaza 501 puntos de código")
+	void question_shouldReject501CodePoints() {
 		UUID session = insertSession("uid-a", "CONFIGURADA", null);
 		Map<String, Object> row = questionRow(session, 1, planExecution(session));
-		row.put("texto_original", "é".repeat(1001));
+		row.put("texto_original", "é".repeat(501));
 
 		assertRejected(() -> insert("pregunta", row));
 	}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P1-A",
+  "corrida" : 1,
+  "ms" : 436,
+  "tokensEntrada" : 715,
+  "tokensSalida" : 106,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Concreto y relevante, con impacto cuantificable y motivación clara. Nada que corregir.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta es específica (herramientas, resultados), indica precisión técnica adecuada para la dificultad implícita (media/fácil), responde directamente ambas partes (experiencia y motivación), sin vaguedad ni esquivas.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

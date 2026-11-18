@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-C",
+  "corrida" : 2,
+  "ms" : 1130,
+  "tokensEntrada" : 663,
+  "tokensSalida" : 127,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato esquiva la pregunta afirmando que no recuerda ninguna situación de desacuerdo técnico.\",\n  \"follow_up_texto\": \"Comprendo. Piensa en cualquier proyecto pasado donde existieran enfoques distintos entre desarrolladores, aunque no lo consideres una discusión. ¿Cómo manejaste esa divergencia técnica y cuál fue el resultado?\",\n  \"feedback\": \"Es necesario abordar situaciones reales de resolución de conflictos técnicos, ya que son comunes en entornos de desarrollo.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

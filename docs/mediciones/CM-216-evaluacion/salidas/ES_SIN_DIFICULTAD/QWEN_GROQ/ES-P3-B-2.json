@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-B",
+  "corrida" : 2,
+  "ms" : 781,
+  "tokensEntrada" : 683,
+  "tokensSalida" : 112,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y carece de los elementos concretos que pide la pregunta.\", \"follow_up_texto\": \"Describe un ejemplo específico: ¿cuál era el desacuerdo técnico, qué argumentos o datos aportaste para definir la solución y cuál fue el resultado objetivo?\", \"motivo\": \"El candidato no proporciona detalles concretos sobre el conflicto, los argumentos técnicos ni el resultado, limitándose a generalidades vacías.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

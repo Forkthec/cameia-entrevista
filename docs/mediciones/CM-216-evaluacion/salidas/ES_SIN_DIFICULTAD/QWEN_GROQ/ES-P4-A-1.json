@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 1,
+  "ms" : 791,
+  "tokensEntrada" : 755,
+  "tokensSalida" : 109,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"La arquitectura propuesta es sólida: usa la técnica de outbox para garantizar consistencia y persistencia, con manejo correcto de idempotencia y reintentos.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un diseño completo con cola persistente, patrón outbox para evitar pérdida de mensajes en reinicios, manejo de errores con reintentos y garantización de idempotencia.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

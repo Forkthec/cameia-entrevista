@@ -1,0 +1,78 @@
+{
+  "id" : "B09",
+  "grupo" : "B",
+  "rol" : "Desarrollador Backend",
+  "idioma" : "es-CO",
+  "tono" : "ESTRICTO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3390,
+  "inicio" : "2026-11-08T15:52:19.192781600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v3",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 6350,
+  "tokensEntrada" : 861,
+  "tokensSalida" : 320,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"¿Qué lo motiva a postularse como Desarrollador Backend en Andina Ficticia S.A.S. en este momento de su carrera y cómo planea aportar desde su experiencia?\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Tomando en cuenta sus 3 años trabajando con Spring Boot y PostgreSQL, descríbame cómo optimizó una consulta compleja o una transacción en la base de datos que estuviera afectando el rendimiento del servicio web.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuénteme de una ocasión en la que haya tenido que integrar una cola de mensajes en un sistema distribuido: describa la situación, la tarea específica que asumió, la acción técnica que ejecutó y el resultado cuantitativo que obtuvo.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Explicando su experiencia con despliegues en la nube, ¿cómo estructuró y configuró el pipeline o el proceso para garantizar la entrega continua de sus servicios web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Suponga que está en un proyecto con metodologías ágiles en Andina Ficticia S.A.S., se detecta una falla crítica en producción justo antes de un despliegue y el equipo no se pone de acuerdo en cómo solucionarla; ¿cómo actuaría exactamente para resolver el problema y mantener la sincronía del equipo?\"}]}",
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 299 caracteres"
+    }
+  },
+  "largos" : [ 154, 211, 231, 165, 299 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "PROFESIONAL_NEUTRO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 2,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: despliegue y nube en las preguntas [4, 5]"
+  },
+  "validoTrasReintento" : true
+}

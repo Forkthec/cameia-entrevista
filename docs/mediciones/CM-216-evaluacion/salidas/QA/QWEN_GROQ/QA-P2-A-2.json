@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P2-A",
+  "corrida" : 2,
+  "ms" : 833,
+  "tokensEntrada" : 722,
+  "tokensSalida" : 73,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Especificaste con precisión la naturaleza de cada prueba y los gatillos correctos para su ejecución.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta define claramente ambos conceptos y asigna los momentos de ejecución fundamentales.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

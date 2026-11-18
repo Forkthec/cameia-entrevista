@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-A",
+  "corrida" : 3,
+  "ms" : 1075,
+  "tokensEntrada" : 756,
+  "tokensSalida" : 113,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Respuesta sólida que prioriza el restablecimiento del servicio mediante el rollback en horario crítico y detalla bien las fases de diagnóstico, corrección y comunicación.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato describe un proceso de incidentes coherente, estructurado y técnico, cubriendo el triaje, la mitigación inmediata, la causa raíz, la corrección y la post-mortem, sin errores.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

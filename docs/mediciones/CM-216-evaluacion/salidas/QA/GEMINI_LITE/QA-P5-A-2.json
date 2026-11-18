@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "QA-P5-A",
+  "corrida" : 2,
+  "ms" : 926,
+  "tokensEntrada" : 733,
+  "tokensSalida" : 97,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre de manera estructurada la revisión de requisitos, la presentación de evidencia, la escalación al product owner y la documentación, manteniendo un enfoque profesional.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta clara que aborda adecuadamente la resolución de conflictos técnicos y de producto.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P5-C",
+  "corrida" : 2,
+  "ms" : 1032,
+  "tokensEntrada" : 654,
+  "tokensSalida" : 116,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato elude la pregunta con una respuesta informal que no aborda el procedimiento técnico ante un incidente en producción.\",\n  \"follow_up_texto\": \"Por favor, responde de manera técnica y paso a paso sobre cómo abordarías un error 500 en un entorno de producción un viernes por la tarde.\",\n  \"feedback\": \"La respuesta no es profesional ni aborda el problema técnico planteado.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

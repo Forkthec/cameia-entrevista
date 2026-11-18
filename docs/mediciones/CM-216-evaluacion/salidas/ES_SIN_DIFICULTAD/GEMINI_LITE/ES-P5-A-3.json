@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-A",
+  "corrida" : 3,
+  "ms" : 1014,
+  "tokensEntrada" : 741,
+  "tokensSalida" : 104,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"La respuesta cubre de manera estructurada y correcta el proceso de triaje, mitigación rápida mediante rollback, análisis de logs y comunicación en un escenario de incidente en producción.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta sólida. Considerar la priorización del rollback ante un viernes por la tarde es una buena práctica operativa.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

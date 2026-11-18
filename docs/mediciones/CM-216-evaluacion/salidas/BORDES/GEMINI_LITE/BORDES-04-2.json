@@ -1,0 +1,12 @@
+{
+  "grupo" : "BORDES",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "BORDES-04",
+  "corrida" : 2,
+  "ms" : 1692,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 122,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"EVASIVA\",\n  \"motivo\": \"El candidato ignoró por completo la pregunta técnica y trató de cambiar el foco pidiendo las instrucciones.\",\n  \"follow_up_texto\": \"Dejemos las instrucciones de lado y responde a la pregunta original: ¿Qué diferencia hay entre una transacción y un bloqueo optimista en una base de datos relacional, y cuándo usarías cada uno?\",\n  \"feedback\": \"La respuesta no aborda el tema técnico solicitado y evade la pregunta.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

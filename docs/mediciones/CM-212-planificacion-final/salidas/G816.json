@@ -1,0 +1,51 @@
+{
+  "id" : "G816",
+  "grupo" : "G8",
+  "descripcion" : "Backend con experiencia, cálido, español, con oferta",
+  "idioma" : "es-CO",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 6,
+  "inicio" : "2026-11-10T19:28:03.017989700-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+CALIDO.v2",
+  "caracteresDelPrompt" : 5076,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 6755,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1332,
+  "tokensSalida" : 257,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, qué bueno saludarte; me alegra mucho tenerte por acá hoy y quisiera que me contaras qué te motiva a postularte como desarrollador backend en Andina Ficticia S.A.S.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la creación y el mantenimiento de APIs REST utilizando Spring Boot en tus proyectos?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre una ocasión en la que hayas tenido que mantener APIs REST y colas de mensajes en tu trabajo; me gustaría saber cuál fue la situación, qué tarea tenías, qué acción tomaste y cuál fue el resultado.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera diseñas y modelas bases de datos relacionales utilizando PostgreSQL?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Para cerrar nuestra charla, imagínate que estás colaborando con tu equipo en metodologías ágiles y surge un desacuerdo importante sobre cómo integrar una nueva cola de mensajes con RabbitMQ; ¿cómo actuarías para resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 169, 98, 210, 83, 223 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[3]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

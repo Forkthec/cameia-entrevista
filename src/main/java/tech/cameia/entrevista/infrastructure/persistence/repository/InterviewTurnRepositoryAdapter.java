@@ -39,4 +39,22 @@ class InterviewTurnRepositoryAdapter implements InterviewTurnRepository {
     public Optional<InterviewTurn> findById(UUID id) {
         return jpa.findById(id).map(InterviewTurnMapper::toDomain);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<InterviewTurn> findOpenBySession(UUID sessionId) {
+        return jpa.findOpenBySession(sessionId).map(InterviewTurnMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<InterviewTurn> findByIdAndSession(UUID turnId, UUID sessionId) {
+        return jpa.findByIdAndSession(turnId, sessionId).map(InterviewTurnMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public int countCompleted(UUID sessionId) {
+        return jpa.countCompleted(sessionId);
+    }
 }

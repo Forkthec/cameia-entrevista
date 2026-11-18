@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P4-A",
+  "corrida" : 2,
+  "ms" : 543,
+  "tokensEntrada" : 755,
+  "tokensSalida" : 97,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Aborda la persistencia previa al enqueue, la durabilidad de la cola y la idempotencia.\", \"follow_up_texto\": \"\", \"motivo\": \"La respuesta cubre los puntos clave de la pregunta (persistencia, cola duradera, reintentos, idempotencia) con precisión técnica adecuada al nivel de detalle solicitado.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

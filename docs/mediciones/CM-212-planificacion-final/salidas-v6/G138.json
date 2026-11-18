@@ -1,0 +1,51 @@
+{
+  "id" : "G138",
+  "grupo" : "G1",
+  "descripcion" : "tono ESTRICTO, sin experiencia, en, sin oferta, BACKEND",
+  "idioma" : "en",
+  "tono" : "ESTRICTO",
+  "conOferta" : false,
+  "tieneExperiencia" : false,
+  "repeticion" : 2,
+  "inicio" : "2026-11-10T20:28:42.726764800-05:00[America/Bogota]",
+  "versionDelPrompt" : "planificacion.v5+ESTRICTO.v2>v6",
+  "caracteresDelPrompt" : 4670,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 3202,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1212,
+  "tokensSalida" : 240,
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"State your exact motivation for applying to this backend developer role and cite one concrete metric or measurable goal from your university studies that proves your readiness.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"Explain how you implemented a specific Java method in your capstone project, detailing the exact data structures used and the measurable performance result.\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Describe a specific situation during your Systems Engineering studies at Fictitious Valley University where you faced a technical disagreement regarding a database schema; cite the exact tool and the final measurable outcome of your action.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"Detail the exact PostgreSQL query optimization technique you applied in your academic project, naming the specific indexing tool used and the exact query execution time reduction achieved.\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagine you push a backend code change that breaks the PostgreSQL database connection in production; state the exact step-by-step troubleshooting tool you would use first and the specific downtime metric you would measure.\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 176, 156, 240, 188, 222 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "no se envió oferta: no aplica"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "ESTRICTO",
+    "preguntasConAcogida" : 0,
+    "preguntasConExigencia" : 5,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[1, 2, 3, 4]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 1,
+  "ms" : 1192,
+  "tokensEntrada" : 670,
+  "tokensSalida" : 138,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta menciona una cola y una base de datos de forma muy general, sin detallar el mecanismo de persistencia ni cómo se garantiza la entrega atómica.\",\n  \"follow_up_texto\": \"¿Qué mecanismo específico usarías para asegurar que el estado en la base de datos y el mensaje en la cola se actualicen de manera consistente sin perder mensajes ante un reinicio?\",\n  \"feedback\": \"La respuesta es demasiado general para una pregunta de diseño de nivel difícil. Es necesario detallar los componentes y la consistencia.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

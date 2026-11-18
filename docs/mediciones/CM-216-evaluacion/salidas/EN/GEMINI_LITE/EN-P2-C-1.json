@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "EN-P2-C",
+  "corrida" : 1,
+  "ms" : 1225,
+  "tokensEntrada" : 652,
+  "tokensSalida" : 130,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"IRRELEVANTE\",\n  \"motivo\": \"El candidato no respondió a la pregunta y desvió la conversación hacia bases de datos relacionales e interfaces gráficas.\",\n  \"follow_up_texto\": \"Por favor, céntrate en la pregunta: explica cuál es la diferencia conceptual entre una transacción de base de datos y el bloqueo optimista, y en qué escenarios usarías cada uno.\",\n  \"feedback\": \"La respuesta no aborda los conceptos técnicos solicitados sobre concurrencia y control de transacciones.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

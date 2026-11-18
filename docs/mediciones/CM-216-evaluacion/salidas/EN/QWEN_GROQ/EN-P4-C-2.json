@@ -1,0 +1,12 @@
+{
+  "grupo" : "EN",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "EN-P4-C",
+  "corrida" : 2,
+  "ms" : 532,
+  "tokensEntrada" : 656,
+  "tokensSalida" : 116,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"IRRELEVANTE\", \"feedback\": \"La respuesta no aborda el diseño técnico solicitado.\", \"follow_up_texto\": \"Por favor, describe el diseño de un servicio de envío de correos asíncrono que garantice la no pérdida de mensajes ante reinicios del servidor. Menciona componentes clave como colas de trabajo y persistencia.\", \"motivo\": \"La respuesta se centra en la historia del correo electrónico y su uso personal, ignorando completamente la solicitud de diseño técnico.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

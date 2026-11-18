@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-C",
+  "corrida" : 2,
+  "ms" : 1133,
+  "tokensEntrada" : 647,
+  "tokensSalida" : 116,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"motivo\": \"El candidato elude la pregunta personal y de motivacion y solicita cambiar el foco hacia un tema tecnico.\", \"follow_up_texto\": \"Entiendo tu interes por la parte tecnica, pero es importante conocer tu perfil y motivacion para este puesto. Por favor, comparte brevemente tu trayectoria y por que te interesa unirte al equipo.\", \"feedback\": \"Evita esquivar las preguntas introductorias; forman parte de la evaluacion integral del proceso.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

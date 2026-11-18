@@ -1,0 +1,45 @@
+{
+  "aviso": "Datos 100 % ficticios creados para este spike. Ninguna persona, empresa u oferta es real.",
+  "roles": {
+    "BACKEND": {
+      "nombre": { "es-CO": "Desarrollador Backend", "en": "Backend Developer" },
+      "contexto": {
+        "es-CO": "Persona ficticia con 3 años de experiencia desarrollando servicios web en Java con Spring Boot y PostgreSQL. Ha trabajado con colas de mensajes y despliegues en la nube. Busca crecer hacia el diseño de arquitectura.",
+        "en": "Fictitious person with 3 years of experience building web services in Java with Spring Boot and PostgreSQL. Has worked with message queues and cloud deployments. Wants to grow toward architecture design."
+      },
+      "oferta": {
+        "es-CO": "Empresa ficticia «Andina Ficticia S.A.S.» busca un Desarrollador Backend para mantener APIs REST en Spring Boot, modelar bases de datos PostgreSQL, integrar colas de mensajes con RabbitMQ y escribir pruebas automatizadas. Se valora trabajar en equipo con metodologías ágiles.",
+        "en": "Fictitious company “Andina Ficticia S.A.S.” is hiring a Backend Developer to maintain REST APIs in Spring Boot, model PostgreSQL databases, integrate message queues with RabbitMQ and write automated tests. Teamwork in agile methodologies is valued."
+      },
+      "terminosDeLaOferta": ["spring boot", "postgresql", "rabbitmq", "pruebas automatizadas", "automated test", "rest", "ágil", "agile", "cola", "queue"],
+      "terminosTecnicosDelRol": ["api", "base de datos", "database", "sql", "spring", "java", "rest", "transacci", "transaction", "caché", "cache", "índice", "index", "microservic", "concurren", "cola", "queue", "mensaj", "message", "rabbitmq", "asíncron", "asynchron", "idempoten", "consumidor", "consumer", "postgres", "prueba", "test", "endpoint", "escalab", "scal", "rendimiento", "performance", "seguridad", "security", "despliegue", "deploy"],
+      "temasDelRol": {
+        "mensajería": ["cola", "queue", "mensaj", "message", "rabbitmq", "asíncron", "asynchron", "consumidor", "consumer", "idempoten"],
+        "base de datos": ["postgres", "sql", "base de datos", "database", "consulta", "query", "índice", "index", "transacci", "transaction"],
+        "pruebas": ["prueba", "test"],
+        "despliegue y nube": ["despliegue", "deploy", "nube", "cloud", "release"],
+        "Spring Boot": ["spring"]
+      }
+    },
+    "QA": {
+      "nombre": { "es-CO": "Analista de Calidad de Software", "en": "Software Quality Analyst" },
+      "contexto": {
+        "es-CO": "Persona ficticia con 2 años de experiencia como analista de calidad en aplicaciones web. Diseña casos de prueba, ejecuta pruebas manuales y automatizadas con Selenium, y reporta defectos en Jira. Busca especializarse en automatización.",
+        "en": "Fictitious person with 2 years of experience as a quality analyst on web applications. Designs test cases, runs manual and Selenium-automated tests, and reports defects in Jira. Wants to specialize in automation."
+      },
+      "oferta": {
+        "es-CO": "Empresa ficticia «Andina Ficticia S.A.S.» busca un Analista de Calidad de Software para diseñar planes y casos de prueba, automatizar pruebas de regresión con Selenium, gestionar defectos con Jira y asegurar la trazabilidad de requisitos.",
+        "en": "Fictitious company “Andina Ficticia S.A.S.” is hiring a Software Quality Analyst to design test plans and test cases, automate regression tests with Selenium, manage defects in Jira and ensure requirements traceability."
+      },
+      "terminosDeLaOferta": ["selenium", "jira", "regresión", "regression", "trazabilidad", "traceability", "plan de prueba", "test plan", "caso de prueba", "test case"],
+      "terminosTecnicosDelRol": ["prueba", "test", "defecto", "defect", "bug", "caso", "case", "regresi", "automatiz", "automat", "selenium", "requisito", "requirement", "cobertura", "coverage", "calidad", "quality", "riesgo", "risk", "exploratori", "trazabilidad", "traceability", "criterio", "criteria"],
+      "temasDelRol": {
+        "automatización y regresión": ["selenium", "automatiz", "automat", "regresi"],
+        "gestión de defectos": ["jira", "defecto", "defect", "bug"],
+        "diseño de casos y planes": ["caso de prueba", "casos de prueba", "test case", "plan de prueba", "test plan"],
+        "trazabilidad y requisitos": ["trazabilidad", "traceability", "requisito", "requirement", "criterio", "criteria"],
+        "riesgo y cobertura": ["riesgo", "risk", "cobertura", "coverage", "exploratori"]
+      }
+    }
+  }
+}

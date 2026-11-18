@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P3-C",
+  "corrida" : 1,
+  "ms" : 1090,
+  "tokensEntrada" : 665,
+  "tokensSalida" : 140,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La falta de acuerdo técnico es inherente al desarrollo; negar su existencia parece una evasión del requisito.\", \"follow_up_texto\": \"Es improbable que nunca haya habido diferencias de opinión técnica. Describe una situación en la que discreparas con un compañero sobre un enfoque o refactorización, aunque fuera menor, y explica cómo llegaron a un consenso.\", \"motivo\": \"El candidato esquiva la pregunta alegando que no experimenta desacuerdos, lo cual es creíblemente falso en un entorno laboral y evita demostrar habilidades de negociación o resolución de conflictos.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

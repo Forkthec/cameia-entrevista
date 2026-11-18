@@ -6,6 +6,7 @@ import com.google.genai.Client;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -15,6 +16,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
+import tech.cameia.entrevista.infrastructure.config.ia.GeminiChatModels;
+import tech.cameia.entrevista.infrastructure.config.ia.GroqChatModels;
 import tech.cameia.entrevista.support.WithLanguageModelProperties;
 
 /**
@@ -39,8 +42,12 @@ class EntrevistaApplicationTests {
 	@Test
 	@DisplayName("El contexto arranca con las migraciones aplicadas")
 	void contextLoads() {
-		// Con todas las autoconfiguraciones activas, ninguna crea un segundo cliente ni otra plantilla de reintentos.
-		assertThat(context.getBeansOfType(Client.class)).containsOnlyKeys("languageModelClient");
+		// Con todas las autoconfiguraciones activas, ninguna crea un cliente, un modelo de chat ni otra plantilla de
+		// reintentos: los modelos de los dos proveedores los arma LanguageModelConfiguration.
+		assertThat(context.getBeansOfType(Client.class)).isEmpty();
+		assertThat(context.getBeansOfType(ChatModel.class)).isEmpty();
+		assertThat(context.getBeansOfType(GeminiChatModels.class)).hasSize(1);
+		assertThat(context.getBeansOfType(GroqChatModels.class)).hasSize(1);
 		assertThat(context.getBeansOfType(RetryTemplate.class)).containsOnlyKeys("languageModelRetryTemplate");
 	}
 

@@ -1,0 +1,12 @@
+{
+  "grupo" : "RAFAGA_10",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P4-B",
+  "corrida" : 1,
+  "ms" : 3528,
+  "tokensEntrada" : 662,
+  "tokensSalida" : 144,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"El candidato menciona conceptos generales como cola y base de datos pero no especifica tecnologías, persistencia ni el mecanismo exacto para evitar la pérdida de mensajes.\",\n  \"follow_up_texto\": \"Mencionas una cola y la base de datos, pero no el mecanismo específico. ¿Cómo garantizás la consistencia entre el estado del mensaje en la cola y la base de datos si ocurre un reinicio abrupto?\",\n  \"feedback\": \"La respuesta es demasiado general y carece de detalles técnicos sobre la arquitectura de procesamiento asíncrono.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -2,7 +2,8 @@ package tech.cameia.entrevista.domain.exception;
 
 /**
  * Los datos enviados superan el tamaño que el servicio admite en una petición; el caso típico es
- * un cuerpo {@code multipart/form-data} de más de 10 MB.
+ * un cuerpo {@code multipart/form-data} de más de 12 MiB (el audio de una respuesta admite 10 MiB y tiene su propio
+ * código, {@code AUDIO_TOO_LARGE}).
  */
 public class RequestPayloadTooLargeException extends BusinessException {
 

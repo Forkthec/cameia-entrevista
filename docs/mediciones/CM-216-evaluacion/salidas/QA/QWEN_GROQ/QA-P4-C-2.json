@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P4-C",
+  "corrida" : 2,
+  "ms" : 475,
+  "tokensEntrada" : 674,
+  "tokensSalida" : 104,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"EVASIVA\", \"feedback\": \"La respuesta no aborda la metodología solicitada.\", \"follow_up_texto\": \"Deja de lado tus preferencias personales. Construye las clases de equivalencia y los valores límite para los campos de correo, contraseña y fecha de nacimiento.\", \"motivo\": \"El candidato esquiva la pregunta declarando su falta de interés en el tema en lugar de responder con los casos de prueba solicitados.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

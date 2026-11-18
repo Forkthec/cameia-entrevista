@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 3,
+  "ms" : 2100,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 182,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta es demasiado genérica y omite la comunicación del incidente, el diagnóstico visual (métricas/trazas) y el análisis de causa raíz tras mitigar.\", \"follow_up_texto\": \"Vas demasiado al grano. Necesito más detalle. ¿Cómo comunicas el incidente al equipo? ¿Qué herramientas específicas usas para diagnosticar el error 500 antes de tomar cualquier acción como reiniciar el servicio? ¿Cómo asegurarte de que el reinicio no oculta el problema raíz?\", \"motivo\": \"El candidato menciona ver logs y reiniciar, pero carece de estructura, omite la gestión del incidente (comunicación, prioridades) y no detalla el proceso de diagnóstico ni de análisis de causa raíz, quedándose en generalidades.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

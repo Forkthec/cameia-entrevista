@@ -1,0 +1,78 @@
+{
+  "id" : "B11",
+  "grupo" : "B",
+  "rol" : "Backend Developer",
+  "idioma" : "en",
+  "tono" : "CALIDO",
+  "conOferta" : true,
+  "repeticion" : 2,
+  "caracteresDelPrompt" : 3581,
+  "inicio" : "2026-11-08T16:16:14.827003600-05:00[America/Bogota]",
+  "planValido" : true,
+  "modeloAlias" : "GEMINI_LITE",
+  "modeloSolicitado" : "gemini-3.5-flash-lite",
+  "versionDelPrompt" : "v2",
+  "versionDelTono" : "v2",
+  "temperatura" : 1.0,
+  "estado" : "EJECUTADA",
+  "intentoDeProveedor" : 1,
+  "latenciaMs" : 1504,
+  "tokensEntrada" : 889,
+  "tokensSalida" : 271,
+  "modelo" : "gemini-3.5-flash-lite",
+  "textoCrudo" : "{\"idioma\":\"en\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Welcome to the interview, it's great to meet you! To get us started, I would love for you to tell me a bit about yourself and what excites you the most about joining Andina Ficticia S.A.S. as a Backend Developer.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"How do you typically approach database modeling in PostgreSQL when designing a new web service using Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Could you share a specific situation from your past work where you had to integrate message queues into a project? Please walk me through the challenge, what your role was, the actions you took, and what the final result was.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"When you deploy cloud applications that rely on message queues like RabbitMQ, what strategies do you use to ensure reliable message processing?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"This is our final question for today: imagine that you are working on maintaining our REST APIs in Spring Boot and an unexpected traffic spike causes performance bottlenecks during an agile sprint. How would you handle this situation and collaborate with your team to resolve it?\"}]}",
+  "motivoDeCorte" : "partes=1; motivo=STOP",
+  "razonamientoDelante" : false,
+  "lista" : {
+    "a" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "5 preguntas y forma conforme al esquema"
+    },
+    "b" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "los 5 tipos coinciden con la plantilla"
+    },
+    "c" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "las 5 preguntas parecen estar en en (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "aproximado" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    },
+    "g" : {
+      "cumple" : true,
+      "aproximado" : false,
+      "detalle" : "todas tienen texto; la más larga mide 279 caracteres"
+    }
+  },
+  "largos" : [ 212, 113, 225, 143, 279 ],
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 1,
+    "acogidaEnPreguntas2a4" : 0,
+    "preguntasQueSuponenRespuestaPrevia" : 0,
+    "calidezNatural" : true
+  },
+  "temasDistintos" : {
+    "cumple" : false,
+    "aproximado" : true,
+    "detalle" : "tema repetido: mensajería en las preguntas [3, 4]; Spring Boot en las preguntas [2, 5]"
+  },
+  "validoTrasReintento" : true
+}

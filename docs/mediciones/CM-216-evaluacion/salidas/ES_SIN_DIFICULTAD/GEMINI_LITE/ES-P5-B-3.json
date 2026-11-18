@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P5-B",
+  "corrida" : 3,
+  "ms" : 1144,
+  "tokensEntrada" : 676,
+  "tokensSalida" : 117,
+  "texto" : "{\n  \"accion\": \"FOLLOW_UP\",\n  \"clasificacion\": \"VAGA\",\n  \"motivo\": \"La respuesta es superficial y carece de un procedimiento estructurado para la resolución de incidentes en producción.\",\n  \"follow_up_texto\": \"Mencionas mirar logs y reiniciar, pero necesitamos un proceso sistemático. Detalla cómo identificas la causa raíz antes de reiniciar y cómo verificas que la mitigación fue exitosa.\",\n  \"feedback\": \"La respuesta inicial es demasiado general para un escenario de producción.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

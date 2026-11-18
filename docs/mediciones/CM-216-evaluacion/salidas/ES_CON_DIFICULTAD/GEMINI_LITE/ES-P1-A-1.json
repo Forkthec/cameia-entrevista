@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_CON_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P1-A",
+  "corrida" : 1,
+  "ms" : 927,
+  "tokensEntrada" : 696,
+  "tokensSalida" : 82,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato responde con claridad sobre su experiencia relevante en backend y los motivos específicos por los cuales le interesa la posición.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Respuesta clara y directa, adecuada para una introducción profesional.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

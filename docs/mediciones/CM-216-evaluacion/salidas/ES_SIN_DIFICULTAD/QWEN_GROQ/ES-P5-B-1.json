@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "ES-P5-B",
+  "corrida" : 1,
+  "ms" : 966,
+  "tokensEntrada" : 680,
+  "tokensSalida" : 150,
+  "texto" : "{\"accion\": \"FOLLOW_UP\", \"clasificacion\": \"VAGA\", \"feedback\": \"La respuesta carece de estructura metodológica y propone una acción (reiniciar) que podría ser contraproducente sin antes diagnosticar la causa raíz. Necesitas detallar el proceso de triage.\", \"follow_up_texto\": \"Describe los pasos concretos de diagnóstico que seguirías antes de tomar cualquier acción correctiva. ¿Qué métricas revisas, cómo aíslas el problema y cómo decides si el reinicio es la solución adecuada?\", \"motivo\": \"El candidato menciona revisar logs pero se queda en generalidades y salta directamente a un reinicio sin explicar el criterio ni el proceso de análisis posterior.\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

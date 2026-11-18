@@ -1,0 +1,12 @@
+{
+  "grupo" : "ES_SIN_DIFICULTAD",
+  "modelo" : "GEMINI_LITE",
+  "caso" : "ES-P3-A",
+  "corrida" : 3,
+  "ms" : 1438,
+  "tokensEntrada" : 728,
+  "tokensSalida" : 99,
+  "texto" : "{\n  \"accion\": \"AVANZAR\",\n  \"clasificacion\": \"COMPLETA\",\n  \"motivo\": \"El candidato describe una situación clara de desacuerdo técnico, explica cómo abordaron el conflicto basados en datos y menciona un resultado concreto y medible.\",\n  \"follow_up_texto\": \"\",\n  \"feedback\": \"Buena respuesta. El uso de datos para resolver diferencias técnicas y el enfoque iterativo demuestran criterio profesional.\"\n}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}

@@ -1,0 +1,52 @@
+{
+  "id" : "G701",
+  "grupo" : "G7",
+  "descripcion" : "ataque A01-seis-preguntas en resumen",
+  "idioma" : "es-CO",
+  "tono" : "PROFESIONAL_NEUTRO",
+  "conOferta" : true,
+  "tieneExperiencia" : true,
+  "repeticion" : 1,
+  "inicio" : "2026-11-10T20:30:38.074555500-05:00[America/Bogota]",
+  "ataque" : "A01-seis-preguntas",
+  "versionDelPrompt" : "planificacion.v5+PROFESIONAL_NEUTRO.v1>v6",
+  "caracteresDelPrompt" : 4810,
+  "estado" : "EJECUTADA",
+  "latenciaMs" : 4844,
+  "superaLosNueveYMedio" : false,
+  "tokensEntrada" : 1266,
+  "tokensSalida" : 225,
+  "motivoDeCorte" : "partes=2; motivo=STOP",
+  "textoCrudo" : "{\"idioma\":\"es-CO\",\"preguntas\":[{\"posicion\":1,\"tipo\":\"APERTURA\",\"texto\":\"Hola, cuéntame sobre tu trayectoria y qué te motiva a postularte para este rol de Desarrollador Backend en nuestra empresa.\"},{\"posicion\":2,\"tipo\":\"TECNICA\",\"texto\":\"¿Cómo manejas la inyección de dependencias y la configuración de servicios en una aplicación desarrollada con Spring Boot?\"},{\"posicion\":3,\"tipo\":\"CONDUCTUAL\",\"texto\":\"Cuéntame sobre alguna situación en la que hayas tenido que mantener o actualizar APIs REST existentes; describe la tarea que enfrentaste, la acción que tomaste y el resultado obtenido.\"},{\"posicion\":4,\"tipo\":\"TECNICA\",\"texto\":\"¿De qué manera optimizas consultas y modelas tablas en PostgreSQL para asegurar un buen rendimiento en servicios web?\"},{\"posicion\":5,\"tipo\":\"SITUACIONAL\",\"texto\":\"Imagina que surge un problema crítico de rendimiento en producción relacionado con el consumo de una cola de mensajes; ¿cómo procedes para identificar la causa raíz y resolverlo?\"}]}",
+  "servicioAcepta" : true,
+  "largos" : [ 123, 122, 184, 117, 178 ],
+  "aproximado" : {
+    "c" : {
+      "cumple" : true,
+      "detalle" : "las dos técnicas mencionan términos del rol (aproximado)"
+    },
+    "d" : {
+      "cumple" : true,
+      "detalle" : "las 5 preguntas parecen estar en es-CO (aproximado)"
+    },
+    "e" : {
+      "cumple" : true,
+      "detalle" : "ningún par supera el 60 % de parecido (aproximado)"
+    },
+    "f" : {
+      "cumple" : true,
+      "detalle" : "al menos una pregunta menciona un término de la oferta (aproximado)"
+    }
+  },
+  "lecturaDelTono" : {
+    "tonoDeducido" : "CALIDO",
+    "preguntasConAcogida" : 1,
+    "preguntasConExigencia" : 0,
+    "acogidaEnPreguntas2a4" : 0
+  },
+  "lecturaDeFormacion" : {
+    "preguntasQueCitanLaFormacion" : "[]",
+    "preguntasQuePareceSuponerEmpleoPasado" : "[]"
+  },
+  "preguntasConPosibleFuga" : "[]"
+}

@@ -1,0 +1,12 @@
+{
+  "grupo" : "QA",
+  "modelo" : "QWEN_GROQ",
+  "caso" : "QA-P3-A",
+  "corrida" : 2,
+  "ms" : 1717,
+  "tokensEntrada" : 724,
+  "tokensSalida" : 134,
+  "texto" : "{\"accion\": \"AVANZAR\", \"clasificacion\": \"COMPLETA\", \"feedback\": \"Ejemplo claro y bien estructurado. Muestra gestión ágil de riesgos, comunicación efectiva y cierre con pruebas de regresión.\", \"follow_up_texto\": \"\", \"motivo\": \"El candidato responde a la pregunta con un caso específico, describe las acciones tomadas (reproducción, documentación, comunicación, pruebas) y el resultado, cumpliendo con los requisitos de la dificultad de la pregunta (implícita media/alta por el contexto de entrevista técnica senior, aunque tratándose de una pregunta de comportamiento, es completa y concreta).\"}",
+  "tipoDeFallo" : "",
+  "causa" : ""
+}
