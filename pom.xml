@@ -49,7 +49,7 @@
 		<dependency>
 			<groupId>com.google.auth</groupId>
 			<artifactId>google-auth-library-oauth2-http</artifactId>
-			<version>1.33.0</version>
+			<version>1.58.0</version>
 		</dependency>
 		<!-- Proveedor de respaldo (Qwen en Groq, API compatible con OpenAI): solo sus clases de modelo; los
 		     modelos de chat se arman a mano y la autoconfiguracion de chat queda apagada. -->
